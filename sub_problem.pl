@@ -42,13 +42,17 @@ sub_problem(IncPerc,OutcomeAtteso,SimOutcome):-
     sub:eplex_var_get(FunzInc,typed_solution,FunzIncVal),  
     sub:eplex_var_get(DeltaInc,typed_solution,DeltaIncVal), 
     write_tee("FunzInc value: "), writeln_tee(FunzIncVal),
-    IncPer is IncPerc+DeltaIncVal,
-    sub:eplex_var_get(IncPer,typed_solution,IPVal),  
+    NewIncPerc is IncPerc+DeltaIncVal,
+    %se il nuovo valore di incentivo coincide col vecchio aumento comunque di 1 ( se l'outcome richiesto 
+    %fosse stato ottenuto sub_probl non sarebbe stato chiamato
+    %problema con successive invocazioni perchè se IncPerc aumenta ma il simulatore non aumenta l'outcome ( a sufficienza ) solve fallisce
+    (NewIncPerc == IncPerc
+    -> NNewIncPerc is NewIncPerc+1
+    ; NNewIncPerc = NewIncPerc
+    ),
+    sub:eplex_var_get(NNewIncPerc,typed_solution,IPVal),  
     write_tee("IncPer value: "), writeln_tee(IPVal),
     write_tee("Delta IncPer value: "), writeln_tee(DeltaIncVal),
-    
-    sub:eplex_get(dual_solution([1]),Dual),
-    write_tee("Dual: "), writeln_tee(Dual),
     
 	%close(outfile),
 	
