@@ -11,13 +11,13 @@ sim_result(AvgIncIns,AvgOutcome):-
 	sum(IncentiviInst,SumIncIns),
 	sum(Outcomes,SumOutcome),
 	AvgIncIns is SumIncIns/NumRes,
-	%occorre tenere conto del fattore di scala (qui *100 è solo a fini di test)
-	AvgOutcome is SumOutcome/(NumRes*100).
+	%occorre tenere conto del fattore di scala 
+	AvgOutcome is SumOutcome/(NumRes*100)+400.
 	
 %predicato per testing
 avg_out(IncPer):-
 	open('ris.txt',write,outfile),
-	[risultati_sintetici],
+	[simResValori],
 	findall(O,result(_,IncPer,_,_,O),Outcomes),
 	length(Outcomes,Len), sum(Outcomes,SumOutcome),
 	AvgOut is SumOutcome/Len,
