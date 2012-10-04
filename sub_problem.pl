@@ -24,8 +24,8 @@ sub_problem(IncPerc,OutcomeAtteso,SimOutcome):-
 	%con questa formula il valore minimo in MW è ovviamente 405: maggiore dei 400 richiesti con piano_ampliato(ele,2013)
 	%per ovviare a questo problema trascuro il termine costante nei casi in cui il il valore sia minore di 405
 	(DeltaOut >= 405
-	-> sub:( FunzInc $= (DeltaInc+IncPerc)*2645*0.01+405 )
-	; sub:( FunzInc $= (DeltaInc+IncPerc)*2645*0.01 )
+	-> sub:( FunzInc $= (DeltaInc)*2645*0.01+405 )
+	; sub:( FunzInc $= (DeltaInc)*2645*0.01 )
 	),
 	
 	sub:(DeltaOut $>= FunzInc ),
@@ -44,8 +44,7 @@ sub_problem(IncPerc,OutcomeAtteso,SimOutcome):-
     write_tee("FunzInc value: "), writeln_tee(FunzIncVal),
     NewIncPerc is IncPerc+DeltaIncVal,
     %se il nuovo valore di incentivo coincide col vecchio aumento comunque di 1 ( se l'outcome richiesto 
-    %fosse stato ottenuto sub_probl non sarebbe stato chiamato
-    %problema con successive invocazioni perchè se IncPerc aumenta ma il simulatore non aumenta l'outcome ( a sufficienza ) solve fallisce
+    %fosse stato ottenuto sub_probl non sarebbe stato chiamato )
     (NewIncPerc == IncPerc
     -> NNewIncPerc is NewIncPerc+1
     ; NNewIncPerc = NewIncPerc
