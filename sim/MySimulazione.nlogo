@@ -100,7 +100,7 @@ calcola_rapporto
    output-print (word "Totale potenza installata: " kWTOT " KwP" )
    
    ;;producono file utili per ottimizatore
-   write_to_file
+   ;;write_to_file
    write_pl_file
    
    ;;resetta alcune variabili per non avere probemi con simulazioni successive
@@ -240,16 +240,30 @@ set random_consumo []
 while [ c <  ( NAgentiFINAL - 1 ) ]
 [
    set c c + 1 
-   set number random 100
+    ;set number random 100
+    ;if (number < 1 ) [set number 1 ]   
+    ;set random_ostinazione lput  number random_ostinazione 
+    ;set number random-float 10
+    ;if (number < 1 ) [set number 1]
+    ;set random_m2 lput number random_m2
+    ;set number random-float 10
+    ;if (number < 1 )[ set number 1 ]
+    ;set random_bgt lput number random_bgt
+    ;set number random-float 10
+    ;if (number < 1 ) [set number 1]
+    ;set random_consumo lput number random_consumo
+   
+   set number round random-normal 75 20
    if (number < 1 ) [set number 1 ]   
+   if (number > 100 ) [set number 100 ]   
    set random_ostinazione lput  number random_ostinazione 
-   set number random-float 10
+   set number random-normal 7 3
    if (number < 1 ) [set number 1]
    set random_m2 lput number random_m2
-   set number random-float 10
+   set number random-normal 5 4
    if (number < 1 )[ set number 1 ]
    set random_bgt lput number random_bgt
-   set number random-float 10
+   set number random-normal 5 4
    if (number < 1 ) [set number 1]
    set random_consumo lput number random_consumo
 ]
@@ -1903,7 +1917,7 @@ CHOOSER
 %_Incentivi_Installazione
 %_Incentivi_Installazione
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
-18
+29
 
 MONITOR
 1469
@@ -2141,7 +2155,7 @@ SWITCH
 386
 LeggiSerieStoriche
 LeggiSerieStoriche
-0
+1
 1
 -1000
 
@@ -2679,6 +2693,90 @@ NetLogo 5.0.2
     </enumeratedValueSet>
     <enumeratedValueSet variable="costo_kwh_fascia5">
       <value value="0.276"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="experiment2" repetitions="30" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="Anni_Restituzione_Prestiti">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia3">
+      <value value="0.194"/>
+    </enumeratedValueSet>
+    <steppedValueSet variable="%_Incentivi_Installazione" first="2" step="2" last="30"/>
+    <enumeratedValueSet variable="Varia_Tariffe_Incetivanti">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="LeggiSerieStoriche">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia2">
+      <value value="0.162"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Tasso_lordo_rendimento_BOT">
+      <value value="2.147"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Aumento_%annuo_consumi">
+      <value value="-1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Consumo_medio_annuale_KWh">
+      <value value="15200"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia4">
+      <value value="0.246"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia1">
+      <value value="0.278"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Percentuale_Interessi_Prestito">
+      <value value="4.2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="%_Variazione_Tariffe">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Budget_Medio_MiliaiaEuro">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia5">
+      <value value="0.276"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Tecnologia_Pannello">
+      <value value="&quot;Monocristallini&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Manutenzione_anno_%costo_totale">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="M2_Disposizione">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Perdita_efficienza_annuale_pannello">
+      <value value="0.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Riduzione_anno_%costo_pannello">
+      <value value="3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Costo_Medio_kwP">
+      <value value="4300"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Incentivi_Dinamici">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="NumeroAgenti">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Media%_copertura_consumi_richiesta">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="variazione_annuale_prezzi_elettricita">
+      <value value="1.8"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Irradiazione_media_annua_kwh_kwp">
+      <value value="1350"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Incentivi_Installazione">
+      <value value="true"/>
     </enumeratedValueSet>
   </experiment>
 </experiments>

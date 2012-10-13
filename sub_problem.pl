@@ -30,6 +30,10 @@ sub_problem(IncPerc,OutcomeAtteso,SimOutcome):-
 	
 	%open('ris.txt',write,out),
 	
+	sub:eplex_get(dual_solution([0]),[Dual0]),
+	sub:eplex_get(dual_solution([1]),[Dual1]),
+	
+	
 	writeln_tee("------Sub Problem-------"),
 	write_tee("Differenza tra outcome atteso e simulato: "), writeln_tee(DeltaOut),
 	sub:eplex_var_get(Out,typed_solution,OutVal),  
@@ -48,6 +52,9 @@ sub_problem(IncPerc,OutcomeAtteso,SimOutcome):-
     write_tee("IncPer value: "), writeln_tee(IPVal),
     write_tee("Delta IncPer value: "), writeln_tee(DeltaIncVal),
     
+    write_tee("Dual value [0]: "), writeln_tee(Dual0),
+    write_tee("Dual value [1]: "), writeln_tee(Dual1),
+    
 	%close(outfile),
 	
 	
@@ -59,7 +66,8 @@ sub_problem(IncPerc,OutcomeAtteso,SimOutcome):-
 	
 	close(nogoodfile).
 	
-sub_problemOld(IncPerc,OutcomeAtteso,SimOutcome):-
+%versione funzionante con la versione iniziale del simulatore e il fattore di scala corretto 
+sub_problem_stable(IncPerc,OutcomeAtteso,SimOutcome):-
 
 	DeltaOut is OutcomeAtteso-SimOutcome,
 	
@@ -76,12 +84,7 @@ sub_problemOld(IncPerc,OutcomeAtteso,SimOutcome):-
 	
 	%relazione tra pecentuale incentivi e l'outcome simulato: rilassamento ricavato tramite regressione lineare
 	%OutcomePV = m*IncPer+q, m=2645MW q=405MW
-	%con questa formula il valore minimo in MW è ovviamente 405: maggiore dei 400 richiesti con piano_ampliato(ele,2013)
-	%per ovviare a questo problema trascuro il termine costante nei casi in cui il il valore sia minore di 405
-	(DeltaOut >= 405
-	-> sub:( FunzInc $= (DeltaInc)*2645*0.01+405 )
-	; sub:( FunzInc $= (DeltaInc)*2645*0.01 )
-	),
+	sub:( FunzInc $= (DeltaInc)*2645*0.01 ),
 	
 	sub:(DeltaOut $>= FunzInc ),
 	
@@ -89,6 +92,7 @@ sub_problemOld(IncPerc,OutcomeAtteso,SimOutcome):-
 	sub:eplex_solve(Out),
 	
 	%open('ris.txt',write,out),
+	
 	
 	writeln_tee("------Sub Problem-------"),
 	write_tee("Differenza tra outcome atteso e simulato: "), writeln_tee(DeltaOut),
@@ -107,6 +111,7 @@ sub_problemOld(IncPerc,OutcomeAtteso,SimOutcome):-
     sub:eplex_var_get(NNewIncPerc,typed_solution,IPVal),  
     write_tee("IncPer value: "), writeln_tee(IPVal),
     write_tee("Delta IncPer value: "), writeln_tee(DeltaIncVal),
+    
     
 	%close(outfile),
 	

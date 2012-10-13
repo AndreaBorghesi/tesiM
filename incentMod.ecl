@@ -207,6 +207,9 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     
     eplex:integers(IncPerc),
     
+    %budget fotovoltaico ( in teoria è indicato dalla regione e dell'ordine di qualche Mln di euro l'anno )
+    eplex:(BudgetPV $:: 0..1000000000),
+    
     %relazione tra percentuale incentivi e totale incentivi 
     name_variable("Impianti fotovoltaici",OperaPV,TitoliOpere,Opere),
 	%inc_constraint(OperaPV,"Impianti fotovoltaici",IncPerc,Incentivi,TitoliInc),
@@ -314,8 +317,8 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     budget_outcomePV(CostoPV,OutcomePV),
 	writeln_tee("====================== PV info ======================"),
 	write_tee("Percentuale incentivi"), write_tee(':\t'), writeln_tee(ValoreIncPercPV),
-	write_tee("Spesa incentivi stanziati"), write_tee(':\t'), writeln_tee(ValoreIncentiviPV),
-	write_tee("Costo totale fotovoltaico"), write_tee(':\t'), writeln_tee(CostoPV),
+	write_tee("Spesa incentivi stanziati ( costi impianti*percentuale incentivi )"), write_tee(':\t'), writeln_tee(ValoreIncentiviPV),
+	write_tee("Costo totale fotovoltaico ( costi impianti )"), write_tee(':\t'), writeln_tee(CostoPV),
 	write_tee("Outcome da fotovoltaico richiesto"), write_tee(':\t'), writeln_tee(OutcomePV),
     %benders_dec(IncPercPV,IncentiviPV,OutcomePV),
     
