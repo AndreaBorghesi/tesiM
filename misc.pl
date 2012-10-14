@@ -16,7 +16,7 @@ sim_result(AvgIncIns,AvgOutcome):-
 	%AvgOutcome is SumOutcome/(NumRes).  ----- versione base non scalata
 	AvgOutcome is (((SumOutcome/(NumRes*1000))-48.798)*(795/(57.675-48.798))+405).
 	
-%predicato per testare l'output del simulatore
+%predicato per testare l'output del primo simulatore
 avg_out(IncPer):-
 	open('ris.txt',write,outfile),
 	[simResValori],
@@ -27,11 +27,13 @@ avg_out(IncPer):-
  	write_tee("come perc. ---->"), write_tee(AvgOut),
 	close(outfile).
 
+%predicato per calcolare output medio con il primo sim, per incentivi crescenti da 2 a 30 (i risultati della sim devono essere in simResValori.pl)
 avg:-
 	avg_out(2), avg_out(4), avg_out(6), avg_out(8), avg_out(10),
 	avg_out(12), avg_out(14), avg_out(16), avg_out(18), avg_out(20),
 	avg_out(22), avg_out(24), avg_out(26), avg_out(28), avg_out(30).
 	
+%predicato per testare l'output del secondo sim. ( con finanaziamenti regionali )
 avg_outn(Fr,Br,IncPer):-
 	open('ris.txt',write,outfile),
 	findall(O,result_new(Fr,_,IncPer,_,Br,_,O),Outcomes),
@@ -49,7 +51,9 @@ avg_outn(Fr,Br,IncPer):-
 	write_tee(" e budget reg. finale "), write_tee(AvgBudFin),
  	write_tee(" ---->"), write_tee(AvgOut), writeln_tee(" "),
 	close(outfile).
-
+	
+%predicato per calcolare output medio con il secondo sim, per incentivi crescenti da 2,10,20,30 con le cinque modalità di finanziamento
+%(i risultati della sim devono essere in risultati_sintetici_new.pl)
 avgn:-
 	[risultati_sintetici_new],
 	avg_outn('Nessuno',0,2), avg_outn('Asta',0,2), avg_outn('Conto interessi',0,2),
@@ -79,6 +83,17 @@ avgn:-
 	avg_outn('Rotazione',5,30), avg_outn('Garanzia',5,30),
 	avg_outn('Nessuno',10,30), avg_outn('Asta',10,30), avg_outn('Conto interessi',10,30),
 	avg_outn('Rotazione',10,30), avg_outn('Garanzia',10,30).
+	
+%predicato per calcolare output medio con il secondo sim, con le cinque modalità di finanziamento e senza incentivi (oltre al finanziamento)
+%(i risultati della sim devono essere in risultati_sintetici_new.pl)
+avgnz:-
+	[risultati_sintetici_new],
+	avg_outn('Nessuno',0,1), avg_outn('Asta',0,1), avg_outn('Conto interessi',0,1),
+	avg_outn('Rotazione',0,1), avg_outn('Garanzia',0,1),
+	avg_outn('Nessuno',5,1), avg_outn('Asta',5,1), avg_outn('Conto interessi',5,1),
+	avg_outn('Rotazione',5,1), avg_outn('Garanzia',5,1),
+	avg_outn('Nessuno',10,1), avg_outn('Asta',10,1), avg_outn('Conto interessi',10,1),
+	avg_outn('Rotazione',10,1), avg_outn('Garanzia',10,1).
 	
 %predicato che restituisce il budget e l'outcome calcolati dal piano 
 budget_outcomePV(BudgetPV,OutcomePV):-

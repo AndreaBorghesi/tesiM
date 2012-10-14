@@ -917,6 +917,8 @@ normal_font:- write('\033[0m').
 
 %%%%%%%%%%%%%%%%%  Benders decomposition %%%%%%%%%%%%%%%%%%%%%
 % benders_dec/3 ha come parametri la percentuale di incentivi, gli incentivi totali in euro e l'energia elettrica attesa in MW
+%modalità d'uso: inizialmente invocare predicato aaai/4 che fornisce un valore casuale (0) per gli incentivi e un outcome energetico atteso(Mw);
+%succesivamente fare qualche simulazione con i valori indicati da aaai/4 e poi invocare benders_dec/3  sempre con tali valori
 benders_dec(PercInc,Incentivi,Outcome):-
 	open('ris.txt',write,outfile),
 	
@@ -934,7 +936,7 @@ benders_dec(PercInc,Incentivi,Outcome):-
 	write_tee("Outcome medio"), write_tee(':\t'), writeln_tee(AvgOutcome),
 	
 	%a questo punto viene confrontata la produzione di energia effettiva e quella attesa
-	%occorre tenere conto del fattore di scala tra simulatore e pianificatore
+	%occorre tenere conto del fattore di scala tra simulatore e pianificatore -> fattore inserito nel predicato sim_result/2
 	( AvgOutcome >= Outcome 
 	-> 	writeln_tee("===== Opt. sol. =====")
 	; 	sub_problem(PercInc,Outcome,AvgOutcome)
@@ -942,7 +944,7 @@ benders_dec(PercInc,Incentivi,Outcome):-
 	
 	close(outfile).
 
-% generate_cut/1 crea un nuovo vincolo per gli incentivi
+% generate_cut/1 crea un nuovo vincolo per gli incentivi -------- predicato usato solo a fini di test 
 generate_cut(Incentivi,Value):-
 	writeln_tee("===== Generating bender cuts ====="),
 	%eplex:eplex_var_get(Incentivi,typed_solution,IncPrec),
@@ -950,11 +952,12 @@ generate_cut(Incentivi,Value):-
 	eplex:(Incentivi $>= 100000+Value),
 	writeln_tee(Incentivi).  %taglio molto banale
 	
-	
+%lettura dei vincoli nogood da file
 nogood_constraint_read(IncPerc,Titoli):-
 	findall((T,LB),nogoods(T,LB),List),
 	add_cons(List,IncPerc,Titoli).
 
+%il nuovo vincolo viene aggiunto all'istanza eplex
 add_cons([],_,_).
 add_cons([(Titolo,LB)|T],IncPerc,Titoli):-
 	name_variable(Titolo,IncPercSel,Titoli,IncPerc),
