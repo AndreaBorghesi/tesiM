@@ -1,6 +1,5 @@
-%:-[risultati_sintetici].
 :-[csv2pl].
-%:-[costi_tot].
+
 
 %versione semplice: restituisce la media degli incentivi di installazione, budget incentivi e outcome energetico
 sim_result(AvgIncIns,AvgOutcome):-
@@ -15,6 +14,24 @@ sim_result(AvgIncIns,AvgOutcome):-
 	%ho stimato il fattore di scala eseguendo diverse simulazioni e confrontando il risultato con il valore delle simulazioni presentate in ecms12
 	%AvgOutcome is SumOutcome/(NumRes).  ----- versione base non scalata
 	AvgOutcome is (((SumOutcome/(NumRes*1000))-48.798)*(795/(57.675-48.798))+405).
+	
+%questa versione restituisce l'outcome medio prodotto dalle diverse tipologie di incentivi
+sim_result_fr(Tipologie,AvgOutcomes):-
+	[risultati_sintetici_new],
+	srf(Tipologie,[],AvgOutcomes).
+
+srf([],AvgOutcomes,AvgOutcomes).
+srf([T|Tipologie],AvgOutTemp,AvgOutcomes):-
+	findall(O,result_new(T,_,_,_,_,_,O),Outcomes),
+	length(Outcomes,Len), sum(Outcomes,SumOutcome),
+	
+	%per ora applico lo stesso fattore di scala del primo simulatore ------> cambiare con uno più sensato
+	%AvgOutcome is (((SumOutcome/(Len*1000))-48.798)*(795/(57.675-48.798))+405),
+	%lo stesso fattore non da buoni risultati: per ora non applico nessuna scala
+	AvgOutcome is SumOutcome/(Len*1000),
+	
+	append([AvgOutcome],AvgOutTemp,AvgOutcomesN),
+	srf(Tipologie,AvgOutcomesN,AvgOutcomes).
 	
 %predicato per testare l'output del primo simulatore
 avg_out(IncPer):-
@@ -94,6 +111,8 @@ avgnz:-
 	avg_outn('Rotazione',5,1), avg_outn('Garanzia',5,1),
 	avg_outn('Nessuno',10,1), avg_outn('Asta',10,1), avg_outn('Conto interessi',10,1),
 	avg_outn('Rotazione',10,1), avg_outn('Garanzia',10,1).
+	
+	
 	
 %predicato che restituisce il budget e l'outcome calcolati dal piano 
 budget_outcomePV(BudgetPV,OutcomePV):-

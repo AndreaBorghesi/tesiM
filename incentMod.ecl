@@ -209,6 +209,7 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     
     %budget fotovoltaico ( in teoria è indicato dalla regione e dell'ordine di qualche Mln di euro l'anno )
     eplex:(BudgetPV $:: 0..1000000000),
+    eplex:(BudgetPV $= 5000000 ),
     
     %relazione tra percentuale incentivi e totale incentivi 
     name_variable("Impianti fotovoltaici",OperaPV,TitoliOpere,Opere),
@@ -224,7 +225,7 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     %eplex:(CostTerm $=< Budget), %versione precedente  
     		
     eplex:(CostTerm+IncTot$=Costo),											
-    eplex:(CostTerm+IncTot $=< Budget),  %vincolo su costi e incentivi
+    eplex:(CostTerm+IncTot+BudgetPV $=< Budget),  %vincolo su costi e incentivi
     
     %costo_opere(CostoOpere),
     %eplex:(CostoOpere*Opere $=< Budget),
@@ -314,11 +315,14 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     name_variable("Impianti fotovoltaici",IncentiviPV,TitoliInc,Incentivi),
     eplex:eplex_var_get(IncentiviPV,typed_solution,ValoreIncentiviPV),
     eplex:eplex_var_get(IncPercPV,typed_solution,ValoreIncPercPV),
+    eplex:eplex_var_get(BudgetPV,typed_solution,ValoreBudgetPV),
+    
     budget_outcomePV(CostoPV,OutcomePV),
 	writeln_tee("====================== PV info ======================"),
 	write_tee("Percentuale incentivi"), write_tee(':\t'), writeln_tee(ValoreIncPercPV),
 	write_tee("Spesa incentivi stanziati ( costi impianti*percentuale incentivi )"), write_tee(':\t'), writeln_tee(ValoreIncentiviPV),
 	write_tee("Costo totale fotovoltaico ( costi impianti )"), write_tee(':\t'), writeln_tee(CostoPV),
+	write_tee("Budget stanziato dalla regione per gli incentivi al fotovoltaico"), write_tee(':\t'), writeln_tee(ValoreBudgetPV),
 	write_tee("Outcome da fotovoltaico richiesto"), write_tee(':\t'), writeln_tee(OutcomePV),
     %benders_dec(IncPercPV,IncentiviPV,OutcomePV),
     
@@ -943,6 +947,21 @@ benders_dec(PercInc,Incentivi,Outcome):-
 	),
 	
 	close(outfile).
+	
+%questa versione riguarda il secondo simulatore --> vengono tenuti in considerazione anche il budget per il PV messo a disposizione dalla regione
+%(passato come argomento in Mln di euro) e differenti metodi di incentivazione, in particolare: 1) nessun incentivo 2) asta fondo perduto
+%3) conto interessi 4) rotazione 5) garanzia
+benders_dec_fr(BudgetPV,Outcome):-
+	open('ris.txt',write,outfile),
+	
+	append(['Nessuno','Asta','Conto interessi','Rotazione','Garanzia'],[],Tipologie),
+	%prima di chiamare il predicato benders_dec_fr occorre aver effettuato le simulazioni con i parametri forniti da aaai/4
+	sim_result_fr(Tipologie,AvgOutcomes),
+	writeln_tee("===== Valori medi ottenuti dal simulatore per i vari tipi di incentivi  ====="),
+	write_tee("Budget PV regionale (Mln di euro): "), writeln_tee(BudgetPV),
+	print_result_fr(Tipologie,AvgOutcomes),
+	
+	close(outfile).
 
 % generate_cut/1 crea un nuovo vincolo per gli incentivi -------- predicato usato solo a fini di test 
 generate_cut(Incentivi,Value):-
@@ -963,3 +982,11 @@ add_cons([(Titolo,LB)|T],IncPerc,Titoli):-
 	name_variable(Titolo,IncPercSel,Titoli,IncPerc),
 	eplex:(IncPercSel $>= LB),
 	add_cons(T,IncPerc,Titoli).
+	
+%stampa gli outcomes medi per le varie tipologie di incentivazione ( secondo simulatore )
+print_result_fr([],[]).
+print_result_fr([T|Tipologie],[O|Outcomes]):-
+	write_tee("Tipologia incentivazione: "), write_tee(T),
+	write_tee("  Outcome medio: "), writeln_tee(O),
+	print_result_fr(Tipologie,Outcomes).
+	
