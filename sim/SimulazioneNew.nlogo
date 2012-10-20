@@ -264,6 +264,21 @@ to genera_random
     set random_bgt lput number random_bgt;lista badget
     set number 1 + random-float 9  
     set random_consumo lput number random_consumo;lista consumo 
+    
+    ; versione nuova per combaciare con le modifiche sul primo simulatore --> così nell'analisi dei risultati non occorre ricalcolare un nuovo fattore di scala
+;        set number round random-normal 75 20
+;        if (number < 1 ) [set number 1 ]   
+;        if (number > 100 ) [set number 100 ]   
+;        set random_ostinazione lput  number random_ostinazione 
+;        set number random-normal 7 3
+;        if (number < 1 ) [set number 1]
+;        set random_m2 lput number random_m2
+;        set number random-normal 5 4
+;        if (number < 1 )[ set number 1 ]
+;        set random_bgt lput number random_bgt
+;        set number random-normal 5 4
+;        if (number < 1 ) [set number 1]
+;        set random_consumo lput number random_consumo
   ]
 end
 
@@ -365,6 +380,8 @@ to genera_pf
         set budget round (item  (id - ( NAgentiFINAL * count_tick ) - 1 ) random_bgt )  * Budget_Medio_MiliaiaEuro * 1000
         set M2disposizione round (item  (id - ( NAgentiFINAL * count_tick ) - 1 ) random_m2 )  * M2_Disposizione
         set %cop_cosumi  Media%_copertura_consumi_richiesta
+        
+        
       ]
     ]
   calcola_dimensione;dopo ho dimensione impianto i m2
@@ -420,7 +437,7 @@ to genera_pf
             [             
               
               set %ostinazione %ostinazione +  InfluenzaRate ;se pago a rate sono più interessato              
-              set intRegione (costo_impianto * InterRegione  );quanto pago di interessi alla regione  
+              set intRegione (costo_impianto * InterRegione / 100  );quanto pago di interessi alla regione  
               ifelse BudgetCorrente - costo_impianto > 0 
               [            
                 set BudgetCorrente BudgetCorrente - costo_impianto;la regione presta i soldi per l'impianto
@@ -2166,7 +2183,7 @@ SWITCH
 507
 Incentivi_Installazione
 Incentivi_Installazione
-0
+1
 1
 -1000
 
@@ -2178,7 +2195,7 @@ CHOOSER
 %_Incentivi_Installazione
 %_Incentivi_Installazione
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
-29
+0
 
 MONITOR
 1520
@@ -2500,7 +2517,7 @@ BudgetRegione
 BudgetRegione
 0.1
 15
-10
+5
 0.1
 1
 milioni
@@ -2940,7 +2957,7 @@ PercMin
 PercMin
 1
 100
-10
+20
 1
 1
 NIL
@@ -2955,7 +2972,7 @@ PercMax
 PercMax
 10
 100
-60
+80
 1
 1
 NIL
@@ -3718,10 +3735,9 @@ NetLogo 5.0.2
       <value value="false"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experiment2" repetitions="10" runMetricsEveryStep="true">
+  <experiment name="experiment2" repetitions="100" runMetricsEveryStep="true">
     <setup>setup</setup>
     <go>go</go>
-    <metric>count turtles</metric>
     <enumeratedValueSet variable="Accettato">
       <value value="85"/>
     </enumeratedValueSet>
@@ -3741,7 +3757,7 @@ NetLogo 5.0.2
       <value value="&quot;Monocristallini&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="PercMax">
-      <value value="60"/>
+      <value value="80"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="Budget_Medio_MiliaiaEuro">
       <value value="100"/>
@@ -3774,7 +3790,7 @@ NetLogo 5.0.2
       <value value="2.147"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="Incentivi_Installazione">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="FallimentoMutuo">
       <value value="10"/>
@@ -3811,10 +3827,7 @@ NetLogo 5.0.2
       <value value="1633"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="%_Incentivi_Installazione">
-      <value value="2"/>
-      <value value="10"/>
-      <value value="20"/>
-      <value value="30"/>
+      <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="%_Variazione_Tariffe">
       <value value="0"/>
@@ -3835,12 +3848,10 @@ NetLogo 5.0.2
       <value value="1.5"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="PercMin">
-      <value value="10"/>
+      <value value="20"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="BudgetRegione">
-      <value value="0"/>
       <value value="5"/>
-      <value value="10"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="costo_kwh_fascia3">
       <value value="0.303"/>

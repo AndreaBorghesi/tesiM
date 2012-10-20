@@ -25,10 +25,10 @@ srf([T|Tipologie],AvgOutTemp,AvgOutcomes):-
 	findall(O,result_new(T,_,_,_,_,_,O),Outcomes),
 	length(Outcomes,Len), sum(Outcomes,SumOutcome),
 	
-	%per ora applico lo stesso fattore di scala del primo simulatore ------> cambiare con uno più sensato
-	%AvgOutcome is (((SumOutcome/(Len*1000))-48.798)*(795/(57.675-48.798))+405),
-	%lo stesso fattore non da buoni risultati: per ora non applico nessuna scala
+	%nessun fattore di scala
 	AvgOutcome is SumOutcome/(Len*1000),
+	%fattore di scala estremamente grezzo
+	%AvgOutcome is (((SumOutcome/(Len*1000))-44.500)*(795/(54.000-44.500))+405),
 	
 	append([AvgOutcome],AvgOutTemp,AvgOutcomesN),
 	srf(Tipologie,AvgOutcomesN,AvgOutcomes).
@@ -72,7 +72,9 @@ avg_outn(Fr,Br,IncPer):-
 %predicato per calcolare output medio con il secondo sim, per incentivi crescenti da 2,10,20,30 con le cinque modalità di finanziamento
 %(i risultati della sim devono essere in risultati_sintetici_new.pl)
 avgn:-
-	[risultati_sintetici_new],
+	%[risultati_sintetici_new],
+	[simulazioneLungaResultNew],
+	
 	avg_outn('Nessuno',0,2), avg_outn('Asta',0,2), avg_outn('Conto interessi',0,2),
 	avg_outn('Rotazione',0,2), avg_outn('Garanzia',0,2),
 	avg_outn('Nessuno',5,2), avg_outn('Asta',5,2), avg_outn('Conto interessi',5,2),
@@ -105,12 +107,18 @@ avgn:-
 %(i risultati della sim devono essere in risultati_sintetici_new.pl)
 avgnz:-
 	[risultati_sintetici_new],
-	avg_outn('Nessuno',0,1), avg_outn('Asta',0,1), avg_outn('Conto interessi',0,1),
-	avg_outn('Rotazione',0,1), avg_outn('Garanzia',0,1),
+	%[simulazioneLungaResultNewNoInc],
+	
+	%avg_outn('Nessuno',0,1), avg_outn('Asta',0,1), avg_outn('Conto interessi',0,1),
+	%avg_outn('Rotazione',0,1), avg_outn('Garanzia',0,1),
 	avg_outn('Nessuno',5,1), avg_outn('Asta',5,1), avg_outn('Conto interessi',5,1),
 	avg_outn('Rotazione',5,1), avg_outn('Garanzia',5,1),
 	avg_outn('Nessuno',10,1), avg_outn('Asta',10,1), avg_outn('Conto interessi',10,1),
 	avg_outn('Rotazione',10,1), avg_outn('Garanzia',10,1).
+	%avg_outn('Nessuno',20,1), avg_outn('Asta',20,1), avg_outn('Conto interessi',20,1),
+	%avg_outn('Rotazione',20,1), avg_outn('Garanzia',20,1),
+	%avg_outn('Nessuno',40,1), avg_outn('Asta',40,1), avg_outn('Conto interessi',40,1),
+	%avg_outn('Rotazione',40,1), avg_outn('Garanzia',40,1).
 	
 	
 	
@@ -137,5 +145,15 @@ incPV([I|Incentivi],[T|Titoli],IncentiviPV):-
 	incPV(Incentivi,Titoli,IncentiviPV).
 incPV([_|Incentivi],[_|Titoli],IncentiviPV):-
 	incPV(Incentivi,Titoli,IncentiviPV).
+
+%trova il tipo di finanziamento regionale che produce più energia
+best_fr(Tipologie,Outcomes,BestT,BestO):-
+	BestO is max(Outcomes),
+	find_best_type(Tipologie,Outcomes,BestO,BestT).
 	
+find_best_type([],[],_,_).
+find_best_type([T|Tipologie],[BestO|Outcomes],BestO,T):-!,
+	find_best_type(Tipologie,Outcomes,BestO,_).
+find_best_type([_|Tipologie],[_|Outcomes],BestO,BestT):-
+	find_best_type(Tipologie,Outcomes,BestO,BestT).
 	

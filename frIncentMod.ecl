@@ -1,6 +1,6 @@
-%in questo modello si fa riferimento alla versione base del simulatore, dove l'output energetico è legato alla percentuale di 
-%incentivi all'installazione offerti dalla regione e si sfrutta una specie di benders decomposition per ottenere i vincoli sulla
-%percentuale di incentivi
+%questo modello si riferisce alla seconda versione del simulatore: vengono prese in considerazione 4 diverse modalità di incentivazione
+%fornite dalla regione, ottenendo, attraverso le simulazioni, informazioni sulla quantità di fondi da assegnare ad ogni metodo
+%di incentivazione per raggiungere una determinata produzione energetica
 
 
 :- [titoli_press].
@@ -17,10 +17,10 @@
 :- [costi_impianti].
 :- [crea_csv].
 :- import append/3 from eclipse_language.
-:- [incentivi].
 :- [misc].
 :- [sub_problem].
-:- [nogoods].
+:- [fr_cons].
+:- [incentivi].
 
 
 
@@ -200,37 +200,29 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     %length(Rilassati,NumRilassati), %NumRilassati>20, NumRilassati<50, writeln(numrilassati(NumRilassati)),
     
 %%%%%%%%%%%%  Creazione incentivi %%%%%%%%%%%%%%%%%%%
-    %incentivi(TitoliInc),
-    %length(TitoliInc,NumInc),
-    %crea_var(NumInc,Incentivi,0,100000000000),
-    
-    incentivi(TitoliInc),
-    length(TitoliInc,NumInc),
-    %con la variabile incentivi rappresento il valore totale degli incentivi che deve essere minore del budget per gli incentivi al PV
-    crea_var(NumInc,Incentivi,0,1000000000),
-    crea_var(NumInc,IncPerc,0,40),
-    
-    eplex:integers(IncPerc),
     
     %budget fotovoltaico ( in teoria è indicato dalla regione e dell'ordine di qualche Mln di euro l'anno )
     eplex:(BudgetPV $:: 0..1000000000),
     eplex:(BudgetPV $= 5000000 ),
     
-    %relazione tra percentuale incentivi e totale incentivi 
-    name_variable("Impianti fotovoltaici",OperaPV,TitoliOpere,Opere),
-	%inc_constraint(OperaPV,"Impianti fotovoltaici",IncPerc,Incentivi,TitoliInc),
-
+    tipi_inc_PV(TipiInc),
+    length(TipiInc,NumTipi),
+    
+    %variabili per il budget assegnato ad ogni singola tipologia di incentivaizione
+    %valore minimo 0, nel caso quel tipo di incentivo non sia utilizzato, il valore massimo corrisponde all'utilizzo di tutto il budget disponibile
+    crea_var_names(TipiInc,FondiInc,0,BudgetPV),
+    
+    %i vincoli sui budget per gli incentivi sono creati sfruttando il secondo simulatore
+    fr_constraint(TipiInc,FondiInc),
+    
     % Vincolo di costo
     cost_constraint(Opere,TitoliOpere,CostTerm),
-    
-    % somma degli incentivi
-    sum_inc(Incentivi,IncTot),
     
     %eplex:(CostTerm$=Costo),	 %versione precedente 
     %eplex:(CostTerm $=< Budget), %versione precedente  
     		
-    eplex:(CostTerm+IncTot$=Costo),											
-    eplex:(CostTerm+IncTot+BudgetPV $=< Budget),  %vincolo su costi e incentivi
+    eplex:(CostTerm$=Costo),											
+    eplex:(CostTerm+BudgetPV $=< Budget),  %vincolo su costi e incentivi
     
     %costo_opere(CostoOpere),
     %eplex:(CostoOpere*Opere $=< Budget),
@@ -267,18 +259,8 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     obiettivo(Obiettivo,EnergiaProdotta,EnergiaTermicaProdotta,Costo,Ricettori,FunObiettivo), 
     eplex:(VarObiettivo $= FunObiettivo),
     
-    %nogood_constraint_read/2 trova i vincoli nogood generati da benders_dec e inseriti dentro nogoods.pl
-    [nogoods],
-    nogood_constraint_read(IncPerc,TitoliInc),
-    
     %eplex:eplex_solve(VarObiettivo),
     eplex:eplex_solver_setup(FunzObiettivo,VarObiettivo,[dual_solution(yes)],[deviating_bounds,bounds,new_constraint]),
-    
-    inc_constraint(OperaPV,"Impianti fotovoltaici",IncPerc,Incentivi,TitoliInc),
-    %occorrerebbe anche un vincolo che leghi gli incentivi totali al budget per il fotovoltaico --> incentiviPV <= budgetPV
-    
-    %perchè non posso chiamarlo qui senza avere problemi?
-    %eplex:eplex_solve(VarObiettivo),
     
 %    findall(TitRicet,ricet_press(TitRicet,_),TitoliRicet),
 %    print_solution(Ricettori,TitoliRicet)
@@ -300,11 +282,6 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     findall(TitRicet,ricet_press(TitRicet,_),TitoliRicet),
     print_solution(Ricettori,TitoliRicet),
     
-    writeln_tee("====================== Incentivi 	======================"),
-    print_solution(Incentivi,TitoliInc),
-    writeln_tee("====================== Incentivi Percentuale======================"),
-    print_solution(IncPerc,TitoliInc),
-
     
     writeln_tee("====================== Obiettivi ======================"),
     %le 2 righe successive al posto della terza altrimenti stampa la variabile VarObiettivo e non solo il suo valore
@@ -315,23 +292,6 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     eplex:eplex_var_get(EnergiaProdotta,typed_solution,ValoreEnergiaProdotta),  writeln_tee(energia(ValoreEnergiaProdotta)),
     
     
-    %riassunto valori utili per effettuare benders_dec nel caso del primo simulatore
-    name_variable("Impianti fotovoltaici",IncPercPV,TitoliInc,IncPerc),
-    name_variable("Impianti fotovoltaici",IncentiviPV,TitoliInc,Incentivi),
-    eplex:eplex_var_get(IncentiviPV,typed_solution,ValoreIncentiviPV),
-    eplex:eplex_var_get(IncPercPV,typed_solution,ValoreIncPercPV),
-    eplex:eplex_var_get(BudgetPV,typed_solution,ValoreBudgetPV),
-    
-    budget_outcomePV(CostoPV,OutcomePV),
-	writeln_tee("====================== PV info ======================"),
-	write_tee("Percentuale incentivi"), write_tee(':\t'), writeln_tee(ValoreIncPercPV),
-	write_tee("Spesa incentivi stanziati ( costi impianti*percentuale incentivi )"), write_tee(':\t'), writeln_tee(ValoreIncentiviPV),
-	write_tee("Costo totale fotovoltaico ( costi impianti )"), write_tee(':\t'), writeln_tee(CostoPV),
-	write_tee("Budget stanziato dalla regione per gli incentivi al fotovoltaico"), write_tee(':\t'), writeln_tee(ValoreBudgetPV),
-	write_tee("Outcome da fotovoltaico richiesto"), write_tee(':\t'), writeln_tee(OutcomePV),
-   
-    
-    writeln_tee("====================== Fine ======================"),
     close(outfile).
 
 % You tried predicate aaai with some values for Budget, Electrical and thermal energy,
@@ -657,16 +617,6 @@ get_opera_by_titolo([Opera|Opere],[Tit|Titoli],Titolo,OperaOut):-
 	get_opera_by_titolo(Opere,Titoli,Titolo,OperaOut).
 get_opera_by_titolo([_|Opere],[_|Titoli],Titolo,OperaOut):-
 	get_opera_by_titolo(Opere,Titoli,Titolo,OperaOut).
-	
-%%%%%%%%%%% vincolo di prova per gli incentivi : assegno valore arbitrario minimo per inc al fotovoltaico %%%%%%%%%%%%%%
-test_inc_constraint([],[]).
-test_inc_constraint([Inc|Incentivi],[Tit|TitoliInc]):-
-	( Tit == "Impianti fotovoltaici" 
-		-> eplex:(Inc $>= 100000)
-		; true
-	),
-	test_inc_constraint(Incentivi,TitoliInc).
-    
 
 %%%%%%%%%%%% FORMULA PER IL COSTO DI UN'OPERA. FORNISCE UN TERMINE %%%%%%%%%%%%%%%%%%%%
 costo_opera(Opera,Titolo,CostoOpera):-
@@ -924,36 +874,7 @@ print_len(L):- length(L,N), writeln(N).
 boldface :- write('\033[1m').
 normal_font:- write('\033[0m').
 
-%%%%%%%%%%%%%%%%%  Benders decomposition %%%%%%%%%%%%%%%%%%%%%
-% benders_dec/3 ha come parametri la percentuale di incentivi, gli incentivi totali in euro e l'energia elettrica attesa in MW
-%modalità d'uso: inizialmente invocare predicato aaai/4 che fornisce un valore casuale (0) per gli incentivi e un outcome energetico atteso(Mw);
-%succesivamente fare qualche simulazione con i valori indicati da aaai/4 e poi invocare benders_dec/3  sempre con tali valori
-benders_dec(PercInc,Incentivi,Outcome):-
-	open('ris.txt',write,outfile),
-	
-	%prima di chiamare il predicato benders_dec/3 occorre aver effettuato le simulazioni con i parametri forniti da aaai/4
-	sim_result(AvgIncIns,AvgOutcome),
-	
-	writeln_tee(""),
-	writeln_tee("========= Benders decomposition ========="),
-	writeln_tee("===== Valori forniti al simulatore ====="),
-	write_tee("Percentuale incentivi"), write_tee(':\t'), writeln_tee(PercInc),
-	write_tee("Totale incentivi"), write_tee(':\t'), writeln_tee(Incentivi),
-	write_tee("Outcome atteso"), write_tee(':\t'), writeln_tee(Outcome),
-	writeln_tee("===== Valori medi ottenuti dal simulatore con gli incentivi forniti ====="),
-	write_tee("Valore medio incentivi ( 2012 - 2016 )"), write_tee(':\t'), writeln_tee(AvgIncIns),
-	AvgIncAnn is AvgIncIns/5,
-	write_tee("Valore medio incentivi annuo"), write_tee(':\t'), writeln_tee(AvgIncAnn),
-	write_tee("Outcome medio"), write_tee(':\t'), writeln_tee(AvgOutcome),
-	
-	%a questo punto viene confrontata la produzione di energia effettiva e quella attesa
-	%occorre tenere conto del fattore di scala tra simulatore e pianificatore -> fattore inserito nel predicato sim_result/2
-	( AvgOutcome >= Outcome 
-	-> 	writeln_tee("===== Opt. sol. =====")
-	; 	sub_problem(PercInc,Outcome,AvgOutcome)
-	),
-	
-	close(outfile).
+%%%%%%%%%%%%%%%%%  Benders decomposition %%%%%%%%%%%%%%%%%%%
 	
 %questa versione riguarda il secondo simulatore --> vengono tenuti in considerazione anche il budget per il PV messo a disposizione dalla regione
 %(passato come argomento in Mln di euro) e differenti metodi di incentivazione, in particolare: 1) nessun incentivo 2) asta fondo perduto
@@ -979,25 +900,24 @@ benders_dec_fr(BudgetPV,Outcome):-
 	write_tee(" --- Outcome medio: "), writeln_tee(AvgOut),
 	
 	close(outfile).
-
-% generate_cut/1 crea un nuovo vincolo per gli incentivi -------- predicato usato solo a fini di test 
-generate_cut(Incentivi,Value):-
-	writeln_tee("===== Generating bender cuts ====="),
-	%eplex:eplex_var_get(Incentivi,typed_solution,IncPrec),
-	writeln_tee("===== Adding cut ... ====="),
-	eplex:(Incentivi $>= 100000+Value),
-	writeln_tee(Incentivi).  %taglio molto banale
 	
-%lettura dei vincoli nogood da file
-nogood_constraint_read(IncPerc,Titoli):-
-	findall((T,LB),nogoods(T,LB),List),
-	add_cons(List,IncPerc,Titoli).
-
-%il nuovo vincolo viene aggiunto all'istanza eplex
+	
+%stampa gli outcomes medi per le varie tipologie di incentivazione ( secondo simulatore )
+print_result_fr([],[]).
+print_result_fr([T|Tipologie],[O|Outcomes]):-
+	write_tee("Tipologia incentivazione: "), write_tee(T),
+	write_tee("  Outcome medio: "), writeln_tee(O),
+	print_result_fr(Tipologie,Outcomes).
+	
+%i vincoli per il bugdet assegnabile ad ogni incentivo vengono letti dal file fr_cons.pl
+fr_constraint(Tipi,Fondi):-
+	[fr_cons],
+	findall((T,F),fr_constr(T,F),List),
+	add_cons(List,Fondi,Tipi).
+	
+%il nuovo vincolo ( per ora sono di uguaglianza ) viene aggiunto all'istanza eplex
 add_cons([],_,_).
-add_cons([(Titolo,LB)|T],IncPerc,Titoli):-
-	name_variable(Titolo,IncPercSel,Titoli,IncPerc),
-	eplex:(IncPercSel $>= LB),
-	add_cons(T,IncPerc,Titoli).
-	
-	
+add_cons([(Tipo,Valore)|T],Fondi,Tipi):-
+	name_variable(Tipo,FondoSel,Tipi,Fondi),
+	eplex:(FondoSel $= Valore),
+	add_cons(T,Fondi,Tipi).
