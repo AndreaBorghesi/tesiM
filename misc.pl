@@ -16,8 +16,9 @@ sim_result(AvgIncIns,AvgOutcome):-
 	AvgOutcome is (((SumOutcome/(NumRes*1000))-48.798)*(795/(57.675-48.798))+405).
 	
 %questa versione restituisce l'outcome medio prodotto dalle diverse tipologie di incentivi
-sim_result_fr(Tipologie,AvgOutcomes):-
+sim_result_fr(Tipologie,AvgOutcomes,AvgBudgets):-
 	[risultati_sintetici_new],
+	srfb(Tipologie,[],AvgBudgets),
 	srf(Tipologie,[],AvgOutcomes).
 
 srf([],AvgOutcomes,AvgOutcomes).
@@ -32,6 +33,19 @@ srf([T|Tipologie],AvgOutTemp,AvgOutcomes):-
 	
 	append([AvgOutcome],AvgOutTemp,AvgOutcomesN),
 	srf(Tipologie,AvgOutcomesN,AvgOutcomes).
+	
+srfb([],AvgBudgets,AvgBudgets).
+srfb([T|Tipologie],AvgBudgetTemp,AvgBudgets):-
+	findall(BI,result_new(T,_,_,_,BI,_,_),BudgetsI),
+	findall(BF,result_new(T,_,_,_,_,BF,_),BudgetsF),
+	length(BudgetsI,Len), sum(BudgetsI,SumBudgetsI), sum(BudgetsF,SumBudgetsF),
+	
+	%per ora il budget medio utilizzato da un tipo di incentivo è calcolato
+	%semplicemente come la differenza media tra il budget iniziale e quello finale
+	AvgBudgetR is (SumBudgetsI-SumBudgetsF)/Len,
+	
+	append([AvgBudgetR],AvgBudgetTemp,AvgBudgetsN),
+	srfb(Tipologie,AvgBudgetsN,AvgBudgets).
 	
 %predicato per testare l'output del primo simulatore
 avg_out(IncPer):-

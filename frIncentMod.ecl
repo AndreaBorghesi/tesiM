@@ -206,11 +206,13 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     eplex:(BudgetPV $= 5000000 ),
     
     tipi_inc_PV(TipiInc),
-    length(TipiInc,NumTipi),
-    
     %variabili per il budget assegnato ad ogni singola tipologia di incentivaizione
     %valore minimo 0, nel caso quel tipo di incentivo non sia utilizzato, il valore massimo corrisponde all'utilizzo di tutto il budget disponibile
-    crea_var_names(TipiInc,FondiInc,0,BudgetPV),
+    crea_var_names(TipiInc,FondiInc,0,1000000000),
+	max_fr(FondiInc,BudgetPV),
+	
+	%la somma dei finanziamenti per i singoli incentivi deve essre minore del budget complessivo per il PV
+	eplex:(sum(FondiInc) $=< BudgetPV),
     
     %i vincoli sui budget per gli incentivi sono creati sfruttando il secondo simulatore
     fr_constraint(TipiInc,FondiInc),
@@ -291,6 +293,10 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     eplex:eplex_var_get(Costo,typed_solution,ValoreCosto),  writeln_tee(costo(ValoreCosto)),
     eplex:eplex_var_get(EnergiaProdotta,typed_solution,ValoreEnergiaProdotta),  writeln_tee(energia(ValoreEnergiaProdotta)),
     
+    writeln_tee("====================== Incentivi 	======================"),
+    print_solution(FondiInc,TipiInc),
+    eplex:eplex_var_get(BudgetPV,typed_solution,ValBudgetPV),
+    write_tee("Budget PV per gli incentivi regionale ( euro): "), writeln_tee(ValBudgetPV),
     
     close(outfile).
 
@@ -882,9 +888,10 @@ normal_font:- write('\033[0m').
 benders_dec_fr(BudgetPV,Outcome):-
 	open('ris.txt',write,outfile),
 	
-	append(['Nessuno','Asta','Conto interessi','Rotazione','Garanzia'],[],Tipologie),
+	tipi_inc_PV(TipiInc),
+	
 	%prima di chiamare il predicato benders_dec_fr occorre aver effettuato le simulazioni con i parametri forniti da aaai/4
-	sim_result_fr(Tipologie,AvgOutcomes),
+	sim_result_fr(Tipologie,AvgOutcomes,AvgBudgets),
 	
 	
 	writeln_tee(""),
@@ -894,20 +901,27 @@ benders_dec_fr(BudgetPV,Outcome):-
 	write_tee("Outcome atteso"), write_tee(':\t'), writeln_tee(Outcome),
 	
 	writeln_tee("===== Valori medi ottenuti dal simulatore per i vari tipi di incentivi  ====="),
-	print_result_fr(Tipologie,AvgOutcomes),
-	best_fr(Tipologie,AvgOutcomes,Tipo,AvgOut),
+	print_result_fr(TipiInc,AvgOutcomes,AvgBudgets),
+	best_fr(TipiInc,AvgOutcomes,Tipo,AvgOut),
 	write_tee("Tipologia incentivazione migliore: "), write_tee(Tipo),
 	write_tee(" --- Outcome medio: "), writeln_tee(AvgOut),
+	close(outfile),
 	
+	%a partire dai dati ricavati dal simulatore il file rel.pl viene aggiornato
+	update_rel(TipiInc,AvgOutcomes,AvgBudgets),
+	
+	%il sottoproblema viene risolto risolto per ricavare i nuovi vincoli sui fondi da istanziare per i vari tipi di incentivi
+	open('ris.txt',write,outfile),
+	sub_problem_fr(TipiInc,BudgetPV),
 	close(outfile).
 	
-	
 %stampa gli outcomes medi per le varie tipologie di incentivazione ( secondo simulatore )
-print_result_fr([],[]).
-print_result_fr([T|Tipologie],[O|Outcomes]):-
+print_result_fr([],[],[]).
+print_result_fr([T|Tipologie],[O|Outcomes],[B|Budgets]):-
 	write_tee("Tipologia incentivazione: "), write_tee(T),
 	write_tee("  Outcome medio: "), writeln_tee(O),
-	print_result_fr(Tipologie,Outcomes).
+	write_tee("  Budget PV consumato dall'incentivo: "), writeln_tee(B),
+	print_result_fr(Tipologie,Outcomes,Budgets).
 	
 %i vincoli per il bugdet assegnabile ad ogni incentivo vengono letti dal file fr_cons.pl
 fr_constraint(Tipi,Fondi):-
@@ -921,3 +935,25 @@ add_cons([(Tipo,Valore)|T],Fondi,Tipi):-
 	name_variable(Tipo,FondoSel,Tipi,Fondi),
 	eplex:(FondoSel $= Valore),
 	add_cons(T,Fondi,Tipi).
+	
+%impongo che i fondi per i diversi incentivi siano minori del budget complessivo del PV
+max_fr([],_).
+max_fr([H|T],B):-
+	eplex:(H $=< B),
+	max_fr(T,B).
+	
+%i valori rappresentanti le relazioni tra tipologia di incentivo,outcome medio e spesa per l'incentivo media, sono salvati nel file rel.pl
+update_rel(TipiInc,AvgOutcomes,AvgBudgets):-
+	open('rel.pl',update,relfile),
+	seek(nogoodfile,end_of_file),
+	write_rel_file(TipiInc,AvgOutcomes,AvgBudgets),
+	close(relfile).
+	
+%scrittura delle relazioni -> rel("tipo incentivo",outcome medio,spesa media)
+write_rel_file([],[],[]).
+write_rel_file([T|TipiInc],[O|AvgOutcomes],[B|AvgBudgets]):-
+	write(relfile,"rel(\""), write(relfile,T), write(relfile,"\","),
+	write(relfile,O), write(relfile,","),
+	write(relfile,B), write(relfile,").\n"),
+	write_rel_file(TipiInc,AvgOutcomes,AvgBudgets).
+
