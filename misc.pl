@@ -31,7 +31,7 @@ srf([T|Tipologie],AvgOutTemp,AvgOutcomes):-
 	%fattore di scala estremamente grezzo
 	%AvgOutcome is (((SumOutcome/(Len*1000))-44.500)*(795/(54.000-44.500))+405),
 	
-	append([AvgOutcome],AvgOutTemp,AvgOutcomesN),
+	append(AvgOutTemp,[AvgOutcome],AvgOutcomesN),
 	srf(Tipologie,AvgOutcomesN,AvgOutcomes).
 	
 srfb([],AvgBudgets,AvgBudgets).
@@ -42,9 +42,9 @@ srfb([T|Tipologie],AvgBudgetTemp,AvgBudgets):-
 	
 	%per ora il budget medio utilizzato da un tipo di incentivo è calcolato
 	%semplicemente come la differenza media tra il budget iniziale e quello finale
-	AvgBudgetR is (SumBudgetsI-SumBudgetsF)/Len,
+	AvgBudgetR is (SumBudgetsI*1000000-SumBudgetsF)/Len,
 	
-	append([AvgBudgetR],AvgBudgetTemp,AvgBudgetsN),
+	append(AvgBudgetTemp,[AvgBudgetR],AvgBudgetsN),
 	srfb(Tipologie,AvgBudgetsN,AvgBudgets).
 	
 %predicato per testare l'output del primo simulatore
