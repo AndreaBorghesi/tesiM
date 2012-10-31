@@ -2,47 +2,15 @@
 %le relazioni si riferiscono a simulazioni in cui tutto il budget PV disponibile è stato assegnato ad un singolo incentivo
 %rel("Tipo incentivo",Outcome,BudgetPV consumato)
 
-rel('Asta',45.87209,7496597.5056).
-rel('Conto interessi',51.97088,5465938.67899998).
-rel('Rotazione',47.60455,-4631707.38).
-rel('Garanzia',46.79208,7473166.8).
-rel('Asta',45.87209,7496597.5056).
-rel('Conto interessi',51.97088,5465938.67899998).
-rel('Rotazione',47.60455,-4631707.38).
-rel('Garanzia',46.79208,7473166.8).
-rel('Asta',45.87209,7496597.5056).
-rel('Conto interessi',51.97088,5465938.67899998).
-rel('Rotazione',47.60455,-4631707.38).
-rel('Garanzia',46.79208,7473166.8).
-rel('Asta',45.87209,7496597.5056).
-rel('Conto interessi',51.97088,5465938.67899998).
-rel('Rotazione',47.60455,-4631707.38).
-rel('Garanzia',46.79208,7473166.8).
-rel('Asta',45.87209,7496597.5056).
-rel('Conto interessi',51.97088,5465938.67899998).
-rel('Rotazione',47.60455,-4631707.38).
-rel('Garanzia',46.79208,7473166.8).
-rel('Asta',45.87209,7496597.5056).
-rel('Conto interessi',51.97088,5465938.67899998).
-rel('Rotazione',47.60455,-4631707.38).
-rel('Garanzia',46.79208,7473166.8).
-rel('Asta',45.87209,7496597.5056).
-rel('Conto interessi',51.97088,5465938.67899998).
-rel('Rotazione',47.60455,-4631707.38).
-rel('Garanzia',46.79208,7473166.8).
-rel('Asta',45.87209,7496597.5056).
-rel('Conto interessi',51.97088,5465938.67899998).
-rel('Rotazione',47.60455,-4631707.38).
-rel('Garanzia',46.79208,7473166.8).
-rel('Asta',45.87209,7496597.5056).
-rel('Conto interessi',51.97088,5465938.67899998).
-rel('Rotazione',47.60455,-4631707.38).
-rel('Garanzia',46.79208,7473166.8).
-rel('Asta',45.87209,7496597.5056).
-rel('Conto interessi',51.97088,5465938.67899998).
-rel('Rotazione',47.60455,-4631707.38).
-rel('Garanzia',46.79208,7473166.8).
-rel('Asta',45.87209,7496597.5056).
-rel('Conto interessi',51.97088,5465938.67899998).
-rel('Rotazione',47.60455,-4631707.38).
-rel('Garanzia',46.79208,7473166.8).
+rel('Asta',45.8901,7496904.3565).
+rel('Conto interessi',51.357675,5564119.72999998).
+rel('Rotazione',46.6615,-4631738.75).
+rel('Garanzia',45.939975,7478811.0).
+rel('Asta',45.8901,7496904.3565).
+rel('Conto interessi',51.357675,5564119.72999998).
+rel('Rotazione',46.6615,-4631738.75).
+rel('Garanzia',45.939975,7478811.0).
+rel('Asta',45.8901,7496904.3565).
+rel('Conto interessi',51.357675,5564119.72999998).
+rel('Rotazione',46.6615,-4631738.75).
+rel('Garanzia',45.939975,7478811.0).

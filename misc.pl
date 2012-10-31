@@ -120,8 +120,8 @@ avgn:-
 %predicato per calcolare output medio con il secondo sim, con le cinque modalità di finanziamento e senza incentivi (oltre al finanziamento)
 %(i risultati della sim devono essere in risultati_sintetici_new.pl)
 avgnz:-
-	[risultati_sintetici_new],
-	%[simulazioneLungaResultNewNoInc],
+	%[risultati_sintetici_new],
+	[simulazioneLungaResultNewNoInc],
 	
 	%avg_outn('Nessuno',0,1), avg_outn('Asta',0,1), avg_outn('Conto interessi',0,1),
 	%avg_outn('Rotazione',0,1), avg_outn('Garanzia',0,1),
@@ -171,3 +171,29 @@ find_best_type([T|Tipologie],[BestO|Outcomes],BestO,T):-!,
 find_best_type([_|Tipologie],[_|Outcomes],BestO,BestT):-
 	find_best_type(Tipologie,Outcomes,BestO,BestT).
 	
+%cambia il segno agli elementi di una lista
+change_sign([],L,L).
+change_sign([H|T],LT,L):-
+	HN is -H,
+	append(LT,[HN],LN),
+	change_sign(T,LN,L).
+	
+%predicato per azzerare i valori del file fr_cons.pl
+res_fr_cons:-
+	tipi_inc_PV(TipiInc),
+	open('fr_cons.pl',write,frcons),
+	write_cons(TipiInc),
+	write_ricavi(TipiInc),
+	close(frcons).
+	
+write_cons([]).
+write_cons([H|T]):-
+	write(frcons,"fr_constr(\'"), write(frcons,H), write(frcons,"\',"),
+	write(frcons,0), write(frcons,").\n"),
+	write_cons(T).
+	
+write_ricavi([]).
+write_ricavi([H|T]):-
+	write(frcons,"fr_ricavo(\'"), write(frcons,H), write(frcons,"\',"),
+	write(frcons,0), write(frcons,").\n"),
+	write_ricavi(T).

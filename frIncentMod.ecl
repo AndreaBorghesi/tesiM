@@ -203,13 +203,13 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     
     %budget fotovoltaico ( in teoria è indicato dalla regione e dell'ordine di qualche Mln di euro l'anno )
     eplex:(BudgetPV $:: 0..1000000000),
-    eplex:(BudgetPV $= 10000000 ),
+    eplex:(BudgetPV $= 7500000 ),
     
     tipi_inc_PV(TipiInc),
     %variabili per il budget assegnato ad ogni singola tipologia di incentivaizione
     %valore minimo 0, nel caso quel tipo di incentivo non sia utilizzato, il valore massimo corrisponde all'utilizzo di tutto il budget disponibile
     crea_var_names(TipiInc,FondiInc,0,1000000000),
-    %inserisco nel modello anche i possibili ricavi generati da alcuni tipi di incentivo ( rotazione )
+    %inserisco nel modello anche i possibili ricavi generati da alcuni tipi di incentivo ( rotazione.. )
     crea_var_names(TipiInc,RicaviInc,0,1000000000),
 	max_fr(FondiInc,BudgetPV),
 	
@@ -306,6 +306,10 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     print_solution(RicaviInc,TipiInc),
     eplex:eplex_var_get(BudgetPV,typed_solution,ValBudgetPV),
     write_tee("Budget PV per gli incentivi regionale ( euro): "), writeln_tee(ValBudgetPV),
+    
+    budget_outcomePV(CostoPV,OutcomePV),
+	write_tee("Costo totale fotovoltaico ( costi impianti )"), write_tee(':\t'), writeln_tee(CostoPV),
+	write_tee("Outcome da fotovoltaico richiesto"), write_tee(':\t'), writeln_tee(OutcomePV),
     
     close(outfile).
 

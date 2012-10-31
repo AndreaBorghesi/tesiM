@@ -1000,4 +1000,3 @@ add_cons([(Titolo,LB)|T],IncPerc,Titoli):-
 	eplex:(IncPercSel $>= LB),
 	add_cons(T,IncPerc,Titoli).
 	
-	
