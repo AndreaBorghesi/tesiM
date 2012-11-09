@@ -954,31 +954,6 @@ benders_dec(PercInc,Incentivi,Outcome):-
 	),
 	
 	close(outfile).
-	
-%questa versione riguarda il secondo simulatore --> vengono tenuti in considerazione anche il budget per il PV messo a disposizione dalla regione
-%(passato come argomento in Mln di euro) e differenti metodi di incentivazione, in particolare: 1) nessun incentivo 2) asta fondo perduto
-%3) conto interessi 4) rotazione 5) garanzia
-benders_dec_fr(BudgetPV,Outcome):-
-	open('ris.txt',write,outfile),
-	
-	append(['Nessuno','Asta','Conto interessi','Rotazione','Garanzia'],[],Tipologie),
-	%prima di chiamare il predicato benders_dec_fr occorre aver effettuato le simulazioni con i parametri forniti da aaai/4
-	sim_result_fr(Tipologie,AvgOutcomes),
-	
-	
-	writeln_tee(""),
-	writeln_tee("========= Benders decomposition ========="),
-	writeln_tee("===== Valori forniti al simulatore ====="),
-	write_tee("Budget PV regionale (Mln di euro): "), writeln_tee(BudgetPV),
-	write_tee("Outcome atteso"), write_tee(':\t'), writeln_tee(Outcome),
-	
-	writeln_tee("===== Valori medi ottenuti dal simulatore per i vari tipi di incentivi  ====="),
-	print_result_fr(Tipologie,AvgOutcomes),
-	best_fr(Tipologie,AvgOutcomes,Tipo,AvgOut),
-	write_tee("Tipologia incentivazione migliore: "), write_tee(Tipo),
-	write_tee(" --- Outcome medio: "), writeln_tee(AvgOut),
-	
-	close(outfile).
 
 % generate_cut/1 crea un nuovo vincolo per gli incentivi -------- predicato usato solo a fini di test 
 generate_cut(Incentivi,Value):-

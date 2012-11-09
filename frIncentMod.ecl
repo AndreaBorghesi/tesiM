@@ -924,7 +924,14 @@ benders_dec_fr(BudgetPV,Outcome):-
 	
 	%il sottoproblema viene risolto risolto per ricavare i nuovi vincoli sui fondi da istanziare per i vari tipi di incentivi
 	BudgetPVEuro is BudgetPV*1000000, %BudgetPV è espresso in Mln di euro, per gestirlo più facilmente nel sottoproblema lo moltiplico
-	sub_problem_fr(TipiInc,BudgetPVEuro),
+	sub_problem_fr(TipiInc,BudgetPVEuro,BudgetsInc,OutsInc,SimOut),
+	
+	%confronto tra l'energia prevista dal simulatore, SimOut, e quella attesa dall'ottimizzatore --> se necessario tento di aumentare il budgetPV
+	(SimOut >= Outcome
+	-> writeln_tee("===== Opt. sol. =====")
+	; sub_problem_fr_out(TipiInc,BudgetPVEuro,Outcome,BudgetsInc,OutsInc)
+	),
+	
 	close(outfile).
 	
 %stampa gli outcomes medi per le varie tipologie di incentivazione ( secondo simulatore )
@@ -969,8 +976,8 @@ update_rel(TipiInc,AvgOutcomes,AvgBudgets):-
 %scrittura delle relazioni -> rel("tipo incentivo",outcome medio,spesa media)
 write_rel_file([],[],[]).
 write_rel_file([T|TipiInc],[O|AvgOutcomes],[B|AvgBudgets]):-
-	write(relfile,"rel(\'"), write(relfile,T), write(relfile,"\',"),
+	write(relfile,"\nrel(\'"), write(relfile,T), write(relfile,"\',"),
 	write(relfile,O), write(relfile,","),
-	write(relfile,B), write(relfile,").\n"),
+	write(relfile,B), write(relfile,")."),
 	write_rel_file(TipiInc,AvgOutcomes,AvgBudgets).
 

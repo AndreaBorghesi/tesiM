@@ -1,6 +1,7 @@
 :- lib(eplex).
 :- lib(util).
 :- eplex_instance(sub).
+:- eplex_instance(sub_out).
 
 	
 	
@@ -68,7 +69,7 @@ sub_problem(IncPerc,OutcomeAtteso,SimOutcome):-
 %SECONDO SIMULATORE
 %versione per il secondo simulatore: dalle simulazioni effettuate vengono estrapolate le relazioni tra il budget assegnato ad un tipo di 
 %incentivo e l'outcome energetico corrispondente, dalle quali vengono poi ricavati i vincoli da passare al problema principale
-sub_problem_fr(TipiInc,BudgetPV):-
+sub_problem_fr(TipiInc,BudgetPV,BudgetsInc,OutsInc,OutValF):-
 	
 	%suppongo che in un file (rel.pl) siano presenti le relazioni tra la tipologia di incentivo, l'outcome energetico ottenibile e 
 	%a quanto ammonti il finanziamento necessario ( in euro )
@@ -89,16 +90,12 @@ sub_problem_fr(TipiInc,BudgetPV):-
 	
 	%CostiInc sono le spese da stanziare per finanziare gli incentivi senza considerare i possibili guadagni
 	exclude_plus(BudgetsInc,BudgetPV,[],CostiInc),
-	write_tee("BudgetsInc: "), writeln_tee(BudgetsInc),
-	write_tee("CostiInc: "), writeln_tee(CostiInc),
 	%questo vincolo richiede che a prescindere dai possibili ricavi la spesa iniziale sia minore di BudgetPV -------> DISCUTERE SE NECESSARIO
 	sub:((VarInc*CostiInc) $=< BudgetPV*100), 
-	
 	
 	%la funzione obiettivo cerca di rendere massimo l'outcome energetico totale sommando i contribuiti dei vari tipi di incentivi correttamente pesati
 	sub:eplex_solver_setup(max(VarInc*OutsInc)),
 	sub:eplex_set(dual_solution,yes),
-	sub:eplex_set(slack,yes),
 	
 	sub:eplex_solve(Out),
 	
@@ -112,8 +109,6 @@ sub_problem_fr(TipiInc,BudgetPV):-
 	write_tee("Out value: "), writeln_tee(OutValF),
 	
 	writeln_tee("------Duale-------"),
-    sub:eplex_get(slack,Slack),
-    write_tee("Slack -> "), writeln_tee(Slack),
     sub:eplex_get(dual_solution,Dual),
     write_tee("Dual -> "), writeln_tee(Dual),
 	
@@ -147,6 +142,12 @@ crea_var_names_sub([Name|Names],[P|T],LB,UB):-
     set_var_name(P,Name),
     crea_var_names_sub(Names,T,LB,UB).
     
+crea_var_names_sub_out([],[],_,_):- !.
+crea_var_names_sub_out([Name|Names],[P|T],LB,UB):-
+    sub_out:(P $:: LB..UB),
+    set_var_name(P,Name),
+    crea_var_names_sub_out(Names,T,LB,UB).
+    
 %stampa le percentuali di budget assegnate ai vari incentivi
 print_var_inc([],[],[],[],CostoTot,CostoTot).
 print_var_inc([V|VarInc],[T|TipiInc],[B|BudgetsInc],[O|OutsInc],Costo,CostoTot):-
@@ -156,6 +157,15 @@ print_var_inc([V|VarInc],[T|TipiInc],[B|BudgetsInc],[O|OutsInc],Costo,CostoTot):
 	write_tee(" - Contributo costo: "), write_tee(BV), write_tee(" - Contributo outcome: "), writeln_tee(OV),
 	CostoNew is Costo+BV,
 	print_var_inc(VarInc,TipiInc,BudgetsInc,OutsInc,CostoNew,CostoTot).
+	
+print_var_inc_out([],[],[],[],CostoTot,CostoTot).
+print_var_inc_out([V|VarInc],[T|TipiInc],[B|BudgetsInc],[O|OutsInc],Costo,CostoTot):-
+	sub_out:eplex_var_get(V,typed_solution,VV),
+	write_tee("Tipologia incentivo: "), write_tee(T), write_tee(" - Percentuale: "), write_tee(VV),
+	BV is VV*B/100,  OV is VV*O/100,
+	write_tee(" - Contributo costo: "), write_tee(BV), write_tee(" - Contributo outcome: "), writeln_tee(OV),
+	CostoNew is Costo+BV,
+	print_var_inc_out(VarInc,TipiInc,BudgetsInc,OutsInc,CostoNew,CostoTot).
 
 %scrittura dei vincoli che verranno presi in considerazione dal modello principale nel file fr_cons.pl
 %con la forma: fr_constr("tipologia incentivo",valore).
@@ -183,6 +193,60 @@ write_cons_ricavi_file([T|TipiInc],[V|VarInc],[B|BudgetsInc],BudgetPV):-
 	write(frcons,"fr_ricavo(\'"), write(frcons,T), write(frcons,"\',"),
 	write(frcons,ValF), write(frcons,").\n"),
 	write_cons_ricavi_file(TipiInc,VarInc,BudgetsInc,BudgetPV).	
+	
+	
+%secondo sottoproblema per il SECONDO SIMULATORE: cerco di calcolare quanto deve aumentare il bugetPV affinché l'outcome prodotto dal simulatore
+%coincida con quello previsto dall'ottimizzatore
+sub_problem_fr_out(TipiInc,BudgetPV,OutExp,BudgetsInc,OutsInc):-
+
+	%ad ogni tipo di incentivo assegno una variabile intera che rappresenta la "percentuale" effettivamente realizzata di tale incentivo
+	crea_var_names_sub_out(TipiInc,VarInc,0,100),
+	%variabile che rappresenta la differenza di budget richiesta per l'outcome richiesto
+	sub_out:(DiffBudget $:: 0..30000000), %30 Mln
+	
+	sub_out:(sum(VarInc) $>= 100 ),
+	
+	%la somma dei costi per ogni tipo di incentivo moltiplicati per la percentuale di realizzazione deve essere minore al nuovo budget per il PV
+	sub_out:((VarInc*BudgetsInc) $=< (BudgetPV+DiffBudget)*100) ,
+	
+	%CostiInc sono le spese da stanziare per finanziare gli incentivi senza considerare i possibili guadagni
+	exclude_plus(BudgetsInc,BudgetPV,[],CostiInc),
+	%questo vincolo richiede che a prescindere dai possibili ricavi la spesa iniziale sia minore di BudgetPV -------> DISCUTERE SE NECESSARIO
+	sub_out:((VarInc*CostiInc) $=< (BudgetPV+DiffBudget)*100), 
+	
+	%l'outcome prodotto deve coincidere con quello atteso
+	sub_out:((VarInc*OutsInc) $>= OutExp*100 ), 
+	sub_out:(SimOut*100 $= (VarInc*OutsInc)),
+	
+	%la funzione obiettivo cerca di rendere minimo l'aumento di budget PV
+	sub_out:eplex_solver_setup(min(DiffBudget)),
+	sub_out:eplex_set(dual_solution,yes),
+	
+	sub_out:eplex_solve(Out),
+	
+	writeln_tee("------Sub Problem-out-------"),
+	writeln_tee("------Stima aumento budget necessario-------"),
+	write_tee("BudgetPV: "), writeln_tee(BudgetPV),
+	write_tee("Outcome atteso: "), writeln_tee(OutExp),
+	sub_out:eplex_var_get(Out,typed_solution,OutVal),  
+	sub_out:eplex_var_get(SimOut,typed_solution,SimOutVal),  
+	write_tee("Outcome simulato: "), writeln_tee(SimOutVal),
+
+	print_var_inc_out(VarInc,TipiInc,BudgetsInc,OutsInc,0,CostoTot),
+	write_tee("Costo totale incentivi "), writeln_tee(CostoTot),
+	
+	sub_out:eplex_var_get(DiffBudget,typed_solution,DiffBudgetVal),  
+	write_tee("Aumento budget necessario: "), writeln_tee(DiffBudgetVal),
+	
+	write_tee("Out value: "), writeln_tee(OutVal),
+	
+	writeln_tee("------Duale-------"),
+    sub_out:eplex_get(dual_solution,Dual),
+    write_tee("Dual -> "), writeln_tee(Dual),
+	
+	writeln_tee("--------------------").
+	
+	
 	
 %test per il calcolo del duale del sottoproblema ( secondo simulatore )
 sub_dual(Budget):-

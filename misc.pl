@@ -118,7 +118,6 @@ avgn:-
 	avg_outn('Rotazione',10,30), avg_outn('Garanzia',10,30).
 	
 %predicato per calcolare output medio con il secondo sim, con le cinque modalità di finanziamento e senza incentivi (oltre al finanziamento)
-%(i risultati della sim devono essere in risultati_sintetici_new.pl)
 avgnz:-
 	%[risultati_sintetici_new],
 	[simulazioneLungaResultNewNoInc],
@@ -134,7 +133,23 @@ avgnz:-
 	%avg_outn('Nessuno',40,1), avg_outn('Asta',40,1), avg_outn('Conto interessi',40,1),
 	%avg_outn('Rotazione',40,1), avg_outn('Garanzia',40,1).
 	
-	
+%calcola output medio con il secondo sim, con le 4 modalità di finanziamento e senza incentivi, budget crescenti
+avgs:-
+	[simulazioneLungaResultNewNoInc2],
+	avg_outn('Asta',5,1), avg_outn('Conto interessi',5,1),
+	avg_outn('Rotazione',5,1), avg_outn('Garanzia',5,1),
+	avg_outn('Asta',7.5,1), avg_outn('Conto interessi',7.5,1),
+	avg_outn('Rotazione',7.5,1), avg_outn('Garanzia',7.5,1),
+	avg_outn('Asta',10,1), avg_outn('Conto interessi',10,1),
+	avg_outn('Rotazione',10,1), avg_outn('Garanzia',10,1),
+	avg_outn('Asta',15,1), avg_outn('Conto interessi',15,1),
+	avg_outn('Rotazione',15,1), avg_outn('Garanzia',15,1),
+	avg_outn('Asta',20,1), avg_outn('Conto interessi',20,1),
+	avg_outn('Rotazione',20,1), avg_outn('Garanzia',20,1),
+	avg_outn('Asta',25,1), avg_outn('Conto interessi',25,1),
+	avg_outn('Rotazione',25,1), avg_outn('Garanzia',25,1),
+	avg_outn('Asta',30,1), avg_outn('Conto interessi',30,1),
+	avg_outn('Rotazione',30,1), avg_outn('Garanzia',30,1).
 	
 %predicato che restituisce il budget e l'outcome calcolati dal piano 
 budget_outcomePV(BudgetPV,OutcomePV):-
@@ -178,6 +193,12 @@ change_sign([H|T],LT,L):-
 	append(LT,[HN],LN),
 	change_sign(T,LN,L).
 	
+
+%invocazioni multiple di benders_dec_fr possono incorrere in conflitti con i file precedentemente generati --> pulizia manuale
+clean_fr:-
+	res_fr_cons,
+	res_rel.
+		
 %predicato per azzerare i valori del file fr_cons.pl
 res_fr_cons:-
 	tipi_inc_PV(TipiInc),
@@ -197,3 +218,9 @@ write_ricavi([H|T]):-
 	write(frcons,"fr_ricavo(\'"), write(frcons,H), write(frcons,"\',"),
 	write(frcons,0), write(frcons,").\n"),
 	write_ricavi(T).
+
+%predicato per cancellare i valori dal file rel.pl
+res_rel:-
+	open('rel.pl',write,frel),
+	write(frel,"%rel(\'Tipo incentivo\',Outcome,BudgetPV consumato)"),
+	close(frel).
