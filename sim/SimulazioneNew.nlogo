@@ -1705,7 +1705,7 @@ Costo_Medio_kwP
 Costo_Medio_kwP
 3000
 5000
-3500
+1633
 50
 1
 euro
@@ -1850,7 +1850,7 @@ costo_kwh_fascia1
 costo_kwh_fascia1
 0.250
 0.299
-0.278
+0.434
 0.001
 1
 euro\KWh
@@ -1865,7 +1865,7 @@ costo_kwh_fascia2
 costo_kwh_fascia2
 0.140
 0.189
-0.162
+0.251
 0.001
 1
 euro\KWh
@@ -1880,7 +1880,7 @@ costo_kwh_fascia3
 costo_kwh_fascia3
 0.170
 0.219
-0.194
+0.303
 0.001
 1
 euro\KWh
@@ -1895,7 +1895,7 @@ costo_kwh_fascia4
 costo_kwh_fascia4
 0.220
 0.269
-0.246
+0.385
 0.001
 1
 euro\KWh
@@ -1910,7 +1910,7 @@ costo_kwh_fascia5
 costo_kwh_fascia5
 0.250
 0.299
-0.276
+0.43
 0.001
 1
 euro\KWh
@@ -2511,7 +2511,7 @@ CHOOSER
 fr
 fr
 "Nessuno" "Asta" "Conto interessi" "Rotazione" "Garanzia"
-2
+4
 
 SLIDER
 17
@@ -2547,7 +2547,7 @@ Raggio
 Raggio
 1
 10
-5
+10
 1
 1
 patches
@@ -2937,7 +2937,7 @@ Sensibilita
 Sensibilita
 0
 5
-1
+2
 0.1
 1
 NIL
@@ -4501,6 +4501,137 @@ NetLogo 5.0.2
     <enumeratedValueSet variable="Raggio">
       <value value="5"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="%_Incentivi_Installazione">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="M2_Disposizione">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Accettato">
+      <value value="85"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="InterBanca">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Budget_Medio_MiliaiaEuro">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia4">
+      <value value="0.385"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia2">
+      <value value="0.251"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Irradiazione_media_annua_kwh_kwp">
+      <value value="1350"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="FallimentoMutuo">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Percentuale_Interessi_Prestito">
+      <value value="5.3"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="experimentSocialeRaggio" repetitions="250" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="Aumento_%annuo_consumi">
+      <value value="0.9"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="LeggiSerieStoriche">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Riduzione_anno_%costo_pannello">
+      <value value="3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia3">
+      <value value="0.303"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia5">
+      <value value="0.43"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Probfinanz">
+      <value value="90"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Anni_Restituzione_Prestiti">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="PercMin">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Media%_copertura_consumi_richiesta">
+      <value value="92"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="variazione_annuale_prezzi_elettricita">
+      <value value="1.8"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="fr">
+      <value value="&quot;Asta&quot;"/>
+      <value value="&quot;Conto interessi&quot;"/>
+      <value value="&quot;Rotazione&quot;"/>
+      <value value="&quot;Garanzia&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="NumeroAgenti">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="%_Variazione_Tariffe">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Perdita_efficienza_annuale_pannello">
+      <value value="0.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia1">
+      <value value="0.434"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Tecnologia_Pannello">
+      <value value="&quot;Monocristallini&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Incentivi_Installazione">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="InterRegione">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Anni_Restituzione_mutuo_banca">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Intorno">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Tasso_lordo_rendimento_BOT">
+      <value value="2.147"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Sensibilita">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Manutenzione_anno_%costo_totale">
+      <value value="1.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Costo_Medio_kwP">
+      <value value="1633"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="PercMax">
+      <value value="80"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Consumo_medio_annuale_KWh">
+      <value value="15200"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Varia_Tariffe_Incetivanti">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="InfluenzaRate">
+      <value value="40"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Anni_Restituzione_mutuo_regione">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="BudgetRegione">
+      <value value="30"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Incentivi_Dinamici">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <steppedValueSet variable="Raggio" first="1" step="1" last="10"/>
     <enumeratedValueSet variable="%_Incentivi_Installazione">
       <value value="1"/>
     </enumeratedValueSet>

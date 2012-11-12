@@ -274,7 +274,7 @@ write_lns_soc([(O,S)|T],fout):-
 	
 %questa versione lavora con i risultati prodotti considerando anche l'interazione sociale ( solo raggio )
 pl2csv_socr(Tipo):-
-	[risultati_sintetici_new],
+	[sim_out_raggio],
 	findall((O,R),result_new(Tipo,_,_,_,_,_,O,R,_),L),
 	open('result_list.csv',write,fout),
 	write_lns_socr(L,fout),
