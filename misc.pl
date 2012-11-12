@@ -119,15 +119,34 @@ avgn:-
 	
 %predicato per calcolare output medio con il secondo sim, con le cinque modalità di finanziamento e senza incentivi (oltre al finanziamento)
 avgnz:-
-	%[risultati_sintetici_new],
-	[simulazioneLungaResultNewNoInc],
+	[risultati_sintetici_new],
+	%[simulazioneLungaResultNewNoInc],
 	
 	%avg_outn('Nessuno',0,1), avg_outn('Asta',0,1), avg_outn('Conto interessi',0,1),
 	%avg_outn('Rotazione',0,1), avg_outn('Garanzia',0,1),
-	avg_outn('Nessuno',5,1), avg_outn('Asta',5,1), avg_outn('Conto interessi',5,1),
-	avg_outn('Rotazione',5,1), avg_outn('Garanzia',5,1),
-	avg_outn('Nessuno',10,1), avg_outn('Asta',10,1), avg_outn('Conto interessi',10,1),
-	avg_outn('Rotazione',10,1), avg_outn('Garanzia',10,1).
+	%avg_outn('Nessuno',5,1), avg_outn('Asta',5,1), avg_outn('Conto interessi',5,1),
+	%avg_outn('Rotazione',5,1), avg_outn('Garanzia',5,1),
+	%avg_outn('Nessuno',10,1), avg_outn('Asta',10,1), avg_outn('Conto interessi',10,1),
+	%avg_outn('Rotazione',10,1), avg_outn('Garanzia',10,1).
+	avg_outn('Asta',0,1), 
+	avg_outn('Asta',2,1), 
+	avg_outn('Asta',5,1), 
+	avg_outn('Asta',7,1), 
+	avg_outn('Asta',8,1), 
+	%avg_outn('Conto interessi',5,1),
+	%avg_outn('Rotazione',5,1), avg_outn('Garanzia',5,1),
+	avg_outn('Asta',10,1),
+	avg_outn('Asta',11,1), 
+	avg_outn('Asta',12,1),  
+	%avg_outn('Conto interessi',10,1),
+	%avg_outn('Rotazione',10,1), avg_outn('Garanzia',10,1),
+	avg_outn('Asta',15,1). 
+	%avg_outn('Conto interessi',15,1),
+	%avg_outn('Rotazione',15,1), avg_outn('Garanzia',15,1),
+	%avg_outn('Conto interessi',20,1),
+	%avg_outn('Rotazione',20,1), avg_outn('Garanzia',20,1),
+	%avg_outn('Conto interessi',30,1),
+	%avg_outn('Rotazione',30,1), avg_outn('Garanzia',30,1).
 	%avg_outn('Nessuno',20,1), avg_outn('Asta',20,1), avg_outn('Conto interessi',20,1),
 	%avg_outn('Rotazione',20,1), avg_outn('Garanzia',20,1),
 	%avg_outn('Nessuno',40,1), avg_outn('Asta',40,1), avg_outn('Conto interessi',40,1),
@@ -224,3 +243,45 @@ res_rel:-
 	open('rel.pl',write,frel),
 	write(frel,"%rel(\'Tipo incentivo\',Outcome,BudgetPV consumato)"),
 	close(frel).
+	
+%converte i file .pl generati dal simulatore in file .csv
+pl2csv:-
+	[risultati_sintetici_new],
+	findall((B,O),result_new(_,_,_,_,B,_,O),L),
+	open('result_list.csv',write,fout),
+	write_lns(L,fout),
+	close(fout).
+	
+write_lns([],_).
+write_lns([(B,O)|T],fout):-
+	write(fout,B), write(fout,","),
+	write(fout,O), write(fout,",\n"),
+	write_lns(T,fout).
+	
+%questa versione lavora con i risultati prodotti considerando anche l'interazione sociale ( solo sensibilità )
+pl2csv_soc(Tipo):-
+	[risultati_sintetici_new],
+	findall((O,S),result_new(Tipo,_,_,_,_,_,O,_,S),L),
+	open('result_list.csv',write,fout),
+	write_lns_soc(L,fout),
+	close(fout).
+	
+write_lns_soc([],_).
+write_lns_soc([(O,S)|T],fout):-
+	write(fout,S), write(fout,","),
+	write(fout,O), write(fout,",\n"),
+	write_lns_soc(T,fout).
+	
+%questa versione lavora con i risultati prodotti considerando anche l'interazione sociale ( solo raggio )
+pl2csv_socr(Tipo):-
+	[risultati_sintetici_new],
+	findall((O,R),result_new(Tipo,_,_,_,_,_,O,R,_),L),
+	open('result_list.csv',write,fout),
+	write_lns_socr(L,fout),
+	close(fout).
+	
+write_lns_socr([],_).
+write_lns_socr([(O,R)|T],fout):-
+	write(fout,R), write(fout,","),
+	write(fout,O), write(fout,",\n"),
+	write_lns_socr(T,fout).
