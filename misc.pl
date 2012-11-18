@@ -244,7 +244,7 @@ res_rel:-
 	write(frel,"%rel(\'Tipo incentivo\',Outcome,BudgetPV consumato)"),
 	close(frel).
 	
-%converte i file .pl generati dal simulatore in file .csv
+%converte i file .pl generati dal simulatore in file .csv ( relazione budget-out )
 pl2csv:-
 	[risultati_sintetici_new],
 	findall((B,O),result_new(_,_,_,_,B,_,O),L),
@@ -258,7 +258,7 @@ write_lns([(B,O)|T],fout):-
 	write(fout,O), write(fout,",\n"),
 	write_lns(T,fout).
 	
-%questa versione lavora con i risultati prodotti considerando anche l'interazione sociale ( solo sensibilità )
+%questa versione lavora con i risultati prodotti considerando anche l'interazione sociale ( solo sensibilità ) ( relazione sensibilità-out )
 pl2csv_soc(Tipo):-
 	[risultati_sintetici_new],
 	findall((O,S),result_new(Tipo,_,_,_,_,_,O,_,S),L),
@@ -272,7 +272,7 @@ write_lns_soc([(O,S)|T],fout):-
 	write(fout,O), write(fout,",\n"),
 	write_lns_soc(T,fout).
 	
-%questa versione lavora con i risultati prodotti considerando anche l'interazione sociale ( solo raggio )
+%questa versione lavora con i risultati prodotti considerando anche l'interazione sociale ( solo raggio ) ( relazione raggio-out )
 pl2csv_socr(Tipo):-
 	[sim_out_raggio],
 	findall((O,R),result_new(Tipo,_,_,_,_,_,O,R,_),L),
@@ -285,3 +285,36 @@ write_lns_socr([(O,R)|T],fout):-
 	write(fout,R), write(fout,","),
 	write(fout,O), write(fout,",\n"),
 	write_lns_socr(T,fout).
+	
+%viene considerata la relazione tra il budget disponibile e quello effettivamente speso 
+pl2csv_b:-
+	[risultati_sintetici_new],
+	findall((B,S),result_new(_,_,_,_,B,S,_),L),
+	open('result_list.csv',write,fout),
+	write_lnsb(L,fout),
+	close(fout).
+	
+write_lnsb([],_).
+write_lnsb([(B,S)|T],fout):-
+	write(fout,B), write(fout,","),
+	O is B*1000000-S,
+	write(fout,O), write(fout,",\n"),
+	write_lnsb(T,fout).
+	
+%fissato il tipo di incentivo,calcola la varianza degli outcome ottenuti dal simulatore per un determinato budget
+calc_variance(Tipo,Budget):-
+	[risultati_sintetici_new],
+	findall(O,result_new(Tipo,_,_,_,Budget,_,O),L),
+	open('ris.txt',write,outfile),
+	length(L,NL),   sum(L,SumL),
+	Mean is SumL/NL,  %prima calcolo il valore medio
+	sum_square_diff(L,Mean,0,SumSD),
+	Variance is SumSD/(NL-1),
+	write_tee(outfile,"Variance: "),  writeln_tee(outfile,Variance),
+	close(outfile).
+	
+%somma dei quadrati delle differenze dal valore medio
+sum_square_diff([],_,Sum,Sum).
+sum_square_diff([H|T],Mean,Sum0,Sum):-
+	ST is Sum0 + (H-Mean)*(H-Mean),
+	sum_square_diff(T,Mean,ST,Sum).

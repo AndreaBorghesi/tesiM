@@ -81,7 +81,6 @@ sub_problem_fr(TipiInc,BudgetPV,BudgetsInc,OutsInc,OutValF):-
 	%ad ogni tipo di incentivo assegno una variabile intera che rappresenta la "percentuale" effettivamente realizzata di tale incentivo
 	crea_var_names_sub(TipiInc,VarInc,0,100),
 	
-	%le variabili sono intere e la loro somma deve essere 100
 	%sub:integers(VarInc),
 	sub:(sum(VarInc) $>= 100 ),
 	

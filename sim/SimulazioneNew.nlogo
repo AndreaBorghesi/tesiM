@@ -1570,10 +1570,10 @@ to write_pl_file
   file-open "/home/b0rgh/ECLiPSe/sourceTesi/risultati_sintetici_new.pl"
   
   ;;versione iniziale che produce risultati relativi principalmente a tipo di incentivo, buget PV, spesa per PV e produzione finale
-  ;;file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT").")
+  file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT").")
   
   ;;seconda versione necessaria per considerare anche l'interazione sociale
-  file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT"," Raggio","Sensibilita ").")
+  ;;file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT"," Raggio","Sensibilita ").")
   file-close
 end
 @#$#@#$#@
@@ -2511,7 +2511,7 @@ CHOOSER
 fr
 fr
 "Nessuno" "Asta" "Conto interessi" "Rotazione" "Garanzia"
-4
+2
 
 SLIDER
 17
@@ -2522,7 +2522,7 @@ BudgetRegione
 BudgetRegione
 0.1
 15
-30
+25
 0.1
 1
 milioni
@@ -2547,7 +2547,7 @@ Raggio
 Raggio
 1
 10
-10
+5
 1
 1
 patches
@@ -2757,7 +2757,7 @@ InterRegione
 InterRegione
 1
 20
-1
+3
 1
 1
 %
@@ -3740,7 +3740,7 @@ NetLogo 5.0.2
       <value value="false"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experiment2" repetitions="100" runMetricsEveryStep="true">
+  <experiment name="experiment2" repetitions="200" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="Accettato">
@@ -3756,7 +3756,7 @@ NetLogo 5.0.2
       <value value="5"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="NumeroAgenti">
-      <value value="100"/>
+      <value value="50"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="Tecnologia_Pannello">
       <value value="&quot;Monocristallini&quot;"/>
@@ -3804,7 +3804,7 @@ NetLogo 5.0.2
       <value value="20"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="InterRegione">
-      <value value="3"/>
+      <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="Consumo_medio_annuale_KWh">
       <value value="15200"/>
@@ -3958,7 +3958,7 @@ NetLogo 5.0.2
     <enumeratedValueSet variable="Accettato">
       <value value="85"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="BudgetRegione" first="0" step="1" last="30"/>
+    <steppedValueSet variable="BudgetRegione" first="0" step="1" last="25"/>
     <enumeratedValueSet variable="Manutenzione_anno_%costo_totale">
       <value value="1.5"/>
     </enumeratedValueSet>
