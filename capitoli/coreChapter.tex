@@ -1,0 +1,84 @@
+%Andrea Borghesi
+%Università degli studi di Bologna
+
+%bozza del capitolo centrale della tesi
+
+\documentclass[12pt,a4paper,openright,twoside]{report}
+\usepackage[italian]{babel}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titlesec,blindtext, color}
+\usepackage[font={small,it}]{caption}
+
+%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
+\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
+\fancyhf{}
+\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
+\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
+\fancyfoot[C]{\changefont \thepage}					%footer
+
+%titolo capitolo con "numero | titolo"
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+
+
+\oddsidemargin=30pt \evensidemargin=20pt
+
+%sillabazioni non eseguite correttamente
+\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
+
+%interlinea
+\linespread{1.15}  
+\pagestyle{fancy}
+
+%cartelle contenti le immagini
+\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/schemi/}}
+
+
+\begin{document}
+\chapter{TITOLO CAPITOLO}
+
+Il sistema che abbiamo cercato di sviluppare è composto da due componenti fondamentali: \begin{itemize}
+	\item il sistema per il supporto alle decisioni ( al quale in seguito ci riferiremo anche con la sigla DSS ) o ottimizzatore, che ha il compito di generare il piano energetico regionale sulla base dei costi delle diverse fonti energetiche e degli obiettivi di produzione e diversificazione energetica desiderati;
+	\item il simulatore ad agenti, dal quale è possibile ottenere informazioni sugli effetti ottenibili con l'implementazione di determinate politiche da parte della regione (meccanismi incentivanti, agevolazioni, attività promozionali, ... ).
+\end{itemize}
+In questo capitolo ci occuperemo di uno degli aspetti più importanti da considerare, ovvero l'interazione tra le due componenti del sistema, in generale con lo scopo di esaminare attraverso il simulatore quali conseguenze potrebbe avere l'attuazione di determinate politiche  definite dall'DSS. 
+
+\section[INTERAZIONE DSS E SIMULATORE]{INTERAZIONE TRA SISTEMA PER IL SUPPORTO ALLE DECISIONI E SIMULATORE}
+
+La forma d'interazione più elementare consiste nel utilizzare il sistema di supporto alle decisioni per ottenere un piano energetico che rispetti determinati vincoli ( ad esempio un costo massimo oppure una valore minimo di produzione energetica ), sulla base del quale effettuare un numero statisticamente sufficiente di simulazioni e confrontare quindi i risultati attesi con quelli effettivamente ottenuti.
+Immediatamente dopo questa prima modalità si può immaginare un approccio più sofisticato che miri a combinare in modo più stretto i risultati delle due componenti, ad esempio è possibile sfruttare i valori prodotti  dal simulatore per generare nuovi vincoli da inserire all'interno dell'ottimizzatore ( con tecniche di apprendimento automatico ) o anche prevedere un'interazione ciclica tra DSS e simulatore, raffinando il piano generato dal primo attraverso i risultati del secondo  ed effettuare quindi simulazioni più accurate e così via ( abbiamo in questo caso utilizzato una tecnica proveniente dalla Ricerca Operativa, la decomposizione di Benders ).
+\paragraph{}
+La Figura~\ref{schemaIterLearn} mostra un possibile schema di interazione tra sistema di supporto alle decisioni e simulatore, in particolare il caso in cui i risultati prodotti dalle simulazioni vengano analizzate con tecniche di Apprendo Automatico e quindi sfruttate per arricchire il modello gestito dal DSS.
+\begin{figure}[htb]
+	\begin{center}
+	\includegraphics[scale=0.6]{schemaIterLearn}
+	\end{center}
+	\caption{Modello di interazione basato su Apprendimento Automatico}
+  	\label{schemaIterLearn}
+\end{figure}
+
+
+In Figura ~\ref{schemaIterBend} è invece possibile osservare un generico schema d'interazione che prevede al suo interno un meccanismo di retroazione grazie a cui i risultati prodotti dalle simulazioni sono sfruttati per generare nuovi vincoli ( o modificare quelli esistenti ) da inserire nel modello del problema.
+\begin{figure}[htb]
+	\begin{center}
+	\includegraphics[scale=0.6]{schemaIterBend}
+	\end{center}
+	\caption{Modello di interazione basato su Decomposizione di Benders}
+  	\label{schemaIterBend}
+\end{figure}
+
+\section{RAPIDA DESCRIZIONE DEL SIMULATORE}
+È ora utile descrivere brevemente il simulatore utilizzato.
+Occorre in primo luogo far notare come il simulatore sia per ora un'approssimazione ancora molto grezza rispetto alle dinamiche reali tra gli attori operanti nell'ambito energetico regionale, intendendo con questo che abbiamo scelto di effettuare numerose semplificazioni e approssimazioni al fine di non complicare in maniera eccessiva lo studio dell'interazione tra le componenti del nostro sistema. Per questo motivo il simulatore è ristretto al settore dell'energia  fotovoltaica e non comprende nessun'altra fonte energetica.
+\paragraph{}
+La simulazione si svolge secondo un modello ad agenti, cioè, semplificando, all'interno di un ambiente di esecuzione si muovono un certo numero di singole “entità” ( nel nostro caso sono i singoli privati interessati a installare dei pannelli fotovoltaici ) che interagiscono tra loro e con l'ambiente stesso. 
+I singoli agenti sono programmati per eseguire un determinato comportamento, attraverso il quale decidere se dal loro punto di vista sia economicamente conveniente o meno  procedere all'installazione di pannelli fotovoltaici, in base a considerazioni sul costo dell'energia, i costi dei pannelli stessi, possibili ricavi derivati dalla vendita di energia in eccesso, incentivi provenienti dalla regione, etc. Le decisioni prese dagli agenti sono influenzate da una lunga serie di parametri globali che cercano di riflettere in modo abbastanza fedele aspetti caratteristici della realtà simulata: i costi di diverse tipologie di pannelli installabili,  l'irradiazione solare media annua, il prezzo dell'energia elettrica, gli interessi applicati dalle banche e gli anni di restituzione del prestiti, budget dedicato all'incentivazione della tecnologia fotovoltaica dalla regione, etc. Sono inoltre presenti anche diversi parametri che caratterizzano i singoli agenti ( ad esempio la propensione personale a investire in fonti energetiche rinnovabili, i metri quadri disponibili su cui installare i panelli, il consumo medio di energia,.. ) e che consentono quindi di differenziare i comportamenti anche a livello dei singoli attori.
+Partendo da un simulatore che valuta se per ogni agente fosse conveniente o meno investire in pannelli fotovoltaici e che calcola a fine simulazione quanti mega-watt di energia elettrica sono stati prodotti con i pannelli fotovoltaici sommando i contributi di tutti gli agenti, sono stati introdotti nel modello alcuni possibili meccanismi incentivanti semplificati con cui la regione può intervenire per modificare l'output energetico finale ed è stata considerata anche la possibilità di interazioni tra i vari agenti, con lo scopo di ottenere un simulatore non totalmente deterministico e dal quale potesse emergere anche l'aspetto sociale caratteristico de mondo reale.
+
+
+\end{document}
