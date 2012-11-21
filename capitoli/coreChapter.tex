@@ -13,6 +13,14 @@
 \usepackage{titlesec,blindtext, color}
 \usepackage[font={small,it}]{caption}
 
+%per avere un bordo intorno alle figure
+\usepackage{float}
+\floatstyle{boxed} 
+\restylefloat{figure}
+
+%per poter poi impedire che certe parole vadano a capo
+\usepackage{hyphenat}
+
 %ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
 \newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
 \fancyhf{}
@@ -50,9 +58,9 @@ In questo capitolo ci occuperemo di uno degli aspetti più importanti da conside
 
 \section[INTERAZIONE DSS E SIMULATORE]{INTERAZIONE TRA SISTEMA PER IL SUPPORTO ALLE DECISIONI E SIMULATORE}
 
-La forma d'interazione più elementare consiste nel utilizzare il sistema di supporto alle decisioni per ottenere un piano energetico che rispetti determinati vincoli ( ad esempio un costo massimo oppure una valore minimo di produzione energetica ), sulla base del quale effettuare un numero statisticamente sufficiente di simulazioni e confrontare quindi i risultati attesi con quelli effettivamente ottenuti.
+La forma d'interazione più elementare consiste nel utilizzare il sistema di supporto alle decisioni per ottenere un piano energetico che rispetti determinati vincoli ( ad esempio un costo massimo oppure una valore minimo di produzione energetica ), sulla base del quale effettuare un numero statisticamente sufficiente di simulazioni e confrontare quindi i risultati attesi con quelli effettivamente ottenuti. \\*
 Immediatamente dopo questa prima modalità si può immaginare un approccio più sofisticato che miri a combinare in modo più stretto i risultati delle due componenti, ad esempio è possibile sfruttare i valori prodotti  dal simulatore per generare nuovi vincoli da inserire all'interno dell'ottimizzatore ( con tecniche di apprendimento automatico ) o anche prevedere un'interazione ciclica tra DSS e simulatore, raffinando il piano generato dal primo attraverso i risultati del secondo  ed effettuare quindi simulazioni più accurate e così via ( abbiamo in questo caso utilizzato una tecnica proveniente dalla Ricerca Operativa, la decomposizione di Benders ).
-\paragraph{}
+\\* \\*
 La Figura~\ref{schemaIterLearn} mostra un possibile schema di interazione tra sistema di supporto alle decisioni e simulatore, in particolare il caso in cui i risultati prodotti dalle simulazioni vengano analizzate con tecniche di Apprendo Automatico e quindi sfruttate per arricchire il modello gestito dal DSS.
 \begin{figure}[htb]
 	\begin{center}
@@ -72,13 +80,208 @@ In Figura ~\ref{schemaIterBend} è invece possibile osservare un generico schema
   	\label{schemaIterBend}
 \end{figure}
 
-\section{RAPIDA DESCRIZIONE DEL SIMULATORE}
-È ora utile descrivere brevemente il simulatore utilizzato.
+\section[DESCRIZIONE SIMULATORE]{RAPIDA DESCRIZIONE DEL SIMULATORE}
+È ora utile descrivere brevemente il simulatore utilizzato.\\*
 Occorre in primo luogo far notare come il simulatore sia per ora un'approssimazione ancora molto grezza rispetto alle dinamiche reali tra gli attori operanti nell'ambito energetico regionale, intendendo con questo che abbiamo scelto di effettuare numerose semplificazioni e approssimazioni al fine di non complicare in maniera eccessiva lo studio dell'interazione tra le componenti del nostro sistema. Per questo motivo il simulatore è ristretto al settore dell'energia  fotovoltaica e non comprende nessun'altra fonte energetica.
-\paragraph{}
-La simulazione si svolge secondo un modello ad agenti, cioè, semplificando, all'interno di un ambiente di esecuzione si muovono un certo numero di singole “entità” ( nel nostro caso sono i singoli privati interessati a installare dei pannelli fotovoltaici ) che interagiscono tra loro e con l'ambiente stesso. 
-I singoli agenti sono programmati per eseguire un determinato comportamento, attraverso il quale decidere se dal loro punto di vista sia economicamente conveniente o meno  procedere all'installazione di pannelli fotovoltaici, in base a considerazioni sul costo dell'energia, i costi dei pannelli stessi, possibili ricavi derivati dalla vendita di energia in eccesso, incentivi provenienti dalla regione, etc. Le decisioni prese dagli agenti sono influenzate da una lunga serie di parametri globali che cercano di riflettere in modo abbastanza fedele aspetti caratteristici della realtà simulata: i costi di diverse tipologie di pannelli installabili,  l'irradiazione solare media annua, il prezzo dell'energia elettrica, gli interessi applicati dalle banche e gli anni di restituzione del prestiti, budget dedicato all'incentivazione della tecnologia fotovoltaica dalla regione, etc. Sono inoltre presenti anche diversi parametri che caratterizzano i singoli agenti ( ad esempio la propensione personale a investire in fonti energetiche rinnovabili, i metri quadri disponibili su cui installare i panelli, il consumo medio di energia,.. ) e che consentono quindi di differenziare i comportamenti anche a livello dei singoli attori.
-Partendo da un simulatore che valuta se per ogni agente fosse conveniente o meno investire in pannelli fotovoltaici e che calcola a fine simulazione quanti mega-watt di energia elettrica sono stati prodotti con i pannelli fotovoltaici sommando i contributi di tutti gli agenti, sono stati introdotti nel modello alcuni possibili meccanismi incentivanti semplificati con cui la regione può intervenire per modificare l'output energetico finale ed è stata considerata anche la possibilità di interazioni tra i vari agenti, con lo scopo di ottenere un simulatore non totalmente deterministico e dal quale potesse emergere anche l'aspetto sociale caratteristico de mondo reale.
+\\* \\*
+La simulazione si svolge secondo un modello ad agenti, cioè, semplificando, all'interno di un ambiente di esecuzione si muovono un certo numero di singole “entità” ( nel nostro caso sono i singoli privati interessati a installare dei pannelli fotovoltaici ) che interagiscono tra loro e con l'ambiente stesso. \\*
+I singoli agenti sono programmati per eseguire un determinato comportamento, attraverso il quale decidere se dal loro punto di vista sia economicamente conveniente o meno  procedere all'installazione di pannelli fotovoltaici, in base a considerazioni sul costo dell'energia, i costi dei pannelli stessi, possibili ricavi derivati dalla vendita di energia in eccesso, incentivi provenienti dalla regione, etc. Le decisioni prese dagli agenti sono influenzate da una lunga serie di parametri globali che cercano di riflettere in modo abbastanza fedele aspetti caratteristici della realtà simulata: i costi di diverse tipologie di pannelli installabili,  l'irradiazione solare media annua, il prezzo dell'energia elettrica, gli interessi applicati dalle banche e gli anni di restituzione del prestiti, budget dedicato all'incentivazione della tecnologia fotovoltaica dalla regione, etc. Sono inoltre presenti anche diversi parametri che caratterizzano i singoli agenti ( ad esempio la propensione personale a investire in fonti energetiche rinnovabili, i metri quadri disponibili su cui installare i panelli, il consumo medio di energia,.. ) e che consentono quindi di differenziare i comportamenti anche a livello dei singoli attori.\\*
+Partendo da un simulatore che valuta se per ogni agente fosse conveniente o meno investire in pannelli fotovoltaici e che calcola a fine simulazione quanti mega-watt di energia elettrica sono stati prodotti con i pannelli fotovoltaici sommando i contributi di tutti gli agenti, sono stati introdotti nel modello alcuni possibili meccanismi incentivanti semplificati con cui la regione può intervenire per modificare l'output energetico finale ed è stata considerata anche la possibilità di interazioni tra i vari agenti, con lo scopo di ottenere un simulatore non totalmente deterministico e dal quale potesse emergere anche l'aspetto sociale caratteristico de mondo reale. 
+\subsection{MODALITÀ INCENTIVANTI}
+La regione deve destinare un budget per gli incentivi, esaurito il quale nessuno può usufruire di tali facilitazioni economiche ( tale budget è un parametro “esterno” al simulatore e può essere ad esempio generato dal DSS in fase di creazione del piano energetico regionale ). Le varie tipologie d’incentivi sono tra loro alternative e prima della partenza della simulazione è necessario scegliere quale applicare; non è quindi possibile studiare attraverso il simulatore quali possano essere le interazioni tra diverse metodologie incentivanti. Un agente non è tenuto ad usufruire degli incentivi, ad esempio può non essere a conoscenza di tali iniziative regionali, o può non avere intenzione di accendere un mutuo ( per questo un parametro della simulazione è la probabilità che un agente voglia ricorrere all’incentivo ). \\*
+Le quattro modalità d'incentivazione implementate sono le seguenti:\begin{itemize}
+	\item \emph{assegnazione di fondi tramite aste}, con il quale ogni agente chiede alla regione di finanziargli una percentuale dell’investimento e la regione a determinati intervalli ordina le richieste ricevute in base alla percentuale e assegna i fondi fino a esaurimento, tali incentivi sono a fondo perduto e la regione non ci guadagna nulla;
+	\item \emph{conto interessi}, altro incentivo a fondo perduto grazie al quale ogni agente può chiedere un mutuo per pagare l'impianto fotovoltaico a rate senza subire costi aggiuntivi in quanto gli interessi alla banca sono pagati dalla regione (gli interessi applicati dalla banca, la probabilità che il mutuo venga accettato e l'influenza della possibilità di rateizzare il costo sulla decisione dell'agente sono parametri della simulazione );
+	\item \emph{fondo rotazione}, il cui meccanismo prevede che gli agenti possano realizzare dei mutui a tassi agevolati presso la regione stessa, la quale in questo caso può ottenere guadagni grazie agli interessi applicati;
+	\item \emph{fondo garanzia}, incentivo a fondo perduto che consente agli agenti di accendere un mutuo presso una banca anche in assenza di garanzie economiche, grazie al fatto che se un agente non fosse più in grado di pagare le rate necessarie a saldare il debito interverrebbe la regione stessa.
+\end{itemize}
+\subsection{INTERAZIONE SOCIALE}
+Poiché il simulatore iniziale aveva un comportamento esclusivamente deterministico col quale la produzione di energia fotovoltaica degli agenti era condizionata unicamente da fattori di tipo economico, abbiamo deciso di estenderlo verso una direzione più realistica, dove considerare le interazioni sociali tra i diversi agenti. \\*
+In sintesi è stato assegnato ad ogni agente un valore ( chiamato ostinazione e generata pseudo-casualmente ) che rappresenta la determinazione a installare pannelli fotovoltaici anche a fronte di situazione economiche meno vantaggiose ( ad esempio un agente molto determinato potrebbe essere meno scoraggiato dalla necessità di accendere un mutuo per sostenere  i costi dell'impianto ), tale valore e poi influenzato dai comportamenti dei vicini, cercando di riflettere la tendenza a seguire il comportamento del gruppo in cui ci si trova tipica degli esseri umani del mondo reale. In particolare le decisioni di ogni agente sono modificate dalla sua personale sensibilità ai comportamenti dei vicini e dalle dimensioni dell'area di influenza, ovvero dal raggio che determina la zona circolare all'interno della quale le scelte fatte da un agente possono influenzare il comportamento degli altri.
 
+\section[MODELLAZIONE PROBLEMA]{MODELLAZIONE COME PROBLEMA A VINCOLI}
+Dopo aver brevemente presentato il simulatore possiamo ora considerare il DSS e  l'integrazione delle due componenti.\\*
+Fondamentalmente il DSS è costituito da un risolutore di problemi a vincoli ( CSP ), cioè il piano energetico regionale che viene prodotto è espresso come la soluzione di un insieme di vincoli che legano le variabili del problema. Ad esempio, possiamo esprimere la realizzazione di una determinata opera ( come pannelli fotovoltaici e centrali idroelettriche o ancora strade e impianti di depurazione delle acque ) sotto forma di una singola variabile, il cui valore rappresenterà la quantità di opera da realizzare, secondo un'opportuna unità di misura; le variabili definite sono poi legate tra loro attraverso vincoli lineari, tra i quali l'imposizione che la somma totale dei costi delle opere realizzate sia minore di un determinato valore imposto come parametro del problema.\\*
+Una volta definito in questo modo il problema il risolutore proceder a ricavare la soluzione ottima, che sarà quindi il piano generato dal sistema di supporto alle decisioni e potrebbe ad esempio consistere in un elenco di opere da realizzare in quantità tale da soddisfare gli obiettivi imposti a livello regionale.
+\\* \\*
+Per studiare l'interazione tra le due componenti del sistema abbiamo scelto di considerare il sotto-problema relativo alla produzione di energia fotovoltaica; per questioni di coerenza e semplicità di realizzazione anche questo sotto-problema è stato rappresentato sotto forma di problema a vincoli. In particolare il sotto-problema cerca di ottimizzare la distribuzione alle quattro tipologie d'incentivazione dei fondi che la regione destina al fotovoltaico; questo viene fatto sfruttando la conoscenza dell'efficacia dei diversi incentivi che viene ricavata dai risultati delle simulazioni.
+\\* \\*
+Analizzeremo ora in modo più dettagliato le caratteristiche principali che contraddistinguono il sotto-problema.
+\subsection{VARIABILI}
+Innanzitutto a partire dal piano generato dall'ottimizzatore vengono ricavati due parametri fondamentali per il sotto-problema: la quantità di fondi che è possibile destinare ai diversi incentivi per il fotovoltaico (  $Budget_{PV}$ ) e la produzione attesa di energia derivante dal fotovoltaico ( $ExpectedOutcome$ ).
+\\* \\*
+A ogni tipologia d'incentivo viene assegnata una variabile con dominio di valori [0..100], che rappresenta la percentuale di realizzazione di un incentivo, intendendo con questo che il valore  “0” per una variabile implica che i corrispondente tipo di incentivo non viene finanziato, mentre il valore “100” indica che il corrispondente incentivo viene totalmente finanziato, cioè a tale incentivo vengono assegnati finanziamenti necessari a coprirne l'intero costo. Queste variabili saranno d'ora in poi chiamate $V_A$ ( Fondo Asta), $V_{CI}$ ( Conto Interessi), $V_R$ ( Fondo Rotazione ), $V_G$ ( Fondo Garanzia ).\\*
+I costi degli incentivi sono dei parametri che vengono ricavati attraverso le simulazioni effettuate e rappresentano quali spese sono necessarie per finanziare completamente un tipo di incentivo ( ad esempio è facile intuire che i costi associati alla metodologia Conti Interessi siano considerevolmente inferiori rispetto al Fondo Asta, poiché nel primo caso la regione deve pagare solo gli interessi richiesti sul prestito della banca mentre nel  secondo caso deve contribuire direttamente alle spese per l'istallazione dei pannelli fotovoltaici ); verranno chiamati $C_A$, $C_{CI}$, $C_R$ e $C_G$. \\*
+I risultati delle simulazioni sono sfruttati anche per capire quali sono le produzioni di energia associate ai diversi tipi di incentivi, ovviamente sempre a tenendo in  considerazione che le simulazioni sono effettuate considerando una singola categoria di incentivo totalmente finanziata per volta; tali valori di produzione energetica sono quindi introdotti come parametri del modello, $O_A$,$ O_{CI}$, $O_R$ e $O_G$.
+\\* \\*
+Per maggiore comodità ci riferiremo in seguito alle variabili e ai parametri sopra introdotti con la forma $ x_i $, dove \emph{i} è un indice intero che va da 1 a 4 il cui valore rappresenta una tipologia di incentivo ( l'ordine è Fondo Asta, Fonto Interessi, Fondo Rotazione e Fondo Garanzia ).
+\subsection{VINCOLI}
+Prima di introdurre i vincoli di maggiore interesse è utile specificare che i coefficienti che rappresentano i costi non sono necessariamente negativi poiché nel caso dell'incentivo fondo rotazione la regione riesce in effetti a guadagnare tramite gli interessi, per quanto ridotti, che vengono applicati sui mutui concessi ai richiedenti; è importante tenere presente che questi costi negativi, cioè guadagni, sono realizzabili solamente sul medio periodo ( a livello implementativo a fine simulazione ), mentre all'atto di assegnazione dei fondi agli incentivi ( inizio simulazione ) anche tipologie come il fondo rotazione richiedono un investimento iniziale da parte della regione. \\*
+Fatta questa premessa introduciamo il vincolo di maggiore interesse del sotto-problema:
+\begin{equation} \label{eq:vincoloCosti}
+	\sum_{i=1}^4 C_i V_i \leq Budget_{PV}  
+\end{equation}
+Questa equazione impone che la somma dei spese sostenute per le diverse tipologie di incentivi sia minore del fondo messo a disposizione della regione ( i termini di spesa sono dati dalla “quantità” di incentivo realizzata, $V_i$, moltiplicata per i costi associati, 	$C_i$ ).
+In base alla considerazione fatta inizialmente sui tipi di incentivi che possono generare guadagni, notiamo che questo primo vincolo è insufficiente in quanto i costi considerati sono solamente quelli relativi allo stato finale delle simulazioni, sono cioè conteggiati solamente i guadagni finali senza considerare la spesa iniziale. \\*
+Per tenere conto di questo fatto abbiamo aggiunto un ulteriore vincolo che utilizza come coefficienti per i costi le spese effettivamente da sostenere inizialmente ( i coefficienti indicati come $C'_i$, uguali ai $C_i$ a parte il caso degli incentivi che presentano costi negativi ), senza valutare l'impatto di possibili guadagni futuri.
+\begin{equation} \label{eq:vincoloCostiCorretti}
+	\sum_{i=1}^4 C'_i V_i \leq Budget_{PV}  
+\end{equation}
+Dopo aver inserito i vincoli che restringono i valori che possono essere assunti dalle variabili è necessario anche definire una funzione obiettivo ( terminologia mutuata dalla Ricerca Operativa ); questa rappresenta la combinazione lineare di variabili che il risolutore cercherà di ottimizzare, cioè rendere minima o massima a seconda della specifica funzione.\\*
+Nel nostro caso l'obiettivo è quello di massimizzare la produzione energetica attraverso l'assegnazione dei fondi ai vari incentivi e quindi risulta:
+\begin{equation} \label{eq:funzObiettivo}
+	\max ( O_i V_i )  
+\end{equation}
+\subsection{APPRENDIMENTO PARAMETRI MODELLO}
+Una questione importante e al momento ancora aperta riguarda il calcolo coefficienti legano tra loro le variabili nei vincoli del sotto-problema, ovvero come ricavare dalle simulazioni i parametri relativi ai costi e alle produzioni energetiche dei diversi incentivi. \\*
+Al momento abbiamo considerato due modalità: 
+\begin{itemize}
+	\item effettuare un grande numero di simulazioni ( nell'ordine di alcune migliaia ) per poi poter ricavare dai risultati i valori medi, con i quali cercare di imparare modelli che pongano in relazione i costi delle tipologie d'incentivi e le relative produzioni energetiche;
+	\item effettuare il numero minimo di simulazioni che abbia rilevanza statistica ( alcune decine ) per creare un meccanismo più dinamico in cui i vincoli vengano continuamente affinati sfruttando interazioni ripetute tra simulatore e il problema gestito dal DSS.
+\end{itemize}
+La prima modalità richiede che, prima d'iniziare a utilizzare il sistema di supporto alle decisioni, venga dedicato del tempo all'esecuzione di molte simulazioni e all'estrazione dei parametri necessari attraverso tecniche di Apprendimento Automatico ( ad esempio algoritmi di regressione ), ma presenta il vantaggio che una volta che tali coefficienti sono stati ricavati essi possono essere riutilizzati quando richiesto.
+\\* \\*
+Col secondo meccanismo non è necessario fare molte simulazioni, ma occorre invece far interagire dinamicamente il DSS e il simulatore in modo che i risultati dell'uno siano sfruttati dall'altro, ad esempio a partire da un piano energetico si dovrebbe effettuare un numero relativamente piccolo di simulazioni, estrarne i parametri usati nel sotto-problema, generare la soluzione ottima e sfruttarla per migliorare i vincoli del problema originale e ottenere poi un nuovo piano; questo secondo metodo è facilmente coniugabile con la decomposizione di Benders introdotta a inizio capitolo.
+
+\section[RISULTATI]{RISULTATI SIMULAZIONI}
+Saranno ora mostrati gli effetti che i diversi tipi incentivi hanno sulla produzione di energia fotovoltaica sfruttando il simulatore descritto in precedenza; i valori numerici ottenuti non sono certamente realistici ma è nondimeno possibile individuare alcune tendenze significative.\\*
+Verrà inoltre mostrato quale sia il risultato dell'interazione tra DSS e simulatore, ovvero l'assegnamento dei fondi alle modalità di incentivazione ottimizzato per ottenere la massima produzione energetica.
+\subsection{COMPORTAMENTO DEI SINGOLI INCENTIVI}
+Il comportamento degli incentivi è stato studiato effettuando numerose simulazioni per ogni tipo di incentivo, variando la dimensione del fondo dedicato agli incentivi per il fotovoltaico. Il fondo è stato aumentato con incrementi di un milione di euro a partire da zero  fino a un massimo di 30 milioni ( considerando un arco temporale di cinque anni ); per ogni valore sono state effettuate 300 simulazioni, per un totale di 36000 simulazioni considerando tutti i diversi incentivi.\\*
+Nel caso dell'incentivo Fondo Asta (Fig.~\ref{graphSimA}) è possibile notare un aumento della produzione energetica in corrispondenza all'aumento dei fondi stanziati.\\*
+\begin{figure}[hbt]
+	\begin{center}
+	\includegraphics[scale=0.45]{graphSimA}
+	\end{center}
+	\caption{Fondo Asta}
+  	\label{graphSimA}
+\end{figure}
+
+\begin{figure}[htb]
+	\begin{center}
+	\includegraphics[scale=0.65]{graphSimCI}
+	\end{center}
+	\caption{Conto Interessi}
+  	\label{graphSimCI}
+\end{figure}
+Nel caso dell'incentivo Conto Interessi (Fig.~\ref{graphSimCI}) il miglioramento all'aumentare dei fondi a disposizione è meno marcato, ma a parità di fondi stanziati è il nettamente il tipo di incentivo che ottiene i risultati migliori.\\*
+Il caso del Fondo Rotazione (Fig.~\ref{graphSimR}) si distingue per un aumento della produzione energetica in relazione all'incremento dell'investimento, offrendo una prestazione leggermente migliore rispetto al Fondo Asta.\\*
+\begin{figure}[htb]
+	\begin{center}
+	\includegraphics[scale=0.65]{graphSimR}
+	\end{center}
+	\caption{Fondo Rotazione}
+  	\label{graphSimR}
+\end{figure}
+Il Fondo Garanzia (Fig.~\ref{graphSimG}) offre prestazioni simili ai Fondi Asta e Rotazione, leggermente migliori in caso di finanziamenti minori, ma la produzione energetica è inferiore rispetto all'incentivo migliore, il Conto Interessi.
+\begin{figure}[htb]
+	\begin{center}
+	\includegraphics[scale=0.65]{graphSimG}
+	\end{center}
+	\caption{Fondo Garanzia}
+  	\label{graphSimG}
+\end{figure}
+\subsection{EFFETTI DELL'INTERAZIONE SOCIALE}
+Come è stato introdotto precedentemente, il comportamento del simulatore non è totalmente deterministico poiché tenta anche di riprodurre le dinamiche dell'interazione sociale del mondo reale.\\*
+Per influenzare la forza dell'interazione sociale nelle simulazioni è possibile agire su due parametri, il raggio dell'interazione e la sensibilità all'influenza derivante dal comportamento dei vicini; mostreremo ora l'andamento della produzione energetica al variare di tali parametri, considerando le tipologie di incentivazione Fondo Asta (Figure ~\ref{graphAsocR} e ~\ref{graphAsocS}) e Conto Interessi (Figure ~\ref{graphCIsocR} e ~\ref{graphCIsocS}).\\*
+\begin{figure}[hbt]
+	\begin{center}
+	\includegraphics[scale=0.6]{graphAsocR}
+	\end{center}
+	\caption{Fondo Asta , raggio interazione sociale}
+  	\label{graphAsocR}
+\end{figure}
+\begin{figure}[hbt]
+	\begin{center}
+	\includegraphics[scale=0.6]{graphAsocS}
+	\end{center}
+	\caption{Fondo Asta, sensibilità a influenza sociale}
+  	\label{graphAsocS}
+\end{figure}
+\\*Si può notare facilmente che l'influenza che l'aspetto sociale è assolutamente rilevante, in misura maggiore al variare del raggio dell'interazione rispetto alla modifica della sensibilità.
+\begin{figure}[hbt]
+	\begin{center}
+	\includegraphics[scale=0.6]{graphCIsocR}
+	\end{center}
+	\caption{Conto Interessi , raggio interazione sociale}
+  	\label{graphCIsocR}
+\end{figure}
+\begin{figure}[hbt]
+	\begin{center}
+	\includegraphics[scale=0.6]{graphCIsocS}
+	\end{center}
+	\caption{Conto Interessi,  sensibilità a influenza sociale}
+  	\label{graphCIsocS}
+\end{figure}
+\\*Possiamo osservare che, come nel primo caso, anche con l'incentivo Conto Interessi all'incremento del raggio dell'interazione o della sensibilità corrisponde un aumento nella produzione dell'energia, anche se in misura minore rispetto al Fondo Asta.\\*
+Con i metodi incentivanti restanti, Fondo Rotazione e Garanzia, i risultati sono analoghi e quindi non sono stati riportati.
+\subsection{ASSEGNAMENTO FONDI AGLI INCENTIVI}
+Per valutare ora l'interazione tra il DSS e il simulatore analizzeremo ora in che modo vengono finanziati le diverse tipologie di incentivazione sulla base del problema a vincoli presentato in precedenza.\\*
+Per come il sotto-problema dell'assegnazione dei fondi è stato definito, il risolutore procede distribuendo i fondi a partire dall'incentivo che risulta essere più efficacie e prosegue poi finanziando gli incentivi restanti fino a esaurimento del budget previsto; i valori che determinano quale sia il grado di efficacia di un tipo di incentivo sono stati ricavati sfruttando le numerose simulazioni già effettuate, quindi avvalendosi di una semplice forma di Apprendimento Automatico.
+\\* \\*
+Ricordiamo che i valori ottenuti per la produzione energetica non sono realistici ma comunque sono espressi in mega-watt e i finanziamenti riguardano un arco temporale di cinque anni. Facciamo anche notare nuovamente che “percentuale di  realizzazione” rappresenta quanto un tipo di incentivo sia stato possibile realizzare rispetto al caso in cui a tale incentivo fosse stato assegnato tutto il finanziamento richiesto.
+\paragraph{FONDO INCENTIVI – 2.5 MILIONI EURO}
+\begin{center}
+	\begin{tabular}{ | p{3.5cm} | p{3.5cm} | p{3.5cm} | p{3.5cm} | }
+		\hline
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Percentuale Realizzazione}} & \nohyphens{\emph{Costo (Euro)}} & \nohyphens{\emph{Produzione Energetica (mW)}} \\ \hline
+		Asta & 0.0 & 0.000 & 0.000 \\ \hline
+		Conto Interessi & 100.0 & 2441939.665 & 24.906 \\ \hline
+		Rotazione & 0.0 & 0.000 & 0.000 \\ \hline
+		Garanzia & 2.4 & 58060.334 & 0.513 \\
+		\hline
+	\end{tabular}
+\end{center}
+Con questo fondo per gli incentivi viene finanziato totalmente il Conto Interessi consumando quasi interamente il budget disponibile, distribuendo quello che ne resta al secondo meccanismo migliore, il Fondo Garanzia, e ottenendo una produzione energetica di 25.419 mega-watt.
+\paragraph{FONDO INCENTIVI – 5 MILIONI EURO}
+\begin{center}
+	\begin{tabular}{ | p{3.5cm} | p{3.5cm} | p{3.5cm} | p{3.5cm} | }
+		\hline
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Percentuale Realizzazione}} & \nohyphens{\emph{Costo (Euro)}} & \nohyphens{\emph{Produzione Energetica (mW)}} \\ \hline
+		Asta & 0.0 & 0.000 & 0.000 \\ \hline
+		Conto Interessi & 100.0 & 2704404.727 & 25.336 \\ \hline
+		Rotazione & 0.0 & 0.000 & 0.000 \\ \hline
+		Garanzia & 46.2 & 2295595.272 & 10.397 \\
+		\hline
+	\end{tabular}
+\end{center}
+Con un budget per il fotovoltaico di 5 milioni di euro è possibile finanziare interamente il Conto Interessi, il quale consuma comunque poco più della metà del denaro messogli a disposizione, e quasi la metà dell'incentivo Fondo Garanzia, con una produzione energetica totale di 35.732 mega-watt.
+\paragraph{FONDO INCENTIVI – 10 MILIONI EURO}
+\begin{center}
+	\begin{tabular}{ | p{3.5cm} | p{3.5cm} | p{3.5cm} | p{3.5cm} | }
+		\hline
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Percentuale Realizzazione}} & \nohyphens{\emph{Costo (Euro)}} & \nohyphens{\emph{Produzione Energetica (mW)}} \\ \hline
+		Asta & 0.0 & 0.000 & 0.000 \\ \hline
+		Conto Interessi & 100.0 & 2731384.780 & 25.302 \\ \hline
+		Rotazione & 0.0 & 0.000 & 0.000 \\ \hline
+		Garanzia & 73.2 & 7268615.220 & 16.869 \\
+		\hline
+	\end{tabular}
+\end{center}
+Anche con finanziamenti agli incentivi per 10 milioni di euro i risultati sono simili al caso precedente, con tutto il Conto Interessi realizzato e una porzione decisamente maggiore di Fondo Garanzia finanziabile e la produzione energetica aumentata di conseguenza a 42.171 mega-watt.
+È interessante notare come l'incentivo Conto Interessi sia il più efficacie anche in termini di costi oltre all'aspetto della produzione energetica: la spesa per realizzarlo interamente ( circa 27 milioni di euro ) sia significativamente minore del costo richiesto dal Fondo Garanzia ( circa 72 milioni e mezzo di euro ), senza nemmeno la copertura totale di quest'ultimo.
+\paragraph{FONDO INCENTIVI – 20 MILIONI EURO}
+\begin{center}
+	\begin{tabular}{ | p{3.5cm} | p{3.5cm} | p{3.5cm} | p{3.5cm} | }
+		\hline
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Percentuale Realizzazione}} & \nohyphens{\emph{Costo (Euro)}} & \nohyphens{\emph{Produzione Energetica (mW)}} \\ \hline 
+		Asta & 0.0 & 0.000 & 0.000 \\ \hline
+		Conto Interessi & 100.0 & 2660069.382 & 24.900 \\ \hline
+		Rotazione & 15.9 & -527803.517 & 3.768 \\ \hline
+		Garanzia & 100.0 & 14154975.900 & 23.505 \\
+		\hline
+	\end{tabular}
+\end{center}
+Aumentando il budget stanziato per gli incentivi a 20 milioni di euro è possibile finanziare interamente sia il Conto Interessi che il Fondo Garanzia, destinando quello che resta al Fondo Rotazione ( il quale produce guadagni ); la produzione energetica totale sale a 52.174 mega-watt.
+\paragraph{DISCUSSIONE RISULTATI}
+I risultati ottenuti sono compatibili con quanto ci si poteva aspettare considerando  il meccanismo con cui è stata implementata l'interazione tra il DSS e il simulatore. Questa interazione è stata modellata sotto forma di problema a vincoli lineari, con i parametri ricavati attraverso l'analisi dei valori prodotti da numerose simulazioni.
+Implicitamente viene creata una gerarchia delle tipologie di incentivi basata sull'efficacia relativa alla produzione energetica e da questo fatto, insieme alla linearità dei vincoli, deriva il comportamento del risolutore del problema, che ottimizza la soluzione semplicemente assegnando tutti i fondi disponibili a partire dall'incentivo migliore e destinando le risorse rimanenti scendendo lungo la graduatoria. 
+\\* \\*
+Alcune direzioni verso cui indirizzare le prossime ricerche sono:
+\begin{itemize}
+	\item implementare un'interazione più dinamica tra DSS e simulatore che non richieda un numero elevato di simulazioni ( decomposizione di Benders );
+	\item modificare il simulatore affinché le modalità incentivanti non siano prese in considerazione singolarmente come se fossero indipendenti, ma valutarne l'impatto combinato sulla produzione energetica;
+	\item regolare il simulatore con fattori di scala affinché produca risultati più realistici.
+\end{itemize}
 
 \end{document}
