@@ -219,12 +219,12 @@ Con i metodi incentivanti restanti, Fondo Rotazione e Garanzia, i risultati sono
 Per valutare ora l'interazione tra il DSS e il simulatore analizzeremo ora in che modo vengono finanziati le diverse tipologie di incentivazione sulla base del problema a vincoli presentato in precedenza.\\*
 Per come il sotto-problema dell'assegnazione dei fondi è stato definito, il risolutore procede distribuendo i fondi a partire dall'incentivo che risulta essere più efficacie e prosegue poi finanziando gli incentivi restanti fino a esaurimento del budget previsto; i valori che determinano quale sia il grado di efficacia di un tipo di incentivo sono stati ricavati sfruttando le numerose simulazioni già effettuate, quindi avvalendosi di una semplice forma di Apprendimento Automatico.
 \\* \\*
-Ricordiamo che i valori ottenuti per la produzione energetica non sono realistici ma comunque sono espressi in mega-watt e i finanziamenti riguardano un arco temporale di cinque anni. Facciamo anche notare nuovamente che “percentuale di  realizzazione” rappresenta quanto un tipo di incentivo sia stato possibile realizzare rispetto al caso in cui a tale incentivo fosse stato assegnato tutto il finanziamento richiesto.
+Ricordiamo che i valori ottenuti per la produzione energetica non sono realistici ma comunque sono espressi in mega-watt e i finanziamenti riguardano un arco temporale di cinque anni. La percentuale mostrata nelle tabelle successive indica la quantità di agenti le cui richieste è stato possibile soddisfare in relazione al numero di richieste totali ed è stata ricavata dalle variabili che rappresentano la "percentuale di realizzazione" introdotte precedentemente.
 \paragraph{FONDO INCENTIVI – 2.5 MILIONI EURO}
 \begin{center}
 	\begin{tabular}{ | p{3.5cm} | p{3.5cm} | p{3.5cm} | p{3.5cm} | }
 		\hline
-		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Percentuale Realizzazione}} & \nohyphens{\emph{Costo (Euro)}} & \nohyphens{\emph{Produzione Energetica (mW)}} \\ \hline
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Percentuale Richieste Accettate}} & \nohyphens{\emph{Costo (Euro)}} & \nohyphens{\emph{Produzione Energetica (mW)}} \\ \hline
 		Asta & 0.0 & 0.000 & 0.000 \\ \hline
 		Conto Interessi & 100.0 & 2441939.665 & 24.906 \\ \hline
 		Rotazione & 0.0 & 0.000 & 0.000 \\ \hline
@@ -237,7 +237,7 @@ Con questo fondo per gli incentivi viene finanziato totalmente il Conto Interess
 \begin{center}
 	\begin{tabular}{ | p{3.5cm} | p{3.5cm} | p{3.5cm} | p{3.5cm} | }
 		\hline
-		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Percentuale Realizzazione}} & \nohyphens{\emph{Costo (Euro)}} & \nohyphens{\emph{Produzione Energetica (mW)}} \\ \hline
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Percentuale Richieste Accettate}} & \nohyphens{\emph{Costo (Euro)}} & \nohyphens{\emph{Produzione Energetica (mW)}} \\ \hline
 		Asta & 0.0 & 0.000 & 0.000 \\ \hline
 		Conto Interessi & 100.0 & 2704404.727 & 25.336 \\ \hline
 		Rotazione & 0.0 & 0.000 & 0.000 \\ \hline
@@ -250,7 +250,7 @@ Con un budget per il fotovoltaico di 5 milioni di euro è possibile finanziare i
 \begin{center}
 	\begin{tabular}{ | p{3.5cm} | p{3.5cm} | p{3.5cm} | p{3.5cm} | }
 		\hline
-		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Percentuale Realizzazione}} & \nohyphens{\emph{Costo (Euro)}} & \nohyphens{\emph{Produzione Energetica (mW)}} \\ \hline
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Percentuale Richieste Accettate}} & \nohyphens{\emph{Costo (Euro)}} & \nohyphens{\emph{Produzione Energetica (mW)}} \\ \hline
 		Asta & 0.0 & 0.000 & 0.000 \\ \hline
 		Conto Interessi & 100.0 & 2731384.780 & 25.302 \\ \hline
 		Rotazione & 0.0 & 0.000 & 0.000 \\ \hline
@@ -264,7 +264,7 @@ Anche con finanziamenti agli incentivi per 10 milioni di euro i risultati sono s
 \begin{center}
 	\begin{tabular}{ | p{3.5cm} | p{3.5cm} | p{3.5cm} | p{3.5cm} | }
 		\hline
-		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Percentuale Realizzazione}} & \nohyphens{\emph{Costo (Euro)}} & \nohyphens{\emph{Produzione Energetica (mW)}} \\ \hline 
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Percentuale Richieste Accettate}} & \nohyphens{\emph{Costo (Euro)}} & \nohyphens{\emph{Produzione Energetica (mW)}} \\ \hline 
 		Asta & 0.0 & 0.000 & 0.000 \\ \hline
 		Conto Interessi & 100.0 & 2660069.382 & 24.900 \\ \hline
 		Rotazione & 15.9 & -527803.517 & 3.768 \\ \hline
@@ -274,7 +274,7 @@ Anche con finanziamenti agli incentivi per 10 milioni di euro i risultati sono s
 \end{center}
 Aumentando il budget stanziato per gli incentivi a 20 milioni di euro è possibile finanziare interamente sia il Conto Interessi che il Fondo Garanzia, destinando quello che resta al Fondo Rotazione ( il quale produce guadagni ); la produzione energetica totale sale a 52.174 mega-watt.
 \paragraph{DISCUSSIONE RISULTATI}
-I risultati ottenuti sono compatibili con quanto ci si poteva aspettare considerando  il meccanismo con cui è stata implementata l'interazione tra il DSS e il simulatore. Questa interazione è stata modellata sotto forma di problema a vincoli lineari, con i parametri ricavati attraverso l'analisi dei valori prodotti da numerose simulazioni.
+I risultati ottenuti sono compatibili con quanto ci si poteva aspettare considerando  il meccanismo con cui è stata implementata l'interazione tra il DSS e il simulatore. Questa interazione è stata modellata sotto forma di problema a vincoli lineari, con i parametri ricavati attraverso l'analisi dei valori prodotti da numerose simulazioni. 
 Implicitamente viene creata una gerarchia delle tipologie di incentivi basata sull'efficacia relativa alla produzione energetica e da questo fatto, insieme alla linearità dei vincoli, deriva il comportamento del risolutore del problema, che ottimizza la soluzione semplicemente assegnando tutti i fondi disponibili a partire dall'incentivo migliore e destinando le risorse rimanenti scendendo lungo la graduatoria. 
 \\* \\*
 Alcune direzioni verso cui indirizzare le prossime ricerche sono:

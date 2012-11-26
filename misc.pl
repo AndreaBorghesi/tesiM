@@ -249,13 +249,14 @@ pl2csv:-
 	[risultati_sintetici_new],
 	findall((B,O),result_new(_,_,_,_,B,_,O),L),
 	open('result_list.csv',write,fout),
+	write(fout,"Budget,Out\n"),
 	write_lns(L,fout),
 	close(fout).
 	
 write_lns([],_).
 write_lns([(B,O)|T],fout):-
 	write(fout,B), write(fout,","),
-	write(fout,O), write(fout,",\n"),
+	write(fout,O), write(fout,"\n"),
 	write_lns(T,fout).
 	
 %questa versione lavora con i risultati prodotti considerando anche l'interazione sociale ( solo sensibilità ) ( relazione sensibilità-out )
@@ -318,3 +319,4 @@ sum_square_diff([],_,Sum,Sum).
 sum_square_diff([H|T],Mean,Sum0,Sum):-
 	ST is Sum0 + (H-Mean)*(H-Mean),
 	sum_square_diff(T,Mean,ST,Sum).
+	

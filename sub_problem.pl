@@ -356,3 +356,5 @@ exclude_plus([B|Budgets],BudgetPV,ListTemp,List):-
 	( B >= 0 -> BF = B ; BF = BudgetPV ),
 	append(ListTemp,[BF],ListNew),
 	exclude_plus(Budgets,BudgetPV,ListNew,List).
+	
+	testde

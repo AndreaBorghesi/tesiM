@@ -2511,7 +2511,7 @@ CHOOSER
 fr
 fr
 "Nessuno" "Asta" "Conto interessi" "Rotazione" "Garanzia"
-2
+3
 
 SLIDER
 17
@@ -2522,7 +2522,7 @@ BudgetRegione
 BudgetRegione
 0.1
 15
-25
+30
 0.1
 1
 milioni
@@ -2757,7 +2757,7 @@ InterRegione
 InterRegione
 1
 20
-3
+1
 1
 1
 %
@@ -3874,7 +3874,7 @@ NetLogo 5.0.2
       <value value="1.8"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experimentCI" repetitions="200" runMetricsEveryStep="false">
+  <experiment name="experimentCI" repetitions="130" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="M2_Disposizione">
@@ -3958,7 +3958,7 @@ NetLogo 5.0.2
     <enumeratedValueSet variable="Accettato">
       <value value="85"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="BudgetRegione" first="0" step="1" last="25"/>
+    <steppedValueSet variable="BudgetRegione" first="0" step="1" last="30"/>
     <enumeratedValueSet variable="Manutenzione_anno_%costo_totale">
       <value value="1.5"/>
     </enumeratedValueSet>
@@ -4002,7 +4002,7 @@ NetLogo 5.0.2
       <value value="80"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experimentA" repetitions="220" runMetricsEveryStep="false">
+  <experiment name="experimentA" repetitions="110" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="M2_Disposizione">
@@ -4086,22 +4086,7 @@ NetLogo 5.0.2
     <enumeratedValueSet variable="Accettato">
       <value value="85"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="BudgetRegione">
-      <value value="0"/>
-      <value value="2"/>
-      <value value="3"/>
-      <value value="4"/>
-      <value value="5"/>
-      <value value="6"/>
-      <value value="7"/>
-      <value value="8"/>
-      <value value="9"/>
-      <value value="10"/>
-      <value value="11"/>
-      <value value="12"/>
-      <value value="14"/>
-      <value value="15"/>
-    </enumeratedValueSet>
+    <steppedValueSet variable="BudgetRegione" first="0" step="1" last="30"/>
     <enumeratedValueSet variable="Manutenzione_anno_%costo_totale">
       <value value="1.5"/>
     </enumeratedValueSet>
@@ -4145,7 +4130,7 @@ NetLogo 5.0.2
       <value value="80"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experimentR" repetitions="200" runMetricsEveryStep="false">
+  <experiment name="experimentR" repetitions="65" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="M2_Disposizione">
@@ -4661,6 +4646,134 @@ NetLogo 5.0.2
     </enumeratedValueSet>
     <enumeratedValueSet variable="Percentuale_Interessi_Prestito">
       <value value="5.3"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="experimentN" repetitions="200" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="M2_Disposizione">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="InfluenzaRate">
+      <value value="40"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia5">
+      <value value="0.43"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia2">
+      <value value="0.251"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia3">
+      <value value="0.303"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="fr">
+      <value value="&quot;Nessuno&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Tasso_lordo_rendimento_BOT">
+      <value value="2.147"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="InterRegione">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Incentivi_Dinamici">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="PercMin">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Sensibilita">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="LeggiSerieStoriche">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Perdita_efficienza_annuale_pannello">
+      <value value="0.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Irradiazione_media_annua_kwh_kwp">
+      <value value="1350"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="FallimentoMutuo">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Probfinanz">
+      <value value="90"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Varia_Tariffe_Incetivanti">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="%_Variazione_Tariffe">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Budget_Medio_MiliaiaEuro">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Raggio">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Costo_Medio_kwP">
+      <value value="1633"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Consumo_medio_annuale_KWh">
+      <value value="15200"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="InterBanca">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Aumento_%annuo_consumi">
+      <value value="0.9"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Incentivi_Installazione">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Anni_Restituzione_mutuo_banca">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Accettato">
+      <value value="85"/>
+    </enumeratedValueSet>
+    <steppedValueSet variable="BudgetRegione" first="0" step="1" last="30"/>
+    <enumeratedValueSet variable="Manutenzione_anno_%costo_totale">
+      <value value="1.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="%_Incentivi_Installazione">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Intorno">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Anni_Restituzione_mutuo_regione">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Riduzione_anno_%costo_pannello">
+      <value value="3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="NumeroAgenti">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia1">
+      <value value="0.434"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Percentuale_Interessi_Prestito">
+      <value value="5.3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Media%_copertura_consumi_richiesta">
+      <value value="92"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="costo_kwh_fascia4">
+      <value value="0.385"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Anni_Restituzione_Prestiti">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="Tecnologia_Pannello">
+      <value value="&quot;Monocristallini&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="variazione_annuale_prezzi_elettricita">
+      <value value="1.8"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="PercMax">
+      <value value="80"/>
     </enumeratedValueSet>
   </experiment>
 </experiments>
