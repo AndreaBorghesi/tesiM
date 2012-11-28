@@ -1570,10 +1570,10 @@ to write_pl_file
   file-open "/home/b0rgh/ECLiPSe/sourceTesi/risultati_sintetici_new.pl"
   
   ;;versione iniziale che produce risultati relativi principalmente a tipo di incentivo, buget PV, spesa per PV e produzione finale
-  file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT").")
+  ;;file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT").")
   
   ;;seconda versione necessaria per considerare anche l'interazione sociale
-  ;;file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT"," Raggio","Sensibilita ").")
+  file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT"," Raggio","Sensibilita ").")
   file-close
 end
 @#$#@#$#@
@@ -2511,7 +2511,7 @@ CHOOSER
 fr
 fr
 "Nessuno" "Asta" "Conto interessi" "Rotazione" "Garanzia"
-3
+4
 
 SLIDER
 17
@@ -2937,7 +2937,7 @@ Sensibilita
 Sensibilita
 0
 5
-2
+20
 0.1
 1
 NIL
@@ -4386,7 +4386,7 @@ NetLogo 5.0.2
       <value value="80"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experimentSociale" repetitions="250" runMetricsEveryStep="false">
+  <experiment name="experimentSociale" repetitions="40" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="Aumento_%annuo_consumi">
@@ -4455,7 +4455,7 @@ NetLogo 5.0.2
     <enumeratedValueSet variable="Tasso_lordo_rendimento_BOT">
       <value value="2.147"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="Sensibilita" first="1" step="1" last="5"/>
+    <steppedValueSet variable="Sensibilita" first="5.5" step="0.5" last="20"/>
     <enumeratedValueSet variable="Manutenzione_anno_%costo_totale">
       <value value="1.5"/>
     </enumeratedValueSet>
@@ -4517,7 +4517,7 @@ NetLogo 5.0.2
       <value value="5.3"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experimentSocialeRaggio" repetitions="250" runMetricsEveryStep="false">
+  <experiment name="experimentSocialeRaggio" repetitions="40" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="Aumento_%annuo_consumi">
@@ -4616,7 +4616,7 @@ NetLogo 5.0.2
     <enumeratedValueSet variable="Incentivi_Dinamici">
       <value value="false"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="Raggio" first="1" step="1" last="10"/>
+    <steppedValueSet variable="Raggio" first="11" step="1" last="40"/>
     <enumeratedValueSet variable="%_Incentivi_Installazione">
       <value value="1"/>
     </enumeratedValueSet>

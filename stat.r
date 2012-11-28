@@ -1,3 +1,5 @@
+# relation between Budget and Out
+
 data.unsorted <- read.csv("result_list.csv")
 data <- data.unsorted[order(data.unsorted$Budget),]
 
@@ -13,7 +15,7 @@ data <- data.unsorted[order(data.unsorted$Budget),]
 aggdata <- tapply(data$Out,data$Budget,mean)
 aggdata <- as.data.frame(aggdata)  
 head(aggdata)
-aggdata$Budget <- seq(from=1, to=length(aggdata[,1]), 1)
+aggdata$Budget <- seq(from=0, to=(length(aggdata[,1]))-1, 1)
 colnames(aggdata) <- c("Out", "Budget") 
 head(aggdata)
 
@@ -38,13 +40,13 @@ quadraticModel <- lm(data$Out ~ data$Budget+budgetC2)
 linearModelAgg <- lm(aggdata$Out ~ aggdata$Budget)
 quadraticModelAgg <- lm(aggdata$Out ~ poly(aggdata$Budget, 2, raw=TRUE))
 cubicModelAgg <- lm(aggdata$Out ~ poly(aggdata$Budget, 3, raw=TRUE))
-highPolyModelAgg <- lm(aggdata$Out ~ poly(aggdata$Budget, 5, raw=TRUE))
+highPolyModelAgg <- lm(aggdata$Out ~ poly(aggdata$Budget, 8, raw=TRUE))
 
 #loess model ( local regression )
-loessModellAgg <- loess(aggdata$Out ~ aggdata$Budget)
-my.count <- seq(from=1, to=31, by=1)
+loessModelAgg <- loess(aggdata$Out ~ aggdata$Budget)
+my.count <- seq(from=0, to=30, by=1)
 
-pred <- predict(loessModellAgg,my.count,se=TRUE)
+pred <- predict(loessModelAgg,my.count,se=TRUE)
 #pred <- predict(highPolyModelAgg,se=TRUE)
 
  
@@ -54,27 +56,39 @@ summary(linearModelAgg)
 summary(quadraticModelAgg)
 summary(cubicModelAgg)
 summary(highPolyModelAgg)
-summary(loessModellAgg)
+summary(loessModelAgg)
 anova(linearModelAgg,quadraticModelAgg,cubicModelAgg,highPolyModelAgg)
 
+# Start PDF device driver to save output to figure.pdf
+#	pdf(file="/media/sda4/tesi/immagini/grafici/graphSimR_R.pdf")
+	# Trim off excess margin space (bottom, left, top, right)
+#	par(mar=c(4.2, 4.0, 0.2, 0.2))
+	
 #graphs
-par(mfrow=c(2,1),pch=1)
-plot(data$Out ~ data$Budget,type="p",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )")
-plot(aggdata$Out ~ aggdata$Budget,type="p",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )") 
-grid()
+#par(mfrow=c(2,1),pch=1)
+plot(data$Out ~ data$Budget,type="n",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",cex.lab=0.9)
+points(data$Out ~ data$Budget,col="blue4",pch=1)
+
+#plot(aggdata$Out ~ aggdata$Budget,type="p",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",xlim=c(0,30),cex.lab=0.9) 
+grid(lwd=2)
 
 #points(data$Budget, predict(linearModel), type="l", col="red", lwd=2)
 #points(data$Budget, predict(quadraticModel), type="l", col="blue", lwd=2)
 #points(data$Budget, predict(cubicModel), type="l", col="green", lwd=2)
 #points(data$Budget, predict(highPolyModel), type="l", col="yellow", lwd=2)
 
+#apply best regression: linear model for Asta and Rotazione,polynomial higher degree for Garanzia,loess for Conto Interessi
 #points(aggdata$Budget, predict(linearModelAgg), type="l", col="red", lwd=2)
-#points(aggdata$Budget, predict(quadraticModelAgg), type="l", col="blue", lwd=2)
+#points(aggdata$Budget, predict(quadraticModelAgg), type="l", col="red", lwd=2)
 #points(aggdata$Budget, predict(cubicModelAgg), type="l", col="green", lwd=2)
-#points(aggdata$Budget, predict(highPolyModelAgg), type="l", col="yellow", lwd=2)
-lines(pred$fit, lty="solid", col="red", lwd=2)
-#lines(pred$fit, lty="solid", col="darkred", lwd=3)
-lines(pred$fit-1.96*pred$se.fit, lty="dashed", col="blue", lwd=1)
-lines(pred$fit+1.96*pred$se.fit, lty="dashed", col="blue", lwd=1)
+#points(aggdata$Budget, predict(highPolyModelAgg), type="l", col="red", lwd=2)
 
+#lines(aggdata$Budget,pred$fit, lty="solid", col="red", lwd=2)
+#lines(aggdata$Budget,pred$fit-1.96*pred$se.fit, lty="dashed", col="blue", lwd=1)
+#lines(aggdata$Budget,pred$fit+1.96*pred$se.fit, lty="dashed", col="blue", lwd=1)
 
+# Turn off device driver (to flush output to PDF)
+#	dev.off()
+
+	# Restore default margins
+#	par(mar=c(5, 4, 4, 2) + 0.1)

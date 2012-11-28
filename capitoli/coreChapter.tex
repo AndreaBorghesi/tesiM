@@ -148,73 +148,74 @@ Saranno ora mostrati gli effetti che i diversi tipi incentivi hanno sulla produz
 Verrà inoltre mostrato quale sia il risultato dell'interazione tra DSS e simulatore, ovvero l'assegnamento dei fondi alle modalità di incentivazione ottimizzato per ottenere la massima produzione energetica.
 \subsection{COMPORTAMENTO DEI SINGOLI INCENTIVI}
 Il comportamento degli incentivi è stato studiato effettuando numerose simulazioni per ogni tipo di incentivo, variando la dimensione del fondo dedicato agli incentivi per il fotovoltaico. Il fondo è stato aumentato con incrementi di un milione di euro a partire da zero  fino a un massimo di 30 milioni ( considerando un arco temporale di cinque anni ); per ogni valore sono state effettuate 300 simulazioni, per un totale di 36000 simulazioni considerando tutti i diversi incentivi.\\*
-Nel caso dell'incentivo Fondo Asta (Fig.~\ref{graphSimA}) è possibile notare un aumento della produzione energetica in corrispondenza all'aumento dei fondi stanziati.\\*
-\begin{figure}[hbt]
-	\begin{center}
-	\includegraphics[scale=0.45]{graphSimA}
-	\end{center}
-	\caption{Fondo Asta}
-  	\label{graphSimA}
-\end{figure}
+Le relazioni che legano il budget per gli incentivi e la produzione sono state ottenute attraverso l'analisi statistica dei dati e provando ad applicare diversi metodi per ricavare; nelle figure successive saranno mostrati sia i risultati grezzi delle simulazioni, sia i modelli che approssimano meglio le suddette relazioni.  
+%Nel caso dell'incentivo Fondo Asta (Fig.~\ref{graphSimA}) è possibile notare un aumento della produzione energetica in corrispondenza all'aumento dei fondi stanziati.\\*
+%\begin{figure}[hbt]
+%	\begin{center}
+%	\includegraphics[scale=0.45]{graphSimA}
+%	\end{center}
+%	\caption{Fondo Asta}
+%  	\label{graphSimA}
+%\end{figure}
 
-\begin{figure}[htb]
-	\begin{center}
-	\includegraphics[scale=0.65]{graphSimCI}
-	\end{center}
-	\caption{Conto Interessi}
-  	\label{graphSimCI}
-\end{figure}
-Nel caso dell'incentivo Conto Interessi (Fig.~\ref{graphSimCI}) il miglioramento all'aumentare dei fondi a disposizione è meno marcato, ma a parità di fondi stanziati è il nettamente il tipo di incentivo che ottiene i risultati migliori.\\*
-Il caso del Fondo Rotazione (Fig.~\ref{graphSimR}) si distingue per un aumento della produzione energetica in relazione all'incremento dell'investimento, offrendo una prestazione leggermente migliore rispetto al Fondo Asta.\\*
-\begin{figure}[htb]
-	\begin{center}
-	\includegraphics[scale=0.65]{graphSimR}
-	\end{center}
-	\caption{Fondo Rotazione}
-  	\label{graphSimR}
-\end{figure}
-Il Fondo Garanzia (Fig.~\ref{graphSimG}) offre prestazioni simili ai Fondi Asta e Rotazione, leggermente migliori in caso di finanziamenti minori, ma la produzione energetica è inferiore rispetto all'incentivo migliore, il Conto Interessi.
-\begin{figure}[htb]
-	\begin{center}
-	\includegraphics[scale=0.65]{graphSimG}
-	\end{center}
-	\caption{Fondo Garanzia}
-  	\label{graphSimG}
-\end{figure}
-\subsection{EFFETTI DELL'INTERAZIONE SOCIALE}
-Come è stato introdotto precedentemente, il comportamento del simulatore non è totalmente deterministico poiché tenta anche di riprodurre le dinamiche dell'interazione sociale del mondo reale.\\*
-Per influenzare la forza dell'interazione sociale nelle simulazioni è possibile agire su due parametri, il raggio dell'interazione e la sensibilità all'influenza derivante dal comportamento dei vicini; mostreremo ora l'andamento della produzione energetica al variare di tali parametri, considerando le tipologie di incentivazione Fondo Asta (Figure ~\ref{graphAsocR} e ~\ref{graphAsocS}) e Conto Interessi (Figure ~\ref{graphCIsocR} e ~\ref{graphCIsocS}).\\*
-\begin{figure}[hbt]
-	\begin{center}
-	\includegraphics[scale=0.6]{graphAsocR}
-	\end{center}
-	\caption{Fondo Asta , raggio interazione sociale}
-  	\label{graphAsocR}
-\end{figure}
-\begin{figure}[hbt]
-	\begin{center}
-	\includegraphics[scale=0.6]{graphAsocS}
-	\end{center}
-	\caption{Fondo Asta, sensibilità a influenza sociale}
-  	\label{graphAsocS}
-\end{figure}
-\\*Si può notare facilmente che l'influenza che l'aspetto sociale è assolutamente rilevante, in misura maggiore al variare del raggio dell'interazione rispetto alla modifica della sensibilità.
-\begin{figure}[hbt]
-	\begin{center}
-	\includegraphics[scale=0.6]{graphCIsocR}
-	\end{center}
-	\caption{Conto Interessi , raggio interazione sociale}
-  	\label{graphCIsocR}
-\end{figure}
-\begin{figure}[hbt]
-	\begin{center}
-	\includegraphics[scale=0.6]{graphCIsocS}
-	\end{center}
-	\caption{Conto Interessi,  sensibilità a influenza sociale}
-  	\label{graphCIsocS}
-\end{figure}
-\\*Possiamo osservare che, come nel primo caso, anche con l'incentivo Conto Interessi all'incremento del raggio dell'interazione o della sensibilità corrisponde un aumento nella produzione dell'energia, anche se in misura minore rispetto al Fondo Asta.\\*
-Con i metodi incentivanti restanti, Fondo Rotazione e Garanzia, i risultati sono analoghi e quindi non sono stati riportati.
+%\begin{figure}[htb]
+%	\begin{center}
+%	\includegraphics[scale=0.65]{graphSimCI}
+%	\end{center}
+%	\caption{Conto Interessi}
+%  	\label{graphSimCI}
+%\end{figure}
+%Nel caso dell'incentivo Conto Interessi (Fig.~\ref{graphSimCI}) il miglioramento all'aumentare dei fondi a disposizione è meno marcato, ma a parità di fondi stanziati è il nettamente il tipo di incentivo che ottiene i risultati migliori.\\*
+%Il caso del Fondo Rotazione (Fig.~\ref{graphSimR}) si distingue per un aumento della produzione energetica in relazione all'incremento dell'investimento, offrendo una prestazione leggermente migliore rispetto al Fondo Asta.\\*
+%\begin{figure}[htb]
+%	\begin{center}
+%	\includegraphics[scale=0.65]{graphSimR}
+%	\end{center}
+%	\caption{Fondo Rotazione}
+%  	\label{graphSimR}
+%\end{figure}
+%Il Fondo Garanzia (Fig.~\ref{graphSimG}) offre prestazioni simili ai Fondi Asta e Rotazione, leggermente migliori in caso di finanziamenti minori, ma la produzione energetica è inferiore rispetto all'incentivo migliore, il Conto Interessi.
+%\begin{figure}[htb]
+%	\begin{center}
+%	\includegraphics[scale=0.65]{graphSimG}
+%	\end{center}
+%	\caption{Fondo Garanzia}
+%  	\label{graphSimG}
+%\end{figure}
+%\subsection{EFFETTI DELL'INTERAZIONE SOCIALE}
+%Come è stato introdotto precedentemente, il comportamento del simulatore non è totalmente deterministico poiché tenta anche di riprodurre le dinamiche dell'interazione sociale del mondo reale.\\*
+%Per influenzare la forza dell'interazione sociale nelle simulazioni è possibile agire su due parametri, il raggio dell'interazione e la sensibilità all'influenza derivante dal comportamento dei vicini; mostreremo ora l'andamento della produzione energetica al variare di tali parametri, considerando le tipologie di incentivazione Fondo Asta (Figure ~\ref{graphAsocR} e ~\ref{graphAsocS}) e Conto Interessi (Figure ~\ref{graphCIsocR} e ~\ref{graphCIsocS}).\\*
+%\begin{figure}[hbt]
+%	\begin{center}
+%	\includegraphics[scale=0.6]{graphAsocR}
+%	\end{center}
+%	\caption{Fondo Asta , raggio interazione sociale}
+%  	\label{graphAsocR}
+%\end{figure}
+%\begin{figure}[hbt]
+%	\begin{center}
+%	\includegraphics[scale=0.6]{graphAsocS}
+%	\end{center}
+%	\caption{Fondo Asta, sensibilità a influenza sociale}
+%  	\label{graphAsocS}
+%\end{figure}
+%\\*Si può notare facilmente che l'influenza che l'aspetto sociale è assolutamente rilevante, in misura maggiore al variare del raggio dell'interazione rispetto alla modifica della sensibilità.
+%\begin{figure}[hbt]
+%	\begin{center}
+%	\includegraphics[scale=0.6]{graphCIsocR}
+%	\end{center}
+%	\caption{Conto Interessi , raggio interazione sociale}
+%  	\label{graphCIsocR}
+%\end{figure}
+%\begin{figure}[hbt]
+%	\begin{center}
+%	\includegraphics[scale=0.6]{graphCIsocS}
+%	\end{center}
+%	\caption{Conto Interessi,  sensibilità a influenza sociale}
+%  	\label{graphCIsocS}
+%\end{figure}
+%\\*Possiamo osservare che, come nel primo caso, anche con l'incentivo Conto Interessi all'incremento del raggio dell'interazione o della sensibilità corrisponde un aumento nella produzione dell'energia, anche se in misura minore rispetto al Fondo Asta.\\*
+%Con i metodi incentivanti restanti, Fondo Rotazione e Garanzia, i risultati sono analoghi e quindi non sono stati riportati.
 \subsection{ASSEGNAMENTO FONDI AGLI INCENTIVI}
 Per valutare ora l'interazione tra il DSS e il simulatore analizzeremo ora in che modo vengono finanziati le diverse tipologie di incentivazione sulla base del problema a vincoli presentato in precedenza.\\*
 Per come il sotto-problema dell'assegnazione dei fondi è stato definito, il risolutore procede distribuendo i fondi a partire dall'incentivo che risulta essere più efficacie e prosegue poi finanziando gli incentivi restanti fino a esaurimento del budget previsto; i valori che determinano quale sia il grado di efficacia di un tipo di incentivo sono stati ricavati sfruttando le numerose simulazioni già effettuate, quindi avvalendosi di una semplice forma di Apprendimento Automatico.

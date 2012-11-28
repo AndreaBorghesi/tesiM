@@ -264,27 +264,29 @@ pl2csv_soc(Tipo):-
 	[risultati_sintetici_new],
 	findall((O,S),result_new(Tipo,_,_,_,_,_,O,_,S),L),
 	open('result_list.csv',write,fout),
+	write(fout,"Sens,Out\n"),
 	write_lns_soc(L,fout),
 	close(fout).
 	
 write_lns_soc([],_).
 write_lns_soc([(O,S)|T],fout):-
 	write(fout,S), write(fout,","),
-	write(fout,O), write(fout,",\n"),
+	write(fout,O), write(fout,"\n"),
 	write_lns_soc(T,fout).
 	
 %questa versione lavora con i risultati prodotti considerando anche l'interazione sociale ( solo raggio ) ( relazione raggio-out )
 pl2csv_socr(Tipo):-
-	[sim_out_raggio],
+	[risultati_sintetici_new],
 	findall((O,R),result_new(Tipo,_,_,_,_,_,O,R,_),L),
 	open('result_list.csv',write,fout),
+	write(fout,"Raggio,Out\n"),
 	write_lns_socr(L,fout),
 	close(fout).
 	
 write_lns_socr([],_).
 write_lns_socr([(O,R)|T],fout):-
 	write(fout,R), write(fout,","),
-	write(fout,O), write(fout,",\n"),
+	write(fout,O), write(fout,"\n"),
 	write_lns_socr(T,fout).
 	
 %viene considerata la relazione tra il budget disponibile e quello effettivamente speso 
