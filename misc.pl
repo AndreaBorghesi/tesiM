@@ -246,7 +246,7 @@ res_rel:-
 	
 %converte i file .pl generati dal simulatore in file .csv ( relazione budget-out )
 pl2csv:-
-	[risultati_sintetici_new],
+	[temp],
 	findall((B,O),result_new(_,_,_,_,B,_,O),L),
 	open('result_list.csv',write,fout),
 	write(fout,"Budget,Out\n"),
@@ -261,7 +261,7 @@ write_lns([(B,O)|T],fout):-
 	
 %questa versione lavora con i risultati prodotti considerando anche l'interazione sociale ( solo sensibilità ) ( relazione sensibilità-out )
 pl2csv_soc(Tipo):-
-	[risultati_sintetici_new],
+	[temp],
 	findall((O,S),result_new(Tipo,_,_,_,_,_,O,_,S),L),
 	open('result_list.csv',write,fout),
 	write(fout,"Sens,Out\n"),
@@ -276,7 +276,7 @@ write_lns_soc([(O,S)|T],fout):-
 	
 %questa versione lavora con i risultati prodotti considerando anche l'interazione sociale ( solo raggio ) ( relazione raggio-out )
 pl2csv_socr(Tipo):-
-	[risultati_sintetici_new],
+	[temp],
 	findall((O,R),result_new(Tipo,_,_,_,_,_,O,R,_),L),
 	open('result_list.csv',write,fout),
 	write(fout,"Raggio,Out\n"),

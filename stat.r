@@ -40,14 +40,14 @@ quadraticModel <- lm(data$Out ~ data$Budget+budgetC2)
 linearModelAgg <- lm(aggdata$Out ~ aggdata$Budget)
 quadraticModelAgg <- lm(aggdata$Out ~ poly(aggdata$Budget, 2, raw=TRUE))
 cubicModelAgg <- lm(aggdata$Out ~ poly(aggdata$Budget, 3, raw=TRUE))
-highPolyModelAgg <- lm(aggdata$Out ~ poly(aggdata$Budget, 8, raw=TRUE))
+highPolyModelAgg <- lm(aggdata$Out ~ poly(aggdata$Budget, 10, raw=TRUE))
 
 #loess model ( local regression )
-loessModelAgg <- loess(aggdata$Out ~ aggdata$Budget)
-my.count <- seq(from=0, to=30, by=1)
+loessModelAgg <- loess(aggdata$Out ~ aggdata$Budget,span=0.65)
+my.count <- seq(from=0, to=(length(aggdata[,1]))-1, by=1)
 
 pred <- predict(loessModelAgg,my.count,se=TRUE)
-#pred <- predict(highPolyModelAgg,se=TRUE)
+predHP <- predict(highPolyModelAgg,se=TRUE)
 
  
 
@@ -60,16 +60,16 @@ summary(loessModelAgg)
 anova(linearModelAgg,quadraticModelAgg,cubicModelAgg,highPolyModelAgg)
 
 # Start PDF device driver to save output to figure.pdf
-#	pdf(file="/media/sda4/tesi/immagini/grafici/graphSimR_R.pdf")
+#	pdf(file="/media/sda4/tesi/immagini/grafici/graphSimCI_R.pdf")
 	# Trim off excess margin space (bottom, left, top, right)
 #	par(mar=c(4.2, 4.0, 0.2, 0.2))
 	
 #graphs
-#par(mfrow=c(2,1),pch=1)
-plot(data$Out ~ data$Budget,type="n",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",cex.lab=0.9)
-points(data$Out ~ data$Budget,col="blue4",pch=1)
+##par(mfrow=c(2,1),pch=1)
+#plot(data$Out ~ data$Budget,type="n",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",cex.lab=0.9,xlim=c(0,30))
+#points(data$Out ~ data$Budget,col="blue4",pch=1)
 
-#plot(aggdata$Out ~ aggdata$Budget,type="p",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",xlim=c(0,30),cex.lab=0.9) 
+plot(aggdata$Out ~ aggdata$Budget,type="p",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",xlim=c(0,40),cex.lab=0.9) 
 grid(lwd=2)
 
 #points(data$Budget, predict(linearModel), type="l", col="red", lwd=2)
@@ -81,11 +81,16 @@ grid(lwd=2)
 #points(aggdata$Budget, predict(linearModelAgg), type="l", col="red", lwd=2)
 #points(aggdata$Budget, predict(quadraticModelAgg), type="l", col="red", lwd=2)
 #points(aggdata$Budget, predict(cubicModelAgg), type="l", col="green", lwd=2)
-#points(aggdata$Budget, predict(highPolyModelAgg), type="l", col="red", lwd=2)
+points(aggdata$Budget, predict(highPolyModelAgg), type="l", col="blue", lwd=2)
 
-#lines(aggdata$Budget,pred$fit, lty="solid", col="red", lwd=2)
+lines(aggdata$Budget,pred$fit, lty="solid", col="red", lwd=2)
+
 #lines(aggdata$Budget,pred$fit-1.96*pred$se.fit, lty="dashed", col="blue", lwd=1)
 #lines(aggdata$Budget,pred$fit+1.96*pred$se.fit, lty="dashed", col="blue", lwd=1)
+
+#lines(aggdata$Budget,predHP$fit-1.96*pred$se.fit, lty="dashed", col="yellow", lwd=1)
+#lines(aggdata$Budget,predHP$fit+1.96*pred$se.fit, lty="dashed", col="yellow", lwd=1)
+
 
 # Turn off device driver (to flush output to PDF)
 #	dev.off()

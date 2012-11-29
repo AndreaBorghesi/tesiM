@@ -1,14 +1,14 @@
 #plot a graph containing regression line for each incentive
 
-	dataN.unsorted <- read.csv("result_listN.csv")
+	dataN.unsorted <- read.csv("sim/results/result_listN.csv")
 	dataN <- dataN.unsorted[order(dataN.unsorted$Budget),]
-	dataA.unsorted <- read.csv("result_listA.csv")
+	dataA.unsorted <- read.csv("sim/results/result_listA_60M.csv")
 	dataA <- dataA.unsorted[order(dataA.unsorted$Budget),]
-	dataCI.unsorted <- read.csv("result_listCI.csv")
+	dataCI.unsorted <- read.csv("sim/results/result_listCI_60M.csv")
 	dataCI <- dataCI.unsorted[order(dataCI.unsorted$Budget),]
-	dataR.unsorted <- read.csv("result_listR.csv")
+	dataR.unsorted <- read.csv("sim/results/result_listR_60M.csv")
 	dataR <- dataR.unsorted[order(dataR.unsorted$Budget),]
-	dataG.unsorted <- read.csv("result_listG.csv")
+	dataG.unsorted <- read.csv("sim/results/result_listG_60M.csv")
 	dataG <- dataG.unsorted[order(dataG.unsorted$Budget),]
 
 	aggdataN <- tapply(dataN$Out,dataN$Budget,mean)
@@ -43,27 +43,28 @@
 	head(aggdataG)
 
 	#creating models for the regression
-	#linear model for N,A,R
+	#linear model for N
+	#quadratic model for A,R
 	linearModelN <- lm(aggdataN$Out ~ aggdataN$Budget)
-	linearModelA <- lm(aggdataA$Out ~ aggdataA$Budget)
+	quadraticModelA <- lm(aggdataA$Out ~ poly(aggdataA$Budget, 2, raw=TRUE))
+	quadraticModelR <- lm(aggdataR$Out ~ poly(aggdataR$Budget, 2, raw=TRUE))
 	#linearModelCI <- lm(aggdataCI$Out ~ aggdataCI$Budget)
-	linearModelR <- lm(aggdataR$Out ~ aggdataR$Budget)
 	#linearModelG <- lm(aggdataG$Out ~ aggdataG$Budget)
-	#LOESS model for CI
-	loessModellCI <- loess(aggdataCI$Out ~ aggdataCI$Budget)
-	my.count <- seq(from=0, to=30, by=1)
-	predCI <- predict(loessModellCI,my.count,se=TRUE)
-	#high polynomial for G
-	highPolyModelG <- lm(aggdataG$Out ~ poly(aggdataG$Budget, 8, raw=TRUE))
-	#predG <- predict(highPolyModelG,my.counT,se=)
+	#LOESS model for G
+	loessModelG <- loess(aggdataG$Out ~ aggdataG$Budget,span=0.65)
+	my.count <- seq(from=0, to=(length(aggdataG[,1]))-1, by=1)
+	predG <- predict(loessModelG,my.count,se=TRUE)
+	#higher polynomial for CI (10th degree)
+	highPolyModelCI <- lm(aggdataCI$Out ~ poly(aggdataCI$Budget, 10, raw=TRUE))
+	predCI <- predict(highPolyModelCI,se=TRUE)
 
 	#compare models
 	summary(linearModelN)
-	summary(linearModelA)
-	summary(loessModellCI)
-	summary(linearModelR)
-	summary(highPolyModelG)
-	#anova(linearModelA,linearModelCI,linearModelR,linearModelG)
+	summary(quadraticModelA)
+	summary(loessModelG)
+	summary(quadraticModelR)
+	summary(highPolyModelCI)
+
 
 	#graphs
 	# Start PDF device driver to save output to figure.pdf
@@ -79,13 +80,13 @@
 	#points(dataR$Budget, predict(linearModelR), type="l", col="green", lwd=2)
 	#points(dataG$Budget, predict(linearModelG), type="l", col="yellow", lwd=2)
 
-	plot(aggdataN$Out ~ aggdataN$Budget,type="n",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",ylim=c(21000,27500),xlim=c(0,30),cex.lab=0.9) 
+	plot(aggdataN$Out ~ aggdataN$Budget,type="n",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",ylim=c(21000,27500),xlim=c(0,40),cex.lab=0.9) 
 	grid()
 	#points(aggdataN$Budget, predict(linearModelN), type="l", col="black", lwd=2)
-	points(aggdataA$Budget, predict(linearModelA), type="l", col="blue", lwd=2)
+	points(aggdataA$Budget, predict(quadraticModelA), type="l", col="blue", lwd=2)
 	lines(aggdataCI$Budget,predCI$fit, lty="solid", col="red", lwd=3)
-	points(aggdataR$Budget, predict(linearModelR), type="l", col="green", lwd=2)
-	points(aggdataG$Budget, predict(highPolyModelG), type="l", col="yellow", lwd=2)
+	points(aggdataR$Budget, predict(quadraticModelR), type="l", col="green", lwd=2)
+	points(aggdataG$Budget, predG$fit, type="l", col="yellow", lwd=2)
 	legend("topright", inset=.05, title="Tipo Incentivo", c("Asta","Conto Interessi","Rotazione","Garanzia"), fill=c("blue","red","green","yellow"),cex=0.9)
 	
 	# Turn off device driver (to flush output to PDF)

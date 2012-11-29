@@ -1570,10 +1570,10 @@ to write_pl_file
   file-open "/home/b0rgh/ECLiPSe/sourceTesi/risultati_sintetici_new.pl"
   
   ;;versione iniziale che produce risultati relativi principalmente a tipo di incentivo, buget PV, spesa per PV e produzione finale
-  ;;file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT").")
+  file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT").")
   
   ;;seconda versione necessaria per considerare anche l'interazione sociale
-  file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT"," Raggio","Sensibilita ").")
+  ;;file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT"," Raggio","Sensibilita ").")
   file-close
 end
 @#$#@#$#@
@@ -2522,7 +2522,7 @@ BudgetRegione
 BudgetRegione
 0.1
 15
-30
+60
 0.1
 1
 milioni
@@ -2937,7 +2937,7 @@ Sensibilita
 Sensibilita
 0
 5
-20
+2
 0.1
 1
 NIL
@@ -3874,7 +3874,7 @@ NetLogo 5.0.2
       <value value="1.8"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experimentCI" repetitions="130" runMetricsEveryStep="false">
+  <experiment name="experimentCI" repetitions="100" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="M2_Disposizione">
@@ -3958,7 +3958,7 @@ NetLogo 5.0.2
     <enumeratedValueSet variable="Accettato">
       <value value="85"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="BudgetRegione" first="0" step="1" last="30"/>
+    <steppedValueSet variable="BudgetRegione" first="31" step="1" last="60"/>
     <enumeratedValueSet variable="Manutenzione_anno_%costo_totale">
       <value value="1.5"/>
     </enumeratedValueSet>
@@ -4002,7 +4002,7 @@ NetLogo 5.0.2
       <value value="80"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experimentA" repetitions="110" runMetricsEveryStep="false">
+  <experiment name="experimentA" repetitions="100" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="M2_Disposizione">
@@ -4086,7 +4086,7 @@ NetLogo 5.0.2
     <enumeratedValueSet variable="Accettato">
       <value value="85"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="BudgetRegione" first="0" step="1" last="30"/>
+    <steppedValueSet variable="BudgetRegione" first="31" step="1" last="60"/>
     <enumeratedValueSet variable="Manutenzione_anno_%costo_totale">
       <value value="1.5"/>
     </enumeratedValueSet>
@@ -4130,7 +4130,7 @@ NetLogo 5.0.2
       <value value="80"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experimentR" repetitions="65" runMetricsEveryStep="false">
+  <experiment name="experimentR" repetitions="100" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="M2_Disposizione">
@@ -4214,7 +4214,7 @@ NetLogo 5.0.2
     <enumeratedValueSet variable="Accettato">
       <value value="85"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="BudgetRegione" first="0" step="1" last="30"/>
+    <steppedValueSet variable="BudgetRegione" first="31" step="1" last="60"/>
     <enumeratedValueSet variable="Manutenzione_anno_%costo_totale">
       <value value="1.5"/>
     </enumeratedValueSet>
@@ -4258,7 +4258,7 @@ NetLogo 5.0.2
       <value value="80"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experimentG" repetitions="200" runMetricsEveryStep="false">
+  <experiment name="experimentG" repetitions="100" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="M2_Disposizione">
@@ -4342,7 +4342,7 @@ NetLogo 5.0.2
     <enumeratedValueSet variable="Accettato">
       <value value="85"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="BudgetRegione" first="0" step="1" last="30"/>
+    <steppedValueSet variable="BudgetRegione" first="31" step="1" last="60"/>
     <enumeratedValueSet variable="Manutenzione_anno_%costo_totale">
       <value value="1.5"/>
     </enumeratedValueSet>
@@ -4386,7 +4386,7 @@ NetLogo 5.0.2
       <value value="80"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experimentSociale" repetitions="40" runMetricsEveryStep="false">
+  <experiment name="experimentSociale" repetitions="80" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="Aumento_%annuo_consumi">
@@ -4517,7 +4517,7 @@ NetLogo 5.0.2
       <value value="5.3"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experimentSocialeRaggio" repetitions="40" runMetricsEveryStep="false">
+  <experiment name="experimentSocialeRaggio" repetitions="80" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="Aumento_%annuo_consumi">
