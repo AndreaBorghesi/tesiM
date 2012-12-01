@@ -69,7 +69,7 @@ anova(linearModelAgg,quadraticModelAgg,cubicModelAgg,highPolyModelAgg)
 #plot(data$Out ~ data$Budget,type="n",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",cex.lab=0.9,xlim=c(0,30))
 #points(data$Out ~ data$Budget,col="blue4",pch=1)
 
-plot(aggdata$Out ~ aggdata$Budget,type="p",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",xlim=c(0,40),cex.lab=) 
+plot(aggdata$Out ~ aggdata$Budget,type="p",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",xlim=c(0,40)) 
 grid(lwd=2)
 
 #points(data$Budget, predict(linearModel), type="l", col="red", lwd=2)

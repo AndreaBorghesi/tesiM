@@ -291,17 +291,18 @@ write_lns_socr([(O,R)|T],fout):-
 	
 %viene considerata la relazione tra il budget disponibile e quello effettivamente speso 
 pl2csv_b:-
-	[risultati_sintetici_new],
+	[temp],
 	findall((B,S),result_new(_,_,_,_,B,S,_),L),
 	open('result_list.csv',write,fout),
+	write(fout,"Budget,Spesa\n"),
 	write_lnsb(L,fout),
 	close(fout).
 	
 write_lnsb([],_).
 write_lnsb([(B,S)|T],fout):-
 	write(fout,B), write(fout,","),
-	O is B*1000000-S,
-	write(fout,O), write(fout,",\n"),
+	O is (B-S/1000000),
+	write(fout,O), write(fout,"\n"),
 	write_lnsb(T,fout).
 	
 %fissato il tipo di incentivo,calcola la varianza degli outcome ottenuti dal simulatore per un determinato budget
