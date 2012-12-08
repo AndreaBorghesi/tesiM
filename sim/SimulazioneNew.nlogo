@@ -3740,7 +3740,7 @@ NetLogo 5.0.2
       <value value="false"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experiment2" repetitions="200" runMetricsEveryStep="false">
+  <experiment name="experiment2" repetitions="400" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="Accettato">
@@ -3810,7 +3810,6 @@ NetLogo 5.0.2
       <value value="15200"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="fr">
-      <value value="&quot;Nessuno&quot;"/>
       <value value="&quot;Asta&quot;"/>
       <value value="&quot;Conto interessi&quot;"/>
       <value value="&quot;Rotazione&quot;"/>
@@ -3856,7 +3855,7 @@ NetLogo 5.0.2
       <value value="20"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="BudgetRegione">
-      <value value="5"/>
+      <value value="10"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="costo_kwh_fascia3">
       <value value="0.303"/>

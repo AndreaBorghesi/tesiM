@@ -47,6 +47,38 @@ srfb([T|Tipologie],AvgBudgetTemp,AvgBudgets):-
 	append(AvgBudgetTemp,[AvgBudgetR],AvgBudgetsN),
 	srfb(Tipologie,AvgBudgetsN,AvgBudgets).
 	
+%questa versione è uguale alla precedente ma estrae i valori medi a partire da un file dei risultati che contenga budget diversi e quindi ricava i valori corretti selezionando il budget considerato ( benders_dec_fr )
+sim_result_fr_budget(Tipologie,Budget,AvgOutcomes,AvgBudgets):-
+	[risultati_sintetici_new],
+	srfb_budget(Tipologie,Budget,[],AvgBudgets),
+	srf_budget(Tipologie,Budget,[],AvgOutcomes).
+
+srf_budget([],_,AvgOutcomes,AvgOutcomes).
+srf_budget([T|Tipologie],Budget,AvgOutTemp,AvgOutcomes):-
+	findall(O,result_new(T,_,_,_,Budget,_,O),Outcomes),
+	length(Outcomes,Len), sum(Outcomes,SumOutcome),
+	
+	%nessun fattore di scala
+	AvgOutcome is SumOutcome/(Len*1000),
+	%fattore di scala estremamente grezzo
+	%AvgOutcome is (((SumOutcome/(Len*1000))-44.500)*(795/(54.000-44.500))+405),
+	
+	append(AvgOutTemp,[AvgOutcome],AvgOutcomesN),
+	srf_budget(Tipologie,Budget,AvgOutcomesN,AvgOutcomes).
+	
+srfb_budget([],_,AvgBudgets,AvgBudgets).
+srfb_budget([T|Tipologie],Budget,AvgBudgetTemp,AvgBudgets):-
+	findall(BI,result_new(T,_,_,Budget,BI,_,_),BudgetsI),
+	findall(BF,result_new(T,_,_,_,Budget,BF,_),BudgetsF),
+	length(BudgetsI,Len), sum(BudgetsI,SumBudgetsI), sum(BudgetsF,SumBudgetsF),
+	
+	%per ora il budget medio utilizzato da un tipo di incentivo è calcolato
+	%semplicemente come la differenza media tra il budget iniziale e quello finale
+	AvgBudgetR is (SumBudgetsI*1000000-SumBudgetsF)/Len,
+	
+	append(AvgBudgetTemp,[AvgBudgetR],AvgBudgetsN),
+	srfb_budget(Tipologie,Budget,AvgBudgetsN,AvgBudgets).
+	
 %predicato per testare l'output del primo simulatore
 avg_out(IncPer):-
 	open('ris.txt',write,outfile),

@@ -904,6 +904,7 @@ benders_dec_fr(BudgetPV,Outcome):-
 	tipi_inc_PV(TipiInc),
 	
 	%prima di chiamare il predicato benders_dec_fr occorre aver effettuato le simulazioni con i parametri forniti da aaai/4
+	%questa versione va utilizzata se in risultati_sintetici_new sono presenti i valori per un determinato budget
 	sim_result_fr(TipiInc,AvgOutcomes,AvgBudgets),
 	
 	
