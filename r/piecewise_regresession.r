@@ -10,7 +10,7 @@ head(aggdata)
 aggdata$Budget <- seq(from=0, to=(length(aggdata[,1]))-1, 1)
 colnames(aggdata) <- c("Out", "Budget") 
 head(aggdata)
-attach(aggdata)
+#attach(aggdata)
 
 linearModelAgg <- glm(Out ~ Budget)
 
@@ -29,7 +29,11 @@ seg <- segmented(linearModelAgg,seg.Z=~ Budget,psi=c(12,30))
 summary(seg)
 slope(seg)
 
+
+
 #Graph
 plot(aggdata$Out ~ aggdata$Budget,type="p",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",xlim=c(0,60)) 
 grid(lwd=2)
 points(aggdata$Budget, predict(seg), type="l", col="blue4", lwd=2)
+
+
