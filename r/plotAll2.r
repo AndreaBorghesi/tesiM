@@ -1,5 +1,6 @@
 #plot a graph containing piecewise regression line for each incentive
-
+	library(segmented)
+	
 	dataA.unsorted <- read.csv("../sim/results/result_listA_60M.csv")
 	dataA <- dataA.unsorted[order(dataA.unsorted$Budget),]
 	dataCI.unsorted <- read.csv("../sim/results/result_listCI_60M.csv")

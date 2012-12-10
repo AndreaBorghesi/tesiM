@@ -357,4 +357,40 @@ exclude_plus([B|Budgets],BudgetPV,ListTemp,List):-
 	append(ListTemp,[BF],ListNew),
 	exclude_plus(Budgets,BudgetPV,ListNew,List).
 	
-	testde
+
+%predicato che svolge la funzione dei precedenti sub_problem: assegna nel modo migliore il Budget disponibile tentando di massimizzare l'Out; le relazioni Budget-Out sono apprese attraverso le simulazioni e inserite all'interno del modello 
+assegna_fondi(TipiInc,BudgetPV,Out):-
+
+	%ad ogni tipo di incentivo assegno una variabile che rappresenta il costo ( 0..50mln )
+	crea_var_names_sub(TipiInc,Budgets,0,50),
+	%ad ogni tipo di incentivo assegno una variabile che rappresenta l'outcome ( 0..60MW )
+	crea_var_names_sub(TipiInc,Outs,0,60),
+	
+	
+	writeln_tee(Budgets),
+	writeln_tee(Outs),
+	writeln_tee(Auxs),
+	
+	writeln_tee("Assegnazione fondi completata").
+	
+
+%inserisce all'interno del modello le relazioni tra budget e outcome ricavate dalle simulazioni e approssimate con funzioni lineari a tratti
+piecewise_linear_model([],_,_,_):-!.
+piecewise_linear_model([Tipo|TipiInc],[B|Budgets],[O|Outs]):-
+	%ricava i punti che definiscono la spezzata per il tipo di incentivo
+	punti(Tipo,Punti),
+	%creo tante variabili ausiliarie quanti sono i punti che caratterizzano l'incentivo
+	crea_var_names_sub(Punti,Auxs,0,1),
+	%le variabili ausiliarie sono rinominate per usi successivi (Aux_Tipo#n)
+	append_strings('Aux_',Tipo,NomeAux),
+	set_var_name(Auxs,NomeAux),
+	
+	%estrai dalla lista di punti le liste per ascisse e ordinate
+	
+	
+	%vincoli per le variabili ausiliarie per approssimare la relazione budget-out con una curva lineare a tratti
+	
+	
+	piecewise_linear_model([TipiInc],[Budgets],[Outs]).
+	
+

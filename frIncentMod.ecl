@@ -893,23 +893,25 @@ print_len(L):- length(L,N), writeln(N).
 boldface :- write('\033[1m').
 normal_font:- write('\033[0m').
 
-%%%%%%%%%%%%%%%%%  Benders decomposition %%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%  Assegnamento fondi agli incentivi %%%%%%%%%%%%%%%%%%%
 	
 %questa versione riguarda il secondo simulatore --> vengono tenuti in considerazione anche il budget per il PV messo a disposizione dalla regione
 %(passato come argomento in Mln di euro) e differenti metodi di incentivazione, in particolare: 1) nessun incentivo 2) asta fondo perduto
 %3) conto interessi 4) rotazione 5) garanzia
-benders_dec_fr(BudgetPV,Outcome):-
+%in questa prima versione i risultati delle simulazioni sono sfruttati per calcolare l'outcome medio per budget medio di ogni incentivo -> le relazioni sono 'esterne' al modello a vincoli e i coefficienti sono calcolati ogni volta
+gest_inc_old(BudgetPV,Outcome):-
 	open('ris.txt',write,outfile),
 	
 	tipi_inc_PV(TipiInc),
 	
-	%prima di chiamare il predicato benders_dec_fr occorre aver effettuato le simulazioni con i parametri forniti da aaai/4
+	%prima di chiamare il predicato gest_inc occorre aver effettuato le simulazioni con i parametri forniti da aaai/4
 	%questa versione va utilizzata se in risultati_sintetici_new sono presenti i valori per un determinato budget
 	sim_result_fr(TipiInc,AvgOutcomes,AvgBudgets),
 	
 	
 	writeln_tee(""),
-	writeln_tee("========= Benders decomposition ========="),
+	writeln_tee("========= Assegnamento fondi incentivi ========="),
 	writeln_tee("===== Valori forniti al simulatore ====="),
 	write_tee("Budget PV regionale (Mln di euro): "), writeln_tee(BudgetPV),
 	write_tee("Outcome atteso"), write_tee(':\t'), writeln_tee(Outcome),
@@ -928,12 +930,27 @@ benders_dec_fr(BudgetPV,Outcome):-
 	sub_problem_fr(TipiInc,BudgetPVEuro,BudgetsInc,OutsInc,SimOut),
 	
 	%confronto tra l'energia prevista dal simulatore, SimOut, e quella attesa dall'ottimizzatore --> se necessario tento di aumentare il budgetPV
-	(SimOut >= Outcome
-	-> writeln_tee("===== Opt. sol. =====")
-	; sub_problem_fr_out(TipiInc,BudgetPVEuro,Outcome,BudgetsInc,OutsInc)
-	),
+%	(SimOut >= Outcome
+%	-> writeln_tee("===== Opt. sol. =====")
+%	; sub_problem_fr_out(TipiInc,BudgetPVEuro,Outcome,BudgetsInc,OutsInc)
+%	),
 	
 	close(outfile).
+	
+%in questa versione le relazioni budget-outcome sono integrate all'interno del modello a vincoli
+gest_inc(BudgetPV,Outcome):-
+	open('ris.txt',write,outfile),
+	tipi_inc_PV(TipiInc),
+	
+	writeln_tee("========= Assegnamento fondi incentivi ========="),
+	writeln_tee("===== Valori forniti al simulatore ====="),
+	write_tee("Budget PV regionale (Mln di euro): "), writeln_tee(BudgetPV),
+	write_tee("Outcome atteso"), write_tee(':\t'), writeln_tee(Outcome),
+	
+	assegna_fondi(TipiInc,BudgetPV,Outcome),
+	
+	close(outfile).
+
 	
 %stampa gli outcomes medi per le varie tipologie di incentivazione ( secondo simulatore )
 print_result_fr([],[],[]).
