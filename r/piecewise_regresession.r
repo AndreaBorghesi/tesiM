@@ -1,6 +1,6 @@
 #extracting a piecewise linear model from data
 library(segmented)
-data.unsorted <- read.csv("../sim/results/result_listCI_60M.csv")
+data.unsorted <- read.csv("../sim/results/result_listG_60M.csv")
 data <- data.unsorted[order(data.unsorted$Budget),]
 
 #aggdata has the average out per budget
@@ -18,13 +18,13 @@ linearModelAgg <- glm(Out ~ Budget)
 #seg <- segmented(linearModelAgg,seg.Z=~ Budget,psi=c(33))
 
 #Conto Interessi
-seg <- segmented(linearModelAgg,seg.Z=~ Budget,psi=c(3))
+#seg <- segmented(linearModelAgg,seg.Z=~ Budget,psi=c(3))
 
 #Fondo Rotazione
 #seg <- segmented(linearModelAgg,seg.Z=~ Budget,psi=c(30))
 
 #Fondo Garanzia
-#seg <- segmented(linearModelAgg,seg.Z=~ Budget,psi=c(12,30))
+seg <- segmented(linearModelAgg,seg.Z=~ Budget,psi=c(12,30))
 
 summary(seg)
 slope(seg)

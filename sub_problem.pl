@@ -147,6 +147,12 @@ crea_var_names_sub_out([Name|Names],[P|T],LB,UB):-
     set_var_name(P,Name),
     crea_var_names_sub_out(Names,T,LB,UB).
     
+%predicato per creare tante variabili quanti gli elementi nella lista passata come primo argomento
+crea_var_sub([],[],_,_):- !.
+crea_var_sub([_|L],[P|T],LB,UB):-
+    sub:(P $:: LB..UB),
+    crea_var_sub(L,T,LB,UB).
+    
 %stampa le percentuali di budget assegnate ai vari incentivi
 print_var_inc([],[],[],[],CostoTot,CostoTot).
 print_var_inc([V|VarInc],[T|TipiInc],[B|BudgetsInc],[O|OutsInc],Costo,CostoTot):-
@@ -359,38 +365,111 @@ exclude_plus([B|Budgets],BudgetPV,ListTemp,List):-
 	
 
 %predicato che svolge la funzione dei precedenti sub_problem: assegna nel modo migliore il Budget disponibile tentando di massimizzare l'Out; le relazioni Budget-Out sono apprese attraverso le simulazioni e inserite all'interno del modello 
-assegna_fondi(TipiInc,BudgetPV,Out):-
-
+%i parametri passati sono i tipi di incentivazione, il budget per il PV e l'outcome atteso dal PV
+assegna_fondi(TipiInc,BudgetPV,ExpOut):-
+	
+	writeln_tee("---->>> Debug 1 <<<----"),
 	%ad ogni tipo di incentivo assegno una variabile che rappresenta il costo ( 0..50mln )
 	crea_var_names_sub(TipiInc,Budgets,0,50),
 	%ad ogni tipo di incentivo assegno una variabile che rappresenta l'outcome ( 0..60MW )
 	crea_var_names_sub(TipiInc,Outs,0,60),
 	
+	writeln_tee("---->>> Debug 2 <<<----"),
+	%creo vincoli che modellano l'approssimazione lineare
+	piecewise_linear_model(TipiInc,Budgets,Outs,[],Auxs),
 	
-	writeln_tee(Budgets),
-	writeln_tee(Outs),
-	writeln_tee(Auxs),
+	writeln_tee("---->>> Debug 3 <<<----"),
+	%la somma dei fondi assegnati ad ogni incentivo deve essere minore del budget per il PV
+	sub:(sum(Budgets) $=< BudgetPV ),
+	
+	writeln_tee("---->>> Debug 4 <<<----"),
+	%inserisco in liste apposite le variabili ausiliarie che devono formare SOS2 (un SOS2 per tipo di incentivo)
+	get_aux_sos(Auxs,AuxA,AuxCI,AuxR,AuxG,"A"),
+	
+	write_tee("---->>> Auxs A: "), writeln_tee(AuxA),
+	write_tee("---->>> Auxs CI: "), writeln_tee(AuxCI),
+	write_tee("---->>> Auxs R: "), writeln_tee(AuxR),
+	write_tee("---->>> Auxs G: "), writeln_tee(AuxG),
+	
+	writeln_tee("---->>> Debug 5 <<<----"),
+	%la funzione obiettivo cerca di massimizzare la produzione energetica
+	sub:(VarObiettivo $= (sum(Outs))),
+	sub:eplex_solver_setup(max(sum(Outs)),VarObiettivo,[dual_solution(yes),use_var_names(yes),sos2(AuxA),sos2(AuxCI),sos2(AuxG),sos2(AuxR)],[deviating_bounds,bounds,new_constraint]),
+	
+	writeln_tee("---->>> Debug 6 <<<----"),
+%	sub:eplex_solve(Out),
+	
+	writeln_tee("------Assegnazione Fondi-------"),
+	write_tee("BudgetPV: "), writeln_tee(BudgetPV),
+	write_tee("Expected Outcome: "), writeln_tee(ExpOut),
+	
+	write_tee("Budget vars: "), writeln_tee(Budgets),
+	write_tee("Out vars: "), writeln_tee(Outs),
+	write_tee("Auxiliary vars: "), writeln_tee(Auxs),
+	
+	sub:eplex_get(constraints,Constraints),
+	pretty_print_list(Constraints,"Constraint",1),
+	
+	sub:eplex_var_get(VarObiettivo,typed_solution,VarObiettivoVal),  
+    write_tee("Out Value: "), writeln_tee(VarObiettivoVal),
 	
 	writeln_tee("Assegnazione fondi completata").
 	
 
 %inserisce all'interno del modello le relazioni tra budget e outcome ricavate dalle simulazioni e approssimate con funzioni lineari a tratti
-piecewise_linear_model([],_,_,_):-!.
-piecewise_linear_model([Tipo|TipiInc],[B|Budgets],[O|Outs]):-
+piecewise_linear_model([],_,_,AuxF,AuxF):-!.
+piecewise_linear_model([Tipo|TipiInc],[B|Budgets],[O|Outs],AuxT,AuxF):-
+	writeln_tee("---->>> Debug 2.1 <<<----"),
 	%ricava i punti che definiscono la spezzata per il tipo di incentivo
 	punti(Tipo,Punti),
 	%creo tante variabili ausiliarie quanti sono i punti che caratterizzano l'incentivo
-	crea_var_names_sub(Punti,Auxs,0,1),
-	%le variabili ausiliarie sono rinominate per usi successivi (Aux_Tipo#n)
-	append_strings('Aux_',Tipo,NomeAux),
-	set_var_name(Auxs,NomeAux),
+	crea_var_sub(Punti,Auxs,0,1),
+	writeln_tee("---->>> Debug 2.2 <<<----"),
+	%le variabili ausiliarie sono inserite in una lista per usi successivi (SOS2)
+	append(AuxT,[Auxs],AuxN),
 	
+	writeln_tee("---->>> Debug 2.3 <<<----"),
 	%estrai dalla lista di punti le liste per ascisse e ordinate
+	extract_coord(Punti,[],Xs,[],Ys),
 	
+	%ai valori delle ordinate (Ys) sottrai il valore minimo (per ogni tipo di incentivo), in modo da ottenere come outcome totale la differenza rispetto al caso in cui non ci sia fondo incentivante (e non il valore assoluto)
+	base_value(Tipo,YMin),
+	subtract_y(Ys,YMin,[],YsSub),
 	
 	%vincoli per le variabili ausiliarie per approssimare la relazione budget-out con una curva lineare a tratti
+	writeln_tee("---->>> Debug 2.4 <<<----"),
+	sub:(sum(Auxs) $= 1),
+	writeln_tee("---->>> Debug 2.5 <<<----"),
+	sub:(B $= (Auxs*Xs) ),
+	writeln_tee("---->>> Debug 2.6 <<<----"),
+	sub:(O $= (Auxs*YsSub) ),
 	
+	write_tee("-- Tipo inc: "), writeln_tee(Tipo),
+	write_tee("---->>> Auxs: "), writeln_tee(Auxs),
 	
-	piecewise_linear_model([TipiInc],[Budgets],[Outs]).
+	piecewise_linear_model(TipiInc,Budgets,Outs,AuxN,AuxF).
 	
-
+%estrae da una lista di punti (x,y) due liste, una contenente le ascisse e l'altra le ordinate
+extract_coord([],Xs,Xs,Ys,Ys).
+extract_coord([(PX,PY)|Punti],XsTemp,Xs,YsTemp,Ys):-
+	append(XsTemp,[PX],XsNew),
+	append(YsTemp,[PY],YsNew),
+	extract_coord(Punti,XsNew,Xs,YsNew,Ys).
+	
+%i gruppi di variabili ausiliarie (uno per incentivo) sono nella lista Auxs nell'ordine A,CI,R,G
+get_aux_sos([],_,_,_,_,_):-!.
+get_aux_sos([AuxA|Auxs],AuxA,AuxCI,AuxR,AuxG,"A"):-!,
+	get_aux_sos(Auxs,AuxA,AuxCI,AuxR,AuxG,"CI").
+get_aux_sos([AuxCI|Auxs],AuxA,AuxCI,AuxR,AuxG,"CI"):-!,
+	get_aux_sos(Auxs,AuxA,AuxCI,AuxR,AuxG,"R").
+get_aux_sos([AuxR|Auxs],AuxA,AuxCI,AuxR,AuxG,"R"):-!,
+	get_aux_sos(Auxs,AuxA,AuxCI,AuxR,AuxG,"G").
+get_aux_sos([AuxG|Auxs],AuxA,AuxCI,AuxR,AuxG,"G"):-!,
+	get_aux_sos(Auxs,AuxA,AuxCI,AuxR,AuxG,_).
+	
+%sottrae un valore base BV ad ogni elemento della lista L 
+subtract_y([],_,LL,LL):-!.
+subtract_y([H|T],BV,L,LL):-
+	V is H-BV,
+	append(L,[V],LN),
+	subtract_y(T,BV,LN,LL).

@@ -355,3 +355,10 @@ sum_square_diff([H|T],Mean,Sum0,Sum):-
 	ST is Sum0 + (H-Mean)*(H-Mean),
 	sum_square_diff(T,Mean,ST,Sum).
 	
+%predicato per stampare lunghe liste in formato più leggibile
+pretty_print_list([],_,_):-!.
+pretty_print_list([H|T],ElementName,N):-
+	write_tee(ElementName), write_tee(" "), 
+	write_tee(N), write_tee(" : "), writeln_tee(H),
+	NN is N+1,
+	pretty_print_list(T,ElementName,NN). 
