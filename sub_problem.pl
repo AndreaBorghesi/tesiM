@@ -368,35 +368,24 @@ exclude_plus([B|Budgets],BudgetPV,ListTemp,List):-
 %i parametri passati sono i tipi di incentivazione, il budget per il PV e l'outcome atteso dal PV
 assegna_fondi(TipiInc,BudgetPV,ExpOut):-
 	
-	writeln_tee("---->>> Debug 1 <<<----"),
 	%ad ogni tipo di incentivo assegno una variabile che rappresenta il costo ( 0..50mln )
 	crea_var_names_sub(TipiInc,Budgets,0,50),
 	%ad ogni tipo di incentivo assegno una variabile che rappresenta l'outcome ( 0..60MW )
 	crea_var_names_sub(TipiInc,Outs,0,60),
 	
-	writeln_tee("---->>> Debug 2 <<<----"),
 	%creo vincoli che modellano l'approssimazione lineare
 	piecewise_linear_model(TipiInc,Budgets,Outs,[],Auxs),
 	
-	writeln_tee("---->>> Debug 3 <<<----"),
 	%la somma dei fondi assegnati ad ogni incentivo deve essere minore del budget per il PV
 	sub:(sum(Budgets) $=< BudgetPV ),
 	
-	writeln_tee("---->>> Debug 4 <<<----"),
 	%inserisco in liste apposite le variabili ausiliarie che devono formare SOS2 (un SOS2 per tipo di incentivo)
 	get_aux_sos(Auxs,AuxA,AuxCI,AuxR,AuxG,"A"),
 	
-	write_tee("---->>> Auxs A: "), writeln_tee(AuxA),
-	write_tee("---->>> Auxs CI: "), writeln_tee(AuxCI),
-	write_tee("---->>> Auxs R: "), writeln_tee(AuxR),
-	write_tee("---->>> Auxs G: "), writeln_tee(AuxG),
-	
-	writeln_tee("---->>> Debug 5 <<<----"),
 	%la funzione obiettivo cerca di massimizzare la produzione energetica
 	sub:(VarObiettivo $= (sum(Outs))),
 	sub:eplex_solver_setup(max(sum(Outs)),VarObiettivo,[dual_solution(yes),use_var_names(yes),sos2(AuxA),sos2(AuxCI),sos2(AuxG),sos2(AuxR)],[deviating_bounds,bounds,new_constraint]),
 	
-	writeln_tee("---->>> Debug 6 <<<----"),
 %	sub:eplex_solve(Out),
 	
 	writeln_tee("------Assegnazione Fondi-------"),
@@ -405,7 +394,10 @@ assegna_fondi(TipiInc,BudgetPV,ExpOut):-
 	
 	write_tee("Budget vars: "), writeln_tee(Budgets),
 	write_tee("Out vars: "), writeln_tee(Outs),
-	write_tee("Auxiliary vars: "), writeln_tee(Auxs),
+	writeln_tee("Auxiliary vars A: "), pretty_print_list(AuxA,"AuxA",1),
+	writeln_tee("Auxiliary vars CI: "), pretty_print_list(AuxCI,"AuxCI",1),
+	writeln_tee("Auxiliary vars R: "), pretty_print_list(AuxR,"AuxR",1),
+	writeln_tee("Auxiliary vars G: "), pretty_print_list(AuxG,"AuxG",1),
 	
 	sub:eplex_get(constraints,Constraints),
 	pretty_print_list(Constraints,"Constraint",1),
@@ -419,29 +411,25 @@ assegna_fondi(TipiInc,BudgetPV,ExpOut):-
 %inserisce all'interno del modello le relazioni tra budget e outcome ricavate dalle simulazioni e approssimate con funzioni lineari a tratti
 piecewise_linear_model([],_,_,AuxF,AuxF):-!.
 piecewise_linear_model([Tipo|TipiInc],[B|Budgets],[O|Outs],AuxT,AuxF):-
-	writeln_tee("---->>> Debug 2.1 <<<----"),
 	%ricava i punti che definiscono la spezzata per il tipo di incentivo
 	punti(Tipo,Punti),
 	%creo tante variabili ausiliarie quanti sono i punti che caratterizzano l'incentivo
 	crea_var_sub(Punti,Auxs,0,1),
-	writeln_tee("---->>> Debug 2.2 <<<----"),
 	%le variabili ausiliarie sono inserite in una lista per usi successivi (SOS2)
 	append(AuxT,[Auxs],AuxN),
 	
-	writeln_tee("---->>> Debug 2.3 <<<----"),
 	%estrai dalla lista di punti le liste per ascisse e ordinate
 	extract_coord(Punti,[],Xs,[],Ys),
 	
 	%ai valori delle ordinate (Ys) sottrai il valore minimo (per ogni tipo di incentivo), in modo da ottenere come outcome totale la differenza rispetto al caso in cui non ci sia fondo incentivante (e non il valore assoluto)
-	base_value(Tipo,YMin),
+%	base_value(Tipo,YMin),
+	%oppure per sottolineare la differenza rispetto al caso in cui nessuna metodologia incentivante sia fornita sottrarre il valore di out in caso di nessun incentivo
+	base_value('Nessuno',YMin),
 	subtract_y(Ys,YMin,[],YsSub),
 	
 	%vincoli per le variabili ausiliarie per approssimare la relazione budget-out con una curva lineare a tratti
-	writeln_tee("---->>> Debug 2.4 <<<----"),
-	sub:(sum(Auxs) $= 1),
-	writeln_tee("---->>> Debug 2.5 <<<----"),
+	sub:(sum(Auxs) $=< 1),
 	sub:(B $= (Auxs*Xs) ),
-	writeln_tee("---->>> Debug 2.6 <<<----"),
 	sub:(O $= (Auxs*YsSub) ),
 	
 	write_tee("-- Tipo inc: "), writeln_tee(Tipo),
