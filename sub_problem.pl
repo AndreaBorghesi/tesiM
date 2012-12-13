@@ -404,6 +404,10 @@ assegna_fondi(TipiInc,BudgetPV,ExpOut):-
 	
 	sub:eplex_var_get(VarObiettivo,typed_solution,VarObiettivoVal),  
     write_tee("Out Value: "), writeln_tee(VarObiettivoVal),
+    
+    writeln_tee("------Duale-------"),
+    sub:eplex_get(dual_solution,Dual),
+    write_tee("Dual -> "), writeln_tee(Dual),
 	
 	writeln_tee("Assegnazione fondi completata").
 	

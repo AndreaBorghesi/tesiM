@@ -1,0 +1,91 @@
+%Andrea Borghesi
+%Università degli studi di Bologna
+
+%brevissimo report sui risultati ottenuti inserendo la regressione lineare a tratti nel modello a vincoli
+
+\documentclass[12pt,a4paper,openright,twoside]{report}
+\usepackage[italian]{babel}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+%cartelle contenenti le immagini
+\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/schemi/}}
+
+\begin{document}
+\chapter{TITOLO CAPITOLO}
+
+
+\section{REGRESSIONE LINEARE A TRATTI}
+
+In precedenza abbiamo visto come le relazioni che legano il budget fornito alla produzione energetica ottenibile con i diversi tipi di incentivi non siano esclusivamente di natura lineare. Questo in generale non rappresenterebbe un problema, ma l'ottimizzatore realizzato gestisce esclusivamente vincoli lineari; per ovviare a questa difficoltà abbiamo deciso di approssimare le relazioni non lineari con funzioni lineari a tratti,‌ affinché fosse possibile inserirle in modo naturale all'interno del problema a vincoli.
+\\* \\* 
+Data una funzione $y=f(x)$, campioniamo la curva $g$ in $k$ punti $x_1,...,x_k$ e l'approssimazione lineare a tratti $y'=g'(x)\simeq g(x)$ è definita come
+\begin{equation} \label{eq:aprroxEqX}
+	x = \sum_{i=1}^k \lambda_i \cdot x_i,
+\end{equation}
+\begin{equation} \label{eq:aprroxEqY}
+	y = \sum_{i=1}^k \lambda_i \cdot y_i,
+\end{equation}
+dove $\lambda_i \in [0..1]$ sono variabili continue soggette ai vincoli:
+\begin{equation} \label{eq:aprroxEqLambda}
+	\sum_{i=1}^k \lambda_i = 1
+\end{equation}
+Al massimo due $\lambda_i$ possono essere diverse da zero e in tal caso queste devono essere adiacenti.\\*
+Queste ultime due condizioni potrebbero essere modellate introducendo nuove 0-1 variabili intere, ma nel risolutore del problema a vincoli è possibile dichiarare $(\lambda_1,...,\lambda_k)$ come Special Order Set del secondo tipo (SOS2)[inserire riferimento], e il risolutore sfrutterà questa informazione per efficienti euristiche di branching.  
+\\* \\*
+Con riferimento alle equazioni ~\ref{eq:aprroxEqX} e ~\ref{eq:aprroxEqY}, nel nostro caso $x$ indica il budget fornito all' incentivo e $y$ rappresenta la produzione energetica; le varie $x_i$ e $y_i$ sono le coordinate dei punti che sono stati campionati nelle curve delle relazioni tra budget e produzione energetica.\\*
+Per calcolare questi punti ci siamo serviti dello strumento usato in precedenza per effettuare l'analisi statistica sui dati ottenuti dalle simulazioni e ricavare l'andamento delle funzioni cercate.
+In figura ~\ref{incentCompare_piecewise} è possibile osservare quale sia l'approssimazione lineare a tratti delle relazioni mostrate in precedenza.
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.6]{incentComparePiecewise}
+	\caption{Confronto tra i diversi incentivi - Approssimazione lineare a tratti}
+	\label{incentCompare_piecewise}
+\end{figure}
+
+
+\section{MODELLO PROBLEMA}
+
+Dopo aver introdotto la tecnica generale per approssimare una funzione non lineare con una lineare a tratti, vediamo ora come questa è stata implementata all'interno del modello a vincoli.
+
+\subsection{VARIABILI}
+
+Innanzitutto per ogni tipologia di incentivo sono introdotte due variabili che rappresentano il costo associato e la relativa produzione energetica; per i costi le variabili sono chiamate $b_A, b_{CI}, b_R, b_G$, con $b_j \in [0..50]$ (dominio espresso in milioni di euro), mentre per le produzioni energetiche associate agli incentivi le variabili sono chiamate $o_A, o_{CI}, o_R, o_G$, con $o_j \in [0..10]$ (dominio espresso in megawatt). Occorre fare subito un'importante precisazione, ovvero spiegare che per produzione energetica associata ad ogni metodologia incentivante abbiamo in questo caso inteso la produzione di energia non in termini assoluti, bensì la differenza (aumento) di produzione energetica che si ottiene finanziando un tipo di incentivo rispetto al caso in cui nessun meccanismo incentivante sia supportato (il valore di produzione energetica associato a nessuna incentivazione è definito dalla costante $Y_{BASE}$)
+\\* \\*
+Abbiamo poi introdotto le variabili ausiliarie necessarie all'approssimazione lineare chiamate $\lambda_i$ nell'equazione ~\ref{eq:aprroxEqLambda} e ugualmente nominate all'interno del problema e sempre con $\lambda_i \in [0..1]$; per ciascun tipo di incentivo e per ogni punto scelto per la campionatura sulle curve budget-produzione è stata introdotta una variabile ausiliaria $\lambda_{ji}$, con $j$ indice per il tipo di incentivo e $i$ per il punto campionato. Come scelta iniziale i punti utilizzati per la campionatura sono il minor numero possibile tramite cui rappresentare correttamente la funzione approssimata, cioè i punti in cui si osserva un cambiamento del gradiente della curva; in particolare abbiamo usato tre punti per gli incentivi Fondo Asta, Conto Interessi e Fondo Rotazione e quattro per il Fondo Garanzia. 
+
+\subsection{VINCOLI}
+
+I vincoli seguenti sono necessari per approssimare la curva con una lineare a tratti e sono la diretta trasposizione delle equazioni ~\ref{eq:aprroxEqX}, ~\ref{eq:aprroxEqY} e ~\ref{eq:aprroxEqLambda} all'interno del nostro modello a vincoli; nel equazione ~\ref{eq:vincoloAuxY} il termine $y_{ji}-Y_{BASE}$ serve per calcolare la differenza di produzione energetica rispetto al caso di nessun incentivo.\\*
+Per chiarezza ricordiamo che gli indici $j$ e $i$ selezionano rispettivamente metodo incentivante e punto di campionamente e quindi nei vincoli ~\ref{eq:vincoloAuxX}, ~\ref{eq:vincoloAuxY} e ~\ref{eq:vincoloAuxLambda} si ha $j \in [1..4]$.
+
+\begin{equation} \label{eq:vincoloAuxX}
+	b_j = \sum_{i=1}^k \lambda_{ji} \cdot x_{ji} 
+\end{equation}
+\begin{equation} \label{eq:vincoloAuxY}
+	o_j = \sum_{i=1}^k \lambda_{ji} \cdot (y_{ji}-Y_{BASE})
+\end{equation}
+\begin{equation} \label{eq:vincoloAuxLambda}
+	\sum_{i=1}^k \lambda_{ji} \leq 1
+\end{equation}
+
+Imponiamo poi che la somma dei costi dei vari incentivi sia minore del budget totale dedicato agli incentivi per l'energia fotovoltaica, indicato dalla costante $BUDGET_{PV}$.
+
+\begin{equation} \label{eq:vincoloCosti}
+	\sum_{j=1}^4 b_j \leq BUDGET_{PV}
+\end{equation}
+
+Infine la funzione obiettivo fornita al risolutore del problema a vincoli tenta di massimizzare la produzione energetica distribuendo il budget disponibile ai vari incentivi.
+
+\begin{equation} \label{eq:vincoloCosti}
+	\max ( \sum_{j=1}^4 o_j )
+\end{equation}
+
+
+
+\section{ASSEGNAZIONE FONDI}
+
+
+
+\end{document}
