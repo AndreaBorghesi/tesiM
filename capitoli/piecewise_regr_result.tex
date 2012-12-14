@@ -8,6 +8,11 @@
 \usepackage{indentfirst}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage{hyphenat}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{titlesec,blindtext, color}
+\usepackage[font={small,it}]{caption}
 
 %cartelle contenenti le immagini
 \graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/schemi/}}
@@ -64,7 +69,7 @@ Per chiarezza ricordiamo che gli indici $j$ e $i$ selezionano rispettivamente me
 	b_j = \sum_{i=1}^k \lambda_{ji} \cdot x_{ji} 
 \end{equation}
 \begin{equation} \label{eq:vincoloAuxY}
-	o_j = \sum_{i=1}^k \lambda_{ji} \cdot (y_{ji}-Y_{BASE})
+	o_j = \sum_{i=1}^k \lambda_{ji} \cdot (y_{ji}-Y_{BASE}) 
 \end{equation}
 \begin{equation} \label{eq:vincoloAuxLambda}
 	\sum_{i=1}^k \lambda_{ji} \leq 1
@@ -86,6 +91,83 @@ Infine la funzione obiettivo fornita al risolutore del problema a vincoli tenta 
 
 \section{ASSEGNAZIONE FONDI}
 
+Per valutare ora l'interazione tra il DSS e il simulatore analizzeremo ora in che modo vengono finanziati le diverse tipologie di incentivazione sulla base del problema a vincoli presentato in precedenza.\\*
+Per come il sotto-problema dell'assegnazione dei fondi è stato definito, il risolutore procede distribuendo i fondi a partire dall'incentivo che risulta essere più efficace e prosegue poi finanziando gli incentivi restanti fino a esaurimento del budget previsto. Per determinare quale sia il tipo di incentivo più efficace vengono sfruttate le funzioni lineari a tratti che approssimano le relazioni tra budget e produzione energetica.\\*
+Nelle tabelle seguenti sarà mostrato in che modo vengono assegnati i fondi ai vari incentivi a partire da un determinato budget, evidenziando anche l'aumento di produzione energetica ottenibile rispetto al caso in cui nessun incentivo venga finanziato; per avere un riferimento ricordiamo che nel nostro simulatore, quindi non adeguatamente scalato, il valore di produzione energetica ottenibile in assenza di meccanismi incentivanti è di circa 21.664MW.
+\\* \\*
+\paragraph{FONDO INCENTIVI – 2.5 MILIONI EURO}
+\begin{center}
+	\begin{tabular}{ | p{4.5cm}  | p{4.5cm} | p{4.5cm} | }
+		\hline
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Costo (Milioni di Euro)}} & \nohyphens{\emph{Produzione Energetica Differenziale(MW)}} \\ \hline
+		Asta &  0.00 & 0.000 \\ \hline
+		Conto Interessi & 2.50 & 3.563 \\ \hline
+		Rotazione & 0.00 & 0.000 \\ \hline
+		Garanzia & 0.00 & 0.000 \\ \hline \hline 
+		Totale & 2.50 & 3.563 \\
+		\hline
+	\end{tabular}
+\end{center}
+Con questo fondo per gli incentivi viene finanziato totalmente il Conto Interessi consumando interamente il budget disponibile, impedendo quindi di stanziare fondi anche agli altri incentivi, e ottenendo un aumento di produzione energetica di 3.563MW.
 
+\paragraph{FONDO INCENTIVI – 5 MILIONI EURO}
+\begin{center}
+	\begin{tabular}{ | p{4.5cm}  | p{4.5cm} | p{4.5cm} | }
+		\hline
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Costo (Milioni di Euro)}} & \nohyphens{\emph{Produzione Energetica Differenziale(MW)}} \\ \hline
+		Asta &  0.00 & 0.000 \\ \hline
+		Conto Interessi & 2.53 & 3.606 \\ \hline
+		Rotazione & 1.00 & 0.286 \\ \hline
+		Garanzia & 1.00 & 0.170 \\ \hline \hline 
+		Totale & 5.00 & 4.121 \\
+		\hline
+	\end{tabular}
+\end{center}
+In questo caso è possibile finanziare interamente il Conto Interessi (il quale, come atteso, richiede decisamente meno risorse degli altri, ovvero potendo essere completamente soddisfatto con 2.53 milioni di euro) e distribuire il budget restante agli incentivi Fondo Rotazione e Garanzia, ottenendo così un miglioramento della produzione energetica di 4.121MW.
+
+\paragraph{FONDO INCENTIVI – 10 MILIONI EURO}
+\begin{center}
+	\begin{tabular}{ | p{4.5cm}  | p{4.5cm} | p{4.5cm} | }
+		\hline
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Costo (Milioni di Euro)}} & \nohyphens{\emph{Produzione Energetica Differenziale(MW)}} \\ \hline
+		Asta &  0.00 & 0.000 \\ \hline
+		Conto Interessi & 2.53 & 3.606 \\ \hline
+		Rotazione & 1.00 & 0.286 \\ \hline
+		Garanzia & 6.47 & 0.816 \\ \hline \hline 
+		Totale & 10.00 & 4.708 \\
+		\hline
+	\end{tabular}
+\end{center}
+Con un ulteriore aumento del budget l'assegnazione dei fondi ottimale prevede di distribuire prima al Conto Interessi seguito sempre dai Fondi Garanzia e Rotazione, ottenendo un incremento della produzione energetica pari a 4.708MW; in realtà il scendo miglior incentivo è il Fondo Garanzia e quindi esso riceve finanziamenti maggiori rispetto al Rotazione, a quest'ultimo viene comunque assegnato un budget di 1 milione di euro (anche nel caso precedente) in quanto, per come sono stati campionati i punti che definiscono l'approsimazione lineare a tratti, a tale budget è associata una produzione energetica migliore rispetto a quella del Fondo Garanzia.
+
+\paragraph{FONDO INCENTIVI – 20 MILIONI EURO}
+\begin{center}
+	\begin{tabular}{ | p{4.5cm}  | p{4.5cm} | p{4.5cm} | }
+		\hline
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Costo (Milioni di Euro)}} & \nohyphens{\emph{Produzione Energetica Differenziale(MW)}} \\ \hline
+		Asta &  1.00 & 0.125 \\ \hline
+		Conto Interessi & 2.53 & 3.606 \\ \hline
+		Rotazione & 2.73 & 0.458 \\ \hline
+		Garanzia & 13.74 & 1.734 \\ \hline \hline 
+		Totale & 20.00 & 5.923 \\
+		\hline
+	\end{tabular}
+\end{center}
+Con un budget di 20 milioni di euro notiamo due differenze. \\* La prima è che dopo aver assegnato circa 13 milioni e mezzo al Fondo Garanzia diventa più utile destinare i fondi rimanenti al Fondo Rotazione, ricavando un aumento della produzione di 5.923MW; questo accade perchè in corrispondenza di quel budget la pendenza della curva che descrive l'incentivo Fondo Garanzia diminuisce sensibilmente (Fig. ~\ref{incentCompare_piecewise}), rendendo quindi l'incentivo meno efficace in confronto al Fondo Rotazione.\\* La seconda differenza è che conviene anche destinare una minima parte (1 milione di euro) del budget anche al Fondo Asta e questo è probabilmente dovuto nuovamente al modo in cui sono stati campionati i punti per l'approsimazione.
+
+\paragraph{FONDO INCENTIVI – 40 MILIONI EURO}
+\begin{center}
+	\begin{tabular}{ | p{4.5cm}  | p{4.5cm} | p{4.5cm} | }
+		\hline
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Costo (Milioni di Euro)}} & \nohyphens{\emph{Produzione Energetica Differenziale(MW)}} \\ \hline
+		Asta &  1.00 & 0.125 \\ \hline
+		Conto Interessi & 2.53 & 3.606 \\ \hline
+		Rotazione & 22.73 & 2.448 \\ \hline
+		Garanzia & 13.74 & 1.734 \\ \hline \hline 
+		Totale & 40.00 & 7.913 \\
+		\hline
+	\end{tabular}
+\end{center}
+Con un budget di 40 milioni di euro i risultati sono molto simili al caso precedente, con la differenza che i maggiori finanziamenti disponibili vengono interamente indirizzati al Fondo Rotazione, poichè il Conto Interessi è in grado di rendere al massimo anche con una spesa minima e il Fondo Garanzia diventa meno efficace con budget maggiori di 13 milioni e mezzo di euro (come anche il Fondo Asta con qualsiasi budget); l'incremento di produzione energetica rispetto alla mancanza di metodologie incentivanti è di 7.913MW.
 
 \end{document}
