@@ -465,3 +465,45 @@ subtract_y([H|T],BV,L,LL):-
 	V is H-BV,
 	append(L,[V],LN),
 	subtract_y(T,BV,LN,LL).
+	
+%definizione del master problem per benders dec
+%sono fissati i fondi per i diversi incentivi e lascio libere le variabili ausiliare che legano budget e out
+assegna_fondi_master(TipiInc,BudgetPV,ExpOut,FixedBudgetA,FixedBudgetCI,FixedBudgetR,FixedBudgetG):-
+	open('ris.txt',write,outfile),
+	
+	%ad ogni tipo di incentivo assegno una variabile che rappresenta l'outcome ( 0..60MW )
+	crea_var_names_sub(TipiInc,Outs,0,60),
+	
+	%creo vincoli che modellano l'approssimazione lineare
+	piecewise_linear_model(TipiInc,[FixedBudgetA,FixedBudgetCI,FixedBudgetR,FixedBudgetG],Outs,[],Auxs),
+	
+	%inserisco in liste apposite le variabili ausiliarie che devono formare SOS2 (un SOS2 per tipo di incentivo)
+	get_aux_sos(Auxs,AuxA,AuxCI,AuxR,AuxG,"A"),
+	
+	%la funzione obiettivo cerca di massimizzare la produzione energetica
+	sub:(VarObiettivo $= (sum(Outs))),
+	sub:eplex_solver_setup(max(sum(Outs)),VarObiettivo,[dual_solution(yes),use_var_names(yes),sos2(AuxA),sos2(AuxCI),sos2(AuxG),sos2(AuxR)],[deviating_bounds,bounds,new_constraint]),
+	
+	writeln_tee("------Assegnazione Fondi-------"),
+	write_tee("BudgetPV: "), writeln_tee(BudgetPV),
+	write_tee("Expected Outcome: "), writeln_tee(ExpOut),
+	
+	write_tee("Budget vars: "), writeln_tee(Budgets),
+	write_tee("Out vars: "), writeln_tee(Outs),
+	writeln_tee("Auxiliary vars A: "), pretty_print_list(AuxA,"AuxA",1),
+	writeln_tee("Auxiliary vars CI: "), pretty_print_list(AuxCI,"AuxCI",1),
+	writeln_tee("Auxiliary vars R: "), pretty_print_list(AuxR,"AuxR",1),
+	writeln_tee("Auxiliary vars G: "), pretty_print_list(AuxG,"AuxG",1),
+	
+	sub:eplex_get(constraints,Constraints),
+	pretty_print_list(Constraints,"Constraint",1),
+	
+	sub:eplex_var_get(VarObiettivo,typed_solution,VarObiettivoVal),  
+    write_tee("Out Value: "), writeln_tee(VarObiettivoVal),
+    
+    writeln_tee("------Duale-------"),
+    sub:eplex_get(dual_solution,Dual),
+    write_tee("Dual -> "), writeln_tee(Dual),
+	
+	writeln_tee("Assegnazione fondi completata"),
+	close(outfile).

@@ -4,6 +4,7 @@ globals [ wacc m2Kwp  count_tick scala_dim_impianto time anno number durata_impi
   random_bgt random_m2 random_ostinazione random_consumo kW2012 kW2013 kW2014 kW2015 kW2016 kWTOT NAgentiFINAL  
   INCENTIVO_INST2012 INCENTIVO_INST2013 INCENTIVO_INST2014 INCENTIVO_INST2015 INCENTIVO_INST2016 INCENTIVO_INSTOT 
   INCENTIVO_PRO2012 INCENTIVO_PRO2013 INCENTIVO_PRO2014 INCENTIVO_PRO2015 INCENTIVO_PRO2016 INCENTIVO_PROTOT 
+  Budget2012 Budget2013 Budget2014 Budget2015 Budget2016 ;per tenere traccia del budget annuale, spese più ricavi
   TOT_SPESA2012 TOT_SPESA2013 TOT_SPESA2014 TOT_SPESA2015 TOT_SPESA2016 TOT_SPESA 
   r2012 r2013 r2014 r2015 r2016 ;percentuale agenti che non sono morti
   BudgetCorrente;quanto è rimasto del budget iniziale
@@ -191,6 +192,11 @@ to default
   set TOT_SPESA2015 0 
   set TOT_SPESA2016 0 
   set TOT_SPESA 0
+  set Budget2012 0
+  set Budget2013 0
+  set Budget2014 0
+  set Budget2015 0
+  set Budget2016 0
   set Incentivi_Installazione false
   set %_Incentivi_Installazione 10
   set Varia_Tariffe_Incetivanti false
@@ -513,6 +519,7 @@ to valuta_fattibilita_impianto
       calcola_tariffa_gse
       aggiorna_kW
       aggiorna_incentivi_installazione
+      aggiorna_budget_annuale
       aggiorna_pf
       stampa
     ]
@@ -651,6 +658,7 @@ to accetta_ridimensionamento
       calcola_tariffa_gse
       aggiorna_kW
       aggiorna_incentivi_installazione
+      aggiorna_budget_annuale
       aggiorna_pf
       stampa
     ] 
@@ -684,6 +692,7 @@ to accetta_prestito
       calcola_tariffa_gse
       aggiorna_kW
       aggiorna_incentivi_installazione
+      aggiorna_budget_annuale
       aggiorna_pf 
       stampa      
     ] 
@@ -928,6 +937,66 @@ to aggiorna_incentivi_installazione
   ]
   ;;aggiornamento incentivi installazione TOTALI
   set INCENTIVO_INSTOT INCENTIVO_INSTOT + incentivo_installazione  
+end
+
+;;salva budget corrente alla fine di ogni anno
+to aggiorna_budget_annuale
+  
+  ifelse (anno_realizzazione = 2012)
+  [
+    set Budget2012 BudgetCorrente
+  ]
+  [
+    ifelse (anno_realizzazione = 2013)
+    [
+      set Budget2013 BudgetCorrente
+    ]
+    [
+      ifelse (anno_realizzazione = 2014)
+      [
+        set Budget2014 BudgetCorrente
+      ]  
+      [
+        ifelse (anno_realizzazione = 2015)
+        [
+          set Budget2015 BudgetCorrente
+        ]
+        [
+          set Budget2016 BudgetCorrente
+        ]
+      ]    
+    ]
+  ]
+end
+
+;;aumenta il budget regionale all'inizio di ogni nuovo anno (della quantità specificata negli appositi slider)
+to aggiorna_budget
+  ;;a partire dal secondo anno: nel 2012 il budget è dato direttamente da BudgetRegione
+  ifelse (anno_realizzazione = 2012)
+  [
+    ;;set BudgetCorrente BudgetCorrente
+  ]
+  [    
+    ifelse (anno_realizzazione = 2013)
+    [
+      set  BudgetCorrente BudgetCorrente + (BudgetRegione2013 * 1000000)
+    ]
+    [
+      ifelse (anno_realizzazione = 2014)
+      [
+       set  BudgetCorrente BudgetCorrente + (BudgetRegione2014 * 1000000)
+      ]  
+      [
+        ifelse (anno_realizzazione = 2015)
+        [
+          set  BudgetCorrente BudgetCorrente + (BudgetRegione2015 * 1000000)
+        ]
+        [
+         set  BudgetCorrente BudgetCorrente + (BudgetRegione2016 * 1000000)
+        ]
+      ]    
+    ]
+  ]
 end
 
 ;; CALCOLA LA PERCENTUALE DI AGENTI CHE DECIDONO DI EFFETTUARE L'IMPIANTO
@@ -1536,6 +1605,12 @@ to stampa_resoconto
   output-print (word "ANNO 2015: " TOT_SPESA2015  " euro")
   output-print (word "ANNO 2016: " TOT_SPESA2016  " euro")
   output-print (word "TOTALE [2012..2016]: " TOT_SPESA " euro")
+  output-print (word "************************************RESOCONTO BUDGET ANNUALE******************************************")
+  output-print (word "ANNO 2012: " Budget2012  " euro")
+  output-print (word "ANNO 2013: " Budget2013  " euro")
+  output-print (word "ANNO 2014: " Budget2014  " euro")
+  output-print (word "ANNO 2015: " Budget2015  " euro")
+  output-print (word "ANNO 2016: " Budget2016  " euro")
 end
 
 ;; STAMPA DATI DEGLI AGENTI....VARIARE IN BASE ALL'INTERESSE
@@ -1924,7 +1999,7 @@ CHOOSER
 Perdita_efficienza_annuale_pannello
 Perdita_efficienza_annuale_pannello
 0.3 0.5 0.8 1
-1
+0
 
 TEXTBOX
 284
@@ -1992,7 +2067,7 @@ Aumento_%annuo_consumi
 19
 
 BUTTON
-23
+7
 10
 78
 43
@@ -2438,7 +2513,7 @@ SWITCH
 365
 LeggiSerieStoriche
 LeggiSerieStoriche
-1
+0
 1
 -1000
 
@@ -2511,7 +2586,7 @@ CHOOSER
 fr
 fr
 "Nessuno" "Asta" "Conto interessi" "Rotazione" "Garanzia"
-4
+1
 
 SLIDER
 17
@@ -2522,7 +2597,7 @@ BudgetRegione
 BudgetRegione
 0.1
 15
-60
+1.5
 0.1
 1
 milioni
@@ -2547,7 +2622,7 @@ Raggio
 Raggio
 1
 10
-5
+4
 1
 1
 patches
@@ -3164,6 +3239,66 @@ percpositive
 17
 1
 11
+
+SLIDER
+1279
+790
+1537
+823
+BudgetRegione2013
+BudgetRegione2013
+0
+10
+0
+0.1
+1
+milioni
+HORIZONTAL
+
+SLIDER
+1279
+833
+1537
+866
+BudgetRegione2014
+BudgetRegione2014
+0
+10
+1.8
+0.1
+1
+milioni
+HORIZONTAL
+
+SLIDER
+1280
+875
+1538
+908
+BudgetRegione2015
+BudgetRegione2015
+0
+10
+0
+0.1
+1
+milioni
+HORIZONTAL
+
+SLIDER
+1278
+921
+1536
+954
+BudgetRegione2016
+BudgetRegione2016
+0
+10
+0
+0.1
+1
+milioni
+HORIZONTAL
 
 @#$#@#$#@
 ## CREDITS AND REFERENCES
