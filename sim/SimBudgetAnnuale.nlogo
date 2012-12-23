@@ -49,13 +49,8 @@ pf-own [id consumo_medio_annuale budget %cop_cosumi M2disposizione dimensione_im
 
 ;;PROCEDURA SETUP INIZIALIZZA VARIABILI GLOBALI, GRAFICO roe E GENERA IL PRIMO SET DI AGENTI
 to setup
-  ;; (for this model to work with NetLogo's new plotting features,
-  ;; __clear-all-and-reset-ticks should be replaced with clear-all at
-  ;; the beginning of your setup procedure and reset-ticks at the end
-  ;; of the procedure.)  
   __clear-all-and-reset-ticks
-  ;set BudgetCorrente BudgetRegione * 1000000
-  ;tick
+  
   set costo_kwh_fascia1 0.278
   set costo_kwh_fascia2 0.162
   set costo_kwh_fascia3 0.194

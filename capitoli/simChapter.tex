@@ -13,6 +13,32 @@
 \usepackage{titlesec,blindtext, color}
 \usepackage[font={small,it}]{caption}
 \usepackage{subfig}
+\usepackage{listings}
+\usepackage{color}
+
+%impostazioni generali per visualizzare codice
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+\lstset{ %
+  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*,...},              % if you want to add more keywords to the set
+  deletekeywords={...}              % if you want to delete keywords from the given language
+}
 
 %per avere un bordo intorno alle figure
 \usepackage{float}
@@ -95,7 +121,7 @@ In Figura ~\ref{netlogoUI_code} sono mostrati un esempio di una parte di iterfac
 	\centering
 	\subfloat[Interfaccia Grafica]{\includegraphics[scale=0.4]{netlogoUI}\label{netlogoUI}}
 	\quad 
-	\subfloat[Codice]{\includegraphics[scale=0.4]{netlogoCode}\label{netlogoCode}}
+	\subfloat[Codice]{\includegraphics[scale=0.45]{netlogoCode}\label{netlogoCode}}
 	\caption{Esempio dell'ambiente di sviluppo di NetLogo}
 	\label{netlogoUI_code}
 \end{figure}
@@ -117,16 +143,58 @@ Per via della sua derivazione da S, R presenta alcune caratteristiche che lo fan
 \item \emph{funzioni}, le quali sono esse stesse oggetti e forniscono così un modo semplice e flessibile di estendere R.
 \end{itemize}
 Come in ogni linguaggio di programmazione è poi ovviamente possibile manipolare queste strutture dati attraverso operatori, strutture di controllo, funzioni, etc...\\* \\*
-Illustreremo ora un brevissimo esempio per far capire un possibile utilizzo di R per effettuare una semplice analisi statistica. Supponiamo di cercare la relazione che lega due variabili 
+Illustreremo ora un brevissimo esempio per far capire un possibile utilizzo di R per effettuare una semplice analisi statistica. Supponiamo di voler studiare la relazione che lega due variabili, \emph{a} e \emph{b}, i cui valori si trovano in un file di tipo \emph{Comma Separated Values}. Il primo passo è importare tali valori dal file e inserirli in una struttura dati, in questo caso una matrice con due colonne (una per ogni variabile) e ordinarli in base ai valori della prima variabile.
 
-\lstset{language=Prolog,basicstyle=\footnotesize}
+\lstset{language=R}
 \begin{lstlisting}
-> data <- data.unsorted[order(data.unsorted$Budget),]
+> matrice.dati <- read.csv("file.csv")
+> matrice.ordinata <- matrice_dati[order(matrice.dati$a),]
 \end{lstlisting}
+
+A questo punto sarebbe possibile svolgere diverse operazioni sui dati (ad esempio calcolare per ogni valore di ogni variabile i valori medi,...) ma ci limiteremo a effettuare una semplice regressione lineare.
+\begin{lstlisting}
+> modello.lineare <- lm(matrice$b ~ matrice$a)
+\end{lstlisting}
+
+\begin{figure}[hbt]
+	\centering
+	\subfloat[Grafico]{\includegraphics[scale=0.4]{example_r_graph}\label{example_r_graph}} 
+	\quad
+	\subfloat[Analisi statistica]{\includegraphics[scale=0.6]{example_r_result}\label{example_r_result}}
+	\caption{Esempio di utilizzo di R}
+	\label{example_r}
+\end{figure}
+
+R ci consente ora di effettuare analisi statistiche sul modello di regressione applicato per stabilirne validità e significatività in rapporto ai dati in nostro possesso e successivamente di presentare graficamente i risultati ottenuti.
+\begin{lstlisting}
+> #analisi statistica minima
+> summary(modello.lineare)       
+> #disegna i punti corrispondenti ai valori nella matrice
+> plot(matrice$b ~ matrice$a,type="p",lwd=3,ylab="b",xlab="a")    
+> #disegna la curva di regressione
+> lines(matrice$a,predict(modello.lineare), lty="solid", col="darkred", lwd=2)    
+\end{lstlisting}
+
+
+In Figura ~\ref{example_r} sono stati riportati il grafico prodotto da questo esempio e i risultati ottenuti dalla semplicissima analisi statistica, tra i quali notiamo il coefficiente di determinazione (R-squared) e l'errore residuo ( 
+Residual standard error).
+
+
+
+\section{MODELLO AD AGENTI}
+
+
+In generale esistono numerose tecniche di simulazione che si differenziano per i diversi metodi di formalizzazione dei modelli, i linguaggi simbolici usati e i gli ambiti di applicazione più indicati (tecniche matematiche, statistiche, sperimentali,..). In questo lavoro abbiamo scelto di sviluppare un modello basato sul paradigma della simulazione ad agenti, il quale trae origine dall'unione della teoria della complessità con l'intelligenza artificiale distribuita.\\*\\*
+Possiamo iniziare con un definizione, spiegando quindi ciò che si intende col concetto di \emph{agente}, ovvero qualsiasi cosa possa essere vista come un sistema che percepisce il suo ambiente attraverso sensori e agisce su di esso mediante attuatori, in particolare un agente software è un'istanza di una classe del paradigma della programmazione ad oggetti, ovvero un oggetto indipendente  che incapsula proprietà e funzioni autonome ed interagisce, secondo protocolli di comunicazione, con altri oggetti/agenti altrettanto autonomi.\\*
+
 
 \section{SIMULATORE BASE}
 
-\subsection{MODELLO AD AGENTI}
+
+Dopo aver introdotto nei paragrafi precedenti gli strumenti software che abbiamo utilizzato e il tipo di metodologia scelta, è giunto ora il momento di illustrare dettagliatamente come il modello da simulare sia stato implementato. Ci concentreremo prima sulla versione iniziale della simulazione ad agenti che ha lo scopo di modellare, individuare ed analizzare le principali caratteristiche che influenzano la scelta di un investimento nel settore dell'energia da fonti rinnovabili sul territorio della regione Emilia-Romagna, ed in particolare nel fotovoltaico.\\*
+Dalla prospettiva degli agenti (privati, aziende,...) prima di realizzare un investimento in questo settore è necessario effettuare alcuni studi relativi al luogo di installazione, all'irraggiamento solare, alla potenza dell'impianto ed al suo rendimento e contestualmente è di fondamentale importanza effettuare un'analisi approfondita che consenta di verificare con esattezza la convenienza ed il ritorno economico dell'investimento.\\*
+La simulazione è stata pensata con lo scopo di analizzare le esigenze connesse allo sviluppo di un nuovo progetto  fotovoltaico in fase di pianificazione e verificare la fattibilità dell'idea, fornendo quindi un utile strumento di valutazione per i singoli investitori, ma allo stesso tempo consente di ricavare informazioni di natura più globale, come la quantità totale di energia prodotta con tecnologie fotovoltaiche o le spese sostenute dalla regione, grazie alle quali è possibile integrare i risultati delle simulazioni all'interno del problema di ottimizzazione che ha come obiettivo la creazione di un piano energetico regionale.
+
 
 \subsection{METODO DI INCENTIVAZIONE}
 
