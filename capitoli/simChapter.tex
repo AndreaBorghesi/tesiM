@@ -237,7 +237,7 @@ Per ogni step esecutivo, compreso tra il 2012 e il 2016 il sistema genera un det
 Questi parametri sono fondamentali per far si che l'agente posso valutare la fattibilità di realizzazione dell'impianto. Ad esempio nel caso di un agente che abbia come obiettivo la copertura del 100\% dei consumi annuali di elettricità ma abbia a disposizione una superficie che può ospitare un impianto che al massimo garantirebbe una produzione di energia pari al 50\% del fabbisogno, questo agente sarebbe costretto ad abbandonare l'idea di un investimento a meno di non ridurre i propri obiettivi di produzione energetica e quindi di copertura dei consumi risultando particolarmente ostinato ad effettuare l'investimento. Oppure potrebbero comparire considerazioni legate a questioni economiche: nel caso in cui il budget a disposizione dell'agente non sia sufficientemente a garantire la copertura dei costi di realizzazione e installazione dell'impianto potrebbe risultare obbligatorio abbandonare il progetto a meno di non ricorrere a un prestito. \\*
 Gli agenti che optano per abbandonare l'idea di un investimento vengono eliminati dal modello mentre quelli che, a margine dello studio di fattibilità, decidono di effettuare l'investimento daranno vita alla generazione di un nuovo impianto. Come per gli agenti, gli impianti possiedono attributi che li caratterizzano: data di entrata in funzione, tipologia, tecnologia di realizzazione, costo, fascia potenza, tariffa incentivante riconosciuta e dimensione.
 
-\subsection{Valutazione fattibilità investimento}
+\subsection{VALUTAZIONE FATTIBILITÀ INVESTIMENTO}
 Sulla base dei parametri che definiscono il modello ogni agente è in grado di valutare la fattibilità economica dell'investimento calcolando il VAN (il Valore attuale netto dell'investimento) per l'impianto da realizzare; da questo valore è possibile individuare il PBT (Pay Back Time), il periodo necessario per il ''ritorno'' dell'investimento iniziale, e il ROE (Return On Equity), l'indice di redditività del capitale investito.\\*
 Alcune variabili globali usate per la valutazione di fattibilità sono:
 \begin{itemize}
@@ -249,16 +249,77 @@ Alcune variabili globali usate per la valutazione di fattibilità sono:
 \item prezzi minimi garantiti dal gestore della società elettrica per il ritiro dedicato (sulla base della potenza minima dell'impianto).
 \end{itemize}
 
-Una volta assegnati i parametri globali e i parametri individuali (con valori casuali o a partire da serie storiche) per ogni agente vengono individuate le caratteristiche di potenza che l'impianto fotovoltaico dovrà soddisfare, in particolare per determinare la quantità di energia elettrica che l'impianto dovrà produrre al fine di soddisfare l'esigenze dell'agente. Sulla base di tali esigenze si può individuare quale sarà la dimensione dell'impianto, dalla quale è poi facile dedurre i costi di realizzazione dello stesso.
+Una volta assegnati i parametri globali e i parametri individuali (con valori casuali o a partire da serie storiche) per ogni agente vengono individuate le caratteristiche di potenza che l'impianto fotovoltaico dovrà soddisfare, in particolare per determinare la quantità di energia elettrica che l'impianto dovrà produrre al fine di soddisfare l'esigenze dell'agente. Sulla base di tali esigenze si può individuare quale sarà la dimensione dell'impianto, dalla quale è poi facile dedurre i costi di realizzazione dello stesso.\\*
+Una volta che tutte queste informazioni sono a disposizione degli agenti essi possono effettuare la valutazione della fattibilità dell'investimento, procedimento che può essere riassunto nel flow chart  di figura ~\ref{flowChartValFatt}.
+\\*
+Nel  momento in cui un agente valuta la fattibilità dell'investimento si possono verificare i seguenti scenari:
+\begin{itemize}
+\item le dimensione e il costo dell'impianto sono inferiori rispettivamente  alla superficie e al budget a disposizione, l'investimento può essere fatto e l'agente valuta se aumentare eventualmente le dimensioni dell'impianto;
+\item le dimensioni dell'impianto e il costo sono superiori alla superficie e al budget a disposizione quindi l'agente viene eliminato dal modello in quanto non ci sono le condizioni per effettuare l'investimento;
+\item le dimensioni dell'impianto sono superiori alla superficie disponibile ma il budget a disposizione è sufficiente a coprire il costo di realizzazione, l'agente decide se accettare una riduzione di potenza dell'impianto e quindi della sua dimensione;
+\item le dimensioni dell'impianto sono inferiori alla superficie disponibile ma il budget non è sufficiente a coprire i costi dell'investimento, l'agente considera l'ipotesi di prendere in prestito la somma residua.
+\end{itemize}
 
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.5]{valutaFatt}
+	\caption{Flow chart della valutazione degli investimenti}
+	\label{flowChartValFatt}
+\end{figure}
 
+In tutti casi, a esclusione dell'eliminazione dal modello, il comportamento successivo dell'agente dipende, oltre che da fattori economici, anche da un parametro, l'\emph{ostinazione}, che simula la determinazione a istallare un impianto fotovoltaico (ad esempio per motivazioni legate a considerazioni ecologiche), ed entra in gioco per le decisioni inerenti l'aumento delle dimensioni dell'impianto, il suo ridimensionamento o l'accettazione di un prestito.\\*
+In figura ~\ref{mondoVirtualeSim} possiamo osservare il mondo virtuale di Netlogo popolato di agenti che hanno deciso di effettuare l'investimento e realizzare un impianto fotovoltaico; in verde troviamo gli agenti che non hanno avuto problemi di budget o spazio a disposizione, in blu quelli che hanno accettato il ridimensionamento e in rosso quelli che anno accettato un prestito.
 
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.5]{mondoVirtualeSim}
+	\caption{Mondo virtuale di Netlogo}
+	\label{mondoVirtualeSim}
+\end{figure}
+
+\subsection{ESECUZIONE DEL MODELLO}
+
+Una volta popolato il modello con un certo numero di agenti (nell'intervallo [0..100]) viene avviata l'esecuzione della simulazione, per tutta la durata della quale continueranno ad essere svolte azioni come l'aggiornamento degli impianti (anni di vita, rendimento, calcolo energia prodotta), aggiornamento dei consumi di elettricità degli agenti, calcolo dei ricavi connessi alla produzione energetica, aggiornamento dei parametri globali del modello che cambiano insieme allo scorrere del tempo simulato. 
+\\* \\*
+Una volta terminata l'esecuzione della simulazione vengono prodotte e comunicate tramite l'apposita interfaccia grafica una serie di informazioni, alcune di maggior interesse per i singoli investitori, come ad esempio il PBT ed il ROE medio per i diversi semestri in cui è prevista la creazione di un impianto, altre utili per  per determinare le grandezze caratteristiche dell'ambiente simulato, come ad esempio la potenza installata nel complesso e quella nei relativi anni(espressa in kWp), spesa complessiva per gli incentivi all'installazione ed alla produzione, spesa totale e percentuale di impianti realizzati (cioè quanti agenti tra quelli generati all'inizio della simulazione hanno effettivamente portato a termine un impianto.)
+\\*
+Questo tipo di informazioni (mostrate in figura ~\ref{infoTotSim}) sono molto importanti per politici o aziende del settore, per valutare nel complesso quale potrebbe essere la risposta degli investitori al variare di determinate grandezze quali, ad esempio, le tariffe incentivanti o i costi di realizzazione. 
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.8]{infoTotSim}
+	\caption{Grandezze caratteristiche della simulazione}
+	\label{infoTotSim}
+\end{figure}
+
+Ricordiamo che in questa prima versione del simulatore lo strumento unico attraverso cui la regione può intervenire direttamente (senza considerare, ad esempio, miglioramenti nelle tecnologie utilizzate che possano diminuire i costi di un impianto a pannelli fotovoltaici) al fine di incrementare la produzione energetica da tecnologia fotovoltaica, consiste nel coprire una percentuale della spesa sostenuta dagli agenti all'atto dell'installazione di un impianto.\\*\\* 
 La cosa principale da capire riguardante il comportamento degli agenti è il fatto che essi prendano le loro decisioni in maniera individuale sulla base delle proprie considerazioni di fattibilità economica, guadagno o ostinazione personale e alla fine le loro scelte singole concorrono a generare una certa produzione totale di energia da impianti fotovoltaici. Dal punto di vista della regione Emilia-Romagna il valore della produzione di energia fotovoltaica totale è fondamentale in quanto è il parametro osservabile in uscita dal simulatore che rivela se il piano energetico regionale, il quale prevede che certe quote di energia debbano essere prodotte da fonti rinnovabili, sia fattibile, o se invece sia necessario un investimento maggiore fornendo ad esempio incentivi di entità maggiore, grazie ai quali un maggior numero di agenti possa effettuare la scelta di installare un impianto fotovoltaico.
 
 
 \section{SIMULATORE ESTESO}
 
+Dopo aver realizzato il primo modello descritto nel paragrafo precedente, ci è sembrato utile estenderlo con nuove funzionalità nella direzione di rendere le simulazioni maggiormente realistiche rispetto alle dinamiche del sistema complesso reale e fornire modalità di incentivazione più avanzate con le quali i decisori politici possano intervenire per ottenere la produzione energetica da energia fotovoltaica desiderata. \\* Le estensioni introdotte e di cui andremo ora a discutere sono quindi due: quattro distinte modalità di incentivazione e l'inclusione all'interno del modello dell'aspetto legato all'iterazione sociale.
+
 \subsection{MODALITÀ INCENTIVANTI}
+
+La regione deve destinare un budget per gli incentivi, esaurito il quale nessuno può usufruire di tali facilitazioni economiche. Le varie tipologie d’incentivi sono tra loro alternative e prima della partenza della simulazione è necessario scegliere quale applicare; non è quindi possibile studiare attraverso il simulatore quali possano essere le interazioni tra diverse metodologie incentivanti. Un agente non è tenuto ad usufruire degli incentivi, ad esempio può non essere a conoscenza di tali iniziative regionali, o può non avere intenzione di accendere un mutuo ( per questo un parametro della simulazione è la probabilità che un agente voglia ricorrere all’incentivo ). \\*
+
+\myparagraph{Assegnazione di fondi tramite aste}
+
+In questo caso ogni agente chiede alla regione di finanziargli una percentuale dell'investimento da effettuare per istallare l'impianto (la percentuale massima e minima che è possibile richiedere sono parametri della simulazione). Nella nostra implementazione la regione considera le richieste nel semplice ordine di arrivo e assegna i fondi fino ad esaurimento del budget dedicato agli incentivi (nella realtà sicuramente potrebbero essere implementate poitiche più complesse ed elaborate per scegliere quali richieste soddisfare e in che ordine). Questo tipo di incentivo è definito a fondo perduto poiché non prevede nessun ritorno economico per la regione.
+
+\myparagraph{Conto interessi}
+
+Gli agenti possono decidere ora di accendere un mutuo presso una banca e gli interessi relativi saranno pagati dalla regione, attingendo dal budget dedicato agli incentivi (perciò anche in questo caso a fondo perduto); da questo consegue che gli agenti hanno la possibilità di rateizzare l'investimento iniziale ed essere quindi influenzati positivamente verso la scelta di procedere con l'istallazione dell'impianto, anche sulla base di un parametro della simulazione che modella quanto sia importante poter pagare a rate.\\*
+Anche in questo caso nella nostra implementazione di questa metodologia prevede che i primi agenti a presentare richiesta siano i primi ad essere soddisfatti fino a esaurimento dei fondi; ulteriori semplificazioni sono dati dal fatto di aver inserito solo due parametri che rappresentino gli interessi di una generica banca e la probabilità che la stessa non permetta sempre di stipulare un mutuo.
+
+\myparagraph{Fondo Rotazione}
+
+dsd
+
+\myparagraph{Fondo Garanzia}
+
+ds
 
 \subsection{INTERAZIONE SOCIALE}
 
