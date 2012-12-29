@@ -224,7 +224,7 @@ Per modellare correttamente le dinamiche del sistema complesso studiato è stato
 Una volta stabiliti parametri fondamentali e costi di un impianto avviene, ogni anno, la valutazione economica legata al rendimento di quest'ultimo e quindi relativa all'investimento sostenuto per realizzarlo. Questa fase prende in considerazioni fattori strettamente legati all'andamento del costo dell'elettricità oltre che alla tariffa incentivante riconosciuta per l'energia prodotta dall'impianto. Infatti i ricavi derivanti da un impianto fotovoltaico sono sia diretti, ovvero derivanti da incentivi e dall'eventuale vendita dell'energia in eccesso, ma anche indiretti come l'autoconsumo; per semplificare il modello è stata prevista una sola modalità di valorizzazione dell'energia prodotta e non direttamente consumata, ovvero il ritiro dedicato da parte del gestore della società elettrica.
 
 \subsection{AGENTI DEL MODELLO}
-Per ogni step esecutivo, compreso tra il 2012 e il 2016 il sistema genera un determinato numero di agenti, numero che può essere anche fatto variare dinamicamente tramite un opportuno selettore dell'interfaccia di Netlogo. Ogni agente è caratterizzato da diversi parametri, tra i quali è opportuno ricordare:
+Per ogni step esecutivo, compreso tra il 2012 e il 2016 il sistema genera un determinato numero di agenti, numero che può essere anche fatto variare dinamicamente tramite un opportuno selettore dell'interfaccia di Netlogo; questi agenti rappresentano gli attori del modello interessati a investire in un impianto fotovoltaico. Ognuno di essi è caratterizzato da diversi parametri, tra i quali è opportuno ricordare:
 \begin{itemize}
 \item \emph{Id}, identificativo univoco agente;
 \item \emph{Superficie a disposizione}, metri quadri disponibili per installare l'impianto fotovoltaico;
@@ -235,7 +235,8 @@ Per ogni step esecutivo, compreso tra il 2012 e il 2016 il sistema genera un det
 \item \emph{Ostinazione}, nell'effettuare l'investimento, intervallo [1..100].
 \end{itemize}
 Questi parametri sono fondamentali per far si che l'agente posso valutare la fattibilità di realizzazione dell'impianto. Ad esempio nel caso di un agente che abbia come obiettivo la copertura del 100\% dei consumi annuali di elettricità ma abbia a disposizione una superficie che può ospitare un impianto che al massimo garantirebbe una produzione di energia pari al 50\% del fabbisogno, questo agente sarebbe costretto ad abbandonare l'idea di un investimento a meno di non ridurre i propri obiettivi di produzione energetica e quindi di copertura dei consumi risultando particolarmente ostinato ad effettuare l'investimento. Oppure potrebbero comparire considerazioni legate a questioni economiche: nel caso in cui il budget a disposizione dell'agente non sia sufficientemente a garantire la copertura dei costi di realizzazione e installazione dell'impianto potrebbe risultare obbligatorio abbandonare il progetto a meno di non ricorrere a un prestito. \\*
-Gli agenti che optano per abbandonare l'idea di un investimento vengono eliminati dal modello mentre quelli che, a margine dello studio di fattibilità, decidono di effettuare l'investimento daranno vita alla generazione di un nuovo impianto. Come per gli agenti, gli impianti possiedono attributi che li caratterizzano: data di entrata in funzione, tipologia, tecnologia di realizzazione, costo, fascia potenza, tariffa incentivante riconosciuta e dimensione.
+Gli agenti che optano per abbandonare l'idea di un investimento vengono eliminati dal modello mentre quelli che, a margine dello studio di fattibilità, decidono di effettuare l'investimento daranno vita alla generazione di un nuovo impianto. Come per gli agenti, gli impianti possiedono attributi che li caratterizzano: data di entrata in funzione, tipologia, tecnologia di realizzazione, costo, fascia potenza, tariffa incentivante riconosciuta e dimensione.\\* \\*
+Oltre agli agenti che modellano i possibili investitori appena descritti, abbiamo aggiunto al simulatore anche un altro tipo di entità, cioè un unico agente che rappresenta la regione Emilia-Romagna e ci ha permesso di implementare alcune politiche centralizzate anche nel mondo totalmente distribuito di Netlogo (ad esempio è stato così possibile fare in modo che il budget che la regione mette a disposizione per gli incentivi non dovesse essere fissato all'inizio del periodo compreso tra 2012 e 2016, ma fosse frazionato in diversi budget annuali).
 
 \subsection{VALUTAZIONE FATTIBILITÀ INVESTIMENTO}
 Sulla base dei parametri che definiscono il modello ogni agente è in grado di valutare la fattibilità economica dell'investimento calcolando il VAN (il Valore attuale netto dell'investimento) per l'impianto da realizzare; da questo valore è possibile individuare il PBT (Pay Back Time), il periodo necessario per il ''ritorno'' dell'investimento iniziale, e il ROE (Return On Equity), l'indice di redditività del capitale investito.\\*
@@ -306,7 +307,7 @@ La regione deve destinare un budget per gli incentivi, esaurito il quale nessuno
 
 \myparagraph{Assegnazione di fondi tramite aste}
 
-In questo caso ogni agente chiede alla regione di finanziargli una percentuale dell'investimento da effettuare per istallare l'impianto (la percentuale massima e minima che è possibile richiedere sono parametri della simulazione). Nella nostra implementazione la regione considera le richieste nel semplice ordine di arrivo e assegna i fondi fino ad esaurimento del budget dedicato agli incentivi (nella realtà sicuramente potrebbero essere implementate poitiche più complesse ed elaborate per scegliere quali richieste soddisfare e in che ordine). Questo tipo di incentivo è definito a fondo perduto poiché non prevede nessun ritorno economico per la regione.
+In questo caso ogni agente chiede alla regione di finanziargli una percentuale dell'investimento da effettuare per istallare l'impianto (la percentuale massima e minima che è possibile richiedere sono parametri della simulazione). Nella nostra implementazione la regione considera le richieste nel semplice ordine di arrivo e assegna i fondi fino ad esaurimento del budget dedicato agli incentivi (nella realtà sicuramente potrebbero essere implementate politiche più complesse ed elaborate per scegliere quali richieste soddisfare e in che ordine). Questo tipo di incentivo è definito a fondo perduto poiché non prevede nessun ritorno economico per la regione.
 
 \myparagraph{Conto interessi}
 
@@ -315,16 +316,45 @@ Anche in questo caso nella nostra implementazione di questa metodologia prevede 
 
 \myparagraph{Fondo Rotazione}
 
-dsd
+La regione permette agli agenti di realizzare mutui presso di sé, offrendo tassi ad interesse agevolato; questo è l'unico metodo di incentivazione grazie al quale la regione può ricavare nuovi fondi, dal momento che gli incentivi, seppur bassi, che dovranno essere pagati garantiscono una fonte di guadagno.\\*
+Anche in questo caso l'eventuale numero maggiore di impianti realizzati è correlato all'ostinazione degli agenti, oltre che a parametri strettamente di natura economica come gli interessi applicati dalla regione e il numero di anni concessi per la restituzione del mutuo.
 
 \myparagraph{Fondo Garanzia}
 
-ds
+Con quest'ultimo metodo, ancora a fondo perduto, abbiamo considerato il caso in cui un'ipotetica banca non conceda ad un cliente di accendere un mutuo per mancanza di garanzie economiche: l'incentivo \emph{Fondo Garanzia} prevede che la regione fornisca le garanzie richieste dalla banca, ovvero è sempre possibile per un agente accendere un mutuo presso la banca, ma nel caso in cui tale agente si trovi nell'impossibilità di continuare a pagare le rate (la probabilità che questo accada è un parametro del modello), sarà la regione a intervenire coprendo le spese rimanenti, attingendo al fondo stanziato per gli incentivi fino al suo esaurimento.\\*\\*
+
+Lo studio della fattibilità di un investimento nel caso del simulatore esteso con i tipi di incentivi sopra citati possiede lo stesso schema di quello presente nel primo modello implementato (Fig.~\ref{flowChartValFatt}). Le differenze si possono riscontrare, ad esempio, nel diverso valore della variabile \emph{Costo impianti}, che ora deve tenere in considerazione il costo degli interessi di eventuali mutui e le riduzioni derivanti dalla presenza di tecniche incentivanti, o ancora nel fatto che il parametro che \emph{Ostinazione} (carateristico di ogni agente e che influisce sulla determinazione a realizzare un impianto nei casi dove sia necessaria la richiesta di un prestito o il ridimensionamento) sia ora costituito da tre diverse componenti, cioè il valore originario di ostinazione, il livello di influenza delle rate (o meglio la possibilità di rateizzare le spese) e il livello di influenza dell'iterazione sociale (descritto nel paragrafo successivo).
 
 \subsection{INTERAZIONE SOCIALE}
 
+Poiché il simulatore iniziale aveva un comportamento esclusivamente deterministico col quale la produzione di energia fotovoltaica degli agenti era condizionata unicamente da fattori di tipo economico, abbiamo deciso di estenderlo verso una direzione più realistica, dove considerare le interazioni sociali tra i diversi agenti. Il tentativo è stato fatto col fine di approssimare una rete small word, un sistema cioè in cui se un agente prende una decisione, anche i suoi vicini ne sono influenzati.
+\\*
+In sintesi è stato assegnato ad ogni agente un valore (una componente dell'ostinazione vista in precedenza) che rappresenta quanto sia significativa l'influenza del comportamento dei vicini, cercando di riflettere la tendenza a seguire il comportamento del gruppo in cui ci si trova tipica degli esseri umani del mondo reale. In particolare le decisioni di ogni agente sono modificate dalla sua personale sensibilità ai comportamenti dei vicini e dalle dimensioni dell'area di influenza, ovvero dal raggio che determina la zona circolare all'interno della quale le scelte fatte da un agente possono influenzare il comportamento degli altri.\\*
+In figura ~\ref{iterSocMondoVirt} possiamo osservare un esempio di come si formino le aree di influenza tra agenti all'interno del mondo virtuale di Netlogo.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.5]{iterSocMondoVirt}
+	\caption{Mondo virtuale, area interazione sociale}
+	\label{iterSocMondoVirt}
+\end{figure}
 
 \section{LIMITI SIMULATORE}
+
+Il modello implementato presenta al suo interno diverse assunzioni e approssimazioni effettuate per semplificarne l'implementazione, ma al tempo stesso consente di effettuare uno studio accurato delle proprietà interessanti nell'ambito di questo lavoro, come ad esempio l'analisi delle risposte degli agenti di fronte alla presenza di diverse tipologie di incentivi e al variare del fondo destinato all'incentivazione delle tecnologie fotovoltaiche stanziato dalla regione Emilia-Romagna. Vogliamo quindi precisare che per il caso di studio considerato, ovvero le interazioni tra simulazione e ottimizzazione per la realizzazione di un piano energetico regionale, il modello utilizzato soddisfa i requisiti necessari ad una corretta trattazione.\\*
+Dopo questa debita premessa è comunque utile presentare brevemente quali possono essere alcuni limiti del simulatore realizzato e in che direzione possano procedere eventuali futuri lavori.\\* \\*
+Innanzitutto occorre precisare che le grandezze prodotte dal simulatore, come la produzione energetica totale o la spesa, non siano quantitativamente confrontabili con i corrispondenti valori nel mondo reale, non fosse altro per il fatto che il nostro simulatore prevede un numero di agenti compreso tra nell'intervallo [1..100] e quindi sicuramente un valore minore rispetto ai possibili privati e aziende interessati a realizzare impianti fotovoltaici in Emilia-Romagna; questo limite può essere facilmente affrontato applicando un fattore di scala, opportunamente calcolato, ai risultati generati durante le simulazioni.\\*
+Per quanto riguarda la gestione degli incentivi, possiamo far notare che un meccanismo di assegnazione di fondi ad asta nella realtà prevederebbe sicuramente modalità più complesse (ad esempio la presenza di intervalli temporali in cui i potenziali investitori comunichino alla regione la percentuale loro necessaria, un ordinamento della richieste secondo qualche criterio, una negoziazione sulla percentuale da finanziare) e analogamente anche per le restanti modalità d'incentivazione.\\*
+Un altro punto importante è il meccanismo con cui viene effettuata la valutazione di fattibilità dell'investimento, cercando di renderlo più realistico implementando una strategia decisionale più elaborata che tenga conto del budget di partenza dei potenziali investitori, la possibilità di pagare a rate e la presenza di interazione sociale.
+\\* \\*
+Per quanto riguarda l'interazione sociale qui implementata, essa considera semplicemente l’influenza dei vicini, cioè
+all’aumentare dei vicini che hanno realizzato l’investimento aumenta anche la probabilità dell’agente stesso di realizzarlo, mentre esistono ovviamente modelli sociologici molto più complessi, completi e realistici che possono essere presi in considerazione. Tra le altre cose potrebbe essere introdotto un altro fattore che agisca parallelamente all'ostinazione, all'influenza delle rate e quella sociale, in particolare uno che tenga in conto il fatto che all’aumentare di risorse che fornite dalla regione vi possa essere un maggior desiderio di intraprendere l’investimento; o ancora, nel nostro caso abbiamo solamente considerato l'effetto positivo dell'iterazione sociale, mentre un modello più accurato potrebbe anche tenere conto di chi non effettua l'investimento e scoraggia così i restanti investitori del vicinato.
+
+\section{Sommario capitolo}
+--------------> Parte di raccordo <----------------
+
+
+
 
 \nocite{*}
 \bibliographystyle{plain}

@@ -20,7 +20,7 @@ globals [ wacc m2Kwp  count_tick scala_dim_impianto time anno number durata_impi
 ]
 
 ;; DEFINIZIONE AGENTI E ATTRIBUTI AGENTI
-breed [pf]
+breed [pf] ;; pf-> normale agente che installa pannelli 
 
 pf-own [id consumo_medio_annuale budget %cop_cosumi M2disposizione dimensione_impianto tipologia_impianto potenza_impianto fascia_potenza kw_annui_impianto costo_impianto %ostinazione influenza
   ridimensionamento prestito importo_prestito interessi_prestito rata_annuale_prestito  kw_autoconsumo kw_immessi kw_prelevati  
@@ -45,7 +45,12 @@ pf-own [id consumo_medio_annuale budget %cop_cosumi M2disposizione dimensione_im
   mortoxm2
   
 ]
-
+ 
+breed [ar] ;; ar-> agente unico che rappresenta la regione
+ 
+ar-own [
+ 
+]
 
 ;;PROCEDURA SETUP INIZIALIZZA VARIABILI GLOBALI, GRAFICO roe E GENERA IL PRIMO SET DI AGENTI
 to setup
@@ -78,6 +83,17 @@ to setup
   set BudgetCorrente BudgetRegione * 1000000;inizializzo quantità finanziamenti rimasti
   setup_plot_PBT
   create_pf
+  create_ar  ;;procedura per creare un agente associato alla regione, quindi uno solo per simulazione
+end
+
+;; creo un agente che rappresenta la regione e può, ad esempio, modificare il budget annuale
+to create_ar
+  ask one-of patches
+  [
+    sprout-ar 1 [set color yellow] 
+    
+    output-print (word ">>>>>>>>>> CREATO AR<<<<<<<<<" )
+  ]
 end
 
 ;; PROCEDURA STEP ESECUTIVO AGGIORNA IL TEMPO SIMULATO, GLI IMPIANTI, I CONSUMI, I RICAVI, IL GRAFICO pbt,  CREA GLI ALTRI SET DI AGENTI SINO AL SECONDO SEMESTRE 2016, DETERMINA CONDIZIONE DI STOP
@@ -89,6 +105,7 @@ to go
   aggiorna_consumi
   aggiorna_ricavi
   update_plot_PBT 
+  aggiorna_budget
   ;; LA SIMULAZIONE SI INTERROMPE PER PERMETTERE ALL'UTENTE DI SETTARE EVENTUALI STRUMENTI INCENTIVANTI 
   if (anno <= 2016 );creo altri agenti
   [
@@ -964,32 +981,42 @@ to aggiorna_budget_annuale
   ]
 end
 
-;;aumenta il budget regionale all'inizio di ogni nuovo anno (della quantità specificata negli appositi slider)
+;;aumenta il budget regionale all'inizio di ogni nuovo anno (della quantità specificata negli appositi slider) - è un compito riservato all'agente della regione ar
 to aggiorna_budget
-  ;;a partire dal secondo anno: nel 2012 il budget è dato direttamente da BudgetRegione
-  ifelse (anno_realizzazione = 2012)
+  ask ar
   [
-    ;;set BudgetCorrente BudgetCorrente
-  ]
-  [    
-    ifelse (anno_realizzazione = 2013)
+    ;;a partire dal secondo anno: nel 2012 il budget è dato direttamente da BudgetRegione
+    ifelse (anno = 2012)
     [
-      set  BudgetCorrente BudgetCorrente + (BudgetRegione2013 * 1000000)
+      set BudgetCorrente BudgetCorrente
     ]
-    [
-      ifelse (anno_realizzazione = 2014)
+    [    
+      ifelse (anno = 2013)
       [
-       set  BudgetCorrente BudgetCorrente + (BudgetRegione2014 * 1000000)
-      ]  
+        set  BudgetCorrente BudgetCorrente + (BudgetRegione2013 * 1000000)
+        output-print (word ">>>>>>>>>> Aggiorno budget 2013<<<<<<<<<" )
+      ]
       [
-        ifelse (anno_realizzazione = 2015)
+        ifelse (anno = 2014)
         [
-          set  BudgetCorrente BudgetCorrente + (BudgetRegione2015 * 1000000)
-        ]
+          set  BudgetCorrente BudgetCorrente + (BudgetRegione2014 * 1000000)
+          output-print (word ">>>>>>>>>> Aggiorno budget 2014<<<<<<<<<" )
+        ]  
         [
-         set  BudgetCorrente BudgetCorrente + (BudgetRegione2016 * 1000000)
-        ]
-      ]    
+          ifelse (anno = 2015)
+          [
+            set  BudgetCorrente BudgetCorrente + (BudgetRegione2015 * 1000000)
+            output-print (word ">>>>>>>>>> Aggiorno budget 2015<<<<<<<<<" )
+          ]
+          [
+            if(anno = 2016)
+            [
+              set  BudgetCorrente BudgetCorrente + (BudgetRegione2016 * 1000000)
+              output-print (word ">>>>>>>>>> Aggiorno budget 2016<<<<<<<<<" )
+            ]
+          ]
+        ]    
+      ]
     ]
   ]
 end
@@ -1452,8 +1479,15 @@ to update_plot_PBT
       if  (id = (NAgentiFINAL * i)  and vita_impianto >= 1 and vita_impianto <= 20 )  
       [ 
         set-current-plot "Pay Back Time"
-        set-current-plot-pen (word "Van"( id / NAgentiFINAL ))
-        plotxy (vita_impianto - 1.1 + (( id / NAgentiFINAL ) / 10 ) ) 0
+        ifelse (id > 50)
+        [
+          set-current-plot-pen (word "Van"( id / NAgentiFINAL - 1 ))
+          plotxy (vita_impianto - 1.1 + (( id / NAgentiFINAL - 1 ) / 10 ) ) 0
+        ]
+        [
+          set-current-plot-pen (word "Van"( id / NAgentiFINAL ))
+          plotxy (vita_impianto - 1.1 + (( id / NAgentiFINAL ) / 10 ) ) 0
+        ]
         plot last van        
       ]
       set i i + 1
@@ -1775,7 +1809,7 @@ Costo_Medio_kwP
 Costo_Medio_kwP
 3000
 5000
-3500
+1633
 50
 1
 euro
@@ -1920,7 +1954,7 @@ costo_kwh_fascia1
 costo_kwh_fascia1
 0.250
 0.299
-0.278
+0.434
 0.001
 1
 euro\KWh
@@ -1935,7 +1969,7 @@ costo_kwh_fascia2
 costo_kwh_fascia2
 0.140
 0.189
-0.162
+0.251
 0.001
 1
 euro\KWh
@@ -1950,7 +1984,7 @@ costo_kwh_fascia3
 costo_kwh_fascia3
 0.170
 0.219
-0.194
+0.303
 0.001
 1
 euro\KWh
@@ -1965,7 +1999,7 @@ costo_kwh_fascia4
 costo_kwh_fascia4
 0.220
 0.269
-0.246
+0.385
 0.001
 1
 euro\KWh
@@ -1980,7 +2014,7 @@ costo_kwh_fascia5
 costo_kwh_fascia5
 0.250
 0.299
-0.276
+0.43
 0.001
 1
 euro\KWh
@@ -2581,7 +2615,7 @@ CHOOSER
 fr
 fr
 "Nessuno" "Asta" "Conto interessi" "Rotazione" "Garanzia"
-1
+3
 
 SLIDER
 17
@@ -2592,7 +2626,7 @@ BudgetRegione
 BudgetRegione
 0.1
 15
-1.5
+0.1
 0.1
 1
 milioni
@@ -2617,7 +2651,7 @@ Raggio
 Raggio
 1
 10
-4
+5
 1
 1
 patches
@@ -3259,7 +3293,7 @@ BudgetRegione2014
 BudgetRegione2014
 0
 10
-1.8
+0
 0.1
 1
 milioni
