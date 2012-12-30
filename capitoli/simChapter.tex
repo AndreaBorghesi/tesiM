@@ -89,10 +89,8 @@ Ora saranno presentati gli strumenti di cui ci siamo serviti implementare il mod
 
 \section{STRUMENTI}
 
-Gli strumenti principali che abbiamo utilizzato per realizzare il simulatore sono due:\begin{itemize}
-	\item \emph{Netlogo}, un software che offre un ambiente di sviluppo ideale per la realizzazione di modelli di simulazioni ad agenti, di networks e di sistemi dinamici (sviluppato nel presso il Center for Connected Learning and Computer-Based Modeling della Northwestern University);
-	\item \emph{R}, ambiente di sviluppo open source specifico per l'analisi statistica dei dati, basato sull'omonimo linguaggio di programmazione.
-\end{itemize}
+Lo strumento che abbiamo utilizzato per realizzare il simulatore  è \emph{Netlogo}, un software che offre un ambiente di sviluppo ideale per la realizzazione di modelli di simulazioni ad agenti, di networks e di sistemi dinamici (sviluppato nel presso il Center for Connected Learning and Computer-Based Modeling della Northwestern University).
+
 
 \subsection{NETLOGO}
 
@@ -107,8 +105,9 @@ All'interno di Netlogo un elemento fondamentale è il "mondo virtuale", ovvero l
 \item \emph{links}, i collegamenti tra due diverse turtles, non hanno una posizione né risiedono su patches e possono orientati o non orientati;
 \item \emph{observer}, il quale rappresenta concettualmente la vista complessiva del modello visto da fuori e contiene tutte le informazioni macro del modello e, quindi, tutte le variabili globali che lo caratterizzano.
 \end{itemize}
+Le tartarughe popolano il modello ed operano in parallelo, interagendo tra loro e con le patches su cui si muovono; possono essere specificate diverse tipologie di turtles che, nel linguaggio Logo, prendono il nome di breed, ovvero razza, caratteristica che in parte richiama il concetto di classe nel paradigma della programmazione ad oggetti, in quanto ogni razza possiede una lista di attributi e variabili proprietarie comuni solo agli agenti che vi appartengono.
 
-\begin{figure}[htb]
+\begin{figure}[H]
 	\begin{center}
 	\includegraphics[scale=0.3]{netlogoWorld}
 	\end{center}
@@ -116,12 +115,12 @@ All'interno di Netlogo un elemento fondamentale è il "mondo virtuale", ovvero l
   	\label{netlogoWorld}
 \end{figure}
 
-Le tartarughe popolano il modello ed operano in parallelo, interagendo tra loro e con le patches su cui si muovono; possono essere specificate diverse tipologie di turtles che, nel linguaggio Logo, prendono il nome di breed, ovvero razza, caratteristica che in parte richiama il concetto di classe nel paradigma della programmazione ad oggetti, in quanto ogni razza possiede una lista di attributi e variabili proprietarie comuni solo agli agenti che vi appartengono.\\*\\*
+
 L'ambiente di sviluppo è costituito da un'interfaccia grafica che consente di interagire intuitivamente con i parametri che regolano il modello o eseguire determinate azioni, attraverso l'uso di determinati pulsanti, sliders o altri elementi inseriti durante lo sviluppo del modello; questa interfaccia ha anche l'importante funzione di mostrare in tempo reale i movimenti degli agenti all'interno del mondo virtuale e presentare durante e dopo la simulazione le informazioni relative alla stessa, sotto forma di grafici, tabelle, etc...\\*
 Accanto all'interfaccia grafica è ovviamente presente la sezione che riguarda il codice, il quale definisce i comportamenti delle entità  che agiscono dentro il mondo virtuale. Il codice della simulazione risiede tutto all'interno di un unico listato, suddiviso in diverse procedure che sono destinate all'esecuzione da parte degli agenti o, in maniera del tutto generale, di tutte le istanze che costituiscono il modello. Le procedure, in NetLogo, vengono suddivise in due diverse tipologie, ovvero \emph{commands}, azioni che devono essere portate a termine da un agente producendo un qualche risultato, e \emph{reporters}, istruzioni per calcolare un determinato valore che verrà riportato dall'agente a chiunque lo richieda. \\*
 In Figura ~\ref{netlogoUI_code} sono mostrati un esempio di una parte di iterfaccia grafica con relativi selettori e rappresentazione del mondo virtuale e il codice relativo al pulsante \emph{setup} di tale interfaccia.
 
-\begin{figure}[hbt]
+\begin{figure}[H]
 	\centering
 	\subfloat[Interfaccia Grafica]{\includegraphics[scale=0.4]{netlogoUI}\label{netlogoUI}}
 	\quad 
@@ -131,58 +130,6 @@ In Figura ~\ref{netlogoUI_code} sono mostrati un esempio di una parte di iterfac
 \end{figure}
 
 Altro elemento fondamentale dell'ambiente di sviluppo è rappresentato dalla gestione delle variabili aggregate e le relative statistiche. Poiché lo scopo di un modello di simulazione ad agenti è spesso rappresentato dalla necessità di comprendere a livello globale il comportamento di un sistema descritto nelle sue singole componenti ne deriva la necessità di calcolare e rappresentare l'andamento nel tempo di variabili aggregate per valutare qualitativamente il modello. In NetLogo ad ognuna delle variabili del modello è possibile associare un oggetto monitor, che ne mostra dinamicamente le variazioni, oppure un grafico, che ne raffigura l'andamento nel tempo. Gli  oggetti che permettono la gestione dei grafici sono \emph{plot} e \emph{histogram}, entrambi da definire sia a livello d'interfaccia grafica come avviene anche per le procedure, sia nel codice della simulazione.\\* 
-
-
-\subsection{R}
-
-Come già accennato, R è un linguaggio di programmazione open source e un ambiente software usato per la manipolazione di dati, calcolo e analisi statistica e presentazione grafica dei risultati. Il design R è stato ampiamente influenzato da due linguaggi preesistenti, S sviluppato da J.Chambers e colleghi presso i Bell Laboratories negli anni '70 e Scheme creato presso il MIT AI Lab sempre negli anni settanta da G.L.Steele e G.J.Sussman. \\*
-Il nucleo di R consiste di un linguaggio interpretato a cui sono state aggiunte numerose funzionalità per un grande numero di procedure statistiche;  tra queste è possibile ricordarne alcune: modelli di regressione lineare, lineare generalizzata e non lineare, analisi di serie temporali, classici test parametrici e non, clustering, classificazione e altre. R è facilmente estendibile grazie alla presenza di numerosi pacchetti software creati dagli utenti e dedicati a specifiche aree di studio e possiede inoltre un grande insieme di funzioni indicate per una presentazione flessibile ed efficiente dei dati e la produzione di grafici di qualità.\\*
-Per interagire con l'interprete del linguaggio R è possibile fornire le istruzioni direttamente da riga di comando oppure appoggiarsi a interfacce grafiche, ma per le nostre necessità è stato sufficiente utilizzare la riga di comando\\* \\* 
-Per via della sua derivazione da S, R presenta alcune caratteristiche che lo fanno rientrare all'interno del paradigma dei linguaggi Object Oriented, almeno parzialmente, e al tempo stesso possiede alcuni aspetti che lo avvicinano alla natura dei linguaggi funzionali(come Scheme), come ad esempio la possibilità di trattare le funzioni stesse come oggetti.\\* Le principali strutture dati sono le seguenti: \begin{itemize}
-\item \emph{vettori}, singole entità costituite da una collezione di valori di un certo tipo come ad esempio numerici,logici o caratteri;
-\item \emph{matrici (arrays)}, generalizzazioni multi-dimensionali di vettori;
-\item \emph{liste}, forme di vettori più generali nelle quali gli elementi non devono necessariamente essere dello stesso tipo;
-\item \emph{fattori}, oggetti simili ai vettori usati per specificare una classificazione (raggruppamento) delle componenti di altri vettori con la stessa lunghezza;
-\item \emph{data frames}, strutture simili alle matrici in cui le colonne possono essere di tipi diversi;
-\item \emph{funzioni}, le quali sono esse stesse oggetti e forniscono così un modo semplice e flessibile di estendere R.
-\end{itemize}
-Come in ogni linguaggio di programmazione è poi ovviamente possibile manipolare queste strutture dati attraverso operatori, strutture di controllo, funzioni, etc...\\* \\*
-Illustreremo ora un brevissimo esempio per far capire un possibile utilizzo di R per effettuare una semplice analisi statistica. Supponiamo di voler studiare la relazione che lega due variabili, \emph{a} e \emph{b}, i cui valori si trovano in un file di tipo \emph{Comma Separated Values}. Il primo passo è importare tali valori dal file e inserirli in una struttura dati, in questo caso una matrice con due colonne (una per ogni variabile) e ordinarli in base ai valori della prima variabile.
-
-\lstset{language=R}
-\begin{lstlisting}
-> matrice.dati <- read.csv("file.csv")
-> matrice.ordinata <- matrice_dati[order(matrice.dati$a),]
-\end{lstlisting}
-
-A questo punto sarebbe possibile svolgere diverse operazioni sui dati (ad esempio calcolare per ogni valore di ogni variabile i valori medi,...) ma ci limiteremo a effettuare una semplice regressione lineare.
-\begin{lstlisting}
-> modello.lineare <- lm(matrice$b ~ matrice$a)
-\end{lstlisting}
-
-\begin{figure}[hbt]
-	\centering
-	\subfloat[Grafico]{\includegraphics[scale=0.4]{example_r_graph}\label{example_r_graph}} 
-	\quad
-	\subfloat[Analisi statistica]{\includegraphics[scale=0.6]{example_r_result}\label{example_r_result}}
-	\caption{Esempio di utilizzo di R}
-	\label{example_r}
-\end{figure}
-
-R ci consente ora di effettuare analisi statistiche sul modello di regressione applicato per stabilirne validità e significatività in rapporto ai dati in nostro possesso e successivamente di presentare graficamente i risultati ottenuti.
-\begin{lstlisting}
-> #analisi statistica minima
-> summary(modello.lineare)       
-> #disegna i punti corrispondenti ai valori nella matrice
-> plot(matrice$b ~ matrice$a,type="p",lwd=3,ylab="b",xlab="a")    
-> #disegna la curva di regressione
-> lines(matrice$a,predict(modello.lineare), lty="solid", col="darkred", lwd=2)    
-\end{lstlisting}
-
-
-In Figura ~\ref{example_r} sono stati riportati il grafico prodotto da questo esempio e i risultati ottenuti dalla semplicissima analisi statistica, tra i quali notiamo il coefficiente di determinazione (R-squared) e l'errore residuo ( 
-Residual standard error).
-
 
 
 \section{MODELLO AD AGENTI}

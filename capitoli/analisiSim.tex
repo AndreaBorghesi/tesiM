@@ -1,0 +1,172 @@
+%Andrea Borghesi
+%Università degli studi di Bologna
+
+%capitolo dedicato all'analisi dei risultati delle simulazioni 
+
+\documentclass[12pt,a4paper,openright,twoside]{report}
+\usepackage[italian]{babel}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titlesec,blindtext, color}
+\usepackage[font={small,it}]{caption}
+\usepackage{subfig}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{url}
+\usepackage{textcomp}
+
+%impostazioni generali per visualizzare codice
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+\lstset{ %
+  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*,...},              % if you want to add more keywords to the set
+  deletekeywords={...}              % if you want to delete keywords from the given language
+}
+
+%per avere un bordo intorno alle figure
+\usepackage{float}
+\floatstyle{boxed} 
+\restylefloat{figure}
+
+%per poter poi impedire che certe parole vadano a capo
+\usepackage{hyphenat}
+\usepackage{listings}
+
+%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
+\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
+\fancyhf{}
+\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
+\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
+\fancyfoot[C]{\changefont \thepage}					%footer
+
+%titolo capitolo con "numero | titolo"
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+
+
+\oddsidemargin=30pt \evensidemargin=20pt
+
+%sillabazioni non eseguite correttamente
+\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
+
+%interlinea
+\linespread{1.15}  
+\pagestyle{fancy}
+
+%cartelle contenenti le immagini
+\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}}
+
+%in modo che dopo il titolo di un paragrafo il testo vada a capo
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+
+\begin{document}
+\chapter{RISULTATI SIMULAZIONI}
+
+Nel capitolo precedente abbiamo descritto il modello ad agenti implementato, evindenziandone le finalità e le caratteristiche fondamentali, accennando brevemente alle informazioni ricavabili dal simulatore.\\*
+Lo scopo di questo capitolo sarà quindi la dettagliata analisi dei dati prodotti dalle simulazioni, l'individuazione delle relazioni che legano le grandezze in gioco all'interno dell'ambiente simulato, la presentazione e discussione dei risultati ottenuti.\\*
+Inizialmente presenteremo gli strumenti utilizati per effettuare l'analisi sopra descritta, per poi passare alla discussione vera e propria nei paragrafi successivi.
+
+\section{STRUMENTI}
+Per esaminare i dati prodotti dalle simulazioni effettuate e visualizzare i risulatati ottenuti abbiamo utilizzato \emph{R}, un ambiente di sviluppo specifico per l'analisi statistica dei dati, basato sull'omonimo linguaggio di programmazione.
+
+\subsection{R}
+
+R è un linguaggio di programmazione open source e un ambiente software usato per la manipolazione di dati, calcolo e analisi statistica e presentazione grafica dei risultati. Il design R è stato ampiamente influenzato da due linguaggi preesistenti, S sviluppato da J.Chambers e colleghi presso i Bell Laboratories negli anni '70 e Scheme creato presso il MIT AI Lab sempre negli anni settanta da G.L.Steele e G.J.Sussman. \\*
+Il nucleo di R consiste di un linguaggio interpretato a cui sono state aggiunte numerose funzionalità per un grande numero di procedure statistiche;  tra queste è possibile ricordarne alcune: modelli di regressione lineare, lineare generalizzata e non lineare, analisi di serie temporali, classici test parametrici e non, clustering, classificazione e altre. R è facilmente estendibile grazie alla presenza di numerosi pacchetti software creati dagli utenti e dedicati a specifiche aree di studio e possiede inoltre un grande insieme di funzioni indicate per una presentazione flessibile ed efficiente dei dati e la produzione di grafici di qualità.\\*
+Per interagire con l'interprete del linguaggio R è possibile fornire le istruzioni direttamente da riga di comando oppure appoggiarsi a interfacce grafiche, ma per le nostre necessità è stato sufficiente utilizzare la riga di comando\\* \\* 
+Per via della sua derivazione da S, R presenta alcune caratteristiche che lo fanno rientrare all'interno del paradigma dei linguaggi Object Oriented, almeno parzialmente, e al tempo stesso possiede alcuni aspetti che lo avvicinano alla natura dei linguaggi funzionali(come Scheme), come ad esempio la possibilità di trattare le funzioni stesse come oggetti.\\* Le principali strutture dati sono le seguenti: \begin{itemize}
+\item \emph{vettori}, singole entità costituite da una collezione di valori di un certo tipo come ad esempio numerici,logici o caratteri;
+\item \emph{matrici (arrays)}, generalizzazioni multi-dimensionali di vettori;
+\item \emph{liste}, forme di vettori più generali nelle quali gli elementi non devono necessariamente essere dello stesso tipo;
+\item \emph{fattori}, oggetti simili ai vettori usati per specificare una classificazione (raggruppamento) delle componenti di altri vettori con la stessa lunghezza;
+\item \emph{data frames}, strutture simili alle matrici in cui le colonne possono essere di tipi diversi;
+\item \emph{funzioni}, le quali sono esse stesse oggetti e forniscono così un modo semplice e flessibile di estendere R.
+\end{itemize}
+Come in ogni linguaggio di programmazione è poi ovviamente possibile manipolare queste strutture dati attraverso operatori, strutture di controllo, funzioni, etc...\\* \\*
+Illustreremo ora un brevissimo esempio per far capire un possibile utilizzo di R per effettuare una semplice analisi statistica. Supponiamo di voler studiare la relazione che lega due variabili, \emph{a} e \emph{b}, i cui valori si trovano in un file di tipo \emph{Comma Separated Values}. Il primo passo è importare tali valori dal file e inserirli in una struttura dati, in questo caso una matrice con due colonne (una per ogni variabile) e ordinarli in base ai valori della prima variabile.
+
+\lstset{language=R}
+\begin{lstlisting}
+> matrice.dati <- read.csv("file.csv")
+> matrice.ordinata <- matrice_dati[order(matrice.dati$a),]
+\end{lstlisting}
+
+A questo punto sarebbe possibile svolgere diverse operazioni sui dati (ad esempio calcolare per ogni valore di ogni variabile i valori medi,...) ma ci limiteremo a effettuare una semplice regressione lineare.
+\begin{lstlisting}
+> modello.lineare <- lm(matrice$b ~ matrice$a)
+\end{lstlisting}
+
+R ci consente ora di effettuare analisi statistiche sul modello di regressione applicato per stabilirne validità e significatività in rapporto ai dati in nostro possesso e successivamente di presentare graficamente i risultati ottenuti.
+\begin{lstlisting}
+> #analisi statistica minima
+> summary(modello.lineare)       
+> #disegna i punti corrispondenti ai valori nella matrice
+> plot(matrice$b ~ matrice$a,type="p",lwd=3,ylab="b",xlab="a")    
+> #disegna la curva di regressione
+> lines(matrice$a,predict(modello.lineare), lty="solid", col="darkred", lwd=2)    
+\end{lstlisting}
+
+
+In Figura ~\ref{example_r} sono stati riportati il grafico prodotto da questo esempio e i risultati ottenuti dalla semplicissima analisi statistica, tra i quali notiamo il coefficiente di determinazione (R-squared) e l'errore residuo ( 
+Residual standard error).
+
+\begin{figure}[H]
+	\centering
+	\subfloat[Grafico]{\includegraphics[scale=0.4]{example_r_graph}\label{example_r_graph}} 
+	\quad
+	\subfloat[Analisi statistica]{\includegraphics[scale=0.6]{example_r_result}\label{example_r_result}}
+	\caption{Esempio di utilizzo di R}
+	\label{example_r}
+\end{figure}
+
+
+
+\section[ANALISI RISULTATI]{ANALISI RISULTATI SIMULAZIONI}
+
+\subsection{COMPORTAMENTO DEGLI INCENTIVI}
+
+\myparagraph{Fondo Asta}
+
+\myparagraph{Conto Interessi}
+
+\myparagraph{Fondo Rotazione}
+
+\myparagraph{Fondo Garanzia}
+
+\subsection{EFFETTI DELL'INTERAZIONE SOCIALE}
+
+\myparagraph{Sensibilità a interazione}
+
+\myparagraph{Raggio dell'interazione}
+
+
+\section[APPROSSIMAZIONE LINEARE]{APPROSSIMAZIONE LINEARE}
+
+\subsection{REGRESSIONE LINEARE A TRATTI}
+
+
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}
