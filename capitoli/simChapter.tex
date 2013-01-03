@@ -74,7 +74,7 @@
 \pagestyle{fancy}
 
 %cartelle contenenti le immagini
-\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}}
+\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}}
 
 %in modo che dopo il titolo di un paragrafo il testo vada a capo
 \newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
@@ -292,6 +292,7 @@ Il modello implementato presenta al suo interno diverse assunzioni e approssimaz
 Dopo questa debita premessa è comunque utile presentare brevemente quali possono essere alcuni limiti del simulatore realizzato e in che direzione possano procedere eventuali futuri lavori.\\* \\*
 Innanzitutto occorre precisare che le grandezze prodotte dal simulatore, come la produzione energetica totale o la spesa, non siano quantitativamente confrontabili con i corrispondenti valori nel mondo reale, non fosse altro per il fatto che il nostro simulatore prevede un numero di agenti compreso tra nell'intervallo [1..100] e quindi sicuramente un valore minore rispetto ai possibili privati e aziende interessati a realizzare impianti fotovoltaici in Emilia-Romagna; questo limite può essere facilmente affrontato applicando un fattore di scala, opportunamente calcolato, ai risultati generati durante le simulazioni.\\*
 Per quanto riguarda la gestione degli incentivi, possiamo far notare che un meccanismo di assegnazione di fondi ad asta nella realtà prevederebbe sicuramente modalità più complesse (ad esempio la presenza di intervalli temporali in cui i potenziali investitori comunichino alla regione la percentuale loro necessaria, un ordinamento della richieste secondo qualche criterio, una negoziazione sulla percentuale da finanziare) e analogamente anche per le restanti modalità d'incentivazione.\\*
+Sempre considerando gli incentivi, un'estensione molto utile sarebbe la possibilità di effettuare simulazioni con diversi tipi di incentivazione contemporaneamente, poiché invece al momento è selezionabile un solo tipo per volta; per ora le metodologie incentivanti sono considerate come indipendenti, mentre nel mondo reale la situazione è certamente più complessa per via di eventuali interazioni tra tali metodologie.\\*
 Un altro punto importante è il meccanismo con cui viene effettuata la valutazione di fattibilità dell'investimento, cercando di renderlo più realistico implementando una strategia decisionale più elaborata che tenga conto del budget di partenza dei potenziali investitori, la possibilità di pagare a rate e la presenza di interazione sociale.
 \\* \\*
 Per quanto riguarda l'interazione sociale qui implementata, essa considera semplicemente l’influenza dei vicini, cioè

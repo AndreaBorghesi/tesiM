@@ -4,7 +4,7 @@ globals [ wacc m2Kwp  count_tick scala_dim_impianto time anno number durata_impi
   random_bgt random_m2 random_ostinazione random_consumo kW2012 kW2013 kW2014 kW2015 kW2016 kWTOT NAgentiFINAL  
   INCENTIVO_INST2012 INCENTIVO_INST2013 INCENTIVO_INST2014 INCENTIVO_INST2015 INCENTIVO_INST2016 INCENTIVO_INSTOT 
   INCENTIVO_PRO2012 INCENTIVO_PRO2013 INCENTIVO_PRO2014 INCENTIVO_PRO2015 INCENTIVO_PRO2016 INCENTIVO_PROTOT 
-  Budget2012 Budget2013 Budget2014 Budget2015 Budget2016 ;per tenere traccia del budget annuale, spese più ricavi
+  Budget2012 Budget2013 Budget2014 Budget2015 Budget2016 Budget2017;per tenere traccia del budget annuale, spese più ricavi
   TOT_SPESA2012 TOT_SPESA2013 TOT_SPESA2014 TOT_SPESA2015 TOT_SPESA2016 TOT_SPESA 
   r2012 r2013 r2014 r2015 r2016 ;percentuale agenti che non sono morti
   BudgetCorrente;quanto è rimasto del budget iniziale
@@ -209,6 +209,7 @@ to default
   set Budget2014 0
   set Budget2015 0
   set Budget2016 0
+  set Budget2017 0
   set Incentivi_Installazione false
   set %_Incentivi_Installazione 10
   set Varia_Tariffe_Incetivanti false
@@ -1009,10 +1010,16 @@ to aggiorna_budget
             output-print (word ">>>>>>>>>> Aggiorno budget 2015<<<<<<<<<" )
           ]
           [
-            if(anno = 2016)
+            ifelse(anno = 2016)
             [
               set  BudgetCorrente BudgetCorrente + (BudgetRegione2016 * 1000000)
               output-print (word ">>>>>>>>>> Aggiorno budget 2016<<<<<<<<<" )
+            ]
+            [
+              if(anno = 2017) ;;per tenere traccia del budget effettivo rimasto alla regione dopo che tutti gli impianti sono stati realizzati
+              [
+                set Budget2017 BudgetCorrente
+              ] 
             ]
           ]
         ]    
@@ -1640,6 +1647,7 @@ to stampa_resoconto
   output-print (word "ANNO 2014: " Budget2014  " euro")
   output-print (word "ANNO 2015: " Budget2015  " euro")
   output-print (word "ANNO 2016: " Budget2016  " euro")
+  output-print (word "ANNO 2017: " Budget2017  " euro")
 end
 
 ;; STAMPA DATI DEGLI AGENTI....VARIARE IN BASE ALL'INTERESSE
@@ -1674,7 +1682,8 @@ to write_pl_file
   file-open "/home/b0rgh/ECLiPSe/sourceTesi/risultati_sintetici_new.pl"
   
   ;;versione iniziale che produce risultati relativi principalmente a tipo di incentivo, buget PV, spesa per PV e produzione finale
-  file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT").")
+  ;;file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT").")
+  file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","Budget2017"," kWTOT").")
   
   ;;seconda versione necessaria per considerare anche l'interazione sociale
   ;;file-print (word "result_new('"fr"'," INCENTIVO_INSTOT ", " %_Incentivi_Installazione ", " TOT_SPESA ","BudgetRegione","BudgetCorrente"," kWTOT"," Raggio","Sensibilita ").")
@@ -2615,7 +2624,7 @@ CHOOSER
 fr
 fr
 "Nessuno" "Asta" "Conto interessi" "Rotazione" "Garanzia"
-3
+1
 
 SLIDER
 17
@@ -2626,7 +2635,7 @@ BudgetRegione
 BudgetRegione
 0.1
 15
-0.1
+7
 0.1
 1
 milioni
