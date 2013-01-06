@@ -47,13 +47,13 @@
 	segR <- segmented(glmR,seg.Z=~ Budget,psi=c(30))
 	segG <- segmented(glmG,seg.Z=~ Budget,psi=c(12,30))
 	
-#	pdf(file="/media/sda4/tesi/immagini/grafici/incentComparePiecewise.pdf")
+#	pdf(file="/media/sda4/tesi/immagini/grafici/incCompare/incentComparePiecewise.pdf")
 #	par(mar=c(4.2, 4.0, 0.2, 0.2))
 
 #graph
-plot(aggdataA$Out ~ aggdataA$Budget,type="n",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",ylim=c(21000,27500),xlim=c(0,40),cex.lab=0.9) 
+plot(aggdataA$Out ~ aggdataA$Budget,type="n",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",ylim=c(21000,27500),xlim=c(0,40),cex.lab=1.3) 
 	grid()
-	legend("topright", inset=.05, title="Tipo Incentivo", c("Asta","Conto Interessi","Rotazione","Garanzia"), fill=c("blue","red","green","yellow"),cex=0.9)
+	legend("topright", inset=.05, title="Tipo Incentivo", c("Asta","Conto Interessi","Rotazione","Garanzia"), fill=c("blue","red","green","yellow"),cex=1)
 	
 	points(aggdata$Budget, predict(segA), type="l", col="blue", lwd=2)
 	points(aggdata$Budget, predict(segCI), type="l", col="red", lwd=2)

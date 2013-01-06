@@ -260,6 +260,8 @@ Proseguiremo ora esaminando i singoli incentivi per poi concludere confrontandol
 
 \myparagraph{Fondo Asta}
 
+In Figura ~\ref{graphSimA} sono riportati sia i risultati ottenuti da tutte le simulazioni effettuate con l'incentivo Fondo Asta (Fig.~\ref{graphSimA_R}), sia la linea di regressione associata al modello che meglio vi si adattasse (Fig.~\ref{regr_graphSimA_R}), rappresentato in questo caso da una funzione quadratica.
+
 \begin{figure}[H]
 	\centering
 	\subfloat[Simulazioni]{\includegraphics[scale=0.55]{graphSimA_R}\label{graphSimA_R}}
@@ -269,12 +271,92 @@ Proseguiremo ora esaminando i singoli incentivi per poi concludere confrontandol
 	\label{graphSimA}
 \end{figure}
 
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.8]{residualsPlot_A}
+	\caption{Fondo Asta, analisi dei residuali}
+	\label{residualsPlot_A}
+\end{figure}
+
+Osservando il grafico possiamo notare quindi che la produzione energetica aumenta insieme all'aumentare del budget dedicato all'incentivazione, con una relazione quasi lineare per valori minori di trenta milioni di euro per poi continuare ad aumentare ma ad un ritmo minore; ciò dovuto probabilmente al fatto che si raggiunge una specie di ''saturazione'' nell'accesso agli incentivi, cioè quando la somma stanziata per il Fonda Asta raggiunge valori sufficienti è possibile fornire la percentuale sul costo di costruzione dell'impianto fotovoltaico a quasi tutti gli agenti che ne fanno richiesta, di conseguenza la produzione energetica inizia a crescere più lentamente.\\* \\*
+In questo caso, come anche con gli altri incentivi, la scelta del modello di regressione corretto è stata fatta sulla base dei valori numerici presentati nel paragrafo precedente, cercando comunque di scegliere il modello più semplice a parità di miglioramenti non significativi nelle misure della bontà di adattamento ai dati. Per il questo tipo i incentivo la regressione quadratica ha fornito risultati molto buoni, con un coefficiente di determinazione pari a 0.907 e valori di p-value e F-test che garantiscono la significatività statistica.\\*
+In Figura ~\ref{residualsPlot_A} sono mostrati i grafici di dispersione dei residuali (asse della ordinate) rispetto al budget (la variabile indipendente, sull'asse delle ascisse) per alcuni dei modelli tentati; risulta evidente un andamento caratteristico della distribuzione solamente nel caso del modello lineare, mentre nei modelli restanti la distribuzione è molto simile e non strutturata, a indicare una maggiore adesione della regressione ai dati sottostanti.\\* \\*
+In Figura ~\ref{normProbPlot_A} abbiamo infine presentato i grafici della distribuzione degli errori (rappresentati dai cerchi neri) di alcuni modelli, per confrontarli con una distribuzione normale standard (la retta). Come è facile osservare per tutti i modelli la distribuzione degli errori casuali segue piuttosto fedelmente una distribuzione normale, consentendoci di considerare vera l'assunzione di normalità; dal momento che questo avviene anche per tutti le restanti metodologie incentivanti, nei casi restanti, per non appesantire la trattazione, non abbiamo riportato ulteriori grafici di quest'ultimo tipo. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{normProbPlot_A}
+	\caption{Fondo Asta, grafici di probabilità normale}
+	\label{normProbPlot_A}
+\end{figure}
 
 \myparagraph{Conto Interessi}
 
+L'incentivo Conto Interessi (Fig.~\ref{graphSimCI}) mostra un andamento decisamente diverso rispetto al caso precedente, in quanto dopo una crescita molto veloce la produzione energetica si stabilizza e non aumenta a prescindere da quanto venga speso. \\* 
+
+\begin{figure}[H]
+	\centering
+	\subfloat[Simulazioni]{\includegraphics[scale=0.55]{graphSimCI_R}\label{graphSimCI_R}}
+	\qquad
+	\subfloat[Relazione]{\includegraphics[scale=0.55]{regr_graphSimCI_R}\label{regr_graphSimCI_R}}
+	\caption{Conto Interessi}
+	\label{graphSimCI}
+\end{figure}
+
+Questo comportamento è in linea con quanto era lecito attendersi poiché il Conto Interessi è ampiamente la tipologia di incentivazione che richiede meno fondi e una volta che tutti i richiedenti sono stati soddisfatti, per un costo di circa tre milioni di euro, ulteriori aumenti di budget non corrispondono ad aumenti della produzione.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.8]{residualsPlot_CI}
+	\caption{Conto Interessi, analisi dei residuali}
+	\label{residualsPlot_CI}
+\end{figure}
+
+La tipologia di regressione che meglio approssima il comportamento di questo incentivo è costituita da una funzione polinomiale di grado elevato (in particolare il decimo), caratterizzato da un coefficiente di determinazione di 0.901; come in quello precedente in questo caso p-value e F-test garantiscono un'ottima significatività statistica.\\* 
+Anche dalla Figura ~\ref{residualsPlot_CI} si può notare come l'analisi grafica dei residuali suggerisca che il metodo di regressione migliore sia quello scelto, infatti nei restanti modelli è facilmente riscontrabile una struttura non casuale.
+
 \myparagraph{Fondo Rotazione}
 
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.8]{residualsPlot_R}
+	\caption{Fondo Rotazione, analisi dei residuali}
+	\label{residualsPlot_R}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\subfloat[Simulazioni]{\includegraphics[scale=0.55]{graphSimR_R}\label{graphSimR_R}}
+	\qquad
+	\subfloat[Relazione]{\includegraphics[scale=0.55]{regr_graphSimR_R}\label{regr_graphSimR_R}}
+	\caption{Fondo Rotazione}
+	\label{graphSimR}
+\end{figure}
+
+La situazione nel caso del Fondo Rotazione (Fig.~\ref{graphSimR}) è simile a quella del Fondo Asta, infatti anche in questo caso il modello di regressione migliore è dato da una funzione quadratica (ancora con ottima significatività statistica e un coefficiente di determinazione pari a 0.983), con la differenza che la crescita della produzione in relazione ai finanziamenti resta più marcata anche per valori di budget più elevati e la pendenza della curva diminuisce più lentamente.\\*
+Allo stesso modo la Figura ~\ref{residualsPlot_R} mostra come la distribuzione dei residuali per il modello scelto sia indicativa di un ottimo adattamento ai dati.
+
 \myparagraph{Fondo Garanzia}
+
+Infine consideriamo il caso dell'incentivo Fondo Garanzia, mostrato in Figura ~\ref{graphSimG}. Si nota nuovamente un andamento contraddistinto inizialmente da un aumento della produzione energetica al crescere dei fondi messi a disposizione con una curva quasi lineare (fino a circa quindici milioni di euro), per poi osservare una stabilizzazione nella produzione energetica dopo che un certo valore di budget è stato raggiunto (circa venti milioni di euro), probabilmente, in maniera simile al Conto Interessi, anche con questa metodologia incentivante è possibile soddisfare quasi tutti i richiedenti con una spesa sensibilmente minore rispetto ai casi Asta e Rotazione.\\*\\*
+Il modello di regressione che è risultato essere il più opportuno con i dati del Fondo Garanzia, è risultato essere il cosiddetto LOESS (modello locale); per questo tipo di modello non è possibile riportare dati come il coefficiente di determinazione in quanto non produce una funzione di regressione facilmente rappresentabile tramite una formula matematica, ma in ogni caso il confronto con altri tipi di modelli sulla base di analisi di tipo grafico ci ha fatto propendere verso la sua scelta (anche se lo stesso modello polinomiale usato per il Conto Interessi aveva mostrato un buon adattamento ai dati).\\*
+In Figura ~\ref{residualsPlot_G} è possibile vedere anche per il Fondo Garanzia quali siano i grafici di dispersione dei residuali per alcuni modelli di regressione, dalla cui osservazione si può dedurre che il modello LOESS sia stato una buona scelta.
+
+\begin{figure}[H]
+	\centering
+	\subfloat[Simulazioni]{\includegraphics[scale=0.55]{graphSimG_R}\label{graphSimG_R}}
+	\qquad
+	\subfloat[Relazione]{\includegraphics[scale=0.55]{regr_graphSimG_R}\label{regr_graphSimG_R}}
+	\caption{Fondo Garanzia}
+	\label{graphSimG}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.8]{residualsPlot_G}
+	\caption{Fondo Garanzia, analisi dei residuali}
+	\label{residualsPlot_G}
+\end{figure}
 
 \myparagraph{Confronto Incentivi}
 
