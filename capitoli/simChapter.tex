@@ -129,7 +129,7 @@ In Figura ~\ref{netlogoUI_code} sono mostrati un esempio di una parte di iterfac
 	\label{netlogoUI_code}
 \end{figure}
 
-Altro elemento fondamentale dell'ambiente di sviluppo è rappresentato dalla gestione delle variabili aggregate e le relative statistiche. Poiché lo scopo di un modello di simulazione ad agenti è spesso rappresentato dalla necessità di comprendere a livello globale il comportamento di un sistema descritto nelle sue singole componenti ne deriva la necessità di calcolare e rappresentare l'andamento nel tempo di variabili aggregate per valutare qualitativamente il modello. In NetLogo ad ognuna delle variabili del modello è possibile associare un oggetto monitor, che ne mostra dinamicamente le variazioni, oppure un grafico, che ne raffigura l'andamento nel tempo. Gli  oggetti che permettono la gestione dei grafici sono \emph{plot} e \emph{histogram}, entrambi da definire sia a livello d'interfaccia grafica come avviene anche per le procedure, sia nel codice della simulazione.\\* 
+Un altro elemento fondamentale dell'ambiente di sviluppo è rappresentato dalla gestione delle variabili aggregate e le relative statistiche. Poiché lo scopo di un modello di simulazione ad agenti è spesso rappresentato dalla necessità di comprendere a livello globale il comportamento di un sistema descritto nelle sue singole componenti ne deriva la necessità di calcolare e rappresentare l'andamento nel tempo di variabili aggregate per valutare qualitativamente il modello. In NetLogo ad ognuna delle variabili del modello è possibile associare un oggetto monitor, che ne mostra dinamicamente le variazioni, oppure un grafico, che ne raffigura l'andamento nel tempo. Gli  oggetti che permettono la gestione dei grafici sono \emph{plot} e \emph{histogram}, entrambi da definire sia a livello d'interfaccia grafica come avviene anche per le procedure, sia nel codice della simulazione.\\* 
 
 
 \section{MODELLO AD AGENTI}
@@ -185,7 +185,7 @@ Questi parametri sono fondamentali per far si che l'agente posso valutare la fat
 Gli agenti che optano per abbandonare l'idea di un investimento vengono eliminati dal modello mentre quelli che, a margine dello studio di fattibilità, decidono di effettuare l'investimento daranno vita alla generazione di un nuovo impianto. Come per gli agenti, gli impianti possiedono attributi che li caratterizzano: data di entrata in funzione, tipologia, tecnologia di realizzazione, costo, fascia potenza, tariffa incentivante riconosciuta e dimensione.\\* \\*
 Oltre agli agenti che modellano i possibili investitori appena descritti, abbiamo aggiunto al simulatore anche un altro tipo di entità, cioè un unico agente che rappresenta la regione Emilia-Romagna e ci ha permesso di implementare alcune politiche centralizzate anche nel mondo totalmente distribuito di Netlogo (ad esempio è stato così possibile fare in modo che il budget che la regione mette a disposizione per gli incentivi non dovesse essere fissato all'inizio del periodo compreso tra 2012 e 2016, ma fosse frazionato in diversi budget annuali).
 
-\subsection{VALUTAZIONE FATTIBILITÀ INVESTIMENTO}
+\subsection{VALUTAZIONE FATTIBILITÀ}
 Sulla base dei parametri che definiscono il modello ogni agente è in grado di valutare la fattibilità economica dell'investimento calcolando il VAN (il Valore attuale netto dell'investimento) per l'impianto da realizzare; da questo valore è possibile individuare il PBT (Pay Back Time), il periodo necessario per il ''ritorno'' dell'investimento iniziale, e il ROE (Return On Equity), l'indice di redditività del capitale investito.\\*
 Alcune variabili globali usate per la valutazione di fattibilità sono:
 \begin{itemize}
@@ -198,7 +198,7 @@ Alcune variabili globali usate per la valutazione di fattibilità sono:
 \end{itemize}
 
 Una volta assegnati i parametri globali e i parametri individuali (con valori casuali o a partire da serie storiche) per ogni agente vengono individuate le caratteristiche di potenza che l'impianto fotovoltaico dovrà soddisfare, in particolare per determinare la quantità di energia elettrica che l'impianto dovrà produrre al fine di soddisfare l'esigenze dell'agente. Sulla base di tali esigenze si può individuare quale sarà la dimensione dell'impianto, dalla quale è poi facile dedurre i costi di realizzazione dello stesso.\\*
-Una volta che tutte queste informazioni sono a disposizione degli agenti essi possono effettuare la valutazione della fattibilità dell'investimento, procedimento che può essere riassunto nel flow chart  di figura ~\ref{flowChartValFatt}.
+Una volta che tutte queste informazioni sono a disposizione degli agenti essi possono effettuare la valutazione della fattibilità dell'investimento, procedimento che può essere riassunto nel flow chart  di Figura ~\ref{flowChartValFatt}.
 \\*
 Nel  momento in cui un agente valuta la fattibilità dell'investimento si possono verificare i seguenti scenari:
 \begin{itemize}
@@ -216,7 +216,7 @@ Nel  momento in cui un agente valuta la fattibilità dell'investimento si posson
 \end{figure}
 
 In tutti casi, a esclusione dell'eliminazione dal modello, il comportamento successivo dell'agente dipende, oltre che da fattori economici, anche da un parametro, l'\emph{ostinazione}, che simula la determinazione a istallare un impianto fotovoltaico (ad esempio per motivazioni legate a considerazioni ecologiche), ed entra in gioco per le decisioni inerenti l'aumento delle dimensioni dell'impianto, il suo ridimensionamento o l'accettazione di un prestito.\\*
-In figura ~\ref{mondoVirtualeSim} possiamo osservare il mondo virtuale di Netlogo popolato di agenti che hanno deciso di effettuare l'investimento e realizzare un impianto fotovoltaico; in verde troviamo gli agenti che non hanno avuto problemi di budget o spazio a disposizione, in blu quelli che hanno accettato il ridimensionamento e in rosso quelli che anno accettato un prestito.
+In Figura ~\ref{mondoVirtualeSim} possiamo osservare il mondo virtuale di Netlogo popolato di agenti che hanno deciso di effettuare l'investimento e realizzare un impianto fotovoltaico; in verde troviamo gli agenti che non hanno avuto problemi di budget o spazio a disposizione, in blu quelli che hanno accettato il ridimensionamento e in rosso quelli che anno accettato un prestito.
 
 \begin{figure}[hbt]
 	\centering
@@ -231,7 +231,7 @@ Una volta popolato il modello con un certo numero di agenti (nell'intervallo [0.
 \\* \\*
 Una volta terminata l'esecuzione della simulazione vengono prodotte e comunicate tramite l'apposita interfaccia grafica una serie di informazioni, alcune di maggior interesse per i singoli investitori, come ad esempio il PBT ed il ROE medio per i diversi semestri in cui è prevista la creazione di un impianto, altre utili per  per determinare le grandezze caratteristiche dell'ambiente simulato, come ad esempio la potenza installata nel complesso e quella nei relativi anni(espressa in kWp), spesa complessiva per gli incentivi all'installazione ed alla produzione, spesa totale e percentuale di impianti realizzati (cioè quanti agenti tra quelli generati all'inizio della simulazione hanno effettivamente portato a termine un impianto.)
 \\*
-Questo tipo di informazioni (mostrate in figura ~\ref{infoTotSim}) sono molto importanti per politici o aziende del settore, per valutare nel complesso quale potrebbe essere la risposta degli investitori al variare di determinate grandezze quali, ad esempio, le tariffe incentivanti o i costi di realizzazione. 
+Questo tipo di informazioni (mostrate in Figura ~\ref{infoTotSim}) sono molto importanti per politici o aziende del settore, per valutare nel complesso quale potrebbe essere la risposta degli investitori al variare di determinate grandezze quali, ad esempio, le tariffe incentivanti o i costi di realizzazione. 
 
 \begin{figure}[hbt]
 	\centering
@@ -277,7 +277,7 @@ Lo studio della fattibilità di un investimento nel caso del simulatore esteso c
 Poiché il simulatore iniziale aveva un comportamento esclusivamente deterministico col quale la produzione di energia fotovoltaica degli agenti era condizionata unicamente da fattori di tipo economico, abbiamo deciso di estenderlo verso una direzione più realistica, dove considerare le interazioni sociali tra i diversi agenti. Il tentativo è stato fatto col fine di approssimare una rete small word, un sistema cioè in cui se un agente prende una decisione, anche i suoi vicini ne sono influenzati.
 \\*
 In sintesi è stato assegnato ad ogni agente un valore (una componente dell'ostinazione vista in precedenza) che rappresenta quanto sia significativa l'influenza del comportamento dei vicini, cercando di riflettere la tendenza a seguire il comportamento del gruppo in cui ci si trova tipica degli esseri umani del mondo reale. In particolare le decisioni di ogni agente sono modificate dalla sua personale sensibilità ai comportamenti dei vicini e dalle dimensioni dell'area di influenza, ovvero dal raggio che determina la zona circolare all'interno della quale le scelte fatte da un agente possono influenzare il comportamento degli altri.\\*
-In figura ~\ref{iterSocMondoVirt} possiamo osservare un esempio di come si formino le aree di influenza tra agenti all'interno del mondo virtuale di Netlogo.
+In Figura ~\ref{iterSocMondoVirt} possiamo osservare un esempio di come si formino le aree di influenza tra agenti all'interno del mondo virtuale di Netlogo.
 
 \begin{figure}[hbt]
 	\centering
@@ -297,9 +297,6 @@ Un altro punto importante è il meccanismo con cui viene effettuata la valutazio
 \\* \\*
 Per quanto riguarda l'interazione sociale qui implementata, essa considera semplicemente l’influenza dei vicini, cioè
 all’aumentare dei vicini che hanno realizzato l’investimento aumenta anche la probabilità dell’agente stesso di realizzarlo, mentre esistono ovviamente modelli sociologici molto più complessi, completi e realistici che possono essere presi in considerazione. Tra le altre cose potrebbe essere introdotto un altro fattore che agisca parallelamente all'ostinazione, all'influenza delle rate e quella sociale, in particolare uno che tenga in conto il fatto che all’aumentare di risorse che fornite dalla regione vi possa essere un maggior desiderio di intraprendere l’investimento; o ancora, nel nostro caso abbiamo solamente considerato l'effetto positivo dell'iterazione sociale, mentre un modello più accurato potrebbe anche tenere conto di chi non effettua l'investimento e scoraggia così i restanti investitori del vicinato.
-
-\section{Sommario capitolo}
---------------> Parte di raccordo <----------------
 
 
 

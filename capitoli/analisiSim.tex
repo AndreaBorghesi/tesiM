@@ -255,7 +255,7 @@ In un secondo momento siamo passati a studiare la relazione tra produzione energ
 
 \subsection{COMPORTAMENTO DEGLI INCENTIVI}
 
-Il comportamento degli incentivi è stato studiato effettuando numerose simulazioni per ogni tipo di incentivo, variando la dimensione del fondo dedicato agli incentivi per il fotovoltaico. Il fondo è stato aumentato con incrementi di un milione di euro a partire da zero  fino a un massimo di 40 milioni ( considerando un arco temporale di cinque anni ); per ogni valore sono state effettuate 300 simulazioni, per un totale di 48000 simulazioni considerando tutti i diversi incentivi.\\*
+Il comportamento degli incentivi è stato studiato effettuando numerose simulazioni per ogni tipo di incentivo, variando la dimensione del fondo dedicato agli incentivi per il fotovoltaico. Il fondo è stato aumentato con incrementi di un milione di euro a partire da zero  fino a un massimo di 40 milioni (considerando un arco temporale di cinque anni); per ogni valore sono state effettuate 300 simulazioni, per un totale di 48000 simulazioni considerando tutti i diversi incentivi.\\*
 Proseguiremo ora esaminando i singoli incentivi per poi concludere confrontandoli tra loro.
 
 \myparagraph{Fondo Asta}
@@ -360,18 +360,87 @@ In Figura ~\ref{residualsPlot_G} è possibile vedere anche per il Fondo Garanzia
 
 \myparagraph{Confronto Incentivi}
 
+Infine in Figura ~\ref{incentCompare} sono confrontati i differenti comportamenti dei vari incentivi, riportando inoltre l'andamento della produzione in caso di nessuna incentivazione (descritta ovviamente da una retta praticamente a pendenza zero, dal momento che senza incentivi il budget destinato ad essi non può influire sulla produzione energetica). Si nota facilmente come il Conto Interessi sia il tipo di incentivo migliore per quasi tutto l'intervallo considerato per il budget (che possiamo ritenere sensato in quanto compatibile con gli investimenti realmente effettuati dalla regione), leggermente superato dal Fondo Rotazione solamente con un fondo incentivi maggiore di quaranta milioni di euro. Il Fondo Garanzia e il Fondo Rotazione hanno un andamento equiparabile per finanziamenti non elevati, ma il secondo si comporta decisamente meglio in caso di forti investimenti (occorre comunque ricordare che in questo grafico non viene tenuto conto di quanta parte di budget viene effettivamente consumata dall'incentivo, fattore che viene invece considerato nella valutazione dell'efficacia impiegata nel modello a vincoli del problema). Il Fondo Asta risulta essere la metodologia di incentivo meno efficiente per la produzione di energia elettrica.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.65]{incentCompare_e_noInc}
+	\caption{Confronto tra i diversi incentivi}
+	\label{incentCompare}
+\end{figure}
+
 \subsection{EFFETTI DELL'INTERAZIONE SOCIALE}
 
-Gli effetti dell'iterazione sociale sulla produzione energetica sono stati studiati agendo sui due parametri che possono influenzarla, il raggio dell'interazione e la sensibilità all'influenza derivante dal comportamento dei vicini, ed effettuando numerose simulazioni controllate: per ricavare la relazione tra produzione energetica e raggio questo è stato fatto variare da 1 fino a 40 ( valori espressi con un'unità di misura interna al simulatore ), con incrementi di una un'unità e 200 prove per valore, per un totale di 32000 simulazioni; per la relazione tra produzione e sensibilità questa è stata fatta crescere da 0 fino a 20 a intervalli di 0.5, ancora con un totale di 32000 simulazioni.
+Gli effetti dell'iterazione sociale sulla produzione energetica sono stati studiati agendo sui due parametri che possono influenzarla, il raggio dell'interazione (misurato in patches) e la sensibilità all'influenza (adimensionale) derivante dal comportamento dei vicini, ed effettuando numerose simulazioni controllate: per ricavare la relazione tra produzione energetica e raggio questo è stato fatto variare da 1 fino a 40 (valori espressi con un'unità di misura interna al simulatore, la patch del mondo virtuale), con incrementi di una un'unità e 200 prove per valore, per un totale di 32000 simulazioni; per la relazione tra produzione e sensibilità questa è stata fatta crescere da 0 fino a 20 a intervalli di 0.5, ancora con un totale di 32000 simulazioni.
 
 \myparagraph{Sensibilità a interazione}
 
+In questo paragrafo verranno mostrate le relazioni che legano la sensibilità degli agenti nei confronti dell'interazione sociale e la produzione energetica, distinguendo i quattro tipi di incentivi. Per ogni tipologia è stata effettuata un 'analisi della regressione analoga a quelle effettuate in precedenza e, per maggiore concisione, esaminiamo ora direttamente i risultati ottenuti con il modello di regressione da noi ritenuto migliore, senza riportare i passaggi che ci hanno permesso di stabilire quale fosse (coefficiente di determinazione, analisi grafica dei residuali,...); il modello da noi scelto in quanto miglior approssimazione dei dati è stato quello LOESS, anche se la regressione con una funzione polinomiale di alto grado presentava una bontà di adattamento pressoché identica.\\* \\*
+Osserviamo che  la produzione energetica è positivamente correlata all'incremento della sensibilità all'influenza sociale. Si possono notare alcune somiglianze nell'andamento delle curve di regressione dei Fondi Asta e Rotazione (Fig.~\ref{graphAsocS} e Fig.~\ref{graphRsocS}), infatti in entrambi i casi dopo una relazione quasi lineare per valori della sensibilità inferiori a 10, si nota una leggera diminuzione della pendenza della curva. \\*
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{graphSimA_socS}
+	\caption{Fondo Asta, sensibilità a influenza sociale}
+	\label{graphAsocS}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.5]{graphSimCI_socS}
+	\caption{Conto Interessi, sensibilità a influenza sociale}
+	\label{graphCIsocS}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{graphSimR_socS}
+	\caption{Fondo Rotazione, sensibilità a influenza sociale}
+	\label{graphRsocS}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.5]{graphSimG_socS}
+	\caption{Fondo Garanzia, sensibilità a influenza sociale}
+	\label{graphGsocS}
+\end{figure}
+
+Nel caso del Conto Interessi e Fondo Garanzia (Fig.~\ref{graphCIsocS} e Fig.~\ref{graphGsocS}) la linea di regressione presenta un comportamento più irregolare (specialmente nel caso del Fondo Garanzia) e sembra suggerire che aumentando la sensibilità oltre al valore 20 la corrispondente produzione energetica diminuisca, ma questa inversione di tendenza è apparente e con ulteriori simulazioni abbiamo provato che la funzione continua ad essere crescente, anche se poco e con notevoli oscillazioni, per valori di sensibilità maggiori.
+
 \myparagraph{Raggio dell'interazione}
 
+Come nel caso della sensibilità, anche per valutare la relazione tra produzione energetica e raggio dell'iterazione sociale abbiamo applicato i metodi di analisi della regressione visti in precedenza, quindi anche in questo caso abbiamo riportato direttamente i risultati con il modello migliore; la scelta è ricaduta nuovamente sul modello LOESS, nonostante la buona approssimazione fornita anche dal modello polinomiale (uno dei motivi che ci ha fatto propendere verso la nostra scelta è il fatto che una funzione di regressione definita da un polinomio di grado elevato fosse troppo sensibile alla presenza di valori anomali, outliers, e presentasse quindi un andamento più irregolare).\\* \\*
+Per tutti tipi di incentivo possiamo osservare che la produzione energetica è positivamente correlata all'incremento del raggio dell'iterazione sociale, in particolare fino a un certo valore di raggio l'aumento di quest'ultimo provoca un rapido miglioramento della produzione, ma oltre tale valore la produzione incrementa più moderatamente; in ogni caso, pur con le dovute differenze tra le pendenze, le curve dei vari incentivi indicano che l'interazione sociale è influenzata maggiormente dall'aumento del raggio piuttosto che dalla sensibilità ad essa, anche se entrambi i fattori concorrono ad aumentare l'effetto positivo dell'interazione stessa (può essere utile anche notare che un un valore di 40 patches per il raggio in un mondo virtuale a forma di quadrato di lato 60 patches è chiaramente un valore non riscontrabile nel mondo reale).
+%-------------> raggio iterazion 40 è grande
 
-\section[APPROSSIMAZIONE LINEARE]{APPROSSIMAZIONE LINEARE}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{graphSimA_socR}
+	\caption{Fondo Asta, sensibilità a raggio interazione}
+	\label{graphAsocR}
+\end{figure}
 
-\subsection{REGRESSIONE LINEARE A TRATTI}
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.5]{graphSimCI_socR}
+	\caption{Conto Interessi, sensibilità a raggio interazione}
+	\label{graphCIsocR}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{graphSimR_socR}
+	\caption{Fondo Rotazione, sensibilità a raggio interazione}
+	\label{graphRsocR}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.5]{graphSimG_socR}
+	\caption{Fondo Garanzia, sensibilità a raggio interazione}
+	\label{graphGsocR}
+\end{figure}
 
 
 \nocite{*}
