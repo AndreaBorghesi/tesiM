@@ -1,0 +1,150 @@
+%Andrea Borghesi
+%Università degli studi di Bologna
+
+%capitolo dedicato alla descrizione del progetto e-policy e ai meccanismi incentivanti 
+
+\documentclass[12pt,a4paper,openright,twoside]{report}
+\usepackage[italian]{babel}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titlesec,blindtext, color}
+\usepackage[font={small,it}]{caption}
+\usepackage{subfig}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{url}
+\usepackage{textcomp}
+
+%impostazioni generali per visualizzare codice
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+\lstset{ %
+  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+  numbersep=5pt,  
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  rulecolor=\color{black}, 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  frame=single,                   % adds a frame around the code
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*,...},              % if you want to add more keywords to the set
+  deletekeywords={...}              % if you want to delete keywords from the given language
+}
+
+%per avere un bordo intorno alle figure
+\usepackage{float}
+\floatstyle{boxed} 
+\restylefloat{figure}
+
+%per poter poi impedire che certe parole vadano a capo
+\usepackage{hyphenat}
+\usepackage{listings}
+
+%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
+\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
+\fancyhf{}
+\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
+\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
+\fancyfoot[C]{\changefont \thepage}					%footer
+
+%titolo capitolo con "numero | titolo"
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+
+
+\oddsidemargin=30pt \evensidemargin=20pt
+
+%sillabazioni non eseguite correttamente
+\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
+
+%interlinea
+\linespread{1.15}  
+\pagestyle{fancy}
+
+%cartelle contenenti le immagini
+\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}{/media/sda4/tesi/immagini/epolicy/}}
+
+%in modo che dopo il titolo di un paragrafo il testo vada a capo
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+
+\begin{document}
+\chapter{\nohyphens{QUADRO GENERALE}}
+
+%--------> introduzione
+
+
+\section[E-POLICY]{PROGETTO E-POLICY}
+
+Il progetto europeo \emph{ePolicy} (dall'inglese Engineering the Policy Making Life Cycle, cioè ingegnerizzare il processo di creazione delle politiche) ha come obiettivo la creazione di un sistema di supporto alle decisioni per la pianificazione regionale e la valutazione degli impatti sociali, economici e ambientali. Con l'espressione \emph{sistema di supporto alle decisioni} (a cui in seguito ci riferiremo anche utilizzando l'acronimo \emph{DSS}, dall'inglese Decision Support System) si intende una classe molto ampia di sistemi software che hanno come scopo aiutare a prendere decisioni in caso di gestione di problemi complessi, facilitando l'analisi di grandi quantità di dati e suggerendo strategie e  politiche da adottare.\\*
+Avviato nell'Ottobre del 2011, il progetto è coordinato dall'Università di Bologna e coinvolge nove partner tra mondo dell'accademia e della ricerca, governi regionali e settore privato, distribuiti in cinque paesi diversi dell'Unione Europea.\\*\\*
+I decisori politici devono prendere decisioni complesse valutando un notevole numero di variabili e vincoli, tenendo conto quindi degli impatti che le loro scelte avranno su diversi aspetti ambientali, economici e sociali. Al tempo stesso, si è osservata negli anni un sempre crescente desiderio da parte dei cittadini di contribuire alla creazione delle politiche attraverso mezzi come i social network e i blog.\\*\\*
+L'intenzione del progetto, una volta concluso, è quella di permettere a coloro che effettuano le decisioni di disporre di un sistema integrato e user-friendly, in grado di creare e valutare piani alternativi altamente ottimizzati tra i quali poter scegliere sulla base di una dettagliata analisi dei costi e benefici degli stessi.\\*\\*
+Oltre a esaminare gli aspetti teorici, il progetto ePolicy mira a applicare i suoi risultati a un caso pratico: la pianificazione energetica nella regione Emilia Romagna. In particolare, il governo regionale si è posto l'obiettivo di incrementare la produzione di energia da fonti rinnovabili, concentrandosi soprattutto sulle tecnologie fotovoltaiche (PV) e a biomassa. Di conseguenza, ePolicy punta a sviluppare un modello che fornirà supporto ai decisori politici della regione che stanno cercando di mettere in pratica il miglior meccanismo incentivante per stimolare la crescita della produzione energetica da alcune tecnologie rinnovabili.
+
+\subsection[OTTIMIZZAZIONE E DSS]{\nohyphens{OTTIMIZZAZIONE E SUPPORTO ALLE DECISIONI}}
+
+\subsection{SIMULAZIONE AD AGENTI}
+
+\subsection{INTERAZIONE COMPONENTI}
+
+\section{CASO DI STUDIO}
+
+\subsection[PIANO REGIONALE]{\nohyphens{PIANO ENERGETICO REGIONALE}}
+
+\subsection[IMPATTI PIANO]{\nohyphens{IMPATTI DEL PIANO ENERGETICO}}
+
+\subsection[OBIETTIVI PIANO]{\nohyphens{OBIETTIVI DEL PIANO ENERGETICO}}
+
+\subsection[PIANO REGIONALE]{\nohyphens{PIANO ENERGETICO REGIONALE}}
+
+\section{\nohyphens{STRATEGIE IMPLEMENTATIVE}}
+
+\subsection[INCENTIVI]{\nohyphens{TIPOLOGIE DI INCENTIVI}}
+
+\myparagraph{MECCANISMI INCENTIVANTI}
+
+\myparagraph{CONFRONTO DEI MECCANISMI D'INCENTIVAZIONE}
+
+\subsection[INCENTIVI EUROPEI]{\nohyphens{INCENTIVI IN EUROPA}}
+
+\myparagraph{TARIFFE DI INCENTIVAZIONE}
+
+\myparagraph{QUOTE OBBLIGATORIE DA RINNOVABILI}
+
+\myparagraph{SUSSIDI AGLI INVESTIMENTI}
+
+\myparagraph{INCENTIVI O ESENZIONI PER LE TASSE}
+
+\myparagraph{INCENTIVI FISCALI}
+
+
+\subsection[INCENTIVI ITALIANI]{\nohyphens{INCENTIVI IN ITALIA}}
+
+\myparagraph{TARIFFA INCENTIVANTE}
+
+\myparagraph{TARIFFA INCENTIVANTE ONNICOMPRENSIVA}
+
+\subsection[INCENTIVI REGIONALI]{\nohyphens{INCENTIVI IN EMILIA ROMAGNA}}
+
+\myparagraph{MECCANISMI INCENTIVANTI REGIONALI}
+
+\myparagraph{INCENTIVI FISCALI}
+
+\end{document}
