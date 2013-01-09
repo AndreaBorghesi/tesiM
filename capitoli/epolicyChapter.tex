@@ -87,7 +87,9 @@
 \begin{document}
 \chapter{\nohyphens{QUADRO GENERALE}}
 
-%--------> introduzione
+I problemi delle politiche pubbliche sono estremamente complessi, avvengono in ambienti che cambiano rapidamente caratterizzati da incertezza e coinvolgono conflitti tra diversi interessi. La nostra società è sempre più complessa a causa della globalizzazione, ampliamento e cambiamento delle situazioni geopolitiche. Questo implica che l'attività politica e la sua area di intervento si siano estese, rendendo più difficili da determinare gli effetti di tali interventi, mentre al tempo stesso diventa sempre più importante assicurarsi che le azioni intraprese affrontino in maniera efficacie le sfide reali che la crescente complessità comporta.\\*
+Da questo consegue che coloro responsabili di creare, implementare e far rispettare le politiche devono essere in grado di giungere a delle decisioni nel caso di problemi mal definiti e non pienamente compresi, senza una singola risposta corretta, che coinvolgono diversi interessi in competizione e interagiscono con altre politiche su multipli livelli.; è quindi necessario trattare con coerenza tali problematiche e ricercare tecniche, metodologie e strumenti per affrontare la complessità in questo settore.\\*\\*
+Con questo scopo in mente è stato ideato il progetto ePolicy che verrà ora introdotto; nel resto del capitolo verranno quindi fornite una descrizione di questo progetto in termini generali, seguito dalla presentazione del caso di studio con cui si è deciso di testare le tecniche sviluppate - la regione Emilia Romagna - e per passare infine a descrivere le strategie implementative adottabili per la messa in atto delle politiche studiate.
 
 
 \section[E-POLICY]{PROGETTO E-POLICY}
@@ -98,13 +100,50 @@ I decisori politici devono prendere decisioni complesse valutando un notevole nu
 L'intenzione del progetto, una volta concluso, è quella di permettere a coloro che effettuano le decisioni di disporre di un sistema integrato e user-friendly, in grado di creare e valutare piani alternativi altamente ottimizzati tra i quali poter scegliere sulla base di una dettagliata analisi dei costi e benefici degli stessi.\\*\\*
 Oltre a esaminare gli aspetti teorici, il progetto ePolicy mira a applicare i suoi risultati a un caso pratico: la pianificazione energetica nella regione Emilia Romagna. In particolare, il governo regionale si è posto l'obiettivo di incrementare la produzione di energia da fonti rinnovabili, concentrandosi soprattutto sulle tecnologie fotovoltaiche (PV) e a biomassa. Di conseguenza, ePolicy punta a sviluppare un modello che fornirà supporto ai decisori politici della regione che stanno cercando di mettere in pratica il miglior meccanismo incentivante per stimolare la crescita della produzione energetica da alcune tecnologie rinnovabili.
 
-\subsection[OTTIMIZZAZIONE E DSS]{\nohyphens{OTTIMIZZAZIONE E SUPPORTO ALLE DECISIONI}}
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.55]{epolicyLifeCycle}
+	\caption{Processo di decisione delle Politiche}
+	\label{epolicyLifeCycle}
+\end{figure}
 
-\subsection{SIMULAZIONE AD AGENTI}
+In Figura ~\ref{epolicyLifeCycle} osserviamo in che modo sia strutturato il ciclo di vita del processo di creazione delle politiche all'interno del progetto ePolicy: \begin{itemize}
+\item il livello di ottimizzazione globale, che prende in considerazione gli obiettivi, gli aspetti finanziari e gli impatti socio-ambientali su larga scala (produce dei piani e degli scenari per le politiche);
+\item il livello individuale delle simulazioni ad agenti, con il quale si intendono simulare  comportamenti sociali riguardanti le nuove politiche sulla base delle opinioni e desideri personali (per ottenere le strategie implementative);
+\item  l'integrazione tra la prospettiva globale e quella individuale, ad esempio con tecniche mutuate dalla teoria dei giochi;
+\item l'individuazione degli impatti sociali e le reazioni delle persone attraverso l'uso di tecniche di opinion mining , cioè estrazione delle opinioni, con i dati raccolti in rete (servendosi di blog, forum, social network,...);
+\item la visualizzazione dei risultati attraverso strumenti appositamente ideati per aiutare i decisori politici.
+\end{itemize}
 
-\subsection{INTERAZIONE COMPONENTI}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.55]{epolicyScheme}
+	\caption{Schema generale del sistema}
+	\label{epolicyScheme}
+\end{figure}
+
+In Figura ~\ref{epolicyScheme} è mostrato lo schema generale del progetto ePolicy. Si possono osservare le varie componenti del sistema come l'ottimizzatore che lavora a livello globale o il simulatore per il livello individuale e le interazioni tra loro e con gli utenti, ovvero i decisori politici che specificano vincoli, obiettivi e impatti e i cittadini dai quali ottenere informazioni per poter meglio pianificare (ex ante opinion mining) e osservarne le reazioni alle strategie implementative (ex post opinion mining).\\*\\*
+Un aspetto importante da tenere in considerazione per fornire supporto ai decisori politici è la definizione formale dei modelli delle politiche. In letteratura la maggioranza dei modelli politici è basata su simulazioni ad agenti \cite{AgentBaseLandUseModel,Nigel,socialScienceMicrosim} dove gli agenti rappresentano le parti coinvolte nel processo decisionale e implementativo. L'idea è che modelli ad agenti e relative simulazioni siano adatti per sistemi complessi. In particolare, questi modelli permettono di effettuare esperimenti computazionali per garantire una migliore comprensione della complessità dei sistemi economici, sociali e ambientali, cambiamenti strutturali e adattamenti reattivi endogeni in riposta ai cambi di politiche.\\*\\*
+Per riassumere, i principali obiettivi del progetto ePolicy sono i seguenti:
+\begin{itemize}
+\item supportare i decisori politici nel loro lavoro, ovvero uno sforzo multidisciplinare mirato a ingegnerizzare il ciclo di vita del processo di creazione delle politiche;
+\item integrare le prospettive globale e individuale all'interno del processo decisionale;
+\item valutare gli impatti sociali, economici e ambientali durante lo sviluppo delle politiche (sia a livello globale che individuale);
+\item stabilire i probabili effetti sociali attraverso opinion mining;
+\item aiutare tutti coloro che sono coinvolti nei processi decisionali e i cittadini interessati con degli strumenti di visualizzazione efficaci.
+\end{itemize}
+Una volta realizzati questi obiettivi, è possibile aspettarsi alcuni benefici sociali ed economici, tra i quali una migliore previsione degli impatti delle politiche attuate in grado di condurre a una più efficiente implementazione delle politiche regionali e migliore identificazione degli effetti positivi per cittadini e imprese; o ancora, un aumentato impegno dei cittadini e un più ampio uso degli strumenti informatici e di telecomunicazione (ITC), che possono risultare in iterazioni innovative tra cittadini e governi. In secondo luogo si punta a ottenere una maggiore trasparenza delle informazioni sull'impatto delle decisioni economiche sulla società e una migliorate capacità di reagire alle principali sfide poste alla società e maggiore fiducia pubblica verso le attività governative e burocratiche.
+
 
 \section{CASO DI STUDIO}
+
+\subsection[APPROCCIO A VINCOLI]{PERCHÉ UN APPROCCIO BASATO SUI VINCOLI}
+L'attività di pianificazione regionale è al momento svolta da esperti umani che costruiscono un singolo piano, considerando gli obbiettivi strategici regionali che seguono le direttive nazionali ed europee. Dopo che il piano è stato ideato l'ente per la protezione ambientale è chiamata a valutarne la sostenibilità dal punto di vista ambientale. In genere non c'è nessuna retroazione, la valutazione può solamente stabilire se il piano sia ecocompatibile o meno ma senza poterlo per modificare; in rari casi può proporre alcune misure correttive, le quali possono però solamente mitigare gli effetti negativi di decisioni di pianificazione sbagliate.\\* 
+Oltre a ciò, sebbene le normative prevedano che una valutazione ambientale significativa debba confrontare due o più opzioni (piani differenti), questo è fatto raramente in Europa poiché la valutazione è tipicamente fatta a mano e richiede un lungo lavoro; anche nei pochi casi in cui due opzioni vengano considerate, solitamente una è il piano e l'altra è l'assenza di pianificazione.\\*\\*
+La modellazione a vincoli supera le limitazioni dei processi manuali per diversi motivi. In primo luogo, essa fornisce uno strumento che automaticamente prende decisioni di pianificazione, tenendo in considerazione il budget allocato sulla base sia del piano operativo regionale che delle linee guida nazionali/europee.\\*
+Secondo, gli aspetti ambientali sono considerati durante la costruzione del piano, evitando di procedere per tentativi ed errori.\\*
+Come terza ragione, il ragionamento con i vincoli è uno strumento potente nelle mani di un decisore politico in quanto la generazione di scenari alternativi è estremamente semplificata ed il confronto e valutazione seguono naturalmente. Nel caso in cui i risultati non soddisfino coloro che stabiliscono le politiche o gli esperti ambientali gli aggiustamenti possono essere introdotti molto facilmente all'interno del modello; ad esempio, nel settore della pianificazione energetica regionale, cambiando i limiti della quantità di energia che ogni fonte può fornire, possiamo correggere il piano considerando l'andamento del mercato e anche la potenziale ricettività della regione.
 
 \subsection[PIANO REGIONALE]{\nohyphens{PIANO ENERGETICO REGIONALE}}
 
@@ -112,7 +151,7 @@ Oltre a esaminare gli aspetti teorici, il progetto ePolicy mira a applicare i su
 
 \subsection[OBIETTIVI PIANO]{\nohyphens{OBIETTIVI DEL PIANO ENERGETICO}}
 
-\subsection[PIANO REGIONALE]{\nohyphens{PIANO ENERGETICO REGIONALE}}
+
 
 \section{\nohyphens{STRATEGIE IMPLEMENTATIVE}}
 
@@ -146,5 +185,10 @@ Oltre a esaminare gli aspetti teorici, il progetto ePolicy mira a applicare i su
 \myparagraph{MECCANISMI INCENTIVANTI REGIONALI}
 
 \myparagraph{INCENTIVI FISCALI}
+
+
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{bibliography}
 
 \end{document}
