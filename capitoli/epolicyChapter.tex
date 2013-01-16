@@ -17,6 +17,7 @@
 \usepackage{color}
 \usepackage{url}
 \usepackage{textcomp}
+\usepackage{eurosym}
 
 %impostazioni generali per visualizzare codice
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -177,7 +178,7 @@ Nella struttura di ePolicy gli impatti economici sono valutati sfruttando tecnic
 Oltre a ciò le i metodi RAMEA possono essere utilizzati per diverse altre analisi, ad esempio monitorare le emissioni nell'aria e la eco-efficienza, comparando quella regionale con quella nazionale e comprendendo gli effetti e le responsabilità delle catene di produzione e consumo sull'ambiente. \\*\\*
 Il progetto RAMEA, oltre ad essere utile per la raccolta di dati, mira anche a fornire i seguenti strumenti:
 \begin{itemize}
-\item un sistema di monitoraggio in grado di esaminare le pressioni imposte sull'ambiente da settori economici e infrastrutture, aiutando a identificare i ''punti caldi'' per quanto riguarda gli impatti ambientali, e consentire la costruzione di indici per valuare l'efficienza ecologica - ad esempio è possibile capire quali sono i settori chiave della regione per l'emissione di anidride carbonica, stabilire un collegamento diretto con le loro prestazioni economiche, comprendere se esiste una relazione tra crescite economica e inquinamento e creare indici per l'eco-efficienza;
+\item un sistema di monitoraggio in grado di esaminare le pressioni imposte sull'ambiente da settori economici e infrastrutture, aiutando a identificare i ''punti caldi'' per quanto riguarda gli impatti ambientali, e consentire la costruzione di indici per valutare l'efficienza ecologica - ad esempio è possibile capire quali sono i settori chiave della regione per l'emissione di anidride carbonica, stabilire un collegamento diretto con le loro prestazioni economiche, comprendere se esiste una relazione tra crescite economica e inquinamento e creare indici per l'eco-efficienza;
 \item uno strumento per effettuare previsioni permette di fare analisi degli scenari - dopo aver identificato i settori chiave per la $CO_2$ è possibile valutare e e quantificare gli effetti di diverse politiche/strategie mirate a ridurre le emissioni, includendo anche lo scenario base (nessuna azione intrapresa);
 \item uno strumento per valutare le prestazioni che consente di confrontare differenti regioni. 
 \end{itemize}
@@ -187,50 +188,203 @@ La definizione degli obiettivi di un piano richiede di prendere  in considerazio
 Come conseguenza, ogni piano presenta molteplici obiettivi, i quali devono essere presi in considerazioni dai decisori politici e riuniti in un'unica funzione, prestando anche attenzione ai possibili conflitti, con la necessità quindi di adottare criteri di ottimizzazione multipli.\\*\\*
 Quando un problema ha un solo criterio di selezione per scegliere tra diverse soluzioni si ottiene un singolo valore ottimo (che potrebbe corrispondere a più soluzioni equivalenti). Invece quando sono presi in esame diversi obiettivi si ricavano più soluzioni ottime (definite di Pareto) - soluzioni che non sono dominate da altre. Una soluzione $x$ non è dominata da altre soluzioni con rispetto a un numero di funzioni obiettivo ($f_1, f_2, ...f_n$) se non esiste una soluzione che migliori rispetto a $x$ almeno una funzione obiettivo e presenti lo stesso valore per le restanti.\\*\\*
 Solitamente i piani regionali devono rispettare un certo numero di obiettivi, tra i quali uno potrebbe essere il costo. Sia i fondi pubblici che privati vanno considerati, con i primi impiegati nella realizzazione del piano e l'implementazione delle strategie.Altri obiettivi interessanti sono i recettori ambientali, cioè gli indicatori della qualità di un preciso aspetto ambientale, tra i quali possono esserne ricordati alcuni, come qualità delle falde acquifere, qualità dell'acqua marina, qualità del suolo, qualità dell'aria, limitazione della subsidenza, stabilità degli argini e dei letti fluviali, qualità del clima, benessere della fauna selvatica, della vegetazione terrestre e degli animali acquatici, valore dell'eredità storica/culturale, disponibilità di terreni fertili, disponibilità di acqua, accessibilità delle risorse ricreative, benessere e salute della popolazione, disponibilità di energia, etc.\\*\\*
-Chiaramente, a seconda della regione, il piano regionale potrebbe considerare diverse combinazioni di recettori da ottimizzare - ad esempio in Emilia Romagna, la qualità dell'aria è in genere piuttosto scarsa poiché il territorio piatto e circondato dalle Alpi a Nord e gli Appennini a Sud permette pochi modi di dissipare gli inquinanti immessi nell'atmosfera, quindi un recettore spesso tenuto in considerazione è la qualità dell'aria.\\*\\*
-Da tutto ciò segue che potremmo avere un piano che cerchi di minimizzare il costo complessivo e massimizzare la qualità dell'aria; disponendo di due funzioni obiettivo, possiamo visualizzare in un diagramma cartesiano piani alternativi non dominati. In Figura ~\ref{paretoOpt} sono mostrate le curve ottime di Pareto contenenti piani non dominati.
 
-\begin{figure}[hbt]
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.55]{paretoOpt}
 	\caption{Frontiera ottima di Pareto per i piani energetici e due funzioni obiettivo}
 	\label{paretoOpt}
 \end{figure}
 
+Chiaramente, a seconda della regione, il piano regionale potrebbe considerare diverse combinazioni di recettori da ottimizzare - ad esempio in Emilia Romagna, la qualità dell'aria è in genere piuttosto scarsa poiché il territorio piatto e circondato dalle Alpi a Nord e gli Appennini a Sud permette pochi modi di dissipare gli inquinanti immessi nell'atmosfera, quindi un recettore spesso tenuto in considerazione è la qualità dell'aria.\\*\\*
+Da tutto ciò segue che potremmo avere un piano che cerchi di minimizzare il costo complessivo e massimizzare la qualità dell'aria; disponendo di due funzioni obiettivo, possiamo visualizzare in un diagramma cartesiano piani alternativi non dominati. In Figura ~\ref{paretoOpt} sono mostrate le curve ottime di Pareto contenenti piani non dominati.
 
 \section{\nohyphens{STRATEGIE IMPLEMENTATIVE}}
+Dopo aver generato un piano regionale, definendo obiettivi e soddisfacendo vincoli, il passo successivo consiste nel trovare i meccanismi con cui implementare le politiche decise, l'efficacia dei quali verrà in seguito sperimentata sfruttando il simulatore sociale.\\*
+Riporteremo adesso alcune strategie implementative messe in pratica nell'Unione Europea ed in Italia, concentrandoci su quelle relative al settore delle energie rinnovabili, dal momento che nel caso di studio dell'Emilia Romagna uno degli aspetti fondamentali è l'incremento della produzione di energia proveniente da fonti rinnovabili, in particolare tecnologie fotovoltaiche e a biomassa.
 
 \subsection[INCENTIVI]{\nohyphens{TIPOLOGIE DI INCENTIVI}}
 
 \myparagraph{MECCANISMI INCENTIVANTI}
+Le forme di meccanismi incentivanti identificate sono le seguenti:
+\begin{itemize}
+\item tariffe di incentivazione, ossia un prezzo garantito pagato ai produttori di elettriche da fonti rinnovabili per l'energia che immettono nella rete;
+\item tariffe premium, che comportano il pagamento di un premio in aggiunta ai ricavi che i produttori ottengono vendendo l'elettricità sul mercato;
+\item quote obbligatorie, le quali creano un mercato per l'energia rinnovabile, poiché il governo ne stimola la domanda con l'imposizione dell'obbligo su consumatori o fornitori di ricavare una certa percentuale della loro energia da fonti rinnovabili; 
+\item sussidi agli investimenti, spesso utilizzati per sostenere la crescita di tecnologie non ancora pienamente mature come quella fotovoltaica;
+\item esenzione dalle tasse - alcuni paesi forniscono incentivi sulle tasse in relazione agli investimenti (tra cui deduzioni o crediti per una frazione del capitale investito in progetti di energia rinnovabile), oppure altri approcci prevedono incentivi sulle tasse in rapporto alle unità di elettricità da rinnovabili prodotta, diminuendo quindi i costi operativi;
+\item incentivi fiscali, ovvero prestiti a basso tasso di interesse (sotto il valore di tasso di interesse di mercato), eventualmente anche con ulteriori concessioni a coloro che contraggono il prestito, come un allungamento del periodo di restituzione del debito;
+\item costrizione - un approccio radicale potrebbe includere elementi di coercizione e benché non siano stati direttamente identificati esempi di questo tipo nel mercato della generazione da rinnovabili, sono state riscontrate circostanze simili, ad esempio in alcune zone urbane della Scandinavia è un obbligo di legge che le nuove case costruite vengano collegate alla locale rete di calore;
+\item marketing dell'Energia Verde - con questo meccanismo i clienti possono scegliere di comprare elettricità generata in parte o totalmente da fonti rinnovabili, tipicamente pagando di più rispetto alle altre tariffe presenti, e utilizzabile sia in mercati competitivi che regolamentati.
+\end{itemize}
+Ovviamente le categorie esposte sopra non sono mutualmente esclusive così che più strumenti possono essere usati contemporaneamente.
+\\*\\*
+Questi vari schemi di incentivi possono essere classificati anche in un altro modo.
+\begin{itemize}
+\item \emph{Incentivi alla produzione} - dove il beneficio del meccanismo è collegato in senso ambio alla quantità di energia generata, come per le tariffe d'incentivazione e le quote obbligatorie, e con caratteristiche che possono includere le seguenti:
+\begin{itemize}
+\renewcommand{\labelitemii}{$\circ$}
+\item differenziazione tecnologica - dal momento che le tecnologie rinnovabili si trovano a diversi livelli di sviluppo e di costo in relazione ai prezzi di mercato esiste il rischio che tecnologie già vicine ad essere competitive economicamente anche senza sussidi possano essere favorite in presenza di un unico livello di supporto per tutte le tecnologie, per questo motivo la differenziazione tecnologica in aumento deve essere considerata nella creazione dei meccanismi di supporto;
+\item aggiustamento in base all'inflazione - il livello di supporto fornito (ad esempio le tariffe incentivanti) può variare insieme all'inflazione;
+\item digressione - il livello e la disponibilità del supporto può cambiare in base alla ricettività, se l'accoglienza dei meccanismi di incentivazione e delle tecnologie rinnovabili è buono il supporto può anche essere ridotto (a volte ciò avviene in seguito ad inattese decisioni dei governi, ma vengono sempre più stabiliti accordi in fase di progettazione degli incentivi);
+\item accordi per l'autoconsumo - per le tariffe incentivanti potrebbero esserci differenze sul prezzo pagato per l'elettricità in base a dove essa sia generata piuttosto che immessa nella rete di distribuzione.
+\end{itemize}
+\item \emph{Incentivi agli investimenti} - schemi che tendono a fornire supporto per l'investimento iniziale senza considerazioni sull'effettiva quantità di energia che sarà generata, tra i quali possiamo ricordare questi esempi:
+\begin{itemize}
+\renewcommand{\labelitemii}{$\circ$}
+\item prestiti (sia senza interessi o a tassi inferiori a quelli di mercato);
+\item garanzie sui prestiti (cioè il l'estinzione del debito viene garantita da enti esterni, come il governo nazionale o regionale), che hanno l'effetto sia di migliorare la disponibilità di linee di credito sia di ridurre i costi dei debiti;
+\item benefici sulle tasse - come esenzione dall'IVA o deduzioni fiscali o tassazioni ridotte per le aziende.
+\end{itemize}
+\end{itemize}
+Sebbene non un meccanismo incentivante in sé, è sicuramente vitale che sia presente un sistema legale robusto e affidabile per rassicurare investitori e utenti; tra gli elementi inclusi in tale sistema citiamo un processo semplice e prevedibile per la pianificazione, informazioni sulla priorità data dalle autorità all'energia rinnovabile e sul supporto fornito alle installazioni (ne derivano impatti significativi sulle possibilità di approvazione dei progetti e relativi tempi e costi), regolamentazioni che includano i procedimenti di approvazione e fino a che grado l'uso di energia da fonti rinnovabili venga obbligato.\\*\\* 
+Occorre anche chiarezza nel ruolo delle compagnie di distribuzione e trasmissione, le quali devono essere opportunamente incoraggiate a supportare la connessione dei produttori di energia da fonti rinnovabili e ad abbattere eventuali barriere che potrebbero inibire la generazione di energia rinnovabile.
 
 \myparagraph{CONFRONTO DEI MECCANISMI D'INCENTIVAZIONE}
+Nonostante ogni meccanismo di incentivazione sopra citato presenti i propri vantaggi o svantaggi, è interessante chiedersi quali siano i più efficaci nel promuovere la generazione di energia rinnovabile.\\*
+Ci sono prove che sostengono l'idea che un maggior effetto con costi contenuti sia ottenibile con tariffe incentivanti stabili e mantenute per un periodo significativo. Per esempio, in media nel 2009 i paesi con tariffe incentivanti fisse crescevano ad un ritmo più sostenuto e avevano una base di energia da rinnovabili molto maggiore che nei paesi con approcci differenti. Inoltre le tariffe fisse sembrano anche essere molto più efficienti. Come esempio i prezzi pagati nel Regno Unito e Italia per l'energia eolica (senza tariffe fissa all'epoca) erano superiori alle tariffe fisse; il Regno Unito pagava circa un terzo in più rispetto alla Germania  per la sua energia eolica. Ci sono molte ragioni possibili per questa differenza ma un elemento potrebbe essere dovuto all'incertezza dei prezzi che circonda i certificati delle rinnovabili. Ad ogni modo non è chiaro se questa tendenza proseguirà nel tempo o se la situazione possa essere diversa con differenti tecnologie o scala degli investimenti. 
 
 \subsection[INCENTIVI EUROPEI]{\nohyphens{INCENTIVI IN EUROPA}}
+La direttiva dell'Unione Europea 2009/28/EC per la promozione dell'uso di energia sostenibile pone come obiettivo che il 20\% del consumo totale di energia consumata provenga da fonti rinnovabili entro il 2020.
+In Figura ~\ref{overviewRenewInc} è possibile osservare una tabella riassuntiva degli strumenti di supporto per l'energia da fonti rinnovabili in uso nei vari stati membri dell'Unione; come già accennato in precedenza più di un tipo di meccanismo può essere implementato allo stesso tempo.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.65]{overviewRenewInc}
+	\caption{Riassunto degli strumenti di supporto per l'energia da rinnovabili negli stati membri dell'EU. Fonte \cite{energyEU}.}
+	\label{overviewRenewInc}
+\end{figure}
 
 \myparagraph{TARIFFE DI INCENTIVAZIONE}
+Le tariffe incentivanti sono correntemente in uso in diversi paesi. Nella Figura ~\ref{feedInTariffEU} si possono osservare le tariffe usate, distinte per paese e tecnologia; i prezzi sono espressi in Euro per kilowattora (\euro/kWh).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.65]{feedInTariffEU}
+	\caption{Tariffe incentivanti distinte per paese e tecnologia (Aprile 2010). Fonte \cite{financingRenewEnergy}}
+	\label{feedInTariffEU}
+\end{figure}
+
+\myparagraph{TARIFFE DI INCENTIVAZIONE PREMIUM}
+I sistemi premium forniscono un ritorno aggiuntivo sicuro ai produttori, pur esponendoli al rischio del prezzo dell'elettricità, poiché, a differenza del caso delle tariffe semplici con le quali la remunerazione dipende solo dalla quantità di energia prodotta, il premio va a sommarsi al prezzo di vendita del mercato.
+Rispetto alle tariffe semplici, quelle premium danno meno garanzie agli investitori e quindi comportano un rischio maggiore ed un maggiore costo complessivo del capitale. Per questi sistemi sono possibili diversi tipi di design, tra i quali possiamo ricordare quelli in cui i premi sono collegati all'andamento del prezzo dell'elettricità (ad esempio con limiti sui prezzi massimi e minimi) forniscono maggiori certezze e minor rischio di eccessiva compensazione rispetto alle tariffe fisse.  
 
 \myparagraph{QUOTE OBBLIGATORIE DA RINNOVABILI}
+Come già spiegato, con questo meccanismo i governi impongono ai fornitori (o consumatori e produttori) delle quote minime di energia proveniente da fonti rinnovabili, aumentandole nel tempo. Se le obbligazioni non vengono rispettate è necessario pagare una multa, il cui ricavato può essere poi riciclato e distribuito ai fornitori sulla base dell'elettricità prodotta. Le obbligazioni sono sono combinate con i relativi certificati (Renewable Obligation Certificate, ROC) che possono essere scambiati, garantendo quindi un supporto in aggiunta al prezzo dell'elettricità e sono usati come prova del rispetto delle norme; un ROC rappresenta il valore dell'energia da rinnovabili  e facilita lo scambio nel mercato dell'elettricità sostenibile.\\*\\*
+Un vantaggio delle quote rispetto ai sistemi con tariffe incentivanti fisse o premium, è il fatto che il supporto cessi una volta che la tecnologia abbia raggiunto la maturità necessaria per competere. Poiché i certificati rappresentano il valore dell'elettricità rinnovabile in un determinato momento, quando il costo delle tecnologie rinnovabili scende grazie all'apprendimento questo si ripercuote con un aggiustamento del prezzo dei ROC. D'altro canto, ciò potrebbe essere un problema per gli impianti già in funzione che non hanno beneficiato di tale apprendimento tecnologico e inoltre i certificati sono volatili a causa delle altre influenze del mercato (esercizio del potere di mercato).     
 
 \myparagraph{SUSSIDI AGLI INVESTIMENTI}
+I sussidi e le sovvenzioni per gli investimenti sono a volte messi a disposizione e spesso concepiti allo scopo di stimolare la crescita iniziale e lo sviluppo di tecnologie meno mature come il fotovoltaico.
 
 \myparagraph{INCENTIVI O ESENZIONI PER LE TASSE}
+Alcuni paesi prevedono incentivi sulla tassazione in relazione agli investimenti effettuati (ad esempio, deduzioni dall'imposta sul reddito o crediti per una parte del capitale investito in progetti per l'energia da fonti rinnovabili, o ammortamento accelerato). Altri paesi hanno ideato incentivi per le tasse sulla produzione che prevedono deduzioni o crediti sulla base della quantità di elettricità generata, consentendo quindi di ridurre i costi operativi.
 
 \myparagraph{INCENTIVI FISCALI}
+Gli incentivi fiscali includono prestiti a tasso di interesse agevolato, cioè inferiore al tasso correntemente in uso nel mercato. A coloro che richiedono un prestito possono anche essere fornite ulteriori concessioni, come consentire un allungamento dei tempi per la restituzione del mutuo.
+
+\myparagraph{FONDI D'ASTA}
+I meccanismi ad asta sono a volte usati per progetti di grandi dimensioni e più comunemente per l'eolico offshore. Tra i suoi vantaggi vi sono la quantità di attenzione che attrae sulle opportunità di investimento nel campo delle energie rinnovabili e l'elemento di competizione incorporato nello schema di questo incentivo; un aspetto certamente negativo è lo scarso numero complessivo di progetti che sono stati effettivamente realizzati con questo metodo fino ad ora.
 
 
 \subsection[INCENTIVI ITALIANI]{\nohyphens{INCENTIVI IN ITALIA}}
+Il settore dell'energia italiano, storicamente dominato da Enel (l'Ente Nazionale per l'energia ELettrica, con una quota di partecipazione diretta e indiretta dello stato italiano parti al 31\%), è stato riformato nel 2005, ma nonostante le misure del governo forza di Enel nella generazione di energia rimane preponderante. Il mercato della vendita dell'energia è stato liberalizzato nel 2007 ma i prezzi dell'elettricità restano tra i più alti in Europa; questi prezzi sono fissati sulla base dei prezzi all'ingrosso, contratti bilaterali, tariffe di trasmissione e distribuzione (dove rilevante) e tassazione.\\*\\*
+Nel 2011 circa il 24\% della produzione totale di energia è provenuto da fonti rinnovabili; la capacità totale installata da rinnovabili è stata 812MW e 84GWh sono stati prodotti da fonti rinnovabili (Figura ~\ref{renewResIT}) 
 
-\myparagraph{TARIFFA INCENTIVANTE}
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.75]{renewResIT}
+	\caption{Fonti rinnovabili in Italia (2011)}
+	\label{renewResIT}
+\end{figure}
 
-\myparagraph{TARIFFA INCENTIVANTE ONNICOMPRENSIVA}
+Il Piano Nazionale di Azione per l'Energia Rinnovabile Italiano ha come scopo quello di portare la quota totale di energia rinnovabile al 26\% - 39\% nel settore dell'elettricità, 17\% nel riscaldamento/raffreddamento e 14\% nel settore dei trasporti entro il 2020.\\*\\*  
+L'Italia dispone di un buon sistema di incentivi per l'energia rinnovabile generata dal solare, l'eolico e la biomassa. In particolare, il Decreto sull'Energia Rinnovabile, entrato in vigore il 29 Marzo 2011, revisiona il sistema degli incentivi per la produzione di elettricità da fonti rinnovabili e semplifica il processo di autorizzazione per la costruzione di nuovi impianti.  
+
+\myparagraph{TARIFFE INCENTIVANTI PREMIUM}
+L'applicazione di questo meccanismo può essere osservata negli ambiti dell'energia fotovoltaica e dell'energia solare termodinamica. \\*\\*
+Il Decreto Ministeriale del 19 Febbraio 2007 ha introdotto in Italia ha introdotto una nuova versione dello schema a tariffa premium applicato agli impianti fotovoltaici connessi alla rete elettrica di potenza nominale superiore a 1kWp installati da individui, compagnie registrate, condomini ed enti pubblici (lo stimolo per questa politica è la Direttiva Europea sulla promozione dell'uso  di energia rinnovabile, 2009/28/EC); il decreto ha fornito un insieme di tariffe, valide per un periodo di vent'anni, con un bonus nel caso di un alto grado di integrazione fotovoltaica negli edifici - vengono considerati tre sistemi, non integrati, parzialmente integrati e pienamente integrati.\\*
+Per il 2010 il premio per l'integrazione degli edifici variava da un minimo di \euro0.346/kWh (piani non integrati con capacità minore di 20kWh) fino a un massimo di \euro0.471/kWh (piani pienamente integrati con capacità compresa tra 1MW e 3MW). Una tariffa bonus del 5\% è fornita a scuole e strutture sanitarie pubbliche, produttori di energia per autoconsumo, installazioni realizzate per sostituire tetti in amianto e centri abitati con meno di 5000 residenti.
+\\*\\*
+Il criterio con cui stimolare la produzione energetica con tecnologia solare termodinamica è stato identificato dal Decreto dell'11 Aprile 2008 (ancora seguendo la Direttiva Europea 2009/28/EC); gli impianti devono essere provvisti di impianti ad accumulazione termica.\\* 
+L'energia elettrica ricavata da impianti solari termodinamici consente di ottenere un premio per 25 anni, oltre alla normale vendita a prezzo di mercato; fino al 2012 il bonus variava tra \euro0.22 e \euro0.28 per kWh in base al livello di integrazione degli impianti. In caso di impianti ibridi la tariffa incentivante diminuisce in relazione al rapporto tra la quantità di energia prodotta da fonti solari e l'energia prodotta totale.\\*\\*
+Per gli impianti solari occorre distinguere tra quelli che hanno iniziato ad operare prima del 31 Maggio 2011 e quelli avviati nel periodo compreso tra il 31 Maggio 2011 e il 31 Dicembre 2012.\\*
+Nel primo caso, il Decreto Ministeriale del 6 Agosto 2010 (il ''Terzo Conto Energia'') prevede un premio fisso, sommato al prezzo di vendita, la cui entità dipende dal tipo di impianto, la sua potenza nominale e la data di entrata in funzione. Il premio varia da \euro0.251 a \euro0.402, pagato per 20 anni dopo che l'impianto inizia a produrre energia.
+\\*
+Per tutti gli impianti solari entrati in funzione dopo il 31 Maggio 2011, la direttiva a cui fare riferimento è invece il Decreto Ministeriale del 5 Maggio 2011 (''Quarto Conto Energia''). Questo decreto prevede un premio fisso, calcolato in base al tipo e alla potenza dell'impianto, che per i primi sei mesi del 2012 varia tra \euro0.148 per kWh e \euro0.274 per kWh, mentre nei secondi sei mesi varia tra \euro0.133 per kWh e \euro0.252 per kWh. Questo sussidio è cessato il 31 Dicembre 2012, sostituito da un sistema a tariffa incentivante senza premio.
+
+\myparagraph{TARIFFE INCENTIVANTI}
+Per gli impianti solari che hanno iniziato la loro attività tra il 31 Maggio 2011 e il primo Gennaio 2013 vengono applicate tariffe incentivanti senza premio; in accordo al Quarto Conto Energia una tariffa basata sul tipo e la potenza dell'impianto sarà disponibile fino al 31 Dicembre 2016, andandosi a sommare al premio descritto in precedenza. Per i primi sei mesi del 2013 la tariffa incentivante, sommando anche il premio, varierà tra \euro0.121 per kWh e \euro0.375 per kWh.
+\\*\\*
+Lo schema di incentivazione per gli impianti eolici prevede due meccanismi, una tariffa onnicomprensiva per gli impianti di dimensione minore (cioè con una produzione fino a 200kWp) e ''certificati verdi'' per impianti più grandi; questi certificati sono distribuiti gratuitamente ai produttori di energia eolica e possono essere rivenduti al prezzo di mercato per consentire ai produttori di energia da fonti convenzionali (non rinnovabili) di aumentare la loro produzione.\\* La tariffa onnicomprensiva include sia un premio che il prezzo di vendita dell'elettricità e verrà pagata per 15 anni a partire dall'entrata in funzione dell'impianto, a patto che ciò avvenga entro il 31 Dicembre 2012.\\*
+I certificati verdi saranno aboliti dopo il 2015 e ci si attende che futuri decreti ministeriali definiranno come dovrà avvenire il passaggio dal sistema dei certificati a uno incentrato sulle tariffe incentivanti.
+\\*\\* 
+Similmente al settore dell'eolico anche nel caso della produzione di energia da biogas e biomassa i meccanismi incentivanti sono una tariffa onnicomprensiva per impianti con potenza fino a 1MWp e i certificati verdi per quelli di dimensione maggiora - come prima, se l'entrata in funzione avviene entro il 31 Dicembre 2012 la tariffa sarà pagata per i 15 successivi.\\* Anche per il biogas e la biomassa si attende l'introduzione di una nuova tariffa per l'incentivazione a partire dal 1 Gennaio 2013. I decreti che implementeranno il nuovo sistema terranno conto dell'origine e della tracciabilità delle materie prime allo scopo di indirizzare ogni prodotto verso il proprio utilizzo più produttivo; sarà anche considerato in che modo promuovere un uso efficiente dei prodotti di scarto, la costruzione di impianti di cogenerazione e la costruzione di impianti di piccola e microcogenerazione (intendendo l'applicazione della cogenerazione a abitazioni singole o piccoli uffici).
+\\*\\*
+L'Atto di Liberalizzazione dell'Energia del 1999 e Decreti dei Ministeri Italiani dell'Industria e Commercio e dell'Ambiente (Decreto MICA 11/11/99) introdussero un meccanismo per la compravendita delle emissioni - mercato cap and trade - per promuovere le fonti rinnovabili di energia. Esso richiedeva che i produttori o importatori di energia italiani (per quantità di energia da fonti convenzionali superiori a 100GWh/anno) assicurassero che una certa quota della produzione energetica immessa nella rete elettrica provenisse da fonti rinnovabili. La legge di bilancio del 2008 (N 244 24-12-2007) ha imposto queste quote minime: 
+\begin{itemize}
+\item 2007 - 3.8\%
+\item 2008 - 4.6\%
+\item 2009 - 5.3\%
+\item 2010 - 6.1\%
+\item 2011 - 6.8\%
+\end{itemize}
+Produttori e importatori possono rispettare le quote obbligatorie anche per mezzo dei certificati verdi, comprandoli attraverso accordi bilaterali o partecipando alla piattaforma per i certificati gestita da GME, l'operatore del mercato energetico. I fornitori possono soddisfare le obbligazioni sulle quote comprando certificati verdi dai nuovi impianti autorizzati che producono energia da fonti rinnovabili, costruendo impianti per l'energia rinnovabile o importando elettricità da fonti rinnovabili da paesi che dispongono di strumenti simili per la regolamentazione delle emissioni.\\*
+Gli impianti che producono energia rinnovabile entrati in funzione prima del 31 Dicembre 2007 possono ottenere certificati verdi per 15 anni.\\*
+Il Decreto Legislativo n. 28, conosciuto anche come ''Decreto sulle Rinnovabili'', è entrato in vigore il 29 Marzo 2011 e costituisce l'implementazione della Direttiva 2009/28/EC sulla promozione delle energie da fonti rinnovabili; questo decreto riforma fondamentalmente il sistema di gestione dei certificati verdi in Italia (per impianti precedenti al Dicembre 2012 lo schema corrente continuerà ad essere usato ma sarà sostituito entro il 2015 da un sistema a tariffe incentivanti).
 
 \subsection[INCENTIVI REGIONALI]{\nohyphens{INCENTIVI IN EMILIA ROMAGNA}}
+La regione Emilia Romagna (situata in Nord Italia, capoluogo Bologna) è stata scelta come caso di studio per il progetto ePolicy, in particolare considerando le modalità con cui incoraggiare lo sviluppo del settore fotovoltaico. 
 
 \myparagraph{MECCANISMI INCENTIVANTI REGIONALI}
+La regione ritiene implementabili i seguenti meccanismi di incentivazione: 
+\begin{itemize}
+\item \emph{Conto capitale} (in seguito riferito anche come \emph{Fondo Asta}) - gli incentivi sono dati sotto forma di sovvenzioni e i fondi spesi non sono restituiti alla regione, i fondi concessi rappresentano una percentuale del costo totale dell'impianto;
+\item \emph{Conto interessi} - gli incentivi sono distribuiti per coprire parte (o tutti) gli interessi applicati dalle banche all'accensione di un mutuo, finalizzato a coprire i costi dell'investimento, anche in questo caso alla regione non ritornano i fondi stanziati;
+\item \emph{Fondo rotazione} - è la regione a prestare il capitale per avviare la costruzione degli impianti, in genere con mutui a tasso agevolato, ricevendo dopo un certo tempo i soldi prestati e i relativi interessi; 
+\item \emph{Fondo garanzia} - la regione garantisce per coloro che vogliono contrarre un prestito presso una banca, rendendo più facile l'accensione di un mutuo.
+\end{itemize}
+Fino ad ora l'Emilia Romagna ha implementato solamente la prima metodologia, organizzando delle aste nel 2001, 2003 e 2009, mentre i meccanismi restanti sono stati considerati ma non ancora messi in pratica. In seguito sono descritti brevemente i programmi incentivanti del 2001 e 2003, non essendo disponibili i dati per il 2009.
 
-\myparagraph{INCENTIVI FISCALI}
+\myparagraph{FONDI STANZIATI}
+Nel 2001 la regione Emilia Romagna indisse un asta per l'assegnazione degli incentivi stanziati per la costruzione di pannelli fotovoltaici. Le richieste potevano essere fatte in quattro settori:
+\begin{enumerate}
+\item aree residenziali (privati cittadini o imprese che raccogliessero le richieste di privati);
+\item scuole e servizi per studenti universitari;
+\item alberghi e attività correlate, strutture turistiche (in aree rurali e zone di montagna);
+\item infrastrutture per attività sportive, culturali e d'intrattenimento. 
+\end{enumerate}
+Il budget disponibile fu suddiviso tra i quattro settori tenendo conto del numero di proposte ricevute.\\*
+Complessivamente 779 proposte erano selezionabili; l'investimento richiesto da tutte queste proposte era pari a 22.3 milioni di euro mentre i fondi disponibili ammontavano a 1.8 milioni, divisi quindi tra i vari settori (settore 1, \euro1236000; settore 2, \euro177000; settore 3, \euro282000; settore 4, \euro134000).\\*
+Scegliendo tra tutte quelle pervenute, vennero finanziate 122 richieste, scegliendo quali per mezzo di questo criterio: per ogni gruppo di proposte le applicazioni furono ordinate in senso crescente sulla base della percentuale di finanziamento richiesta, successivamente i fondi furono assegnati ai progetti che richiedevano le percentuali minori fino a esaurimento del budget. In Figura ~\ref{astaRER2001} sono riportati i valori medi, massimi e minimi delle percentuali delle richieste accettate durante l'asta del 2001, suddivisi per settore; come si può osservare, le richieste soddisfatte variano da una percentuale minima del 4\% fino ad un massimo del 63\%. \\*
+Quasi tutti i progetti finanziati avevano una potenza nominale inferiore ai 2kW (ad esempio, pannelli fotovoltaici installati nelle abitazioni). La Figura ~\ref{fundedPVprojs} mostra la distribuzione dei progetti finanziati, in base alle dimensioni e al contributo richiesto; si può notare come più dell'80\% dei progetti finanziati avesse una capacità minore di 10kW e richiedesse un contributo inferiore a \euro50000.
 
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.75]{astaRER2001}
+	\caption{Valori medi, minimi e massimi delle richieste accettate per il programma per le energie rinnovabili del 2001}
+	\label{astaRER2001}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.45]{fundedPVprojs}
+	\caption{Distribuzione dei progetti PV finanziati, in base alle dimensioni e al contributo richiesto, 2001}
+	\label{fundedPVprojs}
+\end{figure}
+
+
+Nel 2003 fu lanciato il secondo programma regionale, con un budget disponibile di 3.3 milioni di euro (principalmente tramite fondo capitale). Alcuni dei criteri per l'elezione dei progetti sono i seguenti: 
+\begin{itemize}
+\item gli impianti dovevano essere di dimensioni comprese tra 1kWp e 20kWp;
+\item l'integrazione architetturale sarebbe stata un vantaggio;
+\item gli impianti dovevano rispettare delle specifiche tecniche definite dall'ENEA (l'Ente italiano per le Nuove tecnologie, l'Energia e l'Ambiente);
+\item la connessione alla rete di distribuzione elettrica sarebbe stata presa in considerazione.
+\end{itemize}
+Un criterio di valutazione fu sviluppato ed espresso dalla seguente equazione:
+\begin{equation} \label{eq:evaluatioCriteria2003program}
+	x = 100 \times K \times (C \times P) \div (Y \times Z)
+\end{equation}
+, dove $C$ è il costo per unità \euro/kW, $P$ è la potenza nominale dell'impianto compresa tra 1kW e 20kW, $Y$ è la spesa prevista, $Z$ è la percentuale di incentivi richiesta e $K$ è un fattore moltiplicativo (può essere 1 o 3, se l'integrazione architetturale p effettuata o meno). 
 
 \nocite{*}
 \bibliographystyle{plain}
