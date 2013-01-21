@@ -17,6 +17,7 @@
 \usepackage{color}
 \usepackage{url}
 \usepackage{textcomp}
+\usepackage{eurosym}
 
 %impostazioni generali per visualizzare codice
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -86,12 +87,19 @@
 
 \begin{document}
 \chapter{\nohyphens{OTTIMIZZAZIONE}}
+In aggiunta al modello di simulazione ad agenti, con la relativa prospettiva individuale, il progetto ePolicy ritiene necessario considerare anche una prospettiva globale (regionale nel caso della Regione), in grado di affrontare il problema della pianificazione e dalla valutazione degli impatti dei piani da un punto di vista più ampio, mantenendo al tempo stesso una stretta integrazione con il livello individuale.\\*
+La pianificazione delle attività regionale può essere vista come un complesso problema di ottimizzazione combinatoria; i decisori politici devono prendere decisioni e soddisfare un insieme di vincoli, tentando al tempo stesso di realizzare un certo numero di obiettivi, come ad esempio ridurre gli effetti negativi e incrementare i positivi su ambiente, società ed economia. La fase di valutazione - valutare quali siano gli impatti delle politiche scelte sull'ambiente ed in misura minora in ambito economico e sociale - è ora in genere effettuata in sequenza dopo la creazione di un piano, con lo svantaggio che se questo contenesse impatti negativi sull'ambiente potrebbero venire applicate solo delle contromisure correttive; per evitare ciò, nell'approccio di ePolicy la valutazione e la pianificazione sono condotte allo stesso tempo.\\*\\*
+Per la valutazione ambientale sono stati proposti diversi metodi: un modello probabilistico \cite{logicDSSstrategicAss}, un modello fuzzy (la logica fuzzy prevede che si possa attribuire a una proposizione un grado di verità compreso tra 0 e 1) \cite{fuzzyLogicstrategicAss} e un modello lineare a vincoli (\emph{Constraint Logic Programming}, programmazione logica a vincoli, chiamata in seguito anche CLP) \cite{GavanelliEtAl}. Il motivo per sperimentare diversi tipi di modello è che le matrici usate dagli esperti ambientali si prestano a differenti interpretazioni, quindi era importante capire quale fosse la migliore scelta possibile. Il modello CLP è risultato essere il più veloce - a livello computazionale - in quanto per la programmazione lineare esistono tecniche di risoluzione molto efficienti. In secondo luogo, questo modello può essere facilmente esteso aggiungendo nuovi vincoli, per risolvere nuovi tipi di problemi; ad esempio se le attività da pianificare fossero variabili decisionali (invece che valori fissi) potremmo svolgere la pianificazione contemporaneamente alla valutazione ambientale. Dal momento che questo era uno degli scopi del progetto si è scelto di utilizzare l'approccio CLP .\\*\\*
+In questo capitolo introdurremo molto brevemente la programmazione logica a vincoli, con una breve panoramica e citando gli strumenti software di cui ci siamo serviti, passeremo poi a presentare il modello sviluppato che incorpora al suo interno le attività di pianificazione e valutazione e infine mostreremo i risultati ottenuti applicando il modello al caso di studio scelto, ovvero il piano energetico 2011-2013 per la regione Emilia-Romagna.
 
-%vedi D3.1, D2.2 , GavanelliEtAl
+\section[CLP]{\nohyphens{PROGRAMMAZIONE LOGICA A VINCOLI}}
+La programmazione logica a vincoli \cite{clpSurvey} (in inglese \emph{Constraint Logic Programming} da cui CLP) è una classe di linguaggi di programmazione che estendono la classica Programmazione Logica. Alle variabili possono essere assegnati sia termini - i tipi di dato e le strutture riconosciute in Prolog, uno dei primi linguaggi a programmazione logica, sviluppato nei primi anni settanta e ampiamente diffuso ancora oggi - sia valori interpretati, appartenenti a una determinata \emph{classe}, un parametro caratteristico dello specifico linguaggio CLP; per esempio è possibile avere CLP(\emph{R}) \cite{clpR}, in grado di operare sui valori reali, oppure CLP(FD), in cui le variabili appartengono a domini finiti. All'interno di una classe sono definite le funzioni interpretate (che possono essere nei domini numerici i soliti operatori $+$, $-$, $\times$, etc.) e i predicati (ad esempio, $<$, $\neq$, $\geq$, etc.), che sono chiamati \emph{vincoli}. La semantica dichiarativa consente l'interpretazione intuitiva per i vincoli e i termini, relativamente al dominio considerato: ad esempio, $1.3+2<5$ è \emph{vero} in CLP(\emph{R}). La semantica operativa somiglia a quella di Prolog per atomi costruiti sui predicati usuali - quelli definiti da un insieme di clausole - ma conserva quelli da interpretare, i vincoli, in una struttura dati speciale, chiamata \emph{constraint store}; essa è in seguito interpretato e modificato da un meccanismo esterno, il \emph{constraint solver}, il risolutore dei vincoli. Il risolutore è in grado di controllare se una combinazione di vincoli è soddisfacibile o meno, e può modificare lo store, sperabilmente per semplificarne lo stato. Generalmente il solver non effettua una propagazione \emph{completa}: se una valutazione ha come risultati \emph{falso}, allora sicuramente la soluzione è impossibile, anche se in certi casi può capitare che il risolutore non rilevi l'impossibilità di un problema anche se non esistono soluzioni.\\*\\*          
 
 \section{STRUMENTI}
 
-\subsection{ECLiPSe}
+\subsection{ECL$^i$PS$^e$}
+
+\section{PIANIFICAZIONE E VALUTAZIONE DEGLI IMPATTI}
 
 \subsection[APPROCCIO A VINCOLI]{\nohyphens{PERCHÉ UN APPROCCIO BASATO SUI VINCOLI}}
 L'attività di pianificazione regionale è al momento svolta da esperti umani che costruiscono un singolo piano, considerando gli obbiettivi strategici regionali che seguono le direttive nazionali ed europee. Dopo che il piano è stato ideato l'ente per la protezione ambientale è chiamata a valutarne la sostenibilità dal punto di vista ambientale. In genere non c'è nessuna retroazione, la valutazione può solamente stabilire se il piano sia ecocompatibile o meno ma senza poterlo per modificare; in rari casi può proporre alcune misure correttive, le quali possono però solamente mitigare gli effetti negativi di decisioni di pianificazione sbagliate.\\* 
@@ -100,6 +108,26 @@ La modellazione a vincoli supera le limitazioni dei processi manuali per diversi
 Secondo, gli aspetti ambientali sono considerati durante la costruzione del piano, evitando di procedere per tentativi ed errori.\\*
 Come terza ragione, il ragionamento con i vincoli è uno strumento potente nelle mani di un decisore politico in quanto la generazione di scenari alternativi è estremamente semplificata ed il confronto e valutazione seguono naturalmente. Nel caso in cui i risultati non soddisfino coloro che stabiliscono le politiche o gli esperti ambientali gli aggiustamenti possono essere introdotti molto facilmente all'interno del modello; ad esempio, nel settore della pianificazione energetica regionale, cambiando i limiti della quantità di energia che ogni fonte può fornire, possiamo correggere il piano considerando l'andamento del mercato e anche la potenziale ricettività della regione.
 
+\subsection{MODELLO CLP}
+%D.3 2
 
+\myparagraph{VALUTAZIONE IMPATTI}
+%D.3 6.1 6.2 6.3
+
+\myparagraph{PIANIFICAZIONE}
+%gavanelliEtAl 1.3 
+
+\subsection{IL PIANO REGIONALE 2011-2013}
+%gavanelliEtAl 1.4
+
+\subsection{VALORE AGGIUNTO DEL CLP}
+%gavanelliEtAl 1.5
+
+
+%  ?gavanelliEtAl 1.6  D.3 10
+
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{bibliography}
 
 \end{document}
