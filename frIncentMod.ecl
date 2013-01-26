@@ -201,7 +201,7 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     
 %%%%%%%%%%%%  Creazione incentivi %%%%%%%%%%%%%%%%%%%
     
-    %budget fotovoltaico ( in teoria è indicato dalla regione e dell'ordine di qualche Mln di euro l'anno )
+    %budget fotovoltaico (è indicato dalla regione e dell'ordine di qualche Mln di euro l'anno)
     eplex:(BudgetPV $:: 0..1000000000),
     eplex:(BudgetPV $= 7500000 ),
     
@@ -213,7 +213,7 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     crea_var_names(TipiInc,RicaviInc,0,1000000000),
 	max_fr(FondiInc,BudgetPV),
 	
-	%la somma dei finanziamenti per i singoli incentivi deve essre minore del budget complessivo per il PV
+	%la somma dei finanziamenti per i singoli incentivi deve essere minore del budget complessivo per il PV
 	%eplex:(sum(FondiInc)+sum(RicaviInc)) $=< BudgetPV),
 	eplex:(SumCosti $= sum(FondiInc)),
 	eplex:(SumRicavi $= sum(RicaviInc)),
