@@ -355,7 +355,7 @@ sub_primal(Budget):-
     
     close(outfile).
 
-%dalla lista contentente i valori dei budget positivi ( costi ) o negativi ( ricavi ) vengono eliminati i ricavi sostituiti 
+%dalla lista contenente i valori dei budget positivi ( costi ) o negativi ( ricavi ) vengono eliminati i ricavi sostituiti 
 %ipotizzando il totale consumo del budget disponibile ( budgetPV )
 exclude_plus([],_,List,List).
 exclude_plus([B|Budgets],BudgetPV,ListTemp,List):-

@@ -13,8 +13,8 @@
 :- [crea_csv].
 :- [outputting].
 :- import append/3 from eclipse_language.
-:- [misc].
-:- [sub_problem].
+:- [misc_revised].
+:- [fr_cons].
 :- [manage_inc].
 :- [incentivi].
 
@@ -169,8 +169,39 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
 aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAria,VarObiettivo, PrintOpt):-
     functor(Obiettivo,Direzione,1),
     FunzObiettivo =.. [Direzione,VarObiettivo],
-    eplex:eplex_solver_setup(FunzObiettivo),
-    eplex:eplex_set(dual_solution,yes),
+    
+%%%>>>>>>>>>>>>>>>>>>>>> MODIFIED BY ANDREA <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+%    eplex:eplex_solver_setup(FunzObiettivo),
+%    eplex:eplex_set(dual_solution,yes),
+
+	%%%%%%%%%%%%  Regional incentives %%%%%%%%%%%%%%%%%%%
+    
+    %budget PV (è indicato dalla regione e dell'ordine di qualche Mln di euro l'anno)
+    eplex:(BudgetPV $:: 0..1000000000),
+    eplex:(BudgetPV $= 7500000 ),
+    
+    %i tipi di incentivo regionale si trovano nel file incentivi.pl
+    tipi_inc_PV(TipiInc),
+    
+    %variabili per il budget assegnato ad ogni singola tipologia di incentivazione
+    %valore minimo 0, nel caso quel tipo di incentivo non sia utilizzato, il valore massimo corrisponde all'utilizzo di tutto il budget disponibile
+    crea_var_names(TipiInc,FondiInc,0,1000000000),
+    %inserisco nel modello anche i possibili ricavi generati da alcuni tipi di incentivo ( rotazione.. )
+    crea_var_names(TipiInc,RicaviInc,0,1000000000),
+	max_fr(FondiInc,BudgetPV),
+	
+	%la somma dei finanziamenti per i singoli incentivi deve essere minore del budget complessivo per il PV
+	%eplex:(sum(FondiInc)+sum(RicaviInc)) $=< BudgetPV),
+	eplex:(SumCosti $= sum(FondiInc)),
+	eplex:(SumRicavi $= sum(RicaviInc)),
+	eplex:(SumCosti-SumRicavi $=< BudgetPV ),
+    
+    %i vincoli sui budget per gli incentivi sono creati sfruttando le informazioni ottenute con il simulatore
+    fr_constraint(TipiInc,FondiInc),
+    fr_constraint_ricavi(TipiInc,RicaviInc),
+
+%%%>>>>>>>>>>>>>>>>>>>>> END PART MODIFIED BY ANDREA <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     % Creazione Pressioni
     pressioni(TitoliPress),
@@ -194,6 +225,7 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     % Impongo il vincolo di primary/secondary activities (vincolo 1).
    primary_secondary_activities(Opere,TitoliOpere,[]),
     %length(Rilassati,NumRilassati), %NumRilassati>20, NumRilassati<50, writeln(numrilassati(NumRilassati)),
+    
 
     % Vincolo di costo
     cost_constraint(Opere,TitoliOpere,CostTerm),
@@ -232,7 +264,14 @@ aaai(Obiettivo,Budget,Outcome,OutcomeTermico,Ricettori,ValoreCosto,MinQualitaAri
     %nth1(IndiceRicet,Ricettori,X),
     obiettivo(Obiettivo,EnergiaProdotta,EnergiaTermicaProdotta,Costo,Ricettori,FunObiettivo), 
     eplex:(VarObiettivo $= FunObiettivo),
-    eplex:eplex_solve(VarObiettivo),
+    
+    
+    %%%>>>>>>>>>>>>>>>>>>>>> MODIFIED BY ANDREA <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+%    eplex:eplex_solve(VarObiettivo),
+    eplex:eplex_solver_setup(FunzObiettivo,VarObiettivo,[dual_solution(yes)],[deviating_bounds,bounds,new_constraint]),    
+    %%%>>>>>>>>>>>>>>>>>>>>> END PART MODIFIED BY ANDREA <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    
 %    findall(TitRicet,ricet_press(TitRicet,_),TitoliRicet),
 %    print_solution(Ricettori,TitoliRicet)
 	%%%% REMOVED BY FEDERICO
@@ -697,9 +736,9 @@ somma_liste([A|LA],[B|LB],[S|LS]):-
 %     print_solution(N1,Pressioni,Titoli).
 
 
-% print_solution_opere(Opere,Titoli,Outcome)
-% Gli outcome servono per evidenziare le opere che producono l'outcome
-% (e.g., le opere che producono energia in un piano energetico)
+%% print_solution_opere(Opere,Titoli,Outcome)
+%% Gli outcome servono per evidenziare le opere che producono l'outcome
+%% (e.g., le opere che producono energia in un piano energetico)
 % print_solution_opere([],[],[]).
 % print_solution_opere([Opera|Opere],[Titolo|Titoli],[Outcome|Outcomes]):-
 %     (eplex:eplex_var_get(Opera,typed_solution,Val),
@@ -833,3 +872,111 @@ print_len(L):- length(L,N), writeln(N).
 
 boldface :- write('\033[1m').
 normal_font:- write('\033[0m').
+
+
+
+
+    %%%>>>>>>>>>>>>>>>>>>>>> ADDED BY ANDREA (TILL END OF FILE) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+%%%%%%%%%%%%%%%%%  Assegnamento fondi agli incentivi %%%%%%%%%%%%%%%%%%%
+	
+%in questa prima versione i risultati delle simulazioni sono sfruttati per calcolare l'outcome medio per budget medio di ogni incentivo -> le relazioni sono 'esterne' al modello a vincoli e i coefficienti sono calcolati ogni volta
+gest_inc_old(BudgetPV,Outcome):-
+	open('ris.txt',write,outfile),
+	
+	tipi_inc_PV(TipiInc),
+	
+	%prima di chiamare il predicato gest_inc occorre aver effettuato le simulazioni con i parametri forniti da aaai/4
+	%questa versione va utilizzata se in risultati_sintetici_new sono presenti i valori per un determinato budget
+	sim_result_fr(TipiInc,AvgOutcomes,AvgBudgets),
+	
+	
+	writeln_tee(""),
+	writeln_tee("========= Assegnamento fondi incentivi ========="),
+	writeln_tee("===== Valori forniti al simulatore ====="),
+	write_tee("Budget PV regionale (Mln di euro): "), writeln_tee(BudgetPV),
+	write_tee("Outcome atteso"), write_tee(':\t'), writeln_tee(Outcome),
+	
+	writeln_tee("===== Valori medi ottenuti dal simulatore per i vari tipi di incentivi  ====="),
+	print_result_fr(TipiInc,AvgOutcomes,AvgBudgets),
+	best_fr(TipiInc,AvgOutcomes,Tipo,AvgOut),
+	write_tee("Tipologia incentivazione migliore: "), write_tee(Tipo),
+	write_tee(" --- Outcome medio: "), writeln_tee(AvgOut),
+	
+	%a partire dai dati ricavati dal simulatore il file rel.pl viene aggiornato
+	update_rel(TipiInc,AvgOutcomes,AvgBudgets),
+	
+	%il sottoproblema viene risolto risolto per ricavare i nuovi vincoli sui fondi da istanziare per i vari tipi di incentivi
+	BudgetPVEuro is BudgetPV*1000000, %BudgetPV è espresso in Mln di euro, per gestirlo più facilmente nel sottoproblema lo moltiplico
+	sub_problem_fr(TipiInc,BudgetPVEuro,BudgetsInc,OutsInc,SimOut),
+	
+	%confronto tra l'energia prevista dal simulatore, SimOut, e quella attesa dall'ottimizzatore --> se necessario tento di aumentare il budgetPV
+%	(SimOut >= Outcome
+%	-> writeln_tee("===== Opt. sol. =====")
+%	; sub_problem_fr_out(TipiInc,BudgetPVEuro,Outcome,BudgetsInc,OutsInc)
+%	),
+	
+	close(outfile).
+	
+%in questa versione le relazioni budget-outcome sono integrate all'interno del modello a vincoli
+gest_inc(BudgetPV,Outcome):-
+	open('ris.txt',write,outfile),
+	tipi_inc_PV(TipiInc),
+	
+	writeln_tee("========= Assegnamento fondi incentivi ========="),
+	writeln_tee("===== Valori forniti al simulatore ====="),
+	write_tee("Budget PV regionale (Mln di euro): "), writeln_tee(BudgetPV),
+	write_tee("Outcome atteso"), write_tee(':\t'), writeln_tee(Outcome),
+	
+	assegna_fondi(TipiInc,BudgetPV,Outcome),
+	
+	close(outfile).
+
+	
+%stampa gli outcomes medi per le varie tipologie di incentivazione ( secondo simulatore )
+print_result_fr([],[],[]).
+print_result_fr([T|Tipologie],[O|Outcomes],[B|Budgets]):-
+	write_tee("Tipologia incentivazione: "), write_tee(T),
+	write_tee("  Outcome medio: "), writeln_tee(O),
+	write_tee("  Budget PV consumato dall'incentivo: "), writeln_tee(B),
+	print_result_fr(Tipologie,Outcomes,Budgets).
+	
+%i vincoli per il bugdet assegnabile ad ogni incentivo vengono letti dal file fr_cons.pl
+fr_constraint(Tipi,Fondi):-
+	[fr_cons],
+	findall((T,F),fr_constr(T,F),List),
+	add_cons(List,Fondi,Tipi).
+	
+%il nuovo vincolo ( per ora sono di uguaglianza ) viene aggiunto all'istanza eplex
+add_cons([],_,_).
+add_cons([(Tipo,Valore)|T],Fondi,Tipi):-
+	name_variable(Tipo,FondoSel,Tipi,Fondi),
+	eplex:(FondoSel $= Valore),
+	add_cons(T,Fondi,Tipi).
+	
+%anche i valori dei ricavi ottenibili vengono letti dal file fr_cons.pl
+fr_constraint_ricavi(Tipi,Ricavi):-
+	findall((T,F),fr_ricavo(T,F),List),
+	add_cons(List,Ricavi,Tipi).
+	
+%impongo che i fondi per i diversi incentivi siano minori del budget complessivo del PV
+max_fr([],_).
+max_fr([H|T],B):-
+	eplex:(H $=< B),
+	max_fr(T,B).
+	
+%i valori rappresentanti le relazioni tra tipologia di incentivo,outcome medio e spesa per l'incentivo media, sono salvati nel file rel.pl
+update_rel(TipiInc,AvgOutcomes,AvgBudgets):-
+	open('rel.pl',update,relfile),
+	seek(relfile,end_of_file),
+	write_rel_file(TipiInc,AvgOutcomes,AvgBudgets),
+	close(relfile).
+	
+%scrittura delle relazioni -> rel("tipo incentivo",outcome medio,spesa media)
+write_rel_file([],[],[]).
+write_rel_file([T|TipiInc],[O|AvgOutcomes],[B|AvgBudgets]):-
+	write(relfile,"\nrel(\'"), write(relfile,T), write(relfile,"\',"),
+	write(relfile,O), write(relfile,","),
+	write(relfile,B), write(relfile,")."),
+	write_rel_file(TipiInc,AvgOutcomes,AvgBudgets).
+
