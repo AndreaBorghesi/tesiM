@@ -1,0 +1,349 @@
+\documentclass [twocolumn,a4paper,10pt]{ECMS}
+\usepackage{times}
+\usepackage{natbib}
+\usepackage{fullpage}
+%For figures use your favorite package (e.g., epsfig)
+%\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{todonotes}
+\usepackage{eurosym}
+\usepackage{url}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% If your latex distribution does not contain          %%
+%% the 10pt package and the times and natbib style      %%
+%% files then place the ones provided in the style-file %%
+%% folder in the same directory where you compile your  %%
+%% latex document 																		  %%
+%%																											%%
+%% Format your paper following the inline instructions. %%
+%%																											%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%% PUBLISHER MACROS %%%%%%%%%%%%%%%%%%%%%%
+%%                   DO NOT MODIFY OR REMOVE
+\newcommand{\Section}[1]{\section*{#1}\vspace*{-0.7em}}
+\newcommand{\Subsection}[1]{\subsection*{#1}\vspace*{-0.7em}}
+\addtolength{\oddsidemargin}{-0.5cm}  %setting the required
+\addtolength{\evensidemargin}{-0.5cm} %margin lengths
+\addtolength{\textwidth}{1cm}
+\addtolength{\topmargin}{-0.5cm}
+\addtolength{\textheight}{1cm}
+\setlength{\columnsep}{1cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%% AUTHOR MACROS %%%%%%%%%%%%%%%%%%%%%%
+%Here you can place your own macros.
+%Make sure that you DO NOT OVERWRITE PUBLISHER MACROS
+
+
+
+\newcommand{\discrCst}{\mbox{\sc Discr\_Cst}}
+\newcommand{\myldots}{...}
+\newcommand{\myvec}{\bar}
+\newcommand{\myvecl}{\overline}
+
+\newcommand{\pivot}[1]{\mathbin{\, {#1} \,}}
+\newcommand{\Pivot}[1]{\mathbin{\; {#1} \;}}
+\let\from=\leftarrow
+\newcommand{\clpr}{CLP({\ensuremath{\cal R}})}
+\newcommand{\eclipse}{ECL$^i$PS\ensuremath{^e}}
+\newcommand{\Mop}{{\ensuremath{\cal M}}}    % Matrice Opere-Pressioni
+\newcommand{\mop}{{\ensuremath{m}}}         % Elemento della matrice Opere-Pressioni
+\newcommand{\Dep}{{\ensuremath{\cal D}}}    % Matrice Opere-Opere
+\newcommand{\dep}{{\ensuremath{d}}}         % Elemento della matrice Opere-Opere
+\newcommand{\Mpr}{{\ensuremath{\cal N}}}    % Matrice Pressioni-Ricettori
+\newcommand{\mpr}{{\ensuremath{n}}}         % Elemento della matrice Opere-Pressioni
+\newcommand{\Ope}{{\ensuremath{\bf A}}}     % Vettore delle Opere
+\newcommand{\Out}{{\ensuremath{\bf O}}}     % Vettore degli Outcome
+\newcommand{\Cost}{{\ensuremath{\bf C}}}     % Vettore delle Costi
+\newcommand{\ope}{{\ensuremath{a}}}         % Singola opera, elemento del vettore delle opere
+\newcommand{\out}{{\ensuremath{o}}}         % Singolo outcome, singolo elemento del vettore outcome
+\newcommand{\cost}{{\ensuremath{c}}}         % Singolo costo, elemento del vettore dei costi
+\newcommand{\Nope}{{\ensuremath{N_a}}}   % Numero di opere, numero degli elementi del vettore delle opere
+\newcommand{\Pre}{{\ensuremath{\bf P}}}     % Vettore delle Pressioni
+\newcommand{\pre}{{\ensuremath{p}}}         % Elemento del vettore delle pressioni, una singola pressione
+\newcommand{\Npre}{{\ensuremath{N_p}}}   % Numero di opere, numero degli elementi del vettore delle opere
+\newcommand{\Ric}{{\ensuremath{\bf R}}}     % Vettore dei ricettori
+\newcommand{\Nric}{{\ensuremath{N_r}}}   % Numero di ricettori, numero degli elementi del vettore dei ricettori
+\newcommand{\ric}{{\ensuremath{r}}}         % Elemento del vettore dei ricettori, singolo ricettore
+\newcommand{\PrimaryActivities}{{\ensuremath{A^P}}} % Insieme degli indici del vettore \Ope che rappresentano attivita` primarie
+\newcommand{\SecondaryActivities}{{\ensuremath{A^S}}} % Insieme degli indici del vettore \Ope che rappresentano attivita` secondarie
+\newcommand{\Mag}{{\ensuremath{G}}} % Magnitudine
+\newcommand{\budget}{{\ensuremath{B}}} % Magnitudine
+\newcommand{\Max}{{\ensuremath{U}}} % \Max_i = Massima energia che puo` essere prodotta dalla fonte i
+\newcommand{\Min}{{\ensuremath{L}}} % \Min_i = minima  energia che va prodotta dalla fonte i
+\newcommand{\Per}{{\ensuremath{F}}} % \Per_i = minima percentuale di energia che va prodotta dalla fonte i
+
+\newcommand{\InstalledPV}{{\ensuremath{\Mag_{PV}}}} % Potenza installata di Fotovoltaico (MW)
+\newcommand{\Incentives}{{\ensuremath{I^{\%}}}} % Percentuale di incentivi
+\newcommand{\CoeffAngAppreso}{{\ensuremath{m}}} % Percentuale di incentivi
+\newcommand{\TermineNotoAppreso}{{\ensuremath{q}}} % Percentuale di incentivi
+\newcommand{\TotIncentives}{{\ensuremath{I^{Tot}}}} % Totale di incentivi
+\newcommand{\DimPlant}{{\ensuremath{PlantSize}}} % Dimensione impianto
+\newcommand{\AvailArea}{{\ensuremath{AvailArea}}} % Area disponibile
+\newcommand{\Budget}{{\ensuremath{Budget}}} % Budget disponibile
+\newcommand{\Obstinacy}{{\ensuremath{Obstinacy}}} % Ostinazione
+\newcommand{\Costo}{{\ensuremath{Cost}}} % Costo dell'impianto
+\newcommand{\EnNeeds}{{\ensuremath{EnNeeds}}} % Costo dell'impianto
+
+
+
+
+\pagestyle{empty} %do not change
+                  %no page numbers
+
+\begin{document}
+
+%%%%% TITLE %%%%%
+
+\title{SIMULATION OF INCENTIVE MECHANISMS FOR RENEWABLE ENERGY POLICIES} %in capital
+
+%%%%% AUTHORS %%%%%
+
+%Different institutions
+\author{Andrea Borghesi and Michela Milano  \\
+DISI University of Bologna, Italy\\
+\url{michela.milano@unibo.it}
+\and %another author
+Marco Gavanelli\\
+ENDIF University of Ferrara, Italy\\
+\url{marco.gavanelli@unife.it}
+\and
+Tony Woods\\
+PPA Energy, UK \\
+\url{tony.woods@ppaenergy.co.uk}
+%if more authors continue with \and
+}
+
+%For authors sharing the same institution
+%simple place both names in the author name
+%and then continue with institution details
+
+\date{} %leave it as it is, do NOT remove
+
+\maketitle %do NOT remove
+
+%%%%% SECTIONS %%%%%
+
+%USE \Section{} NOT \section{}
+%USE \Subsection{} NOT \subsection{}
+
+
+\Section{ABSTRACT} %in capital
+
+
+
+
+\Section{KEYWORDS} %in capital
+POLICY MODELING
+SOCIAL SIMULATION
+COMBINATORIAL OPTIMIZATION
+
+%Continue the same manner for all sections
+%or subsections. For example...
+
+Following the strategy proposed by Europe 2020\footnote{{\tt http://ec.europa.eu/europe2020/}}, the EU is strongly committed to reducing its greenhouse gas emissions by at least 20\% by 2020, relative to 1990 levels, to have at least the 20\% of energy share from renewable energy sources and to increase by 20\% the energy efficiency in Europe. To drive progress and set the EU on a pathway towards this target, every country and every region should be committed in providing its own contribution to this objective.
+
+Therefore, national and regional energy policies should perceive these guidelines and be designed to foster this ambitious objective. With a view to achieving, by 2020, the 20\% renewable energy target in the EU, the Renewable Energy Directive establishes legally binding individual targets for the share of renewable energy in final energy
+consumption for each Member State. To make some examples, Italy is supposed to reach the 17\% of renewable energy share, UK the 15\% and Austria the 30\%. These figures of course depend on the current renewable energy production in each country.
+
+To achieve these objectives, each country and each region are implementing a number of actions devoted to the promotion and wide adoption of energy production from renewable energy sources. An important class of energy policy instruments are incentives. There are a number of incentive mechanisms adopted in EU member countries that will be outlined in next Section. %\ref{incentives}. 	%%MG: in this style, sections do not have numbers, so the \ref{} does not print it.
+To mention some examples, we have investment grants, namely incentives to the construction of the energy plant, feed-in tariffs, namely money given to produce and/or self-consume renewable energy, fiscal incentives, namely low interest loans, and many others. However, the effectiveness of these mechanisms is  not clear. By analysing the past data, one aspect that emerged is that there is some evidence that a greater effect at lower cost may be achieved by a stable feed-in tariff regime that is sustained over a significant period. For example, on average, in 2009, countries with fixed feed-in tariffs had tended to either be growing at a faster rate and/or have a much larger renewable energy base than countries using other approaches. In addition fixed tariffs also appear to be more efficient. As an example prices paid for wind energy in UK and Italy (without fixed tariffs at that time) were higher than the fixed tariffs. For instance, the UK was paying about a third more for its wind energy than Germany. There are many potential reasons for this difference but an element of it may be due to the price uncertainty surrounding renewable certificates. 
+As a result, many countries adopted feed-in tariffs as basic incentive mechanisms. On top of that, regions have implemented other incentive mechanisms to further support renewable energy adoption. In this paper we focus on the Italian context, by considering national mechanisms and comparing different regional instruments implemented into the Emilia-Romagna region of Italy.
+
+With particular emphasis on renewable energy sources, and on photovoltaic (referred to as PV) in particular, in this paper we analyse a number of incentive mechanisms for promoting the adoption of PV in Emilia-Romagna and we simulate them from an economic perspective
+for understanding their efficiency. We rely on agent-based simulation \citep{DBLP:journals/jasss/TroitzschMGD99,Matthews2007,GilbertBook}, where agents represent the key players involved in the decision-making process. The hypothesis is that for modelling complex systems, agent-based  simulation is a suitable approach to understand such systems in a more natural way. In particular, agent-based models enable the use of computer experiments to support a better understanding of the complexity of  economic, environmental and social systems, structural changes, and endogenous adjustment reactions in response to a policy change.
+We are aware that not only economic aspects should be considered. We have analysed two social aspects, but we are aware that the one we propose is far from being a social simulator. 
+
+We have developed an agent-based simulator in Netlogo \citep{netlogo} implementing both national and regional incentives and we have compared the efficiency of regional incentives against the PV adoption. We have considered feed-in tariffs as national incentives (Italian incentives derived from the {\em Quarto Conto Energia}, Fourth Feed-In-Scheme\footnote{\tt{http://www.gse.it/en/feedintariff/Photovoltaic/Fourth feed-in tariff}}). 
+On top of national incentives, we have implemented four alternative regional incentives, namely investment grants, fiscal incentives, interest funds and guarantee funds. We will explain these incentives in detail and we will show the results of the economic simulator.  
+
+From an economic perspective, we could conclude from this study that the interest fund is the most efficient, followed by fiscal incentives and guarantee fund that have a similar behaviour. The least effective instrument is the investment grant, the only implemented so far from Emilia-Romagna to foster PV adoption.
+
+\Section{INCENTIVES TO RENEWABLES}
+\label{incentives}
+\todo[inline]{TONY}
+
+\Section{ECONOMIC SIMULATOR}
+\todo[inline]{MARCO}
+
+\Section{EXPERIMENTAL EVALUATION}
+We consider now the results of the experimental evaluation. Our goal was to understand the relation between the installed power and the budget available for regional incentives; in this study we treated all regional incentives as if they were independent from each other , ie. we run our simulations using one type of regional incentive at a time (on top of national ones). 
+
+We have performed a large number of simulations (300) for each value of regional budget from zero to 40 millions of Euros , in step of \euro1M, and for each type of incentive (for a total of 48,000 simulations). We recorded for each simulation the total installed power in KW of photovoltaic plants. 
+%A plot of the results is shown in Figures ~\ref{InvestGrantSimulations}, ~\ref{InterestFundSimulations}, ~\ref{FiscalIncSimulations} and ~\ref{GuaranteeFundSimulations}, respectively for investment grants, interest funds, fiscal incentives and guarantee funds, where each point represents an individual simulation.
+
+Of course, an individual simulation does not provide useful information and it would be better to try to extract some statistics from a significant number of simulations to get some insight. In order to learn a model of the dependency of the installed power from the budget made available, we averaged the results of all the simulations with the same amount of budget, obtaining a point for each value in the range from \euro0M to \euro40M (the circles in Figures ~\ref{InvestGrantLearnedFunction}, ~\ref{InterestFundLearnedFunction}, ~\ref{FiscalIncLearnedFunction} and ~\ref{GuaranteeFundLearnedFunction}).
+
+Using those points we learned a function which relates the amount of budget available and the installed power, one for each kind of incentive. We tried various regression algorithms, ranging from simpler regression models as linear models \citep{Rousseeuw1987} to more complex ones, ie. local regression \citep{lowess}; for each type of incentive we chose the best regression model using statistical analysis to evaluate which one fitted better our data - when two or more models offered similar results in terms of goodness of fit we used the less computationally expensive ones.
+
+We can examine now the behaviour of the four type of incentives, investment grant, interest fund, fiscal incentive and guarantee fund.
+
+%\begin{figure}[hbt]
+%	\centering
+%	\subfloat[Simulations]{\includegraphics[width=8.8cm]{InvestGrantSimulations.pdf}\label{InvestGrantSimulations}}
+%	\qquad
+%	\subfloat[Learned Function]{\includegraphics[width=8.8cm]{InvestGrantLearnedFunction.pdf}\label{InvestGrantLearnedFunction}}
+%	\caption{Investment Grant}
+%	\label{InvestGrantGraphs}
+%\end{figure}
+
+%\begin{figure}[hbt]
+%	\centering
+%	\subfloat[Simulations]{\includegraphics[width=8.8cm]{InterestFundSimulations.pdf}\label{InterestFundSimulations}}
+%	\qquad
+%	\subfloat[Learned Function]{\includegraphics[width=8.8cm]{InterestFundLearnedFunction.pdf}\label{InterestFundFunction}}
+%	\caption{Interest Funds}
+%	\label{InterestFundGraphs}
+%\end{figure}
+
+%\begin{figure}[hbt]
+%	\centering
+%	\subfloat[Simulations]{\includegraphics[width=8.8cm]{FiscalIncSimulations.pdf}\label{FiscalIncSimulations}}
+%	\qquad
+%	\subfloat[Learned Function]{\includegraphics[width=8.8cm]{FiscalIncLearnedFunction.pdf}\label{FiscalIncLearnedFunction}}
+%	\caption{Fiscal incentives}
+%	\label{FiscalIncGraphs}
+%\end{figure}
+
+%\begin{figure}[hbt]
+%	\centering
+%	\subfloat[Simulations]{\includegraphics[width=8.8cm]{GuaranteeFundSimulations.pdf}\label{GuaranteeFundSimulations}}
+%	\qquad
+%	\subfloat[Learned Function]{\includegraphics[width=8.8cm]{GuaranteeFundLearnedFunction.pdf}\label{GuaranteeFundLearnedFunction}}
+%	\caption{Guarantee Funds}
+%	\label{GuaranteeFundGraphs}
+%\end{figure}
+
+\Subsection{INVESTMENT GRANT}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=8.8cm]{InvestGrantLearnedFunction}
+	\caption{Investment Grant}
+	\label{InvestGrantLearnedFunction}
+\end{figure}
+
+As it's shown in Figure ~\ref{InvestGrantLearnedFunction} with an investment grant the installed power rises accordingly to the budget increase, exhibiting an almost linear relation for budget smaller than \euro30M and a ratio decrease for bigger values. This is probably caused by the fact that once we meet the requests from most of the agents in the simulation with a budget big enough, further increases are less and less effective. The model used for the regression is a quadratic one.
+
+\Subsection{INTEREST FUND}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=8.8cm]{InterestFundLearnedFunction}
+	\caption{Interest Fund}
+	\label{InterestFundLearnedFunction}
+\end{figure}
+
+In Figure ~\ref{InterestFundLearnedFunction} we can see the function relating budget and installed power in the case of interest fund incentives. There is a surge in the installed power for low budget values (up to about \euro3M) but after that new budget increases don't translate to further increases in production; this behaviour is probably due to the fact that this kind of incentive is by far the one requiring the least amount of money, so it's relatively easier to fulfill every simulated agent who would like to benefefit from it. The regression model with the best fit is a high degree polynomial regression (specifically tenth degree). 
+
+\Subsection{FISCAL INCENTIVES}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=8.8cm]{FiscalIncLearnedFunction}
+	\caption{Fiscal Incentives}
+	\label{FiscalIncLearnedFunction}
+\end{figure}
+
+The function learned for fiscal incentives is similar to the case of investment funds, as it's shown in Figure ~\ref{FiscalIncLearnedFunction}, but with this incentive, compared to the previous one, the rise of the installed power for lower budgets is faster and the curve's slope decline more slowly. Again, for this type of incentive, the regression model with best goodness of fit is a quadratic one.
+
+\Subsection{GUARANTEE FUND}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=8.8cm]{GuaranteeFundLearnedFunction}
+	\caption{Guarantee Fund}
+	\label{GuaranteeFundLearnedFunction}
+\end{figure}
+
+We consider now the last regional incentive, the guarantee fund, displayed in Figure ~\ref{GuaranteeFundLearnedFunction}. We can notice again a trend characterized by an initial increase in installed power in response to the rise of available budget, represented by an almost linear curve up to about \euro15M,	then we observe a stabilisation of the installed power after a certain amount of budget (about \euro20M), probably because also in this case - as with interest fund - it's possible to satisfy a large fraction of the requests made by simulated agents with budgets smaller than investment grant and fiscal incentives. The best fitting model for guarantee fund incentives is a local regression model. 
+
+\Subsection{COMPARISON}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=8.8cm]{IncentivesComparison}
+	\caption{Comparison among incentives}
+	\label{IncentivesComparison}
+\end{figure}
+
+Finally in Figure ~\ref{IncentivesComparison} all the four incentives are compared with the absence of regional incentives - obviously in this case the curve displayed is a straight line parallel to the x-axis, since without incentives the budget available for them can't influence the installed power. It's easy to notice that interest fund is the best type of incentive in almost the whole range of budget we have considered (range consistent with the money put in by the region in reality), with a slight advantage for fiscal incentives for budgets larger than \euro40M. The guarantee fund and fiscal incentives present a similar behaviour for lower levels of funding, but with higher budget values fiscal incentives behave decisively better; overall, the investment fund (the only one implemented so far by Emilia-Romagna) turned out to be the least effective type of incentive in enhancing the installation of photovoltaic plants.
+
+
+
+
+\Section{DISCUSSION AND FUTURE WORK}
+
+
+
+%\Section{FOOTNOTES AND ENDNOTES}
+%Do not use footnotes or endnotes.
+%
+%\Section{HEADERS OR FOOTERS}
+%Do NOT use or set ANY headers or footers.
+%
+%\Section{REFERENCES}
+%
+%Use the standard \verb+thebibliography+ environment, along
+%with the \verb+apalike+ bibliography style, as demonstrated
+%in the following examples.\\
+%
+%We improve the results of \citep{bar96}
+%and at some extend the results of \citep{hub36}...\\
+%
+%\noindent{\bf NOTE:} Use the \verb+\citep{}+ command and NOT the
+%standard \verb+\citep{}+ command. Also make sure to
+%include the \verb+natbib.sty+ style file (provided with
+%the ECMS package).
+%
+%For those using BIBTEX, they can look at the \verb+example.bib+
+%file (provided with the the ECMS package) for an example
+%of a bib file, and instead of using the \verb+thebibliography+ environment
+%they should use the \verb+\bibliography{bibfile}+ command.
+
+%%%%% REFERENCES %%%%%%%%%%%%%%%%%%%%%%%
+
+%DO NOT USE BIBTEX
+\bibliographystyle{apalike} %not not change
+\begin{small} %for 9pt size -- do NOT remove
+
+%If using BIBTEX, then use the following command
+%where <example> is the name of the bib file.
+\bibliography{bib,odessa,biomasse}
+%and remove the thebibliography environment.
+
+%\begin{thebibliography}{} %remove in case you use BIBTEX
+
+%\bibitem[{Barger} et~al., 1996]{bar96}
+%{Barger}, A.~J., {Aragon-Salamanca}, A., {Ellis}, R.~S., {Couch}, W.~J.,
+%  {Smail}, I., and {Sharples}, R.~M. (1996).
+%\newblock {The life-cycle of star formation in distant clusters}.
+%\newblock {\em MNRAS}, 279:1--24.
+
+%\bibitem[Hubble, 1936]{hub36}
+%Hubble, E.~P. (1936).
+%\newblock {\em The Realm of the Nebulae}.
+%\newblock Yale University Press, New Haven.
+
+%\end{thebibliography} %remove in case you use BIBTEX
+
+
+\end{small} %do not remove
+
+
+\Section{AUTHOR BIOGRAPHIES}
+%%place your own BIOS
+%\noindent{\bf JOHN J. SMITH} was born.... His email is
+%{\tt john@emailaddress.com} and his personal webpage at
+%{\tt http://www.webpage.com/john}.\\ %use linebreak
+%
+%\noindent{\bf ELAINE SMOTH} was botn.... Her email is
+%{\tt elaine@emailaddress.com} and her personal webpage at
+%{\tt http://www.webpage.com/elaine}.
+
+
+
+
+\end{document} 

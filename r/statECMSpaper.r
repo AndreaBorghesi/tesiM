@@ -1,6 +1,6 @@
 # relation between Budget and Out
 
-data.unsorted <- read.csv("../sim/results/result_listCI_60M.csv")
+data.unsorted <- read.csv("../sim/results/result_listG_60M.csv")
 data <- data.unsorted[order(data.unsorted$Budget),]
 
 #trying to predict Out based on Budget
@@ -52,12 +52,12 @@ summary(highPolyModelAgg)
 summary(loessModelAgg)
 anova(linearModelAgg,quadraticModelAgg,cubicModelAgg,highPolyModelAgg)
 
-#	pdf(file="/media/sda4/tesi/immagini/grafici/ecms13/ECMS13regr_graphSimCI_R.pdf")
+#	pdf(file="/media/sda4/tesi/immagini/grafici/ecms13/ECMS13_graphSimG_R.pdf")
 #	par(mar=c(4.2, 4.0, 0.2, 0.2))
 	
 #graphs
 ##par(mfrow=c(2,1),pch=1)
-#plot(data$Out ~ data$Budget,type="n",lwd=3,ylab="Produzione Energetica (kW)", xlab="Budget Fotovoltaico (milioni di Euro)",cex.lab=1.3,xlim=c(0,40))
+#plot(data$Out ~ data$Budget,type="n",lwd=3,ylab="Installed Power (kW)", xlab="Budget PV (Milions of Euros )",cex.lab=1.3,xlim=c(0,40))
 #points(data$Out ~ data$Budget,col="blue4",pch=1)
 
 plot(aggdata$Out ~ aggdata$Budget,type="p",lwd=3,ylab="Installed Power (kW)", xlab="Budget PV (Milions of Euros )",cex.lab=1.3,xlim=c(0,40)) 
@@ -72,7 +72,7 @@ grid(lwd=2)
 #points(aggdata$Budget, predict(linearModelAgg), type="l", col="red", lwd=2)
 #points(aggdata$Budget, predict(quadraticModelAgg), type="l", col="green", lwd=2)
 #points(aggdata$Budget, predict(cubicModelAgg), type="l", col="yellow", lwd=2)
-points(aggdata$Budget, predict(highPolyModelAgg), type="l", col="blue", lwd=2)
+#points(aggdata$Budget, predict(highPolyModelAgg), type="l", col="blue", lwd=2)
 #lines(aggdata$Budget,pred$fit, lty="solid", col="darkred", lwd=2)
 
 #lines(aggdata$Budget,pred$fit-1.96*pred$se.fit, lty="dashed", col="blue", lwd=1)
