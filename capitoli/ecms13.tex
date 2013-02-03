@@ -172,11 +172,14 @@ From an economic perspective, we could conclude from this study that the interes
 We consider now the results of the experimental evaluation. Our goal was to understand the relation between the installed power and the budget available for regional incentives; in this study we treated all regional incentives as if they were independent from each other , ie. we run our simulations using one type of regional incentive at a time (on top of national ones). 
 
 We have performed a large number of simulations (300) for each value of regional budget from zero to 40 millions of Euros , in step of \euro1M, and for each type of incentive (for a total of 48,000 simulations). We recorded for each simulation the total installed power in KW of photovoltaic plants. 
-%A plot of the results is shown in Figures ~\ref{InvestGrantSimulations}, ~\ref{InterestFundSimulations}, ~\ref{FiscalIncSimulations} and ~\ref{GuaranteeFundSimulations}, respectively for investment grants, interest funds, fiscal incentives and guarantee funds, where each point represents an individual simulation.
 
-Of course, an individual simulation does not provide useful information and it would be better to try to extract some statistics from a significant number of simulations to get some insight. In order to learn a model of the dependency of the installed power from the budget made available, we averaged the results of all the simulations with the same amount of budget, obtaining a point for each value in the range from \euro0M to \euro40M (the circles in Figures ~\ref{InvestGrantLearnedFunction}, ~\ref{InterestFundLearnedFunction}, ~\ref{FiscalIncLearnedFunction} and ~\ref{GuaranteeFundLearnedFunction}).
+Of course, an individual simulation does not provide useful information and it would be better to try to extract some statistics from a significant number of simulations to get some insight. In order to learn a model of the dependency of the installed power from the budget made available, we averaged the results of all the simulations with the same amount of budget, obtaining a point for each value in the range from \euro0M to \euro40M.
 
-Using those points we learned a function which relates the amount of budget available and the installed power, one for each kind of incentive. We tried various regression algorithms, ranging from simpler regression models as linear models \citep{Rousseeuw1987} to more complex ones, ie. local regression \citep{lowess}; for each type of incentive we chose the best regression model using statistical analysis to evaluate which one fitted better our data - when two or more models offered similar results in terms of goodness of fit we used the less computationally expensive ones.
+%Using those points we learned a function which relates the amount of budget available and the installed power, one for each kind of incentive. We tried various regression algorithms, ranging from simpler regression models as linear models \citep{Rousseeuw1987} to more complex ones, ie. local regression \citep{lowess}; for each type of incentive we chose the best regression model using statistical analysis to evaluate which one fitted better our data - when two or more models offered similar results in terms of goodness of fit we used the less computationally expensive ones.
+
+Employing those points we learned a function which relates the amount of budget available and the installed power, one for each kind of incentive. We tried various regression algorithms: linear models \citep{Rousseeuw1987}, polynomial models \citep{Stigler1974431,Gergonne1974439} (second, third and tenth degree) and local regression \citep{lowess} (LOESS); for each type of incentive we chose the best regression model using statistical analysis to evaluate which one fitted better our data - when two or more models offered similar results in terms of goodness of fit we used the less computationally expensive ones.
+
+The statistical analysis has been made using \emph{R} \citep{Rlanguage}, a free software environment for statistical computing and graphics. We evaluated the goodness of fit of regression models through numerical analysis, e.g. computing the coefficient of determination, the statistical significance or the F-test, and graphical analysis, e.g. residuals scatter plots or normal probability plots.
 
 We can examine now the behaviour of the four type of incentives, investment grant, interest fund, fiscal incentive and guarantee fund.
 
@@ -216,49 +219,60 @@ We can examine now the behaviour of the four type of incentives, investment gran
 %	\label{GuaranteeFundGraphs}
 %\end{figure}
 
-\Subsection{INVESTMENT GRANT}
+%\Subsection{INVESTMENT GRANT}
 
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=8.8cm]{InvestGrantLearnedFunction}
-	\caption{Investment Grant}
-	\label{InvestGrantLearnedFunction}
-\end{figure}
+%\begin{figure}[t]
+%	\centering
+%	\includegraphics[width=8.8cm]{InvestGrantLearnedFunction}
+%	\caption{Investment Grant}
+%	\label{InvestGrantLearnedFunction}
+%\end{figure}
 
-As it's shown in Figure ~\ref{InvestGrantLearnedFunction} with an investment grant the installed power rises accordingly to the budget increase, exhibiting an almost linear relation for budget smaller than \euro30M and a ratio decrease for bigger values. This is probably caused by the fact that once we meet the requests from most of the agents in the simulation with a budget big enough, further increases are less and less effective. The model used for the regression is a quadratic one.
+%As it's shown in Figure ~\ref{InvestGrantLearnedFunction} with an investment grant the installed power rises accordingly to the budget increase, exhibiting an almost linear relation for budget smaller than \euro30M and a ratio decrease for bigger values. This is probably caused by the fact that once we meet the requests from most of the agents in the simulation with a budget big enough, further increases are less and less effective. The model used for the regression is a quadratic one.
 
-\Subsection{INTEREST FUND}
+%\Subsection{INTEREST FUND}
 
-\begin{figure}[hbt]
-	\centering
-	\includegraphics[width=8.8cm]{InterestFundLearnedFunction}
-	\caption{Interest Fund}
-	\label{InterestFundLearnedFunction}
-\end{figure}
+%\begin{figure}[hbt]
+%	\centering
+%	\includegraphics[width=8.8cm]{InterestFundLearnedFunction}
+%	\caption{Interest Fund}
+%	\label{InterestFundLearnedFunction}
+%\end{figure}
 
-In Figure ~\ref{InterestFundLearnedFunction} we can see the function relating budget and installed power in the case of interest fund incentives. There is a surge in the installed power for low budget values (up to about \euro3M) but after that new budget increases don't translate to further increases in production; this behaviour is probably due to the fact that this kind of incentive is by far the one requiring the least amount of money, so it's relatively easier to fulfill every simulated agent who would like to benefefit from it. The regression model with the best fit is a high degree polynomial regression (specifically tenth degree). 
+%In Figure ~\ref{InterestFundLearnedFunction} we can see the function relating budget and installed power in the case of interest fund incentives. There is a surge in the installed power for low budget values (up to about \euro3M) but after that new budget increases don't translate to further increases in production; this behaviour is probably due to the fact that this kind of incentive is by far the one requiring the least amount of money, so it's relatively easier to fulfill every simulated agent who would like to benefefit from it. The regression model with the best fit is a high degree polynomial regression (specifically tenth degree). 
 
-\Subsection{FISCAL INCENTIVES}
+%\Subsection{FISCAL INCENTIVES}
 
-\begin{figure}[hbt]
-	\centering
-	\includegraphics[width=8.8cm]{FiscalIncLearnedFunction}
-	\caption{Fiscal Incentives}
-	\label{FiscalIncLearnedFunction}
-\end{figure}
+%\begin{figure}[hbt]
+%	\centering
+%	\includegraphics[width=8.8cm]{FiscalIncLearnedFunction}
+%	\caption{Fiscal Incentives}
+%	\label{FiscalIncLearnedFunction}
+%\end{figure}
 
-The function learned for fiscal incentives is similar to the case of investment funds, as it's shown in Figure ~\ref{FiscalIncLearnedFunction}, but with this incentive, compared to the previous one, the rise of the installed power for lower budgets is faster and the curve's slope decline more slowly. Again, for this type of incentive, the regression model with best goodness of fit is a quadratic one.
+%The function learned for fiscal incentives is similar to the case of investment funds, as it's shown in Figure ~\ref{FiscalIncLearnedFunction}, but with this incentive, compared to the previous one, the rise of the installed power for lower budgets is faster and the curve's slope decline more slowly. Again, for this type of incentive, the regression model with best goodness of fit is a quadratic one.
 
-\Subsection{GUARANTEE FUND}
+%\Subsection{GUARANTEE FUND}
 
-\begin{figure}[hbt]
-	\centering
-	\includegraphics[width=8.8cm]{GuaranteeFundLearnedFunction}
-	\caption{Guarantee Fund}
-	\label{GuaranteeFundLearnedFunction}
-\end{figure}
+%\begin{figure}[hbt]
+%	\centering
+%	\includegraphics[width=8.8cm]{GuaranteeFundLearnedFunction}
+%	\caption{Guarantee Fund}
+%	\label{GuaranteeFundLearnedFunction}
+%\end{figure}
 
-We consider now the last regional incentive, the guarantee fund, displayed in Figure ~\ref{GuaranteeFundLearnedFunction}. We can notice again a trend characterized by an initial increase in installed power in response to the rise of available budget, represented by an almost linear curve up to about \euro15M,	then we observe a stabilisation of the installed power after a certain amount of budget (about \euro20M), probably because also in this case - as with interest fund - it's possible to satisfy a large fraction of the requests made by simulated agents with budgets smaller than investment grant and fiscal incentives. The best fitting model for guarantee fund incentives is a local regression model. 
+%We consider now the last regional incentive, the guarantee fund, displayed in Figure ~\ref{GuaranteeFundLearnedFunction}. We can notice again a trend characterized by an initial increase in installed power in response to the rise of available budget, represented by an almost linear curve up to about \euro15M,	then we observe a stabilisation of the installed power after a certain amount of budget (about \euro20M), probably because also in this case - as with interest fund - it's possible to satisfy a large fraction of the requests made by simulated agents with budgets smaller than investment grant and fiscal incentives. The best fitting model for guarantee fund incentives is a local regression model. 
+
+%\Subsection{COMPARISON}
+
+%\begin{figure}[hbt]
+%	\centering
+%	\includegraphics[width=8.8cm]{IncentivesComparison}
+%	\caption{Comparison among incentives}
+%	\label{IncentivesComparison}
+%\end{figure}
+
+%Finally in Figure ~\ref{IncentivesComparison} all the four incentives are compared with the absence of regional incentives - obviously in this case the curve displayed is a straight line parallel to the x-axis, since without incentives the budget available for them can't influence the installed power. It's easy to notice that interest fund is the best type of incentive in almost the whole range of budget we have considered (range consistent with the money put in by the region in reality), with a slight advantage for fiscal incentives for budgets larger than \euro40M. The guarantee fund and fiscal incentives present a similar behaviour for lower levels of funding, but with higher budget values fiscal incentives behave decisively better; overall, the investment fund (the only one implemented so far by Emilia-Romagna) turned out to be the least effective type of incentive in enhancing the installation of photovoltaic plants.
 
 \Subsection{COMPARISON}
 
@@ -269,7 +283,60 @@ We consider now the last regional incentive, the guarantee fund, displayed in Fi
 	\label{IncentivesComparison}
 \end{figure}
 
-Finally in Figure ~\ref{IncentivesComparison} all the four incentives are compared with the absence of regional incentives - obviously in this case the curve displayed is a straight line parallel to the x-axis, since without incentives the budget available for them can't influence the installed power. It's easy to notice that interest fund is the best type of incentive in almost the whole range of budget we have considered (range consistent with the money put in by the region in reality), with a slight advantage for fiscal incentives for budgets larger than \euro40M. The guarantee fund and fiscal incentives present a similar behaviour for lower levels of funding, but with higher budget values fiscal incentives behave decisively better; overall, the investment fund (the only one implemented so far by Emilia-Romagna) turned out to be the least effective type of incentive in enhancing the installation of photovoltaic plants.
+In Figure ~\ref{IncentivesComparison} all the four incentives are compared with the absence of regional incentives - obviously in this case the curve displayed is a straight line parallel to the x-axis, since without incentives the budget available for them can't influence the installed power. It's easy to notice that interest fund is the best type of incentive in almost the whole range of budget we have considered (range consistent with the money put in by the region in reality), with a slight advantage for fiscal incentives for budgets larger than \euro40M. The guarantee fund and fiscal incentives present a similar behaviour for lower levels of funding, but with higher budget values fiscal incentives behave decisively better; overall, the investment fund (the only one implemented so far by Emilia-Romagna) turned out to be the least effective type of incentive in enhancing the installation of photovoltaic plants.
+
+\Subsection{INVESTMENT GRANT}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=8.7cm]{InvestGrantResiduals}
+	\caption{Residuals Analysis, Investment Grant}
+	\label{InvestGrantResiduals}
+\end{figure}
+
+With an investment grant the installed power rises accordingly to the budget increase, exhibiting an almost linear relation for budget smaller than \euro30M and a ratio decrease for bigger values. This is probably caused by the fact that once we meet the requests from most of the agents in the simulation with a budget big enough, further increases are less and less effective. 
+
+In Fig. ~\ref{InvestGrantResiduals} we can see the scatter plot of the residuals versus the budget for the linear, quadratic, high polynomial and local models. The distribution of residuals shows a recognizable pattern in the linear case only - a clear sign of not goodness of fit; among the other models there are not great differences, both in terms of residuals distribution and numerical values as the coefficient of determination, so we decided to use the simplest significative model of regression, the quadratic model. 
+
+\Subsection{INTEREST FUND}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=8.7cm]{InterestFundResiduals}
+	\caption{Residuals Analysis, Interest Fund}
+	\label{InterestFundResiduals}
+\end{figure}
+
+The function relating budget and installed power in the case of interest fund incentives. There is a surge in the installed power for low budget values (up to about \euro3M) but after that new budget increases don't translate to further increases in production; this behaviour is probably due to the fact that this kind of incentive is by far the one requiring the least amount of money, so it's relatively easier to fulfill every simulated agent who would like to benefit from it.
+
+If we look at the scatter plot of residuals (Fig. ~\ref{InterestFundResiduals}), we notice quite distinct patterns with linear, quadratic and local model (similar result with cubic model), prompting that these models doen't fit the data very well. The residuals distribution is much more casual using a high degree polynomial (tenth degree), thus we decided to use that as regression model for interest fund incentives.
+
+\Subsection{FISCAL INCENTIVES}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=8.7cm]{FiscalIncResiduals}
+	\caption{Residuals Analysis, Fiscal Incentives}
+	\label{FiscalIncResiduals}
+\end{figure}
+
+The function learned for fiscal incentives is similar to the case of investment funds, but with this incentive, compared to the previous one, the rise of the installed power for lower budgets is faster and the curve's slope decline more slowly. 
+
+As it's shown in Figure ~\ref{FiscalIncResiduals} even the residuals scatter plots are very similar to the plots concerning investment fund, so again we preferred a quadratic model for the regression, for its simplicity and at the same time goodness of fit and statistical significance.
+
+\Subsection{GUARANTEE FUND}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=8.7cm]{GuaranteeFundResiduals}
+	\caption{Residuals Analysis, Guarantee Fund}
+	\label{GuaranteeFundResiduals}
+\end{figure}
+
+Finally, we consider the last regional incentive, the guarantee fund. We can notice again a trend characterized by an initial increase in installed power in response to the rise of available budget, represented by an almost linear curve up to about \euro15M,	then we observe a stabilisation of the installed power after a certain amount of budget (about \euro20M), probably because also in this case - as with interest fund - it's possible to satisfy a large fraction of the requests made by simulated agents with budgets smaller than investment grant and fiscal incentives.
+
+In Figure ~\ref{GuaranteeFundResiduals} the distribution of residuals for the various regression models is displayed. With the guarantee fund the scatter plots point out that linear and quadratic models doesn't fit very well to the data, whereas higher degree polynomial and local regression exhibit a better performance. The numerical analysis reveals that both these models have a good statistical significance, but eventually we opted for a local regression model because it was less sensitive to outliers - at least with guarantee fund incentives.  
+
 
 
 

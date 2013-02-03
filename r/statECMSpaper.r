@@ -1,6 +1,6 @@
 # relation between Budget and Out
 
-data.unsorted <- read.csv("../sim/results/result_listG_60M.csv")
+data.unsorted <- read.csv("../sim/results/result_listA_60M.csv")
 data <- data.unsorted[order(data.unsorted$Budget),]
 
 #trying to predict Out based on Budget
@@ -52,8 +52,8 @@ summary(highPolyModelAgg)
 summary(loessModelAgg)
 anova(linearModelAgg,quadraticModelAgg,cubicModelAgg,highPolyModelAgg)
 
-#	pdf(file="/media/sda4/tesi/immagini/grafici/ecms13/ECMS13_graphSimG_R.pdf")
-#	par(mar=c(4.2, 4.0, 0.2, 0.2))
+#	pdf(file="/media/sda4/tesi/immagini/grafici/ecms13/InvestGrantModels.pdf")
+#	par(mar=c(4.2, 4.0, 0.2, 0.2))	
 	
 #graphs
 ##par(mfrow=c(2,1),pch=1)
@@ -69,11 +69,12 @@ grid(lwd=2)
 #points(data$Budget, predict(highPolyModel), type="l", col="yellow", lwd=2)
 
 #apply best regression: quadratic model for Asta and Rotazione,loess for Garanzia,polynomial higher degree for Conto Interessi
-#points(aggdata$Budget, predict(linearModelAgg), type="l", col="red", lwd=2)
-#points(aggdata$Budget, predict(quadraticModelAgg), type="l", col="green", lwd=2)
+points(aggdata$Budget, predict(linearModelAgg),type="l", col="black", lwd=2,lty=3)
+points(aggdata$Budget, predict(quadraticModelAgg),type="l", col="black", lwd=2,lty=2)
 #points(aggdata$Budget, predict(cubicModelAgg), type="l", col="yellow", lwd=2)
-#points(aggdata$Budget, predict(highPolyModelAgg), type="l", col="blue", lwd=2)
-#lines(aggdata$Budget,pred$fit, lty="solid", col="darkred", lwd=2)
+points(aggdata$Budget, predict(highPolyModelAgg),type="l", col="black", lwd=2,lty=4)
+lines(aggdata$Budget,pred$fit, col="black", lwd=2,lty=1)
+legend("bottomright", inset=.05, title="Regression Model", c("Linear Model","Quadratic Model","10th degree polynomial model","LOESS model"), lty=c(3,2,4,1),lwd=c(1.5,1.5,1.5,1.5,1.5), cex=1)
 
 #lines(aggdata$Budget,pred$fit-1.96*pred$se.fit, lty="dashed", col="blue", lwd=1)
 #lines(aggdata$Budget,pred$fit+1.96*pred$se.fit, lty="dashed", col="blue", lwd=1)
@@ -89,13 +90,13 @@ grid(lwd=2)
 #modelResidLoess=resid(loessModelAgg)
 #par(mfrow=c(2,2))
 
-#plot(aggdata$Budget,modelResidLinear,type="p",lwd=3,ylab="Residuals", xlab="Budget Fotovoltaico ( milioni di Euro )",xlim=c(0,40),main="Linear Model") 
+#plot(aggdata$Budget,modelResidLinear,type="p",lwd=3,ylab="Residuals", xlab="Budget PV (Milions of Euros )",cex.lab=1.3,xlim=c(0,40),main="Linear Model") 
 #abline(0, 0)
-#plot(aggdata$Budget,modelResidQuadratic,type="p",lwd=3,ylab="Residuals", xlab="Budget Fotovoltaico ( milioni di Euro )",xlim=c(0,40),main="Quadratic Model") 
+#plot(aggdata$Budget,modelResidQuadratic,type="p",lwd=3,ylab="Residuals", xlab="Budget PV (Milions of Euros )",cex.lab=1.3,xlim=c(0,40),main="Quadratic Model") 
 #abline(0, 0)
-#plot(aggdata$Budget,modelResidHighPoly,type="p",lwd=3,ylab="Residuals", xlab="Budget Fotovoltaico ( milioni di Euro )",xlim=c(0,40),main="10th degree polynomial Model") 
+#plot(aggdata$Budget,modelResidHighPoly,type="p",lwd=3,ylab="Residuals", xlab="Budget PV (Milions of Euros )",cex.lab=1.3,xlim=c(0,40),main="10th degree polynomial Model") 
 #abline(0, 0)
-#plot(aggdata$Budget,modelResidLoess,type="p",lwd=3,ylab="Residuals", xlab="Budget Fotovoltaico ( milioni di Euro )",xlim=c(0,40),main="LOESS Model") 
+#plot(aggdata$Budget,modelResidLoess,type="p",lwd=3,ylab="Residuals", xlab="Budget PV (Milions of Euros )",cex.lab=1.3,xlim=c(0,40),main="LOESS Model") 
 #abline(0, 0)
 
 #plot(modelResidLinear,aggdata$Out,type="p",lwd=3,ylab="Residuals", xlab="Produzione Energetica ( kW )",main="Linear Model") 
@@ -202,7 +203,7 @@ grid(lwd=2)
 
 	#graphs
 	# Start PDF device driver to save output to figure.pdf
-#	pdf(file="/media/sda4/tesi/immagini/grafici/ecms13/ECMS13incentCompare_e_noInc.pdf")
+#	pdf(file="/media/sda4/tesi/immagini/grafici/ecms13/IncentivesComparison.pdf")
 #	par(mar=c(4.2, 4.0, 0.2, 0.2))
 	
 	#plot(dataA$Budget,dataA$Out,type="n",lwd=3,ylab="Produzione Energetica ( MW )", xlab="Budget Fotovoltaico ( milioni di Euro )") 
@@ -215,12 +216,12 @@ grid(lwd=2)
 
 	plot(aggdataN$Out ~ aggdataN$Budget,type="n",lwd=3,ylab="Installed Power (kW)", xlab="Budget PV (Milions of Euros )",ylim=c(21000,27500),xlim=c(0,40),cex.lab=1.3) 
 	grid()
-	points(aggdataN$Budget, predict(linearModelN), type="l", col="black", lwd=2)
-	points(aggdataA$Budget, predict(quadraticModelA), type="l", col="blue", lwd=2)
-	lines(aggdataCI$Budget,predCI$fit, lty="solid", col="red", lwd=3)
-	points(aggdataR$Budget, predict(quadraticModelR), type="l", col="green", lwd=2)
-	points(aggdataG$Budget, predG$fit, type="l", col="yellow", lwd=2)
-	legend("topright", inset=.05, title="Incentive type", c("None","Investment Grant","Interest Fuds","Fiscal Incentives","Guarantee Funds"), fill=c("black","blue","red","green","yellow"),cex=1)
+	points(aggdataN$Budget, predict(linearModelN), type="l", col="black", lwd=3, lty=3)
+	points(aggdataA$Budget, predict(quadraticModelA), type="l", col="black", lwd=3,lty=6)
+	lines(aggdataCI$Budget,predCI$fit, lty="solid", col="black", lwd=3)
+	points(aggdataR$Budget, predict(quadraticModelR), type="l", col="black", lwd=3,lty=5)
+	points(aggdataG$Budget, predG$fit, type="l", col="black", lwd=3,lty=4	)
+	legend("topright", inset=.05, title="Incentive type", c("None","Investment Grant","Interest Funds","Fiscal Incentives","Guarantee Funds"), lty=c(3,6,1,5,4),lwd=c(1.5,1.5,1.5,1.5,1.5), cex=1)
 	
 	# Turn off device driver (to flush output to PDF)
 #	dev.off()

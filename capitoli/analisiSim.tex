@@ -92,7 +92,7 @@ Lo scopo di questo capitolo sarà quindi la dettagliata analisi dei dati prodott
 Inizialmente presenteremo gli strumenti utilizzati per effettuare l'analisi sopra descritta, per poi passare alla discussione vera e propria nei paragrafi successivi.
 
 \section{STRUMENTI}
-Per esaminare i dati prodotti dalle simulazioni effettuate e visualizzare i risultati ottenuti abbiamo utilizzato \emph{R}, un ambiente di sviluppo specifico per l'analisi statistica dei dati, basato sull'omonimo linguaggio di programmazione.
+Per esaminare i dati prodotti dalle simulazioni effettuate e visualizzare i risultati ottenuti abbiamo utilizzato \emph{R} \cite{Rlanguage}, un ambiente di sviluppo specifico per l'analisi statistica dei dati, basato sull'omonimo linguaggio di programmazione.
 
 \subsection{R}
 
@@ -167,7 +167,7 @@ Un altro aspetto che è possibile valutare attraverso metodi grafici è se valga
 
 \subsection{IMPLEMENTAZIONE IN R}
 
-Per studiare le relazioni di nostro interesse la metodologia scelta consiste nell'aver effettuato un grande numero di simulazioni controllate (ovvero fissando tutti i parametri non rilevanti e variando quelli di cui osservare il comportamento, come il budget regionale o il tipo di incentivo), dopodiché abbiamo effettuato un'analisi statistica dei dati e tentato di risalire alle curve relative all'andamento delle relazioni attraverso l'uso di tecniche di regressione lineare e non.\\*\\*
+Per studiare le relazioni di nostro interesse la metodologia scelta consiste nell'aver effettuato un grande numero di simulazioni controllate (ovvero fissando tutti i parametri non rilevanti e variando quelli di cui osservare il comportamento, come il budget regionale o il tipo di incentivo), dopodiché abbiamo effettuato un'analisi statistica dei dati e tentato di risalire alle curve relative all'andamento delle relazioni attraverso l'uso di tecniche di regressione lineare e non.\\*
 Per effettuare l'analisi della regressione nel nostro caso, il primo passo è consistito nello scegliere le variabili di cui studiare la relazione; per ogni tipologia di incentivazione sono stati considerati tre casi (riportati in seguito in maniera estesa):
 \begin{itemize}
 \item relazione tra il budget che la regione dedica agli incentivi e produzione energetica da impianti fotovoltaici, con il budget variabile indipendente e la produzione energetica variabile dipendente;
@@ -189,7 +189,7 @@ I dati di nostro interesse generati dal simulatore sono serie di coppie di valor
 > aggdata$Budget <- seq(from=0, to=(length(aggdata[,1]))-1, 1)
 \end{lstlisting}
  
-Abbiamo tentato con diversi tipi di regressione, a partire dalla versione più semplice ovvero la lineare (con la quale cerchiamo di fare previsione con una funzione lineare della variabile indipendente), fino a modelli più complessi come la cosiddetta regressione locale, o LOESS \cite{lowess}(la quale procede adattando modelli polinomiali di basso grado a sottoinsiemi locali della serie di dati, in pratica costruendo punto per punto la funzione di previsione); per i diversi modelli sono poi stati calcolati la bontà di adattamento ai dati sfruttando le informazioni quantitative fornite da R.
+Abbiamo tentato con diversi tipi di regressione, a partire dalla versione più semplice ovvero la lineare \cite{robustLinearRegression}(con la quale cerchiamo di fare previsione con una funzione lineare della variabile indipendente), fino a modelli più complessi come quella polinomiale \cite{Gergonne1974439,Stigler1974431} o ancora la cosiddetta regressione locale, o LOESS \cite{lowess}(la quale procede adattando modelli polinomiali di basso grado a sottoinsiemi locali della serie di dati, in pratica costruendo punto per punto la funzione di previsione); per i diversi modelli sono poi stati calcolati la bontà di adattamento ai dati sfruttando le informazioni quantitative fornite da R.
 
 \begin{lstlisting}
 > #modello lineare

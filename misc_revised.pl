@@ -1,8 +1,18 @@
 %miscellaneous utilities
 :-[csv2pl].
 
+
+%%%%%%%%%%%%%%%   BUDGET PV INCENTIVES    %%%%%%%%%%%%%%%%
+set_budget_pv(Value):-
+	open('fr_cons.pl',update,frcons),
+	seek(frcons,end_of_file),
+	write(frcons,"budgetPV_tot("),
+	write(frcons,Value), write(frcons,").\n"),
+	close(frcons).
+
+
 %%%%%%%%%%%%%%%   CONSTRAINTS  %%%%%%%%%%%%%%%%%%%%%%%%%
-%scrittura nel fil fr_cons.pl dei valori per un'assegnazione ottimale dei fondi ai vari incentivi: per ora dal problema principale saranno intepretati come vincoli ad assegnare ai diversi un budget maggiore o uguale di quello specificato
+%scrittura nel file fr_cons.pl dei valori per un'assegnazione ottimale dei fondi ai vari incentivi: per ora dal problema principale saranno intepretati come vincoli ad assegnare ai diversi un budget maggiore o uguale di quello specificato
 %con la forma: fr_constr("tipologia incentivo",valore).
 write_cons_file(_,[],[]).
 write_cons_file(frcons,[T|TipiInc],[V|Values]):-
@@ -12,6 +22,17 @@ write_cons_file(frcons,[T|TipiInc],[V|Values]):-
 	write(frcons,"fr_constr(\'"), write(frcons,T), write(frcons,"\',"),
 	write(frcons,ValF), write(frcons,").\n"),
 	write_cons_file(frcons,TipiInc,Values).
+
+%in fr_cons.pl vengono scritti anche i ricavi ottenibili da alcuni incentivi (per ora non realmente implementato per via del simulatore)
+write_cons_file_ricavi(_,[],[]).
+write_cons_file_ricavi(frcons,[T|TipiInc],[V|Values]):-
+	
+	ValF is V*1000000,
+	
+	write(frcons,"fr_ricavo(\'"), write(frcons,T), write(frcons,"\',"),
+	write(frcons,ValF), write(frcons,").\n"),
+	write_cons_file_ricavi(frcons,TipiInc,Values).
+
 
 
 %%%%%%%%%%%%% PRINT %%%%%%%%%%%%%%%%%%%

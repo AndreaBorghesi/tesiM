@@ -126,7 +126,9 @@ assegna_fondi(TipiInc,BudgetPV,ExpOut):-
 	open('fr_cons.pl',write,frcons),
 	get_var_values(Budgets,[],BudgetValues),
 	write_cons_file(frcons,TipiInc,BudgetValues),
+	write_cons_file_ricavi(frcons,TipiInc,[0.0,0.0,0.0,0.0]),
 	close(frcons),
+	set_budget_pv(BudgetPV),
 	
 	writeln_tee("Assegnazione fondi completata").
 	
