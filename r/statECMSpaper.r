@@ -216,12 +216,12 @@ legend("bottomright", inset=.05, title="Regression Model", c("Linear Model","Qua
 
 	plot(aggdataN$Out ~ aggdataN$Budget,type="n",lwd=3,ylab="Installed Power (kW)", xlab="Budget PV (Milions of Euros )",ylim=c(21000,27500),xlim=c(0,40),cex.lab=1.3) 
 	grid()
-	points(aggdataN$Budget, predict(linearModelN), type="l", col="black", lwd=3, lty=3)
-	points(aggdataA$Budget, predict(quadraticModelA), type="l", col="black", lwd=3,lty=6)
+#	points(aggdataN$Budget, predict(linearModelN), type="l", col="black", lwd=3, lty=3)
+	points(aggdataA$Budget, predict(quadraticModelA), type="l", col="black", lwd=3,lty=3)
 	lines(aggdataCI$Budget,predCI$fit, lty="solid", col="black", lwd=3)
 	points(aggdataR$Budget, predict(quadraticModelR), type="l", col="black", lwd=3,lty=5)
 	points(aggdataG$Budget, predG$fit, type="l", col="black", lwd=3,lty=4	)
-	legend("topright", inset=.05, title="Incentive type", c("None","Investment Grant","Interest Funds","Fiscal Incentives","Guarantee Funds"), lty=c(3,6,1,5,4),lwd=c(1.5,1.5,1.5,1.5,1.5), cex=1)
+	legend("topright", inset=.05, title="Incentive type", c("Investment Grant","Interest Funds","Fiscal Incentives","Guarantee Funds"), lty=c(3,1,5,4),lwd=c(1.5,1.5,1.5,1.5), cex=1)
 	
 	# Turn off device driver (to flush output to PDF)
 #	dev.off()
