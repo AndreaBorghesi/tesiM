@@ -116,7 +116,7 @@ Tra le diverse librerie disponibili, ne esiste una denominata \emph{Eplex} \cite
 Illustreremo ora due esempi di modellazione di problemi a vincoli sfruttando il linguaggio ECL$^i$PS$^e$ (nel primo caso considerando domini finiti e nel secondo valori reali, avvalendoci anche della libreria Eplex), anche per mostrare come possono essere strutturati i problemi di programmazione logica a vincoli; in questa trattazione supporremo noti i concetti elementari della programmazione logica (procedimenti risolutivi, definizioni di un termine, etc.), la cui discussione esula da questo lavoro.
 
 \myparagraph{ESEMPIO CLP(FD)}
-Il cosiddetto \emph{Send More Money} puzzle è un esempio classico di programmazione a vincoli; le variabili $[S,E,N,D,M,O,R,Y]$ rappresentano cifre da 0 a 9 e lo scopo è assegnare alle variabili valori diversi in modo che l'operazione aritmetica di Figura ~\ref{SendMoreMoney} risulti corretta - inoltre i numeri devono essere ben formati, da cui $S>0$ e $M>0$. 
+Il cosiddetto \emph{Send More Money} puzzle è un esempio classico di programmazione a vincoli; le variabili $[S,E,N,D,M,O,R,Y]$ rappresentano cifre da 0 a 9 e lo scopo è assegnare alle variabili valori diversi in modo che l'operazione aritmetica di Figura~\ref{SendMoreMoney} risulti corretta - inoltre i numeri devono essere ben formati, da cui $S>0$ e $M>0$. 
 
 \begin{figure}[h]
 	\centering
@@ -191,7 +191,7 @@ Presentiamo ora un esempio di un problema (Fig.~\ref{clpR_example}) che rientra 
 	\label{clpR_example}
 \end{figure}
 
-Per formulare il problema definiamo la quantità di prodotto trasportata dall'impianto $N$ al cliente $p$ come variabile $N_p$ - ad esempio $A_1$ rappresenta il costo di trasporto dalla fabbrica $A$ al cliente $1$. I vincoli da considerare sono di due tipi(sempre facendo riferimento alla Figura~\ref{clpR_example}):
+Per formulare il problema definiamo la quantità di prodotto trasportata dall'impianto $N$ al cliente $p$ come variabile $N_p$ - ad esempio $A_1$ rappresenta il costo di trasporto dalla fabbrica $A$ al cliente $1$. I vincoli da considerare sono di due tipi (sempre facendo riferimento alla Figura~\ref{clpR_example}):
 \begin{itemize}
 \item La quantità di prodotto consegnata da tutti gli impianti a un cliente deve deve essere uguale alla domanda del cliente, ad esempio per il cliente $A$ che può essere rifornito dagli impianti 1-3, abbiamo che $A_1+A_2+A_3=21$
 \item La quantità di prodotto in uscita da una fabbrica non può essere superiore alla sua capacità produttiva, ad esempio per l'impianto $1$ che invia prodotti ai clienti A-D si ha che $A_1+B_1+C_1+D_1 \leq 50$
@@ -225,7 +225,7 @@ Vincoli:
 	A_3+B_3+C_3+D_3 \leq 40
 \end{equation}
 
-Mostriamo ora come questo problema venga modellato sfruttando la libreria Eplex. In primo luogo occorre caricare la libreria Eplex di cui si dispone (in questo caso abbiamo sfruttato un risolutore esterno open source) e ottenerne un'\emph{istanza}, la quale rappresenta un singolo problema sotto forma di modulo, a cui possono essere riferiti vincoli e funzione obiettivo consentendo quindi al solver esterno di risolvere il problema. Il codice che segue mostra come il problema di Figura ~\ref{clpR_example} sia stato trasposto all'interno di ECL$^i$PS$^e$.
+Mostriamo ora come questo problema venga modellato sfruttando la libreria Eplex. In primo luogo occorre caricare la libreria Eplex di cui si dispone (in questo caso abbiamo sfruttato un risolutore esterno open source) e ottenerne un'\emph{istanza}, la quale rappresenta un singolo problema sotto forma di modulo, a cui possono essere riferiti vincoli e funzione obiettivo consentendo quindi al solver esterno di risolvere il problema. Il codice che segue mostra come il problema di Figura~\ref{clpR_example} sia stato trasposto all'interno di ECL$^i$PS$^e$.
 
 \begin{lstlisting}
 :- lib(eplex).		% caricamento della libreria Eplex
@@ -273,6 +273,16 @@ Vars = [A1{0.0 .. 1e+20 @ 0.0}, A2{0.0 .. 1e+20 @ 21.0}, ....]
 \end{lstlisting}
 
 \section{MODELLAZIONE PROBLEMA}
+
+Passeremo ora ad occuparci dell'implementazione dell'ottimizzatore impiegato nell'ambito del progetto ePolicy per fornire supporto alle decisioni per lo sviluppo del piano energetico regionale.\\*
+In Figura~\ref{ioDSS} è presentata una visione generale e di alto livello dei fattori che entrano in gioco durante la creazione la fase di pianificazione, come i costi e la capacità produttiva degli impianti, gli impatti economici e ambientali delle azioni intraprese, i vincoli di budget e gli obiettivi di produzione energetica, etc. (benché non siano oggetto di discussione in questo capitolo sono inclusi per completezza nella figura anche gli impatti sociali e le modalità di incentivazione, gestite rispettivamente dal componente di Opinion Mining e dal simulatore).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.45]{ioDSS}
+	\caption{Panoramica di Input e Output del DSS di ePolicy}
+	\label{ioDSS}
+\end{figure}
 
 \subsection[APPROCCIO A VINCOLI]{\nohyphens{PERCHÉ UN APPROCCIO BASATO SUI VINCOLI}}
 L'attività di pianificazione regionale è al momento svolta da esperti umani che costruiscono un singolo piano, considerando gli obbiettivi strategici regionali che seguono le direttive nazionali ed europee. Dopo che il piano è stato ideato l'ente per la protezione ambientale è chiamata a valutarne la sostenibilità dal punto di vista ambientale. In genere non c'è nessuna retroazione, la valutazione può solamente stabilire se il piano sia ecocompatibile o meno ma senza poterlo per modificare; in rari casi può proporre alcune misure correttive, le quali possono però solamente mitigare gli effetti negativi di decisioni di pianificazione sbagliate.\\* 

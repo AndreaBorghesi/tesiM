@@ -117,7 +117,7 @@ Le tartarughe popolano il modello ed operano in parallelo, interagendo tra loro 
 
 L'ambiente di sviluppo è costituito da un'interfaccia grafica che consente di interagire intuitivamente con i parametri che regolano il modello o eseguire specifiche azioni, attraverso l'uso di determinati pulsanti, sliders o altri elementi inseriti durante lo sviluppo del modello; questa interfaccia ha anche l'importante funzione di mostrare in tempo reale i movimenti degli agenti all'interno del mondo virtuale e presentare durante e dopo la simulazione le informazioni relative alla stessa, sotto forma di grafici, tabelle, etc...\\*
 Accanto all'interfaccia grafica è ovviamente presente la sezione che riguarda il codice, il quale definisce i comportamenti delle entità  che agiscono dentro il mondo virtuale. Il codice della simulazione risiede tutto all'interno di un unico listato, suddiviso in diverse procedure che sono destinate all'esecuzione da parte degli agenti o, in maniera del tutto generale, di tutte le istanze che costituiscono il modello. Le procedure, in NetLogo, vengono suddivise in due diverse tipologie, ovvero \emph{commands}, azioni che devono essere portate a termine da un agente producendo un qualche risultato, e \emph{reporters}, istruzioni per calcolare un determinato valore che verrà riportato dall'agente a chiunque lo richieda. \\*
-In Figura ~\ref{netlogoUI_code} sono mostrati un esempio di una parte di iterfaccia grafica con relativi selettori e rappresentazione del mondo virtuale e il codice relativo al pulsante \emph{setup} di tale interfaccia.
+In Figura~\ref{netlogoUI_code} sono mostrati un esempio di una parte di iterfaccia grafica con relativi selettori e rappresentazione del mondo virtuale e il codice relativo al pulsante \emph{setup} di tale interfaccia.
 
 \begin{figure}[H]
 	\centering
@@ -197,7 +197,7 @@ Alcune variabili globali usate per la valutazione di fattibilità sono:
 \end{itemize}
 
 Una volta assegnati i parametri globali e i parametri individuali (con valori casuali o a partire da serie storiche) per ogni agente vengono individuate le caratteristiche di potenza che l'impianto fotovoltaico dovrà soddisfare, in particolare per determinare la quantità di energia elettrica che l'impianto dovrà produrre al fine di soddisfare l'esigenze dell'agente. Sulla base di tali esigenze si può individuare quale sarà la dimensione dell'impianto, dalla quale è poi facile dedurre i costi di realizzazione dello stesso.\\*
-Una volta che tutte queste informazioni sono a disposizione degli agenti essi possono effettuare la valutazione della fattibilità dell'investimento, procedimento che può essere riassunto nel flow chart  di Figura ~\ref{flowChartValFatt}.
+Una volta che tutte queste informazioni sono a disposizione degli agenti essi possono effettuare la valutazione della fattibilità dell'investimento, procedimento che può essere riassunto nel flow chart di Figura~\ref{flowChartValFatt}.
 \\*
 Nel  momento in cui un agente valuta la fattibilità dell'investimento si possono verificare i seguenti scenari:
 \begin{itemize}
@@ -215,7 +215,7 @@ Nel  momento in cui un agente valuta la fattibilità dell'investimento si posson
 \end{figure}
 
 In tutti casi, a esclusione dell'eliminazione dal modello, il comportamento successivo dell'agente dipende, oltre che da fattori economici, anche da un parametro, l'\emph{ostinazione}, che simula la determinazione a istallare un impianto fotovoltaico (ad esempio per motivazioni legate a considerazioni ecologiche), ed entra in gioco per le decisioni inerenti l'aumento delle dimensioni dell'impianto, il suo ridimensionamento o l'accettazione di un prestito.\\*
-In Figura ~\ref{mondoVirtualeSim} possiamo osservare il mondo virtuale di Netlogo popolato di agenti che hanno deciso di effettuare l'investimento e realizzare un impianto fotovoltaico; in verde troviamo gli agenti che non hanno avuto problemi di budget o spazio a disposizione, in blu quelli che hanno accettato il ridimensionamento e in rosso quelli che anno accettato un prestito.
+In Figura~\ref{mondoVirtualeSim} possiamo osservare il mondo virtuale di Netlogo popolato di agenti che hanno deciso di effettuare l'investimento e realizzare un impianto fotovoltaico; in verde troviamo gli agenti che non hanno avuto problemi di budget o spazio a disposizione, in blu quelli che hanno accettato il ridimensionamento e in rosso quelli che anno accettato un prestito.
 
 \begin{figure}[hbt]
 	\centering
@@ -230,7 +230,7 @@ Una volta popolato il modello con un certo numero di agenti (nell'intervallo [0.
 \\* \\*
 Una volta terminata l'esecuzione della simulazione vengono prodotte e comunicate tramite l'apposita interfaccia grafica una serie di informazioni, alcune di maggior interesse per i singoli investitori, come ad esempio il PBT ed il ROE medio per i diversi semestri in cui è prevista la creazione di un impianto, altre utili per  per determinare le grandezze caratteristiche dell'ambiente simulato, come ad esempio la potenza installata nel complesso e quella nei relativi anni(espressa in kWp), spesa complessiva per gli incentivi all'installazione ed alla produzione, spesa totale e percentuale di impianti realizzati (cioè quanti agenti tra quelli generati all'inizio della simulazione hanno effettivamente portato a termine un impianto.)
 \\*
-Questo tipo di informazioni (mostrate in Figura ~\ref{infoTotSim}) sono molto importanti per politici o aziende del settore, per valutare nel complesso quale potrebbe essere la risposta degli investitori al variare di determinate grandezze quali, ad esempio, le tariffe incentivanti o i costi di realizzazione. 
+Questo tipo di informazioni (mostrate in Figura~\ref{infoTotSim}) sono molto importanti per politici o aziende del settore, per valutare nel complesso quale potrebbe essere la risposta degli investitori al variare di determinate grandezze quali, ad esempio, le tariffe incentivanti o i costi di realizzazione. 
 
 \begin{figure}[hbt]
 	\centering
@@ -276,7 +276,7 @@ Lo studio della fattibilità di un investimento nel caso del simulatore esteso c
 Poiché il simulatore iniziale aveva un comportamento esclusivamente deterministico col quale la produzione di energia fotovoltaica degli agenti era condizionata unicamente da fattori di tipo economico, abbiamo deciso di estenderlo verso una direzione più realistica, dove considerare le interazioni sociali tra i diversi agenti. Il tentativo è stato fatto col fine di approssimare una rete small word, un sistema cioè in cui se un agente prende una decisione, anche i suoi vicini ne sono influenzati.
 \\*
 In sintesi è stato assegnato ad ogni agente un valore (una componente dell'ostinazione vista in precedenza) che rappresenta quanto sia significativa l'influenza del comportamento dei vicini, cercando di riflettere la tendenza a seguire il comportamento del gruppo in cui ci si trova tipica degli esseri umani del mondo reale. In particolare le decisioni di ogni agente sono modificate dalla sua personale sensibilità ai comportamenti dei vicini e dalle dimensioni dell'area di influenza, ovvero dal raggio che determina la zona circolare all'interno della quale le scelte fatte da un agente possono influenzare il comportamento degli altri.\\*
-In Figura ~\ref{iterSocMondoVirt} possiamo osservare un esempio di come si formino le aree di influenza tra agenti all'interno del mondo virtuale di Netlogo - le aree di influenza sono le zone chiare di forma quasi circolare centrate sulle case che rappresentano gli agenti.
+In Figura~\ref{iterSocMondoVirt} possiamo osservare un esempio di come si formino le aree di influenza tra agenti all'interno del mondo virtuale di Netlogo - le aree di influenza sono le zone chiare di forma quasi circolare centrate sulle case che rappresentano gli agenti.
 
 \begin{figure}[hbt]
 	\centering

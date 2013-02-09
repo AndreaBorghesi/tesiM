@@ -1,6 +1,6 @@
 # relation between Budget and Out
 
-data.unsorted <- read.csv("../sim/results/result_listA_60M.csv")
+data.unsorted <- read.csv("../sim/results/result_listG_60M.csv")
 data <- data.unsorted[order(data.unsorted$Budget),]
 
 #trying to predict Out based on Budget
