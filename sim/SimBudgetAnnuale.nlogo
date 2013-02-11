@@ -2174,7 +2174,7 @@ PLOT
 1349
 396
 Pay Back Time
-anni
+Years
 Euro
 0.0
 20.0

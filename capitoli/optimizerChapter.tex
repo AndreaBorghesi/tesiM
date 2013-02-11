@@ -18,6 +18,7 @@
 \usepackage{url}
 \usepackage{textcomp}
 \usepackage{eurosym}
+\usepackage{amsmath}
 
 %impostazioni generali per visualizzare codice
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -87,7 +88,8 @@
 
 \begin{document}
 \chapter{\nohyphens{OTTIMIZZAZIONE}}
-In aggiunta al modello di simulazione ad agenti, con la relativa prospettiva individuale, il progetto ePolicy ritiene necessario considerare anche una prospettiva globale (regionale nel caso della Regione), in grado di affrontare il problema della pianificazione e dalla valutazione degli impatti dei piani da un punto di vista più ampio, mantenendo al tempo stesso una stretta integrazione con il livello individuale.\\*
+In aggiunta al modello di simulazione ad agenti, con la relativa prospettiva individuale, il progetto ePolicy ritiene necessario considerare anche una prospettiva globale (regionale nel caso della Regione), in grado di affrontare il problema della pianificazione e dalla valutazione degli impatti dei piani da un punto di vista più ampio, mantenendo al tempo stesso una stretta integrazione con il livello individuale.
+
 La pianificazione delle attività regionale può essere vista come un complesso problema di ottimizzazione combinatoria; i decisori politici devono prendere decisioni e soddisfare un insieme di vincoli, tentando al tempo stesso di realizzare un certo numero di obiettivi, come ad esempio ridurre gli effetti negativi e incrementare i positivi su ambiente, società ed economia. La fase di valutazione - valutare quali siano gli impatti delle politiche scelte sull'ambiente ed in misura minora in ambito economico e sociale - è ora in genere effettuata in sequenza dopo la creazione di un piano, con lo svantaggio che se questo contenesse impatti negativi sull'ambiente potrebbero venire applicate solo delle contromisure correttive; per evitare ciò, nell'approccio di ePolicy la valutazione e la pianificazione sono condotte allo stesso tempo.\\*\\*
 Per la valutazione ambientale sono stati proposti diversi metodi: un modello probabilistico \cite{logicDSSstrategicAss}, un modello fuzzy (la logica fuzzy prevede che si possa attribuire a una proposizione un grado di verità compreso tra 0 e 1) \cite{fuzzyLogicstrategicAss} e un modello lineare a vincoli (\emph{Constraint Logic Programming}, programmazione logica a vincoli, chiamata in seguito anche CLP) \cite{GavanelliEtAl}. Il motivo per sperimentare diversi tipi di modello è che le matrici usate dagli esperti ambientali si prestano a differenti interpretazioni, quindi era importante capire quale fosse la migliore scelta possibile. Il modello CLP è risultato essere il più veloce - a livello computazionale - in quanto per la programmazione lineare esistono tecniche di risoluzione molto efficienti. In secondo luogo, questo modello può essere facilmente esteso aggiungendo nuovi vincoli, per risolvere nuovi tipi di problemi; ad esempio se le attività da pianificare fossero variabili decisionali (invece che valori fissi) potremmo svolgere la pianificazione contemporaneamente alla valutazione ambientale. Dal momento che questo era uno degli scopi del progetto si è scelto di utilizzare l'approccio CLP.\\*\\*
 In questo capitolo introdurremo molto brevemente la programmazione logica a vincoli, con una breve panoramica e citando gli strumenti software di cui ci siamo serviti, passeremo poi a presentare il modello sviluppato che incorpora al suo interno le attività di pianificazione e valutazione e infine mostreremo i risultati ottenuti applicando il modello al caso di studio scelto, ovvero il piano energetico 2011-2013 per la regione Emilia-Romagna.
@@ -196,7 +198,8 @@ Per formulare il problema definiamo la quantità di prodotto trasportata dall'im
 \item La quantità di prodotto consegnata da tutti gli impianti a un cliente deve deve essere uguale alla domanda del cliente, ad esempio per il cliente $A$ che può essere rifornito dagli impianti 1-3, abbiamo che $A_1+A_2+A_3=21$
 \item La quantità di prodotto in uscita da una fabbrica non può essere superiore alla sua capacità produttiva, ad esempio per l'impianto $1$ che invia prodotti ai clienti A-D si ha che $A_1+B_1+C_1+D_1 \leq 50$
 \end{itemize}   
-Poiché lo scopo è minimizzare i costi di trasporto, la funzione obiettivo è di minimizzare i costi combinati del trasporto dei prodotti dai tre impianti a tutti e quattro i clienti.\\*
+Poiché lo scopo è minimizzare i costi di trasporto, la funzione obiettivo è di minimizzare i costi combinati del trasporto dei prodotti dai tre impianti a tutti e quattro i clienti.
+
 La formulazione del problema è quindi la seguente.\\*
 Funzione obiettivo: 
 \begin{equation}  \label{exampleClpRObiett}
@@ -274,7 +277,8 @@ Vars = [A1{0.0 .. 1e+20 @ 0.0}, A2{0.0 .. 1e+20 @ 21.0}, ....]
 
 \section{MODELLAZIONE PROBLEMA}
 
-Passeremo ora ad occuparci dell'implementazione dell'ottimizzatore impiegato nell'ambito del progetto ePolicy per fornire supporto alle decisioni per lo sviluppo del piano energetico regionale.\\*
+Passeremo ora ad occuparci dell'implementazione dell'ottimizzatore impiegato nell'ambito del progetto ePolicy per fornire supporto alle decisioni per lo sviluppo del piano energetico regionale.
+
 In Figura~\ref{ioDSS} è presentata una visione generale e di alto livello dei fattori che entrano in gioco durante la creazione la fase di pianificazione, come i costi e la capacità produttiva degli impianti, gli impatti economici e ambientali delle azioni intraprese, i vincoli di budget e gli obiettivi di produzione energetica, etc. (benché non siano oggetto di discussione in questo capitolo sono inclusi per completezza nella figura anche gli impatti sociali e le modalità di incentivazione, gestite rispettivamente dal componente di Opinion Mining e dal simulatore).
 
 \begin{figure}[h]
@@ -285,22 +289,113 @@ In Figura~\ref{ioDSS} è presentata una visione generale e di alto livello dei f
 \end{figure}
 
 \subsection[APPROCCIO A VINCOLI]{\nohyphens{PERCHÉ UN APPROCCIO BASATO SUI VINCOLI}}
-L'attività di pianificazione regionale è al momento svolta da esperti umani che costruiscono un singolo piano, considerando gli obbiettivi strategici regionali che seguono le direttive nazionali ed europee. Dopo che il piano è stato ideato l'ente per la protezione ambientale è chiamata a valutarne la sostenibilità dal punto di vista ambientale. In genere non c'è nessuna retroazione, la valutazione può solamente stabilire se il piano sia ecocompatibile o meno ma senza poterlo per modificare; in rari casi può proporre alcune misure correttive, le quali possono però solamente mitigare gli effetti negativi di decisioni di pianificazione sbagliate.\\* 
+L'attività di pianificazione regionale è al momento svolta da esperti umani che costruiscono un singolo piano, considerando gli obbiettivi strategici regionali che seguono le direttive nazionali ed europee. Dopo che il piano è stato ideato l'ente per la protezione ambientale è chiamata a valutarne la sostenibilità dal punto di vista ambientale. In genere non c'è nessuna retroazione, la valutazione può solamente stabilire se il piano sia ecocompatibile o meno ma senza poterlo per modificare; in rari casi può proporre alcune misure correttive, le quali possono però solamente mitigare gli effetti negativi di decisioni di pianificazione sbagliate.
+
 Oltre a ciò, sebbene le normative prevedano che una valutazione ambientale significativa debba confrontare due o più opzioni (piani differenti), questo è fatto raramente in Europa poiché la valutazione è tipicamente fatta a mano e richiede un lungo lavoro; anche nei pochi casi in cui due opzioni vengano considerate, solitamente una è il piano e l'altra è l'assenza di pianificazione.\\*\\*
-La modellazione a vincoli supera le limitazioni dei processi manuali per diversi motivi. In primo luogo, essa fornisce uno strumento che automaticamente prende decisioni di pianificazione, tenendo in considerazione il budget allocato sulla base sia del piano operativo regionale che delle linee guida nazionali/europee.\\*
-Secondo, gli aspetti ambientali sono considerati durante la costruzione del piano, evitando di procedere per tentativi ed errori.\\*
+La modellazione a vincoli supera le limitazioni dei processi manuali per diversi motivi. In primo luogo, essa fornisce uno strumento che automaticamente prende decisioni di pianificazione, tenendo in considerazione il budget allocato sulla base sia del piano operativo regionale che delle linee guida nazionali/europee.
+
+Secondo, gli aspetti ambientali sono considerati durante la costruzione del piano, evitando di procedere per tentativi ed errori.
+
 Come terza ragione, il ragionamento con i vincoli è uno strumento potente nelle mani di un decisore politico in quanto la generazione di scenari alternativi è estremamente semplificata ed il confronto e valutazione seguono naturalmente. Nel caso in cui i risultati non soddisfino coloro che stabiliscono le politiche o gli esperti ambientali gli aggiustamenti possono essere introdotti molto facilmente all'interno del modello; ad esempio, nel settore della pianificazione energetica regionale, cambiando i limiti della quantità di energia che ogni fonte può fornire, possiamo correggere il piano considerando l'andamento del mercato e anche la potenziale ricettività della regione.
 
 \subsection{MODELLO CLP}
-%D.3 2
+Il Piano Regionale è il risultato della principale attività di definizione delle politiche in cui le regioni europee siano coinvolte. Ogni regione dispone di un budget distribuito sulla base del Programma Operativo, il quale specifica le priorità di ogni regione per l'assegnamento dei fondi (nel campo dell'energia una esempio di priorità è l'incremento della produzione da fonti rinnovabili).
 
-\myparagraph{VALUTAZIONE IMPATTI}
-%D.3 6.1 6.2 6.3
+Partendo dalla struttura per il sistema di supporto alle decisioni descritta nel primo capitolo, ci accingiamo ora a illustrare il il modello per l'ottimizzazione globale ideato per prendere in considerazione la prospettiva regionale. 
+\\* \\*
+Nella fase di pianificazione occorre decidere quali attività debbano essere svolte, distinguendo a grandi linee sei tipologie: infrastrutture e impianti, edifici e trasformazioni sul territorio, estrazione delle risorse, modifiche del regime idrico, trasformazioni industriali, gestione dell'ambiente. Per ogni attività dovrebbe essere inoltre deciso un ordine di grandezza che descriva in quale quantità un'attività venga portata a termine.
 
-\myparagraph{PIANIFICAZIONE}
-%gavanelliEtAl 1.3 
+Abbiamo quindi $N_a$ attività rappresentate con $a_i (i=1..N_a)$ e distinguiamo tra \emph{attività primarie} e \emph{attività secondarie}, nel caso del piano energetico esse sono rispettivamente quelle che producono direttamente energia e quelle che supportano le prime fornendo le necessarie infrastrutture. Possiamo quindi immaginare i seguenti tipi di input, collegati alla nozione di attività:
+\begin{enumerate}
+\item lista delle \emph{attività primarie} (impianti a biomassa, impianti fotovoltaici, impianti eolici, etc.) e \emph{quantità minime/massime} per ogni attività (es., aumento del 10\% la produzione di energia fotovoltaica);
+\item \emph{funzione di costo}: consideriamo un vettore di costi $C=(c_1,...,c_{N_a})$ dove ogni elemento è associato ad una specifica attività e rappresenta il costo unitario della stessa - sostanzialmente si tratta di determinare il costo per MWatt di energia prodotta in base all'attività\footnote{Il costo di un impianto dipende principalmente dalla potenza installata: il costo di installazione di un impianto solare dipende dalla dimensione in metri quadri dei pannelli installati, da cui deriva di conseguenza una certa potenza massima. Notare come il costo considerato sia il costo totale per il sistema regionale, che non è lo stesso costo sostenuto dai contribuenti della regione Emilia-Romagna, poiché la regione può attuare le proprie politiche in diversi modi, convincendo i privati a investire nella produzione energetica};
+\item \emph{funzione di efficienza}: tramite un vettore per le produzioni energetiche $Out=(out_1,...,out_{N_a})$ determiniamo l'energia generata per ogni MWatt di potenza installata di ogni attività - questa funzione dipende dalla località geografica (ad esempio nell'Italia meridionale per via del clima soleggiato l'efficienza del fotovoltaico è maggiore rispetto alle aree settentrionali); 
+\item \emph{la matrice delle attività primarie-secondarie} $D$, usata per stabilire quali attività secondarie e in quale misura sono necessarie per realizzare un determinato ammontare di attività primaria, ovvero una matrice di dipendenze tra le attività. 
 
-\subsection{IL PIANO REGIONALE 2011-2013}
+\end{enumerate}
+Ogni regione ha i propri obiettivi, alcuni intrinsecamente determinati dalla regione stessa altri conseguenze di decisioni politiche.
+\begin{enumerate}
+\item \emph{produzione richiesta/attesa}: in un piano energetico la produzione energetica attesa all'interno  dei confini regionali è basata sulle stime dei consumi energetici;
+\item \emph{vincoli di budget}: ogni regione dispone di una certa quantità di fondi da destinare a incentivi con i quali indirizzare il mercato dell'energia nella direzione desiderata - dato un budget disponibile per il piano, questo è vincolato in termini di costo totale (questo vincolo può essere applicato sia al piano complessivo sia a parti di esso);
+\item \emph{obiettivi politici}: sono forniti dai decisori politici, come ad esempio la priorità di conformarsi alla linea guida europea come l'iniziativa 20-20-20\footnote{L'iniziativa 20-20-20 mira a raggiungere tre obiettivi entro il 2020: ridurre del 20\% l'emissione di gas serra, produrre il 20\% dell'energia consumata attraverso fonti rinnovabili e migliorare del 20\% l'efficienza energetica.}, e possono essere traslati in vincoli che specificano la minima quantità di energia prodotta da fonti rinnovabili.
+\end{enumerate} 
+
+Infine occorre tenere in considerazione gli input relativi alla configurazione geofisica della regione e alla buona norma.
+\begin{enumerate}
+\item \emph{diversificazione delle fonti energetiche}: l'allocazione dei fondi non dovrebbe essere diretta verso un'unica fonte di energia ma coprire diverse risorse energetiche. Questo requisito è considerato come buona norma e supportato da numerose considerazioni, per esempio per assicurare ``robustezza`` nei confronti di fluttuazioni di prezzo e disponibilità delle varie risorse - queste indicazioni possono essere implementate sotto forma di vincoli che impongano che percentuali minime della produzione totale siano soddisfatte da ogni fonte energetica;
+\item \emph{limiti sociali e geografici}: ogni regione ha le sue caratteristiche geofisiche (ad esempio, l'essere o meno ventose), che possono porre limiti alla quantità massima di energia generate da determinate risorse - le centrali idroelettriche possono essere costruite con un'attenta valutazione degli impatti ambientali che possono avere sul territorio, come, ovviamente, l'allagamento di vaste aree.
+\end{enumerate} 
+
+Un altro aspetto che i decisori politici devono considerare sono le ripercussioni su ambiente, società ed economia. Come già descritto nel primo capitolo uno degli strumenti per effettuare questa valutazione in Emilia-Romagna prevede l'impiego di matrici coassiali che definiscono le relazioni tra le attività primarie di un piano e gli impatti ambientali (o pressioni) positivi o negativi e in che modo tali attività influiscano sui recettori ambientali (anche essi introdotti in precedenza)\footnote{La matrice correntemente utilizzata per la valutazione ambientale contiene 93 attività, 29 impatti negativi, 19 positivi e 23 recettori e valuta 11 tipi di piano. Queste matrici prendono in esame anche in che modo le attività secondarie richieste impattino sui recettori}. 
+\\*\\*
+Lo scopo finale di un piano energetico può essere definito, più o meno, come il tentativo di guidare il mercato libero della produzione di energia verso la copertura del fabbisogno energetico regionale e il soddisfacimento di alcuni obiettivi politici. Per questo fine un piano consiste in un insieme di \emph{decisioni} riguardanti i seguenti aspetti:
+\begin{enumerate}
+\item quali tipi\footnote{Per la precisione i tipi di energia sono influenzati anche da alcuni obiettivi politici, presi come ingressi} (attività) di produzione energetica sia necessario impiegare e in che ordine di grandezza; 
+\item quanti fondi debbano essere assegnati per spingere il mercato versa la produzione desiderata (attraverso l'implementazione di meccanismi incentivanti). Questa decisione può essere separata in due sotto-problemi:
+	\begin{enumerate}
+	\item la quantità di finanziamenti da allocare per promuovere ogni sistema di generazione di energia diverso, sotto forma di incentivi;
+	\item i meccanismi per assegnare tali incentivi. 
+	\end{enumerate}
+\end{enumerate}
+
+\subsection{IMPLEMENTAZIONE MODELLO}
+Illustreremo ora come sono stati modellate le problematiche introdotte precedentemente all'interno del paradigma della Programmazione Logica a Vincoli, in particolare sul dominio dei numeri reali.
+
+\myparagraph{MATRICI COASSIALI IN CLP(R)}
+%D.3 6.2 
+Le matrici coassiali possono essere interpretate facilmente come modelli di programmazione lineare. Più in dettaglio, rappresentiamo le attività e i loro ordini di grandezza attraverso il vettore $A = (a_1,...,a_{N_a})$, dunque gli impatti ambientali causati dall'attività $i$ possono essere stimati col sistema di equazioni lineari:
+\begin{equation}
+\label{eq:impattiAtt}
+	\forall j \in \{1,...,N_p\}  \quad p_j = m_j^i a_i
+\end{equation}
+Quando consideriamo un intero piano regionale, sommiamo i contributi di tutti le attività e otteniamo la stima dell'influenza esercitata su ogni impatto/pressione:
+\begin{equation}
+\label{eq:impattiAttTot}
+	\forall j \in \{1,...,N_p\}  \quad  p_j = \sum_{i=1}^{N_a} m_j^i a_i
+\end{equation}
+Allo stesso modo, dato il vettore delle pressioni ambientali $P = (p_1,...,p_{N_p})$, è possibile calcolare l'influenza sul recettore ambientale $r_i$ per mezzo della matrice $N$, che collega pressioni e recettori:
+\begin{equation}
+\label{eq:pressRec}
+	\forall j \in \{1,...,N_r\}  \quad  r_j = \sum_{i=1}^{N_p} n_j^i p_i
+\end{equation}
+
+L'obiettivo finale della valutazione di una politica ambientale è stimare l'impronta ambientale di un piano. Poiché il piano è definito da un insieme di valori che rappresentano l'ordine di grandezza delle attività previste, è possibile calcolare l'impronta ambientale $R = (r_1,...,r_{N_r})$ semplicemente applicando le equazioni (\ref{eq:impattiAttTot}) e (\ref{eq:pressRec}).
+Un altro importante interrogativo che potrebbe interessare l'utente del sistema di supporto alle decisioni è sapere quali attività, tra quelle possibili, abbiano un maggiore impatto sul recettore $r_i$. Dal momento CLP(R) prevede di poter massimizzare o minimizzare una funzione obiettivo, il modello diventa:
+\begin{equation}
+\label{eq:impactOnGivenRec}
+	\begin{aligned}
+		max(r_i) \\
+		s.t.  \quad (\ref{eq:impattiAttTot}) (\ref{eq:pressRec}) \\
+		\sum_j a_j = 1 \\
+		\forall j, a_j \mbox{ è intero} 
+	\end{aligned}
+\end{equation}
+
+Infine, se ci sono leggi che impongono limiti per alcuni recettori (ad esempio sulla $CO_2$), è immediato imporre tali restrizioni sui recettori (es. $r_{CO_2} \leq limite_{CO_2}$), scoprendo quindi se un'attività può essere portata a termine o è necessario intraprendere misure correttive (ad esempio stimolare la crescita di nuove foreste per il $r_{CO_2}$).
+\\* \\*
+Nel casi in cui più attività alternative possano contribuire a soddisfare gli stessi bisogni, la regolamentazione prevede che le alternative debbano essere prese in esame e confrontate. Ad esempio, la necessità di energia elettrica aggiuntiva è soddisfatta dalla costruzione di una nuova centrale; in ogni caso, è possibile scegliere il tipo di impianto da realizzare in base alle condizioni ambientali. In un'area dall'elevato inquinamento atmosferico la costruzione di una centrale termoelettrica rischierebbe di aumentare il livello di inquinamento oltre la soglia imposta dalla legge, quindi sarebbe necessario progettare un tipo di impianto differente, ad esempio uno a energia solare. D'altro canto, un impianto solare potrebbe rivelarsi molto costoso e precludere dunque la realizzazione di altre attività indispensabili nell'aerea (costruire scuole, ospedali, etc.). In una simile circostanza il responsabile del piano potrebbe imporre un vincolo che afferma che sono necessari almeno $k$ MW di energia elettrica:
+\begin{equation}
+\label{eq:kEner}
+	\sum_{i \in ImpiantiEnergetici} a_i \geq k
+\end{equation}
+(dove $ImpiantiEnergetici$ è l'insieme degli indici del vettore $A$ corrispondenti agli impianti che producono energia elettrica) e poi ottimizzare per uno dei recettori, es. $r_{CO_2}$, o qualche somma pesata dei ricettori d'interesse. O ancora, sarebbe possibile chiedere al DSS quale sia la massima produzione energetica possibile nella regione senza violare il limiti imposti dalla legge:  
+\begin{equation}
+\label{eq:maxOutLimLaw}
+	\begin{aligned}
+		max \sum_{{i \in ImpiantiEnergetici}}  a_i\\
+		s.t. \quad (\ref{eq:impattiAttTot}) (\ref{eq:pressRec}) \\
+		\forall i \in \{ 1,...,N_r \} \quad r_i \leq limite_i
+	\end{aligned}
+\end{equation}
+In questo modo è possibile trovare il massimo numero di MW che possono essere prodotti e anche l'energia elettrica generata da ogni impianto. Il risolutore del problema CLP può inoltre trovare una soluzione che imponga l'esecuzione di attività di compensazione, come suggerito in precedenza.
+
+\myparagraph{ANALISI DELLA SENSIBILITÀ}
+%D.3 6.3
+
+\myparagraph{PIANIFICAZIONE CON CLP(R)}
+%gavanelliEtAl 1.3 D.3 8
+
+\section{IL PIANO REGIONALE 2011-2013}
 %gavanelliEtAl 1.4
 
 \subsection{VALORE AGGIUNTO DEL CLP}
