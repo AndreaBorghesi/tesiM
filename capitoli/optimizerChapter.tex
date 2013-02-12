@@ -96,15 +96,15 @@ In questo capitolo introdurremo molto brevemente la programmazione logica a vinc
 
 \section[CLP]{\nohyphens{PROGRAMMAZIONE LOGICA A VINCOLI}}
 Come abbiamo già ampiamente spiegato in precedenza il problema della creazione di un piano regionale può essere considerato come un problema caratterizzato da un insieme di vincoli e una funzione obiettivo. Nell'ambito dell'Intelligenza Artificiale i problemi per cui è richiesto soddisfare un insieme di vincoli sono definiti come \emph{Problemi di Soddisfacimento di Vincoli} (in inglese Constraint Satisfaction Problem, da cui l'acronimo \emph{CSP}). Un CSP è definito da una terna $<X,D,C>$, dove $X$ è un insieme di variabili $X=\{X_1,X_2...X_n\}$, $D$ è un dominio discreto per ogni variabile $D=\{D_1,D_2...D_n\}$ e $C$ è l'insieme di vincoli - un vincolo è una relazione tra variabili che definisce un sottoinsieme del prodotto cartesiano dei domini $D_1 \times D_2 \times ... \times D_n$; con queste premesse un la soluzione di un problema di soddisfacimento di vincoli è data da un assegnamento di valori alle variabili consistente con i vincoli \cite{cspFoundations}. Analogamente, un problema di ottimizzazione con vincoli (Constraint Optimization Problem, \emph{COP}) è definito da $<X,D,C,f>$, cioè un CSP più una \emph{funzione obiettivo} $f(X_1,X_2...X_n)$, la cui soluzione è un assegnamento di valori alle variabili compatibile con i vincoli del problema che ottimizza la funzione obiettivo. Le metodologie risolutive impiegate per risolvere problemi a vincoli attingono in buona parte alle tecniche di Ricerca Operativa e Intelligenza Artificiale, in particolare noi considereremo la \emph{Programmazione Logica a Vincoli}.\\*\\*
-La programmazione logica a vincoli \cite{clpSurvey} (in inglese \emph{Constraint Logic Programming} da cui CLP) è una classe di linguaggi di programmazione che estendono la classica Programmazione Logica - il paradigma di programmazione basato sulla logica del primo ordine implementato da linguaggi come ad esempio Prolog \cite{Colmerauer,Kowalski,clocksin2003programming}, sviluppato nei primi anni settanta e ampiamente diffuso ancora oggi. Alle variabili possono essere assegnati sia termini (i tipi di dato e le strutture riconosciute in Prolog) sia valori interpretati, appartenenti a una determinata \emph{classe}, un parametro caratteristico dello specifico linguaggio CLP; per esempio è possibile avere CLP(\emph{R}) \cite{clpR}, in grado di operare sui valori reali, oppure CLP(FD), in cui le variabili appartengono a domini finiti. All'interno di una classe sono definite le funzioni interpretate (che possono essere nei domini numerici i soliti operatori $+$, $-$, $\times$, etc.) e i predicati (ad esempio, $<$, $\neq$, $\geq$, etc.), che sono chiamati \emph{vincoli}. La semantica dichiarativa consente l'interpretazione intuitiva per i vincoli e i termini, relativamente al dominio considerato: ad esempio, $1.3+2<5$ è \emph{vero} in CLP(\emph{R}); ciò è un'estensione molto significativa rispetto alla programmazione logica standard in quanto i linguaggi logici operano in domini non interpretati (''Universo di Herbrand'') e quindi le relazioni tra variabili possono essere solamente verificate a posteriori e non trattate come vincoli veri propri. La semantica operativa somiglia a quella di Prolog per atomi costruiti sui predicati usuali - quelli definiti da un insieme di clausole - ma conserva quelli da interpretare, i vincoli, in una struttura dati speciale, chiamata \emph{constraint store}; essa è in seguito interpretato e modificato da un meccanismo esterno, il \emph{constraint solver}, il risolutore dei vincoli. Il risolutore è in grado di controllare se una combinazione di vincoli è soddisfacibile o meno, e può modificare lo store, sperabilmente per semplificarne lo stato. Generalmente il solver non effettua una propagazione \emph{completa}: se una valutazione ha come risultati \emph{falso}, allora sicuramente la soluzione è impossibile, anche se in certi casi può capitare che il risolutore non rilevi l'impossibilità di un problema anche se non esistono soluzioni.\\*\\*  
-CLP(\emph{R}) è una classe di programmazione logica a vincoli in cui le variabili appartengo all'insieme dei numeri reali, i vincoli disponibili sono uguaglianze e disuguaglianze lineari e generalmente il risolutore è implementato tramite l'algoritmo del simplesso, molto veloce e completo per (dis)equazioni lineari (cioè è sempre in grado di restituire \emph{vero} o \emph{falso}). In alcuni sistemi, grazie alla disponibilità di risolutori efficienti per la programmazione lineare intera, certi vincoli non lineari sono accettati nel linguaggio, in particolare è possibile imporre che certe variabili assumano esclusivamente valori interi; in casi come questo la complessità del problema passa da P a NP-hard e il risolutore deve spesso ricorrere a tecniche di branch-and-bound. Ad ogni modo, l'utente può specificare anche una funzione obiettivo, un termine lineare che dovrebbe essere massimizzato o minimizzato garantendo al tempo stesso che tutti vincoli siano soddisfatti.\\*\\*
+La programmazione logica a vincoli \cite{clpSurvey} (in inglese \emph{Constraint Logic Programming} da cui CLP) è una classe di linguaggi di programmazione che estendono la classica Programmazione Logica - il paradigma di programmazione basato sulla logica del primo ordine implementato da linguaggi come ad esempio Prolog \cite{Colmerauer,Kowalski,clocksin2003programming}, sviluppato nei primi anni settanta e ampiamente diffuso ancora oggi. Alle variabili possono essere assegnati sia termini (i tipi di dato e le strutture riconosciute in Prolog) sia valori interpretati, appartenenti a una determinata \emph{classe}, un parametro caratteristico dello specifico linguaggio CLP; per esempio è possibile avere CLP(\emph{R}) \cite{clpR}, in grado di operare sui valori reali, oppure CLP(FD), in cui le variabili appartengono a domini finiti. All'interno di una classe sono definite le funzioni interpretate (che possono essere nei domini numerici i soliti operatori $+$, $-$, $\times$, etc.) e i predicati (ad esempio, $<$, $\neq$, $\geq$, etc.), che sono chiamati \emph{vincoli}. La semantica dichiarativa consente l'interpretazione intuitiva per i vincoli e i termini, relativamente al dominio considerato: ad esempio, $1.3+2<5$ è \emph{vero} in CLP(\emph{R}); ciò è un'estensione molto significativa rispetto alla programmazione logica standard in quanto i linguaggi logici operano in domini non interpretati (``Universo di Herbrand'') e quindi le relazioni tra variabili possono essere solamente verificate a posteriori e non trattate come vincoli veri propri. La semantica operativa somiglia a quella di Prolog per atomi costruiti sui predicati usuali - quelli definiti da un insieme di clausole - ma conserva quelli da interpretare, i vincoli, in una struttura dati speciale, chiamata \emph{constraint store}; essa è in seguito interpretato e modificato da un meccanismo esterno, il \emph{constraint solver}, il risolutore dei vincoli. Il risolutore è in grado di controllare se una combinazione di vincoli è soddisfacibile o meno, e può modificare lo store, sperabilmente per semplificarne lo stato. Generalmente il solver non effettua una propagazione \emph{completa}: se una valutazione ha come risultati \emph{falso}, allora sicuramente la soluzione è impossibile, anche se in certi casi può capitare che il risolutore non rilevi l'impossibilità di un problema anche se non esistono soluzioni.\\*\\*  
+CLP(\emph{R}) è una classe di programmazione logica a vincoli in cui le variabili appartengo all'insieme dei numeri reali, i vincoli disponibili sono uguaglianze e disuguaglianze lineari e generalmente il risolutore è implementato tramite l'algoritmo del simplesso \cite{dantzig51}, molto veloce e completo per (dis)equazioni lineari (cioè è sempre in grado di restituire \emph{vero} o \emph{falso}). In alcuni sistemi, grazie alla disponibilità di risolutori efficienti per la programmazione lineare intera, certi vincoli non lineari sono accettati nel linguaggio, in particolare è possibile imporre che certe variabili assumano esclusivamente valori interi; in casi come questo la complessità del problema passa da P a NP-hard e il risolutore deve spesso ricorrere a tecniche di branch-and-bound. Ad ogni modo, l'utente può specificare anche una funzione obiettivo, un termine lineare che dovrebbe essere massimizzato o minimizzato garantendo al tempo stesso che tutti vincoli siano soddisfatti.
 
 
 \section{STRUMENTI}
 Al giorno d'oggi esistono numerose implementazioni di CLP(\emph{R}) \cite{inclpR} e diverse versioni di Prolog dispongono di una propria libreria per CLP(\emph{R}). Per il progetto ePolicy si è scelto di adottare il software open source  ECL$^i$PS$^e$ \cite{clpEclipse,fromLPtoCLPeclipse}.
 
 \subsection{ECL$^i$PS$^e$}
-ECL$^i$PS$^e$ è un sistema software per lo sviluppo di applicazioni di programmazione a vincoli e indicata per lo studio di aspetti relativi alla risoluzione di problemi combinatori, come appunto la programmazione vincolata, modellazione di problemi, programmazione matematica, tecniche di ricerca di soluzioni,... Al suo interno sono contenuti librerie per risolutori a vincoli, un linguaggio di alto livello (derivato da Prolog), interfacce per risolutori esterni e altre funzionalità. In Figura~\ref{eclipseUI} mostriamo come si presenta l'interfaccia utente di ECL$^i$PS$^e$.
+ECL$^i$PS$^e$ è un sistema software per lo sviluppo di applicazioni di programmazione a vincoli e indicata per lo studio di aspetti relativi alla risoluzione di problemi combinatori, come appunto la programmazione vincolata, modellazione di problemi, programmazione matematica, tecniche di ricerca di soluzioni, etc. Al suo interno sono contenuti librerie per risolutori a vincoli, un linguaggio di alto livello (derivato da Prolog), interfacce per risolutori esterni e altre funzionalità. In Figura~\ref{eclipseUI} mostriamo come si presenta l'interfaccia utente di ECL$^i$PS$^e$.
 
 \begin{figure}[h]
 	\centering
@@ -114,7 +114,7 @@ ECL$^i$PS$^e$ è un sistema software per lo sviluppo di applicazioni di programm
 \end{figure}
 
 Tra le diverse librerie disponibili, ne esiste una denominata \emph{Eplex} \cite{eplex} che interfaccia ECL$^i$PS$^e$ a un risolutore lineare intero, il quale può essere sia uno strumento commerciale, come CPLEX o Xpress-MP, che open source. A default Eplex nasconde molti dei dettagli del risolutore, ma nondimeno, quando richiesto, l'utente può regolare diversi parametri per migliorare le prestazioni ed esaminare lo stato interno del solver. Nell'ambito del progetto ePolicy ci siamo serviti di questa libreria, insieme alle altre funzionalità offerte da ECL$^i$PS$^e$, per modellare e risolvere i problemi relativi alla pianificazione energetica regionale.
-\\*\\*
+
 Illustreremo ora due esempi di modellazione di problemi a vincoli sfruttando il linguaggio ECL$^i$PS$^e$ (nel primo caso considerando domini finiti e nel secondo valori reali, avvalendoci anche della libreria Eplex), anche per mostrare come possono essere strutturati i problemi di programmazione logica a vincoli; in questa trattazione supporremo noti i concetti elementari della programmazione logica (procedimenti risolutivi, definizioni di un termine, etc.), la cui discussione esula da questo lavoro.
 
 \myparagraph{ESEMPIO CLP(FD)}
@@ -311,7 +311,6 @@ Abbiamo quindi $N_a$ attività rappresentate con $a_i (i=1..N_a)$ e distinguiamo
 \item \emph{funzione di costo}: consideriamo un vettore di costi $C=(c_1,...,c_{N_a})$ dove ogni elemento è associato ad una specifica attività e rappresenta il costo unitario della stessa - sostanzialmente si tratta di determinare il costo per MWatt di energia prodotta in base all'attività\footnote{Il costo di un impianto dipende principalmente dalla potenza installata: il costo di installazione di un impianto solare dipende dalla dimensione in metri quadri dei pannelli installati, da cui deriva di conseguenza una certa potenza massima. Notare come il costo considerato sia il costo totale per il sistema regionale, che non è lo stesso costo sostenuto dai contribuenti della regione Emilia-Romagna, poiché la regione può attuare le proprie politiche in diversi modi, convincendo i privati a investire nella produzione energetica};
 \item \emph{funzione di efficienza}: tramite un vettore per le produzioni energetiche $Out=(out_1,...,out_{N_a})$ determiniamo l'energia generata per ogni MWatt di potenza installata di ogni attività - questa funzione dipende dalla località geografica (ad esempio nell'Italia meridionale per via del clima soleggiato l'efficienza del fotovoltaico è maggiore rispetto alle aree settentrionali); 
 \item \emph{la matrice delle attività primarie-secondarie} $D$, usata per stabilire quali attività secondarie e in quale misura sono necessarie per realizzare un determinato ammontare di attività primaria, ovvero una matrice di dipendenze tra le attività. 
-
 \end{enumerate}
 Ogni regione ha i propri obiettivi, alcuni intrinsecamente determinati dalla regione stessa altri conseguenze di decisioni politiche.
 \begin{enumerate}
@@ -322,7 +321,7 @@ Ogni regione ha i propri obiettivi, alcuni intrinsecamente determinati dalla reg
 
 Infine occorre tenere in considerazione gli input relativi alla configurazione geofisica della regione e alla buona norma.
 \begin{enumerate}
-\item \emph{diversificazione delle fonti energetiche}: l'allocazione dei fondi non dovrebbe essere diretta verso un'unica fonte di energia ma coprire diverse risorse energetiche. Questo requisito è considerato come buona norma e supportato da numerose considerazioni, per esempio per assicurare ``robustezza`` nei confronti di fluttuazioni di prezzo e disponibilità delle varie risorse - queste indicazioni possono essere implementate sotto forma di vincoli che impongano che percentuali minime della produzione totale siano soddisfatte da ogni fonte energetica;
+\item \emph{diversificazione delle fonti energetiche}: l'allocazione dei fondi non dovrebbe essere diretta verso un'unica fonte di energia ma coprire diverse risorse energetiche. Questo requisito è considerato come buona norma e supportato da numerose considerazioni, per esempio per assicurare ``robustezza'' nei confronti di fluttuazioni di prezzo e disponibilità delle varie risorse - queste indicazioni possono essere implementate sotto forma di vincoli che impongano che percentuali minime della produzione totale siano soddisfatte da ogni fonte energetica;
 \item \emph{limiti sociali e geografici}: ogni regione ha le sue caratteristiche geofisiche (ad esempio, l'essere o meno ventose), che possono porre limiti alla quantità massima di energia generate da determinate risorse - le centrali idroelettriche possono essere costruite con un'attenta valutazione degli impatti ambientali che possono avere sul territorio, come, ovviamente, l'allagamento di vaste aree.
 \end{enumerate} 
 
@@ -342,7 +341,6 @@ Lo scopo finale di un piano energetico può essere definito, più o meno, come i
 Illustreremo ora come sono stati modellate le problematiche introdotte precedentemente all'interno del paradigma della Programmazione Logica a Vincoli, in particolare sul dominio dei numeri reali.
 
 \myparagraph{MATRICI COASSIALI IN CLP(R)}
-%D.3 6.2 
 Le matrici coassiali possono essere interpretate facilmente come modelli di programmazione lineare. Più in dettaglio, rappresentiamo le attività e i loro ordini di grandezza attraverso il vettore $A = (a_1,...,a_{N_a})$, dunque gli impatti ambientali causati dall'attività $i$ possono essere stimati col sistema di equazioni lineari:
 \begin{equation}
 \label{eq:impattiAtt}
@@ -390,10 +388,67 @@ Nel casi in cui più attività alternative possano contribuire a soddisfare gli 
 In questo modo è possibile trovare il massimo numero di MW che possono essere prodotti e anche l'energia elettrica generata da ogni impianto. Il risolutore del problema CLP può inoltre trovare una soluzione che imponga l'esecuzione di attività di compensazione, come suggerito in precedenza.
 
 \myparagraph{ANALISI DELLA SENSIBILITÀ}
-%D.3 6.3
+L'algoritmo del simplesso (applicabile grazie alla linearità dei vincoli del modello) fornisce in modo efficiente - nel nostro modello il tempo di computazione si è rivelato trascurabile - il valore ottimo della funzione obiettivo, l'assegnamento ottimo dei valori alle variabili decisionali, e altre informazioni utili per i decisori politici. In particolare consente di ricavare i cosiddetti \emph{costi ridotti} e la \emph{soluzione duale}. Questi indicatori danno informazioni preziose sulla sensibilità della soluzione trovata nei confronti dei parametri del modello e consentono di fare un tipo di analisi molto interessante per gli utenti del DSS.
+
+La soluzione duale è un insieme di valori che corrispondono ai vincoli e può essere immaginata come la derivata della funzione obiettivo rispetto al lato destro dei vincoli (dall'inglese Right Hand Side, RHS). Ciò implica che attraverso la soluzione duale è immediato rendersi conto di quali siano i vincoli \emph{stretti}, ovvero quali modificherebbero il valore della funzione obiettivo se i coefficienti del lato destro cambiassero. Se ad esempio si cercasse di ottimizzare il numero $f_{MW}$ di MW di potenza elettrica con il vincolo $r_{CO_2} \leq limite_{CO_2}$ e il corrispondente valore duale $d_{CO_2}$ nella soluzione ottima fosse diverso da zero, questo significherebbe che:
+\begin{equation}
+\label{eq:sensAnal}
+	d_{CO_2} = \frac{\partial f_{MW}}{\partial limite_{CO_2}}
+\end{equation}
+In altri termini, il valore della variabile $d_{CO_2}$ risponde alla domanda: \emph{``Quale sarebbe il decremento della produzione energetica nel caso in cui il limite di $CO_2$ si abbassasse di un punto?''}. Questo è un punto molto importante poiché le leggi tendono a cambiare, in genere diventando più severe. 
+
+La stessa analisi potrebbe essere effettuata con il problema di ottimizzare alcuni recettori (o la loro somma pesata, dato un numero totale di impianti (o MW richiesti). In questo caso il valore duale associato ad un vincolo rappresenta quanto il recettore migliorerebbe se il vincolo fosse parzialmente rilassato (se il lato destro diventasse meno stringente). Ad esempio, supponiamo di ottimizzare le emissioni di ossidi di azoto ($NO_x$) e di avere un vincolo che imponga un limite superiore ($F$, es. in euro) al costo totale delle attività da portare a termine, dove il vettore $C$ specifica il costo di ogni attività: 
+\begin{equation}
+\label{eq:costoAtt}
+	\sum_{i=1}^{N_a} c_i a_i \leq F
+\end{equation}
+Dopo aver ottenuto la soluzione ottima, il responsabile del piano potrebbe chiedersi: \emph{``Supponendo ora di disporre di più fondi, se aggiungessi un euro quanto diminuirebbe l'emissione di $NO_x$?''}. La risposta sarebbe data dal valore duale $d_e$ del vincolo \ref{eq:costoAtt}.
 
 \myparagraph{PIANIFICAZIONE CON CLP(R)}
-%gavanelliEtAl 1.3 D.3 8
+
+Dopo aver visto come effettuare la valutazione ambientale secondo il paradigma della CLP(R), mostriamo ora come sia possibile integrare anche la fase di ideazione del piano regionale sfruttando le stesse metodologie di modellazione.
+\\*\\*
+Rappresentiamo nuovamente le attività tramite il vettore $A = (a_1,...,a_{N_a})$ e ad ognuna di esse associamo una variabile $G_i$ che ne descrive la grandezza; questa può essere rappresentata si in modo assoluto, come quantità di una data attività, che in modo relativo, come percentuale rispetto alla quantità esistente della stessa attività - in seguito faremo riferimento alla prima modalità.
+
+Occorre distinguere tra attività primarie e secondarie: $A^P$ è l'insieme degli indici delle prime, mentre $A^S$ è l'insieme degli indici delle seconde. Le dipendenze tra attività primarie e secondarie sono espresse dal vincolo:
+\begin{equation}
+\label{eq:primSec}
+	\forall j \in A^S  \quad  G_j = \sum_{i \in A^P} d_{ij} G_i
+\end{equation}
+Assegnato un valore $B_{Piano}$ al il budget disponibile a un determinato piano, si ha un equazione che limita il costo complessivo di un piano nel seguente modo:
+\begin{equation}
+\label{eq:costoTotPrimSec}
+	\sum_{i=1}^{N_a} G_i c_i \leq B_{Piano}
+\end{equation}  
+Inoltre, data la produzione energetica attesa del piano $o_{Piano}$, abbiamo un vincolo che garantisce di raggiungere lo scopo prefissato:
+\begin{equation}
+\label{eq:expOut}
+	\sum_{i=1}^{N_a} G_i o_i \geq o_{Piano}
+\end{equation}  
+Ad esempio in un piano energetico, il risultato desiderato potrebbe essere una maggiore disponibilità di energia in regione, così $o_{Piano}$ sarebbe l'incremento di energia elettrica (es. in MW) e $o_i$ sarebbe invece la produzione in MW di ogni attività $i$.
+
+Per quanto riguarda gli obiettivi esistono diverse possibilità suggerite dagli esperti del settore. Da una prospettiva economica si potrebbe decidere di minimizzare il costo complessivo del piano (il quale sarebbe comunque soggetto ai vincoli sulla disponibilità finanziaria), ma chiaramente in questo caso potrebbero essere preferite le risorse energetiche più economiche, a prescindere dai loro potenziali effetti negativi sull'ambiente (nuovamente, questi potrebbero ad ogni modo essere vincolati). D'altro canto, si potrebbe fissare il budget e massimizzare invece la produzione energetica, prendendo in considerazione le risorse più efficienti. O ancora, si potrebbe decidere di realizzare un piano \emph{verde} e tenere in considerazione i recettori ambientali, ad esempio massimizzando la qualità dell'aria, delle acque superficiali, etc. Ovviamente in casi come questo le decisioni prodotte dalla soluzione ottima prodotta dall'ottimizzatore possono essere meno intuitive e proprio in circostanze simili il modello proposto si dimostra utile, infatti la relazione tra le decisioni riguardanti le attività primarie e secondarie e le conseguenze ambientali sono estremamente complesse da calcolare manualmente. \`E oggetto di ricerca la possibilità di creare funzioni obiettivo ancora più complicate combinando gli aspetti accennati sopra.
+\\*\\*
+Un aspetto importante da non sottovalutare durante l'ideazione di un piano regionale è la diversificazione delle fonti energetiche, cioè allocare le risorse economiche in fonti di energia diverse, sia rinnovabili che non rinnovabili, per prevenire fluttuazioni di prezzo e disponibilità. Per questo motivo è presente un vincolo sulla frazione minima $F_i$ dell'energia totale prodotta per ogni fonte $i$: 
+\begin{equation}
+\label{eq:fracEner}
+	\forall i \in A^P \quad G_i o_i \geq F_i T^0
+\end{equation}  
+dove la produzione totale è ottenuta come: 
+\begin{equation}
+\label{eq:prodTot}
+	T^0 = \sum_{j \in A^P} G_j o_j 
+\end{equation}  
+Oltre a ciò dobbiamo considerare le caratteristiche geofisiche della regione, come ad esempio il già citato caso delle centrali idroelettriche che possono essere costruite solamente prestando molta attenzione alle conseguenze sul territorio. Possiamo quindi imporre dei vincoli che limitino la massima energia $Max_i$ che può essere prodotta da una fonte energetica $i$:
+\begin{equation}
+\label{eq:maxEner}
+	\forall i \in A^P \quad G_i o_i \leq Max_i
+\end{equation}  
+Infine, le priorità della regione dovrebbero essere conformi alle direttive e linee guida europee, come l'iniziativa 20-20-20. Per questa ragione, possono essere imposti vincoli sulla minima quantità di energia $Min_{rin}$ prodotta attraverso risorse rinnovabili, definendo $A^P_{rin}$ l'insieme di attività relative, ovvero:
+\begin{equation}
+\label{eq:minEnerRen}
+	\sum_{i \in A^P_{rin}} G_i o_i \geq  Min_{rin}
+\end{equation}  
 
 \section{IL PIANO REGIONALE 2011-2013}
 %gavanelliEtAl 1.4
