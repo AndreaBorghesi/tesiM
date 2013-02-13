@@ -308,7 +308,7 @@ Nella fase di pianificazione occorre decidere quali attività debbano essere svo
 Abbiamo quindi $N_a$ attività rappresentate con $a_i (i=1..N_a)$ e distinguiamo tra \emph{attività primarie} e \emph{attività secondarie}, nel caso del piano energetico esse sono rispettivamente quelle che producono direttamente energia e quelle che supportano le prime fornendo le necessarie infrastrutture. Possiamo quindi immaginare i seguenti tipi di input, collegati alla nozione di attività:
 \begin{enumerate}
 \item lista delle \emph{attività primarie} (impianti a biomassa, impianti fotovoltaici, impianti eolici, etc.) e \emph{quantità minime/massime} per ogni attività (es., aumento del 10\% la produzione di energia fotovoltaica);
-\item \emph{funzione di costo}: consideriamo un vettore di costi $C=(c_1,...,c_{N_a})$ dove ogni elemento è associato ad una specifica attività e rappresenta il costo unitario della stessa - sostanzialmente si tratta di determinare il costo per MWatt di energia prodotta in base all'attività\footnote{Il costo di un impianto dipende principalmente dalla potenza installata: il costo di installazione di un impianto solare dipende dalla dimensione in metri quadri dei pannelli installati, da cui deriva di conseguenza una certa potenza massima. Notare come il costo considerato sia il costo totale per il sistema regionale, che non è lo stesso costo sostenuto dai contribuenti della regione Emilia-Romagna, poiché la regione può attuare le proprie politiche in diversi modi, convincendo i privati a investire nella produzione energetica};
+\item \emph{funzione di costo}: consideriamo un vettore di costi $C=(c_1,...,c_{N_a})$ dove ogni elemento è associato ad una specifica attività e rappresenta il costo unitario della stessa - sostanzialmente si tratta di determinare il costo per MWatt di energia prodotta in base all'attività\footnote{Il costo di un impianto dipende principalmente dalla potenza installata: il costo di installazione di un impianto solare dipende dalla dimensione in metri quadri dei pannelli installati, da cui deriva di conseguenza una certa potenza massima. Notare come il costo considerato sia il costo totale per il sistema regionale, che non è lo stesso costo sostenuto dai contribuenti della regione Emilia-Romagna, poiché la regione può attuare le proprie politiche in diversi modi, convincendo i privati a investire nella produzione energetica. Ciò può essere fatto tramite una leva finanziaria oppure garantendo condizioni favorevoli (economiche i di altro tipo) agli investitori. Alcune fonti energetiche sono economicamente redditizie e quindi non richiedono sussidi da parte della regione. Ad esempio, le centrali a biomassa in Italia al giorno d'oggi sono economicamente vantaggiose per gli investitori, quindi i privati stanno proponendo diversi progetti per la costruzione di tali impianti; d'altra parte le biomasse producono anche inquinanti, non sono sempre sostenibili (vedere \cite{Cattafi} per una discussione ulteriore), quindi è probabile la nascita di comitati locali contrari alla costruzione di nuove centrali. Per queste ragioni, c'è un limite al numero di licenze che la regione concede agli investitori privati per la realizzazione di impianti a biomassa};
 \item \emph{funzione di efficienza}: tramite un vettore per le produzioni energetiche $Out=(out_1,...,out_{N_a})$ determiniamo l'energia generata per ogni MWatt di potenza installata di ogni attività - questa funzione dipende dalla località geografica (ad esempio nell'Italia meridionale per via del clima soleggiato l'efficienza del fotovoltaico è maggiore rispetto alle aree settentrionali); 
 \item \emph{la matrice delle attività primarie-secondarie} $D$, usata per stabilire quali attività secondarie e in quale misura sono necessarie per realizzare un determinato ammontare di attività primaria, ovvero una matrice di dipendenze tra le attività. 
 \end{enumerate}
@@ -452,12 +452,132 @@ Infine, le priorità della regione dovrebbero essere conformi alle direttive e l
 
 \section{IL PIANO REGIONALE 2011-2013}
 %gavanelliEtAl 1.4
+Il modello a vincoli descritto in precedenza in questo capitolo è stato impiegato per la pianificazione del piano energetico 2011-2013 della regione Emilia-Romagna. Questo piano aveva come scopo quello di aprire la strada per il raggiungimento dell'obiettivo del 20-20-20, in particolare ottenere il 20\% dell'energia prodotta da fonti rinnovabili entro il 2020. Questa valore non si riferisce esclusivamente all'energia elettrica, ma prende in considerazione l'intero bilancio energetico della regione, includendo l'energia termica e i trasporti. 
 
-\subsection{VALORE AGGIUNTO DEL CLP}
-%gavanelliEtAl 1.5
+Il settore dei trasporti può usare energia rinnovabile tramite l'uso di combustibili rinnovabili, come il biogas (metano prodotto dalla fermentazione di vegetali o scarti animali) o carburanti ottenuti da varie coltivazioni. L'energia termica può essere usata ad esempio per il riscaldamento delle abitazioni e in questo caso le fonti rinnovabili includono pannelli solari termici (i quali producono acqua calda per usi domestici), pompe geotermiche (impiegate per riscaldare o rinfrescare le case), impianti a biomassa (che producono acqua calda usata per riscaldare edifici vicini nei periodi invernali). 
 
+Nel proseguo ci concentreremo solamente sull'energia elettrica e gli impianti considerati per la produzione di energia da fonti rinnovabili sono centrali idroelettriche, impianti fotovoltaici, impianti solari termodinamici, generatori eolici e, nuovamente, centrali a biomassa. Per ogni fonte energetica il piano dovrebbe fornire:
+\begin{itemize}
+\item la potenza installata in MW;
+\item l'energia totale prodotta in un anno, in kTOE (TOE è una acronimo per Tonnes of Oil Equivalent, tonnellate di petrolio equivalenti);
+\item il costo totale in M\euro.
+\end{itemize} 
+Il rapporto tra la potenza installata e l'energia totale prodotta è principalmente influenzato dalla disponibilità della risorsa: mentre una centrale a biomassa può produrre energia continuamente (almeno teoricamente), il sole è disponibile solo durante il giorno e il vento solo occasionalmente; per fonti energetiche non affidabili viene considerata una media annuale. 
 
-%  ?gavanelliEtAl 1.6  D.3 10
+Il costo dell'impianto dipende invece in maniera più significativa dalla potenza installata: un impianto solare ha un costo d'istallazione che dipende dalla superficie in metri quadri dei pannelli installati, i quali in cambio producono una certa potenza massima (potenza di picco).
+
+I tecnici della regione hanno stimato (considerando i consumi di energia attuali, le previsioni di crescita, il risparmio energetico previsto) le richieste di energia complessiva per il 2020, di cui il 20\% dovrà essere generato a partire da fonti rinnovabili. Per questa quantità gli esperti hanno anche proposto la percentuale da ottenere con il piano 2011-2013, ovvero circa 177kTOE di energia elettrica e 296kTOE di energia termica. A partire da questi dati hanno poi redatto un piano per le energie elettrica e termica.
+
+Abbiamo impiegato il modello a vincoli presentato precedentemente considerando inizialmente casi ``estremi'', nei quali venisse usata un'unica fonte energetica. Ad esempio se imponiamo di costruire solamente impianti a biomassa il modello fornisce i risultati presentati in Tabella~\ref{tab:energyPlanBiomassOnly}. Come detto in precedenza, oltre al piano viene fornita anche la valutazione ambientale.
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{ p {0.3\textwidth} | p {0.1\textwidth} p {0.1\textwidth}  p {0.1\textwidth} c }
+	\hline \hline
+	Impianti Elettrici & Potenza 2010 (MW) & Potenza 2013 (MW) & Energia 2013 (kTOE) & Investimenti (M\euro)\\
+	\hline
+	Idroelettrico & 300 & 300 & 67.06 & 0\\
+
+	Fotovoltaico & 230 & 230 & 23.73 & 0\\
+	
+	Solare termodinamico & 0 & 0 & 0 & 0\\
+
+	Eolico & 20 & 20 & 2.58 & 0\\
+
+	Biomassa & 430 & 724.47 & 436.13 & 1030.64\\
+	\hline
+	Totale & 980 & 1274.47 & 529.5 & 1030.64\\
+	\hline \hline
+	\end{tabular}
+	\caption{Esempio di piano energetico per l'elettricità realizzando unicamente centrali a biomassa}
+	\label{tab:energyPlanBiomassOnly}	
+\end{table}
+
+Per meglio comprendere i contributi individuali delle varie forme di energia, in Figura~\ref{extremePlansPlot} sono stati tracciati graficamente i piani che usano una singola fonte energetica e quello sviluppato dagli esperti. Sull'asse delle $x$ è stato scelto il recettore \emph{Qualità dell'Aria}, in quanto tra i più sensibili per la regione Emilia-Romagna, mentre nell'asse delle $y$ è riportato il costo - i piani forniscono la stessa energia in kTOE ma richiedono l'istallazione di potenze diverse.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.45]{extremePlansPlot}
+	\caption{Confronto tra il piano degli esperti e quelli estremi che sfruttano un'unica risorsa energetica}
+	\label{extremePlansPlot}
+\end{figure}
+
+Notiamo subito che alcuni fonti energetiche migliorano la qualità dell'aria (valori positivi sull'asse delle $x$) mentre altre la peggiorano (valori negativi). Anche se , ovviamente, nessun impianto per la produzione di energia può migliorare la qualità dell'aria da solo (in quanto non può rimuovere le sostanze inquinanti dall'atmosfera), quello che accade è che gli impianti producono nuova energia elettrica senza introdurre ulteriori sostanze inquinanti, energia che, se non prodotta localmente, sarebbe dovuta essere importata da regioni vicine. In questo caso l'energia sarebbe stata prodotta sfruttando le stesse fonti energetiche della produzione nazionali, incluse quelle con emissioni inquinanti, quindi nel complesso il contributo è positivo per la qualità dell'aria. Sottolineiamo anche che diverse risorse energetiche hanno un diverso impatto sulla qualità dell'aria anche a causa della attività secondarie necessarie. 
+
+Come ulteriore considerazione, occorre osservare che i piani ``estremi'' generalmente non sono fattibili, poiché nel nostro caso il vincolo sulla reale disponibilità di risorse energetiche è stato rilassato. A esempio le turbine eoliche forniscono una qualità dell'aria molto buona ad un costo contenuto, ma la quantità di produzione richiesta non è possibile in regione considerando la presenza media del vento e la disponibilità di aeree per l'istallazione.
+
+Il piano proposto dagli esperti è più \emph{bilanciato}: tiene in considerazione la reale disponibilità della risorsa energetica nella regione e fornisce una combinazione di tutte le possibili fonti di energia - ciò è molto importante soprattutto per le risorse rinnovabili che spesso sono discontinue e quindi disporre di molteplici possibilità garantisce una fornitura elettrica costante e continuata.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.45]{paretoOpt}
+	\caption{Frontiera ottima di Pareto della qualità dell'aria rispetto al costo}
+	\label{paretoOpt}
+\end{figure}
+
+Oltre a valutare i piani proposti dagli esperti tramite il nostro modello è stato possibile crearne di alternativi. In particolare, un piano cercato è stato quello ottimale rispetto al costo e alla qualità dell'aria. Avendo una funzione con due obiettivi abbiamo tracciato il fronte ottimo di Pareto (riprendiamo qui la figura già brevemente descritta nel capitolo sul progetto ePolicy); ogni punto del fronte è tale che non è possibile migliorare uno dei due obiettivi senza peggiorare l'altro. Nel nostro caso la qualità dell'aria non può essere migliorata senza aumentare i costi e, viceversa, non è possibile ridurre il costo senza sacrificare il recettore considerato. La frontiera di Pareto è raffigurata in Figura~\ref{paretoOpt} insieme al piano realizzato dagli esperti. Benché questo piano sia vicino alla frontiera può comunque essere migliorato - in particolare si possono osservare sul fronte due punti che rappresentano due piani migliori, uno con costo uguale ma migliore qualità dell'aria, l'altro con qualità uguale ma costo minore. 
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{ p {0.3\textwidth} | p {0.1\textwidth} p {0.1\textwidth}  p {0.1\textwidth} c }
+	\hline \hline
+	Impianti Elettrici & Potenza 2010 (MW) & Potenza 2013 (MW) & Energia 2013 (kTOE) & Investimenti (M\euro)\\
+	\hline
+	Idroelettrico & 300 & 310 & 69.3 & 84\\
+
+	Fotovoltaico & 230 & 850 & 87.7 & 2170\\
+	
+	Solare termodinamico & 0 & 10 & 1 & 45\\
+
+	Eolico & 20 & 80 & 10.3 & 120\\
+
+	Biomassa & 430 & 600 & 361.2 & 595\\
+	\hline
+	Totale & 980 & 1850 & 529.5 & 3014\\
+	\hline \hline
+	\end{tabular}
+	\caption{Piano energetico ideato dagli esperti}
+	\label{tab:expertPlan}	
+\end{table}
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{ p {0.3\textwidth} | p {0.1\textwidth} p {0.1\textwidth}  p {0.1\textwidth} c }
+	\hline \hline
+	Impianti Elettrici & Potenza 2010 (MW) & Potenza 2013 (MW) & Energia 2013 (kTOE) & Investimenti (M\euro)\\
+	\hline
+	Idroelettrico & 300 & 303 & 67.74 & 25.2\\
+
+	Fotovoltaico & 230 & 782.14 & 80.7 & 1932.51\\
+	
+	Solare termodinamico & 0 & 5 & 0.5 & 22.5\\
+
+	Eolico & 20 & 140 & 18.03 & 240\\
+
+	Biomassa & 430 & 602.23 & 362.54 & 602.8\\
+	\hline
+	Totale & 980 & 1832.37 & 529.5 & 2823\\
+	\hline \hline
+	\end{tabular}
+	\caption{Piano energetico che domina quello degli esperti, con stessa qualità dell'aria ma costo inferiore}
+	\label{tab:betterCostPlan}	
+\end{table}
+
+La Tabella~\ref{tab:expertPlan} mostra il piano degli esperti mentre la Tabella~\ref{tab:betterCostPlan} presenta un piano che domina quello degli esperti, con la stessa qualità dell'aria ad un costo inferiore. L'energia generata con le turbine eoliche è quasi raddoppiata (poiché forniscono un buon rapporto qualità-aria/costo, vedi Fig.~\ref{extremePlansPlot}), c'è un leggero incremento nella produzione da biomassa e le fonti restanti sono parzialmente ridotte di conseguenza.
+
+Per quanto riguarda la valutazione ambientale, in Figura~\ref{receptors_pareto} sono mostrati i valori dei recettori in alcuni punti significativi della frontiera di Pareto. Ogni barra rappresenta un singolo recettore ambientale per un piano specifico sul fronte di Pareto di Fig.~\ref{paretoOpt}; la barra azzurra è associata al piano che garantisce la migliore qualità dell'aria mentre le barre nei restanti colori sono associate a piani di dal costo inferiore. I recettori mostrano tendenze differenti: alcuni migliorano muovendosi lungo la frontiera verso una maggiore qualità dell'aria (come la qualità del clima, benessere della popolazione, valore dei beni materiali), mentre migliorano procedendo verso soluzioni a costo inferiore (qualità del paesaggio, benessere della fauna selvatica, qualità dei terreni). Questo fatto è dovuto a diverse ragioni, che dipendono sia dal tipo di impianto installato che dalle attività secondarie richieste.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.65]{receptors_pareto}
+	\caption{Valore dei recettori sulla frontiera di Pareto}
+	\label{receptors_pareto}
+\end{figure}
+
+Ad esempio le turbine eoliche hanno un buon effetto sulla qualità dell'aria ma sono al tempo stesso considerato poco piacevoli dal punto di vista estetico, quindi non possono essere installati in determinate zone sensibili, come la cima delle colline, senza dover affrontare proteste dai parte dei residenti (recettore qualità del paesaggio); sfortunatamente, colline sono anche le aree più ventose in Emilia-Romagna. 
+
+O ancora, poiché gli uccelli migratori seguono i percorsi dei venti per ridurre la fatica nei loro viaggi su lunghe distanze ma d'altro canto gli impianti eolici devono essere collocati in zone ventose per essere efficaci, si ha come conseguenza che durante la stagione delle migrazioni gli stormi rischierebbero di entrare in collisione con le grandi pale dei generatori; questo effetto non può essere ignorato, in particolare per specie a rischio (benessere della fauna selvatica).
+
 
 \nocite{*}
 \bibliographystyle{plain}
