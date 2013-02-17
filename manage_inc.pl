@@ -25,7 +25,7 @@ sub_problem_fr(TipiInc,BudgetPV,BudgetsInc,OutsInc,OutValF):-
 	
 	%CostiInc sono le spese da stanziare per finanziare gli incentivi senza considerare i possibili guadagni
 	exclude_plus(BudgetsInc,BudgetPV,[],CostiInc),
-	%questo vincolo richiede che a prescindere dai possibili ricavi la spesa iniziale sia minore di BudgetPV -------> DISCUTERE SE NECESSARIO
+	%questo vincolo richiede che a prescindere dai possibili ricavi la spesa iniziale sia minore di BudgetPV
 	sub:((VarInc*CostiInc) $=< BudgetPV*100), 
 	
 	%la funzione obiettivo cerca di rendere massimo l'outcome energetico totale sommando i contribuiti dei vari tipi di incentivi correttamente pesati
