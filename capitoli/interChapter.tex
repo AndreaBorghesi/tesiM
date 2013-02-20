@@ -19,6 +19,7 @@
 \usepackage{textcomp}
 \usepackage{eurosym}
 \usepackage{amsmath}
+\usepackage{url}
 
 %impostazioni generali per visualizzare codice
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -56,7 +57,6 @@
 
 %per poter poi impedire che certe parole vadano a capo
 \usepackage{hyphenat}
-\usepackage{listings}
 
 %ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
 \newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
@@ -87,6 +87,10 @@
 %in modo che dopo il titolo di un paragrafo il testo vada a capo
 \newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
 
+%per scrivere bene CLP(R) e CLP(FD)
+\newcommand{\clpr}{CLP({\ensuremath{\cal R}})}
+\newcommand{\clpfd}{CLP({\ensuremath{\cal FD}})}
+
 \begin{document}
 
 \chapter{\nohyphens{INTERAZIONE COMPONENTI}}
@@ -113,18 +117,87 @@ La Figura~\ref{schemaIterLearn} mostra lo schema dell'interazione tra il livello
   	\label{schemaIterLearn}
 \end{figure}
 
-La fase di apprendimento, e quindi le simulazioni, devono essere effettuate prima della fase di pianificazione (\emph{offline}), in quanto occorre inserire all'interno del modello i nuovi vincoli appresi, i quali non saranno più modificati (se non nel caso in cui vengano sostituiti da altri ricavati da un nuovo processo di apprendimento). \`E necessario effettuare un grande numero di simulazioni per garantire un valore statistico alle relazioni apprese e fornire un buon insieme di dati tramite cui effettuare l'apprendimento; questo rappresenta sicuramente il maggiore limite di questo tipo di approccio, in quanto comporta che i vincoli appresi non possano essere modificati facilmente - effettuare un gran numero di simulazioni richiede molto tempo - e l'interazione avvenga sostanzialmente in una sola direzione, dall'simulatore verso il DSS.
+La fase di apprendimento, e quindi le simulazioni, devono essere effettuate prima della fase di pianificazione (\emph{offline}), in quanto occorre inserire all'interno del modello i nuovi vincoli appresi, i quali non saranno più modificati (se non nel caso in cui vengano sostituiti da altri ricavati da un nuovo processo di apprendimento). \`E necessario effettuare un grande numero di simulazioni per garantire un valore statistico alle relazioni apprese e fornire un buon insieme di dati tramite cui effettuare l'apprendimento; questo rappresenta sicuramente il maggiore limite di questo tipo di approccio, in quanto comporta che i vincoli appresi non possano essere modificati facilmente - effettuare un gran numero di simulazioni richiede molto tempo - e l'interazione avvenga sostanzialmente in una sola direzione, dall'simulatore verso il DSS. 
 \\*\\*
 Una seconda metodologia per integrare ottimizzazione e simulazione da noi considerata, nonostante non sia stata concretamente implementata a differenza della prima, è una tecnica classica di decomposizione dei problemi presa in prestito dall'ambito della Ricerca Operativa, la cosiddetta \emph{decomposizione di Benders} \cite{bendersDec}. Essa consiste in un metodo per risolvere problemi di ottimizzazione combinatoria che possono essere scomposti in due componenti, un problema master e un sotto-problema. Originariamente era stata concepita per il campo della Programmazione Lineare Intera ma è stata in seguito estesa per trattare risolutori più generali, \emph{Logic-Based Benders Decomposition} (decomposizione di Benders basata sulla Logica) \cite{Hooker95logic-basedbenders}. 
 
 Nel caso da noi preso in esame il problema master è la definizione del piano energetico regionale che partizioni l'energia necessaria tra le diverse fonti energetiche rinnovabili e viene risolto tramite il modello a vincoli descritto nel capitolo precedente. Il sotto-problema consiste nella definizione della strategia di incentivazione per raggiungere la produzione energetica desiderata, in modo consistente con i vincoli regionali sul budget. Partendo dalle soluzioni ottenute con l'ottimizzazione, ovvero la produzione energetica attesa, per comprendere quale sia il budget corretto da allocare per gli incentivi vengono portate a termine diverse simulazioni - in numero comunque molto inferiore rispetto all'interazione basata sull'Apprendimento Automatico. Nel caso in cui gli incentivi non siano compatibili con il budget regionale viene generato un cosiddetto \emph{taglio di Benders} (chiamati anche \emph{no-good}), cioè un vincolo che va ad aggiungersi al modello del problema master, e successivamente una nuova soluzione viene generata dal DSS. 
 
-%ecms12 pag 4 dopo la figura 6
+A differenza del primo metodo, con questo approccio la comunicazione tra i due componenti qui considerati viene estesa ad un ciclo, come si può facilmente notare in Figura~\ref{schemaIterBend}.
+
+\begin{figure}[htb]
+	\begin{center}
+	\includegraphics[scale=0.65]{schemaIterBend}
+	\end{center}
+	\caption{Modello di interazione basato su Decomposizione di Benders}
+  	\label{schemaIterBend}
+\end{figure}
+
+L'interazione inizia dall'ottimizzatore che fornisce una soluzione per il problema master, soluzione che contiene la produzione energetica attesa da fotovoltaico e dei valori ipotetici della dimensione dei fondi da destinare agli incentivi regionali. Questi valori ipotetici sono passati al simulatore, il quale esegue delle simulazioni esclusivamente con tali parametri forniti dal DSS e produce le corrispondenti statistiche (il tempo di calcolo è di qualche ordine di grandezza minore rispetto all'approccio basato sull'apprendimento); queste ultime possono confermare o meno i valori ipotizzati in fase di ottimizzazione: se il valore (medio) di produzione energetica ottenuto dalle simulazioni è maggiore o uguale di quello atteso, l'iterazione può concludersi è il risultato è probabilmente ottimale \cite{bendersDec}. Viceversa se invece il valore atteso è maggiore di quello simulato un'altra iterazione è necessaria, quindi  all'ottimizzatore è comunicato un nuovo vincolo, il quale può essere visto come spiegazione del fatto che non è possibile ottenere la produzione energetica richiesta con i fondi agli incentivi ipotizzati. A questo punto il DSS inserisce il vincolo all'interno del modello del problema, ricerca nuovamente una soluzione ottimale e ipotizza nuovi valori da fornire in input al simulatore.
+
+La sfida principale consiste nel determinare l'insieme dei vincoli che vengono trasferiti tra le due componenti: se venissero esclusi dall'insieme dei valori ammissibili solamente quelli ipotizzati - e trovati non adatti grazie alle simulazioni - si correrebbe il rischio di effettuare troppe iterazioni, arrivando al caso limite di effettuare una simulazione esaustiva per tutti i parametri (in pratica verrebbero nuovamente fatte delle simulazioni per ogni valore del budget per gli incentivi regionali); se invece dall'insieme dei valori  venissero esclusi (troppi) valori ulteriori il pericolo sarebbe quello di scartare delle soluzioni promettenti. Questo tema e l'implementazione effettiva di questo secondo approccio sono attualmente oggetto di ricerca.
 
 \section{REGRESSIONE LINEARE A TRATTI}
 %a33-cattafi -> pag. 8-9
+Passiamo ora a discutere del modo in cui l'approccio basato sull'Apprendimento Automatico sia stato implementato nel nostro modello a vincoli.
+\\*\\*
+Come è stato descritto nel terzo capitolo, tramite un grande numero di simulazioni è stato possibile ottenere una grande quantità di dati dalla quale abbiamo successivamente ricavato le relazioni che legano i fondi per gli incentivi regionale alla produzione energetica da fotovoltaico e quest'ultima alla forza dell'interazione sociale tra gli agenti. Tali relazioni sono state espresse sotto forma di funzioni e corrispondenti curve, ottenute attraverso l'applicazione di tecniche di regressione. A questo punto la nostra intenzione è stata quella di integrare queste funzioni all'interno modello a vincoli del problema di ottimizzazione, aggiungendo cioè i nuovi vincoli appresi grazie alle simulazioni svolte; è sorto quindi un problema, poiché, come descritto nel capitolo precedente, il risolutore dai noi utilizzato l'ottimizzazione gestisce esclusivamente equazioni lineari - per motivi di efficienza. Dal momento che modificare questa caratteristica, ovvero impiegare un risolutore in grado di trattare le funzioni quadratiche e di grado anche superiore ricavate dalla regressione, avrebbe richiesto cambiamenti radicali nella struttura generale e nel codice dell'ottimizzatore, abbiamo ritenuto che fosse meglio procedere in un altro modo, che ci consentisse di preservare la linearità del modello a vincoli sviluppato. Per questo motivo abbiamo deciso di tentare di rendere lineari le relazioni  ottenute con la regressione sfruttando una tecnica matematica definita \emph{approssimazione lineare a tratti} \cite{piecewiseApprox,cattafi} (dall'inglese, \emph{piece-wise linear approximation}), che consiste nell'approssimare un'arbitraria funzione con un insieme di equazioni lineari con la massima accuratezza possibile. Possiamo ad esempio osservare in Figura~\ref{piecewiseApprox_example} l'approssimazione di una semplice funzione quadratica (in blu) attraverso cinque funzioni lineari (in rosso). 
+
+\begin{figure}[htb]
+	\begin{center}
+	\includegraphics[scale=0.8]{piecewiseApprox_example}
+	\end{center}
+	\caption{Una funzione (in blu) e la sua approssimazione lineare a tratti (in rosso). Fonte {\tt http://commons.wikimedia.org/wiki/File:Finite\_element\_method\_1D\_illustration1.svg}}
+  	\label{piecewiseApprox_example}
+\end{figure}
+
+Illustreremo adesso il funzionamento di questo metodo. Data una funzione (anche non lineare) $y=f(x)$, campioniamo la curva $g$ in $k$ punti $x_1,...,x_k$ e l'approssimazione lineare a tratti $y'=g'(x)\simeq g(x)$ è definita come
+\begin{equation} 
+\label{eq:aprroxEqX}
+	x = \sum_{i=1}^k \lambda_i \cdot x_i,
+\end{equation}
+\begin{equation} 
+\label{eq:aprroxEqY}
+	y = \sum_{i=1}^k \lambda_i \cdot y_i,
+\end{equation}
+dove $\lambda_i \in [0..1]$ sono variabili continue soggette ai vincoli:
+\begin{equation} 
+\label{eq:aprroxEqLambda}
+		\sum_{i=1}^k \lambda_i = 1
+\end{equation}
+Al massimo due $\lambda_i$ possono essere diverse da zero e in tal caso queste devono essere adiacenti.
+
+Chiaramente queste ultime due condizioni non sono lineari, ma potrebbero essere modellate in un problema di Programmazione Logica Intera introducendo nuove 0-1 variabili intere, ma esiste una opzione più efficiente. In molti risolutori - compreso quello da noi impiegato - è possibile dichiarare $(\lambda_1,...,\lambda_k)$ come Special Order Set del secondo tipo (SOS2) \cite{bealeTomlin}, cioè un insieme ordinato di variabili utilizzato per specificare  determinate condizioni in problemi di ottimizzazione, e il risolutore sfrutterà questa informazione per ricercare una soluzione ottimale in modo più efficiente (in pratica, sapere che una variabile appartiene ad un certo insieme ordinato consente di usare in modo più intelligente gli algoritmi di branch-and-bound del solver).
 
 \subsection{IMPLEMENTAZIONE IN R}
+
+Le informazioni necessarie per poter inserire le equazioni (\ref{eq:aprroxEqX}), (\ref{eq:aprroxEqY}) e (\ref{eq:aprroxEqLambda}) all'interno del modello a vincoli sono le coordinate dei punti di campionamento. Per trovarle ci siamo serviti del precedentemente introdotto R e in particolare del pacchetto software \emph{Segmented} \cite{segmentedPackage}. Grazie ad esso è stato molto semplice trovare un'ottima approssimazione lineare per le funzioni che legavano il budget alla produzione energetica (una per ogni tipo di incentivo), come si può facilmente osservare nel codice qui presentato.
+
+\lstset{language=R}
+\begin{lstlisting}
+> library(segmented)
+> #  ...
+> # inserisci i dati delle simulazioni in apposite strutture 
+> #  ...
+> # operazioni varie (ordina dati, etc.)
+> #  ...
+> # estrai un modello lineare a tratti per l'incentivo Conto Interessi
+> modelloLineareATratti_CI <- segmented(modelloGrezzo_CI,seg.Z=~ Budget,psi=c(3))
+> # estrai un modello lineare a tratti per l'incentivo Fondo Garanzia
+> modelloLineareATratti_FG <- segmented(modelloGrezzo_FG,seg.Z=~ Budget,psi=c(12,30))
+> #  ...
+> # incentivi restanti
+> #  ...
+\end{lstlisting}
+
+Una volta ricavate le approssimazioni lineari a tratti delle funzioni, è possibile visualizzare il risultato ottenuto, come riportato in Figura~\ref{incentCompare_piecewise}.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.6]{incentComparePiecewise}
+	\caption{Confronto tra i diversi incentivi - Approssimazione lineare a tratti}
+	\label{incentCompare_piecewise}
+\end{figure}
 
 \section{INTEGRAZIONE MODELLO}
 
