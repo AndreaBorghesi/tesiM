@@ -138,7 +138,6 @@ L'interazione inizia dall'ottimizzatore che fornisce una soluzione per il proble
 La sfida principale consiste nel determinare l'insieme dei vincoli che vengono trasferiti tra le due componenti: se venissero esclusi dall'insieme dei valori ammissibili solamente quelli ipotizzati - e trovati non adatti grazie alle simulazioni - si correrebbe il rischio di effettuare troppe iterazioni, arrivando al caso limite di effettuare una simulazione esaustiva per tutti i parametri (in pratica verrebbero nuovamente fatte delle simulazioni per ogni valore del budget per gli incentivi regionali); se invece dall'insieme dei valori  venissero esclusi (troppi) valori ulteriori il pericolo sarebbe quello di scartare delle soluzioni promettenti. Questo tema e l'implementazione effettiva di questo secondo approccio sono attualmente oggetto di ricerca.
 
 \section{REGRESSIONE LINEARE A TRATTI}
-%a33-cattafi -> pag. 8-9
 Passiamo ora a discutere del modo in cui l'approccio basato sull'Apprendimento Automatico sia stato implementato nel nostro modello a vincoli.
 \\*\\*
 Come è stato descritto nel terzo capitolo, tramite un grande numero di simulazioni è stato possibile ottenere una grande quantità di dati dalla quale abbiamo successivamente ricavato le relazioni che legano i fondi per gli incentivi regionale alla produzione energetica da fotovoltaico e quest'ultima alla forza dell'interazione sociale tra gli agenti. Tali relazioni sono state espresse sotto forma di funzioni e corrispondenti curve, ottenute attraverso l'applicazione di tecniche di regressione. A questo punto la nostra intenzione è stata quella di integrare queste funzioni all'interno modello a vincoli del problema di ottimizzazione, aggiungendo cioè i nuovi vincoli appresi grazie alle simulazioni svolte; è sorto quindi un problema, poiché, come descritto nel capitolo precedente, il risolutore dai noi utilizzato l'ottimizzazione gestisce esclusivamente equazioni lineari - per motivi di efficienza. Dal momento che modificare questa caratteristica, ovvero impiegare un risolutore in grado di trattare le funzioni quadratiche e di grado anche superiore ricavate dalla regressione, avrebbe richiesto cambiamenti radicali nella struttura generale e nel codice dell'ottimizzatore, abbiamo ritenuto che fosse meglio procedere in un altro modo, che ci consentisse di preservare la linearità del modello a vincoli sviluppato. Per questo motivo abbiamo deciso di tentare di rendere lineari le relazioni  ottenute con la regressione sfruttando una tecnica matematica definita \emph{approssimazione lineare a tratti} \cite{piecewiseApprox,cattafi} (dall'inglese, \emph{piece-wise linear approximation}), che consiste nell'approssimare un'arbitraria funzione con un insieme di equazioni lineari con la massima accuratezza possibile. Possiamo ad esempio osservare in Figura~\ref{piecewiseApprox_example} l'approssimazione di una semplice funzione quadratica (in blu) attraverso cinque funzioni lineari (in rosso). 
@@ -201,23 +200,229 @@ Una volta ricavate le approssimazioni lineari a tratti delle funzioni, è possib
 
 \section{INTEGRAZIONE MODELLO}
 
+Possiamo ora descrivere in che modo abbiamo inserito le relazioni approssimate all'interno del modello a vincoli dell'ottimizzatore. In particolare mostreremo quali estensioni siano state aggiunte al modello per permettere al risolutore di calcolare l'assegnazione ottima dei fondi disponibili ai vari tipi di incentivo, con lo scopo di massimizzare la produzione di energia.
+
 \subsection{VARIABILI}
+
+Innanzitutto per ogni tipologia di incentivo regionale sono state introdotte due variabili che rappresentano il costo associato e la relativa produzione energetica. Per i costi le variabili sono chiamate $costo_A$, $costo_{CI}$, $costo_R$, $costo_G$, con $costo_j \in[0..50]$ (dominio espresso in milioni di euro) - rispettivamente incentivo in conto capitale (denominato in precedenza anche Fondo Asta), Conto Interessi, Fondo Rotazione e Fondo Garanzia. In modo simile, alle produzioni energetiche garantite dagli incentivi abbiamo associato delle variabili chiamate $prod_A$, $prod_{CI}$, $prod_R$, $prod_G$, con $prod_j \in [0..10]$ (dominio espresso in MWatt); il codice relativo alla creazione di tali variabili è qui riportato.
+
+\lstset{language=Prolog}
+\begin{lstlisting}
+%creazione istanza eplex
+:- eplex_instance(eplex_instance).
+
+%predicato che modella il problema dell'assegnazione ottimale dei fondi agli incentivi regionali
+assegna_fondi(...):-
+	%crea le variabili per i costi  (una per ogni tipo di incentivo specificato nella lista TipiInc)
+	crea_var_names(TipiInc,Costi,0,50),
+	%crea le variabili per le produzioni
+	crea_var_names(TipiInc,Prods,0,60),
+	...
+\end{lstlisting}
+
+Occorre fare subito un'importante precisazione, ovvero spiegare che per produzione energetica associata ad ogni metodologia incentivante abbiamo in questo caso inteso la produzione di energia non in termini assoluti, bensì la differenza (aumento) di produzione energetica che si ottiene finanziando un tipo di incentivo rispetto al caso in cui nessun meccanismo incentivante sia supportato (il valore di produzione energetica associato a nessuna incentivazione è definito dalla costante $PR_{base}$). Questa scelta è stata dettata dal fatto che in questa maniera fosse molto facile valutare il guadagno in termini di produzione offerto dai diversi incentivi.
+
+Abbiamo poi introdotto le variabili ausiliarie necessarie all'approssimazione lineare chiamate $\lambda_i$ nell'equazione (\ref{eq:aprroxEqLambda}) e ugualmente nominate all'interno del problema e sempre con $\lambda_i \in [0..1]$; per ciascun tipo di incentivo e per ogni punto scelto per la campionatura sulle curve budget-produzione è stata introdotta una variabile ausiliaria $\lambda_{ji}$, con $j$ indice per il tipo di incentivo e $i$ per il punto campionato. Come scelta iniziale i punti utilizzati per la campionatura sono il minor numero possibile tramite cui rappresentare correttamente la funzione approssimata, cioè i punti in cui si osserva un cambiamento del gradiente della curva; in particolare abbiamo usato tre punti per gli incentivi Fondo Asta, Conto Interessi e Fondo Rotazione e quattro per il Fondo Garanzia. Per maggiore precisione, osserviamo che le coordinate dei punti per la campionatura sono quelle ricavate tramite le semplici righe di codice scritte in \emph{R} e descritte nella sezione precedente. 
 
 \subsection{VINCOLI}
 
+Dopo le variabili occorre esprimere i vincoli che consentono di modellare il problema. Come prima cosa è necessario trasporre sotto forma di vincoli le equazioni descritte in precedenza (\ref{eq:aprroxEqX}), (\ref{eq:aprroxEqY}) e (\ref{eq:aprroxEqLambda}), utilizzate per approssimare le curve delle relazioni con delle funzioni lineari a tratti; nell'equazione \ref{eq:vincoloAuxY} il termine $y_{ji}-PR_{base}$ serve per calcolare la differenza di produzione energetica rispetto al caso di nessun incentivo.
+
+Per chiarezza ricordiamo che gli indici $j$ e $i$ selezionano rispettivamente metodo incentivante e punto di campionamento e quindi nei vincoli ~\ref{eq:vincoloAuxX}, ~\ref{eq:vincoloAuxY} e ~\ref{eq:vincoloAuxLambda} si ha $j \in [1..4]$.
+
+\begin{equation} \label{eq:vincoloAuxX}
+	costo_j = \sum_{i=1}^k \lambda_{ji} \cdot x_{ji} 
+\end{equation}
+\begin{equation} \label{eq:vincoloAuxY}
+	prod_j = \sum_{i=1}^k \lambda_{ji} \cdot (y_{ji}-PR_{base}) 
+\end{equation}
+\begin{equation} \label{eq:vincoloAuxLambda}
+	\sum_{i=1}^k \lambda_{ji} \leq 1
+\end{equation}
+
+Nel codice seguente è mostrata la creazione delle variabili ausiliarie e l'imposizione di questi vincoli.
+\begin{lstlisting}
+%predicato che modella l'approssimazione lineare a tratti
+%viene invocato da assegna_fondi tante volte quanti sono i tipi di incentivo
+piecewise_linear_model(TipoIncentivo,Costo_inc,Prod_inc):-
+	%creo tante variabili ausiliarie quanti sono i punti che caratterizzano l'incentivo
+	crea_var_sub(Punti,Auxs,0,1),
+	...
+	%vincoli per le variabili ausiliarie
+	eplex_instance:(sum(Auxs) $=< 1),
+	eplex_instance:(Costo_inc $= (Auxs*Xs) ),
+	eplex_instance:(Prod_inc $= (Auxs*YsSub) ),
+	...
+\end{lstlisting}
+
+A questo punto le funzioni approssimate (quelle rappresentate in Fig.~\ref{incentCompare_piecewise}) sono state inserite all'interno del modello e il passo successivo consiste nello sfruttamento di questa conoscenza per la ricerca della distribuzione ottimale dei fondi da parte del risolutore del problema.
+
+Per questo motivo, imponiamo che la somma dei costi dei vari incentivi sia minore del budget totale dedicato agli incentivi regionali per l'energia fotovoltaica, indicato dalla costante $BUDGET_{PV}$.
+
+\begin{equation} \label{eq:vincoloCosti}
+	\sum_{j=1}^4 costo_j \leq BUDGET_{PV}
+\end{equation}
+
+In un secondo momento, specifichiamo la funzione obiettivo fornita al risolutore del problema a vincoli, il quale dovrà di massimizzare la produzione energetica assegnando il budget disponibile ai vari incentivi nel modo più efficacie possibile.
+
+\begin{equation} \label{eq:vincoloCosti}
+	\max ( \sum_{j=1}^4 prod_j )
+\end{equation}
+
+Riportiamo quindi l'implementazione.
+
+\begin{lstlisting}
+	(assegna_fondi)
+	...
+	%la somma dei fondi assegnati ad ogni incentivo deve essere minore del budget per il PV
+	eplex_instance:(sum(Costi) $=< BudgetPV ),
+	%inserisco in liste apposite le variabili ausiliarie che devono formare SOS2 (un SOS2 per tipo di incentivo)
+	get_aux_sos(Auxs,AuxA,AuxCI,AuxR,AuxG,"A"),
+	%la funzione obiettivo cerca di massimizzare la produzione energetica
+	eplex_instance:(VarObiettivo $= (sum(Prods))),
+	%inizializzo il solver con la funzione obiettivo specificata indicando anche di sfruttare SOS2 per la risoluzione ottimizzata 
+	eplex_instance:eplex_solver_setup(max(sum(Outs)),VarObiettivo,[...],[...]),
+	...
+\end{lstlisting}
+
 \section{ASSEGNAZIONE FONDI}
 
-\myparagraph{FONDO INCENTIVI – 2.5 MILIONI EURO}
+Per valutare ora l'interazione tra il DSS e il simulatore analizzeremo ora in che modo vengono finanziati le diverse tipologie di incentivazione sulla base del problema a vincoli presentato in precedenza.
 
-\myparagraph{FONDO INCENTIVI – 5 MILIONI EURO}
+Per come il sotto-problema dell'assegnazione dei fondi è stato definito, il risolutore procede distribuendo i fondi a partire dall'incentivo che risulta essere più efficace e prosegue poi finanziando gli incentivi restanti fino a esaurimento del budget previsto. Per determinare quale sia il tipo di incentivo più efficace vengono sfruttate le funzioni lineari a tratti che approssimano le relazioni tra budget e produzione energetica. In Figura~\ref{assegnFondi} osserviamo un esempio di distribuzione dei fondi, con un budget pari a dodici milioni di euro: le quattro funzioni lineari a tratti sono le relazioni inserite all'interno del modello e i punti individuati su di esse rappresentano le combinazioni di spesa (la spesa viene mostrata sull'asse delle ascisse) migliori dal punto di vista della produzione (asse delle ordinate); ad esempio, notiamo come la massima produzione energetica possibile per il Conto Interessi (in rosso) sia raggiunta con una spesa relativamente contenuta e minore del budget totale, consentendo di distribuire i fondi rimanenti ad altri tipi di incentivo.
 
-\myparagraph{FONDO INCENTIVI – 10 MILIONI EURO}
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale=0.7]{assegnFondi}
+	\caption{Assegnazione Fondi - Budget \euro12M }
+	\label{assegnFondi}
+\end{figure}
 
-\myparagraph{FONDO INCENTIVI – 15 MILIONI EURO}
+Nelle tabelle seguenti sarà mostrato in che modo vengono assegnati i fondi ai vari incentivi a partire da un determinato budget, evidenziando anche l'aumento di produzione energetica ottenibile rispetto al caso in cui nessun incentivo venga finanziato; per avere un riferimento ricordiamo che nel nostro simulatore, quindi non adeguatamente scalato, il valore di produzione energetica ottenibile in assenza di meccanismi incentivanti è di circa 21.664MW. Ricordiamo inoltre che, per come è stato progettato il simulatore, il budget destinato agli incentivi è distribuito lungo un arco temporale quinquennale. 
 
-\myparagraph{FONDO INCENTIVI – 20 MILIONI EURO}
+\myparagraph{FONDO INCENTIVI – \euro2.5M}
 
-\myparagraph{FONDO INCENTIVI – 40 MILIONI EURO}
+Con questo fondo per gli incentivi viene finanziato totalmente il Conto Interessi consumando interamente il budget disponibile, impedendo quindi di stanziare fondi anche agli altri incentivi, e ottenendo un aumento di produzione energetica di 3.563MW.
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{ p{0.3\textwidth}  | p{0.3\textwidth} | p{0.3\textwidth}  }
+		\hline \hline 
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Costo (M\euro)}} & \nohyphens{\emph{Produzione Energetica Differenziale(MW)}} \\ \hline
+		Asta &  0.00 & 0.000 \\ 
+		Conto Interessi & 2.50 & 3.563 \\ 
+		Rotazione & 0.00 & 0.000 \\ 
+		Garanzia & 0.00 & 0.000 \\ \hline 
+		Totale & 2.50 & 3.563 \\
+		\hline \hline 
+	\end{tabular}
+	\caption{Assegnazione Fondi - \euro2.5M}
+	\label{tab:assegnFondi2M}	
+\end{table}
+
+\myparagraph{FONDO INCENTIVI – \euro5M}
+
+In questo caso è possibile finanziare interamente il Conto Interessi (il quale, come atteso, richiede decisamente meno risorse degli altri, ovvero potendo essere completamente soddisfatto con 2.53 milioni di euro) e distribuire il budget restante agli incentivi Fondo Rotazione e Garanzia, ottenendo così un miglioramento della produzione energetica di 4.121MW.
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{ p{0.3\textwidth}  | p{0.3\textwidth} | p{0.3\textwidth}  }
+		\hline \hline 
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Costo (M\euro)}} & \nohyphens{\emph{Produzione Energetica Differenziale(MW)}} \\ \hline
+		Asta &  0.00 & 0.000 \\ 
+		Conto Interessi & 2.53 & 3.606 \\ 
+		Rotazione & 1.00 & 0.286 \\ 
+		Garanzia & 1.00 & 0.170 \\ \hline 
+		Totale & 5.00 & 4.121 \\
+		\hline \hline 
+	\end{tabular}
+	\caption{Assegnazione Fondi - \euro5M}
+	\label{tab:assegnFondi5M}	
+\end{table}
+
+\myparagraph{FONDO INCENTIVI – \euro10M}
+
+Con un ulteriore aumento del budget l'assegnazione dei fondi ottimale prevede di distribuire prima al Conto Interessi seguito sempre dai Fondi Garanzia e Rotazione, ottenendo un incremento della produzione energetica pari a 4.708MW; in realtà il scendo miglior incentivo è il Fondo Garanzia e quindi esso riceve finanziamenti maggiori rispetto al Rotazione, a quest'ultimo viene comunque assegnato un budget di un milione di euro (anche nel caso precedente) in quanto, per come sono stati campionati i punti che definiscono l'approssimazione lineare a tratti, a tale budget è associata una produzione energetica migliore rispetto a quella del Fondo Garanzia.
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{ p{0.3\textwidth}  | p{0.3\textwidth} | p{0.3\textwidth}  }
+		\hline \hline 
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Costo (M\euro)}} & \nohyphens{\emph{Produzione Energetica Differenziale(MW)}} \\ \hline
+		Asta &  0.00 & 0.000 \\ 
+		Conto Interessi & 2.53 & 3.606 \\ 
+		Rotazione & 1.00 & 0.286 \\ 
+		Garanzia & 6.47 & 0.816 \\ \hline 
+		Totale & 10.00 & 4.708 \\
+		\hline \hline 
+	\end{tabular}
+	\caption{Assegnazione Fondi - \euro10M}
+	\label{tab:assegnFondi10M}	
+\end{table}
+
+\myparagraph{FONDO INCENTIVI – \euro15M}
+
+Aumentando i fondi stanziati dalla regione di altri cinque milioni, si ottiene come risultato la distribuzione dei finanziamenti aggiuntivi esclusivamente al Fondo Garanzia, mentre per le restanti tipologie di incentivo sono previste le stesse spese del caso di budget pari a dieci milioni; ad ogni modo, con un fondo per l'incentivazione di quindici milioni di euro l'incremento della produzione energetica è di 5.34MW.
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{ p{0.3\textwidth}  | p{0.3\textwidth} | p{0.3\textwidth}  }
+		\hline \hline 
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Costo (M\euro)}} & \nohyphens{\emph{Produzione Energetica Differenziale(MW)}} \\ \hline
+		Asta &  0.00 & 0.000 \\ 
+		Conto Interessi & 2.53 & 3.606 \\ 
+		Rotazione & 1.00 & 0.286 \\ 
+		Garanzia & 11.47 & 1.447 \\ \hline 
+		Totale & 10.00 & 5.340 \\
+		\hline \hline 
+	\end{tabular}
+	\caption{Assegnazione Fondi - \euro15M}
+	\label{tab:assegnFondi15M}	
+\end{table}
+
+\myparagraph{FONDO INCENTIVI – \euro20M}
+
+Con un budget di venti milioni di euro notiamo due differenze. 
+
+La prima è che dopo aver assegnato circa 13 milioni e mezzo al Fondo Garanzia diventa più utile destinare i fondi rimanenti al Fondo Rotazione, ricavando un aumento della produzione di 5.923MW; questo accade perché in corrispondenza di quel budget la pendenza della curva che descrive l'incentivo Fondo Garanzia diminuisce sensibilmente (Fig.~\ref{incentCompare_piecewise}), rendendo quindi l'incentivo meno efficace in confronto al Fondo Rotazione.
+
+La seconda differenza è che conviene anche destinare una minima parte (un milione di euro) del budget anche al Fondo Asta e questo è probabilmente dovuto nuovamente al modo in cui sono stati campionati i punti per l'approssimazione.
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{ p{0.3\textwidth}  | p{0.3\textwidth} | p{0.3\textwidth}  }
+		\hline \hline 
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Costo (M\euro)}} & \nohyphens{\emph{Produzione Energetica Differenziale(MW)}} \\ \hline
+		Asta &  1.00 & 0.125 \\ 
+		Conto Interessi & 2.53 & 3.606 \\ 
+		Rotazione & 2.73 & 0.458 \\ 
+		Garanzia & 13.74 & 1.734 \\ \hline 
+		Totale & 20.00 & 5.923 \\
+		\hline 
+	\end{tabular}
+	\caption{Assegnazione Fondi - \euro20M}
+	\label{tab:assegnFondi20M}	
+\end{table}
+
+\myparagraph{FONDO INCENTIVI – \euro40M}
+
+Con un budget di 40 milioni di euro i risultati sono molto simili al caso precedente, con la differenza che i maggiori finanziamenti disponibili vengono interamente indirizzati al Fondo Rotazione, poichè il Conto Interessi è in grado di rendere al massimo anche con una spesa minima e il Fondo Garanzia diventa meno efficace con budget maggiori di 13 milioni e mezzo di euro (come anche il Fondo Asta con qualsiasi budget); l'incremento di produzione energetica rispetto alla mancanza di metodologie incentivanti è di 7.913MW.
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{ p{0.3\textwidth}  | p{0.3\textwidth} | p{0.3\textwidth}  }
+		\hline \hline 
+		\nohyphens{\emph{Tipologia Incentivo}} & \nohyphens{\emph{Costo (M\euro)}} & \nohyphens{\emph{Produzione Energetica Differenziale(MW)}} \\ \hline
+		Asta &  1.00 & 0.125 \\ 
+		Conto Interessi & 2.53 & 3.606 \\ 
+		Rotazione & 22.73 & 2.448 \\ 
+		Garanzia & 13.74 & 1.734 \\ \hline 
+		Totale & 40.00 & 7.913 \\
+		\hline 
+	\end{tabular}
+	\caption{Assegnazione Fondi - \euro40M}
+	\label{tab:assegnFondi40M}	
+\end{table}
 
 \nocite{*}
 \bibliographystyle{plain}
