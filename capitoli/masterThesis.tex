@@ -1,0 +1,154 @@
+%Andrea Borghesi
+%Università degli studi di Bologna
+
+%tesi laurea magistrale
+
+\documentclass[12pt,a4paper,openright,twoside]{book}
+\usepackage[italian]{babel}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titlesec,blindtext, color}
+\usepackage[font={small,it}]{caption}
+\usepackage{subfig}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{url}
+\usepackage{textcomp}
+\usepackage{eurosym}
+\usepackage{amsmath}
+\usepackage{frontesp} 	% frontespizio unibo 
+\usepackage[colorlinks=false]{hyperref}%<--inserisce segnalibri e riferimenti indice
+
+%impostazioni generali per visualizzare codice
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+\lstset{ %
+  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+  numbersep=5pt,  
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  rulecolor=\color{black}, 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  frame=single,                   % adds a frame around the code
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*,...},              % if you want to add more keywords to the set
+  deletekeywords={...}              % if you want to delete keywords from the given language
+}
+
+%per avere un bordo intorno alle figure
+\usepackage{float}
+\floatstyle{boxed} 
+\restylefloat{figure}
+
+%per poter poi impedire che certe parole vadano a capo
+\usepackage{hyphenat}
+
+%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
+\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
+\fancyhf{}
+\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
+\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
+\fancyfoot[C]{\changefont \thepage}					%footer
+
+%titolo capitolo con "numero | titolo"
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+
+
+%\oddsidemargin=30pt \evensidemargin=20pt
+
+%sillabazioni non eseguite correttamente
+\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
+
+%interlinea
+\linespread{1.15}  
+\pagestyle{fancy}
+
+%cartelle contenenti le immagini
+\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}{/media/sda4/tesi/immagini/epolicy/}{/media/sda4/tesi/immagini/ottimizzazione/}
+{/media/sda4/tesi/immagini/interazione/}}
+
+%in modo che dopo il titolo di un paragrafo il testo vada a capo
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+
+%per scrivere bene CLP(R) e CLP(FD)
+\newcommand{\clpr}{CLP({\ensuremath{\cal R}})}
+\newcommand{\clpfd}{CLP({\ensuremath{\cal FD}})}
+
+\begin{document}
+\frontmatter
+
+\title{Integrazione di ottimizzazione e simulazioni per il piano energetico regionale dell'Emilia-Romagna}
+\author{Andrea Borghesi}
+\date{}
+\titolocorso{Ingegneria Informatica}
+\nomemateria{Sistemi Intelligenti}
+\degreeyear{2011/2012}					% Anno Accademico di Laurea
+\session{III} 						% Sessione di Laurea
+\principaladviser{Chiar.ma Prof. Michela Milano}	% Relatore principale
+
+% non funziona modificare frontesp.sty al variare del numero di correlatori
+\firstreader{Chiar.mo Prof. Marco Gavanelli}
+\secondreader{}			% Correlatori
+\thirdreader{}			% Correlatori
+
+\maketitle % Frontespizio
+
+\thispagestyle{empty}
+\textcolor{white}{.}\\
+\pagebreak 
+
+%Se si vuole mettere l'indice nell'indice (comodo per la navigazione con pdf)
+%\markboth{Indice}{Indice}
+%\addcontentsline{toc}{chapter}{Indice}
+
+\tableofcontents 		% Indice
+\newpage
+\listoffigures
+\listoftables
+
+\mainmatter
+\input{introduzione}
+
+% descrizione progetto ePolicy e introduzione agli strumenti incentivanti
+\input{epolicyChapter}
+
+% descrizione simulatore
+\input{simChapter}
+
+% analisi dei risultati delle simulazioni
+\input{analisiSim}
+
+% descrizione dell'ottimizzazione
+\input{optimizerChapter}
+
+% interazione tra ottimizzatore e simulatore
+\input{interChapter}
+
+\input{conclusioni}
+
+
+\backmatter
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{bibliography}
+\addcontentsline{toc}{chapter}{Bibliografia}
+
+\end{document}

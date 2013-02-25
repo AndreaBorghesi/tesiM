@@ -3,97 +3,97 @@
 
 %capitolo dedicato all'interazione tra ottimizzatore e simulatore
 
-\documentclass[12pt,a4paper,openright,twoside]{report}
-\usepackage[italian]{babel}
-\usepackage{indentfirst}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{fancyhdr}
-\usepackage{graphicx}
-\usepackage{titlesec,blindtext, color}
-\usepackage[font={small,it}]{caption}
-\usepackage{subfig}
-\usepackage{listings}
-\usepackage{color}
-\usepackage{url}
-\usepackage{textcomp}
-\usepackage{eurosym}
-\usepackage{amsmath}
-\usepackage{url}
+%\documentclass[12pt,a4paper,openright,twoside]{report}
+%\usepackage[italian]{babel}
+%\usepackage{indentfirst}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{fancyhdr}
+%\usepackage{graphicx}
+%\usepackage{titlesec,blindtext, color}
+%\usepackage[font={small,it}]{caption}
+%\usepackage{subfig}
+%\usepackage{listings}
+%\usepackage{color}
+%\usepackage{url}
+%\usepackage{textcomp}
+%\usepackage{eurosym}
+%\usepackage{amsmath}
+%\usepackage{url}
 
-%impostazioni generali per visualizzare codice
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
- 
-\lstset{ %
-  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
-  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
-  numbers=left,                   % where to put the line-numbers
-  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
-  numbersep=5pt,  
-  showspaces=false,               % show spaces adding particular underscores
-  showstringspaces=false,         % underline spaces within strings
-  showtabs=false,                 % show tabs within strings adding particular underscores
-  rulecolor=\color{black}, 
-  tabsize=2,                      % sets default tabsize to 2 spaces
-  breaklines=true,                % sets automatic line breaking
-  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
-  title=\lstname,                   % show the filename of files included with \lstinputlisting;
-  frame=single,                   % adds a frame around the code
-                                  % also try caption instead of title
-  keywordstyle=\color{blue},          % keyword style
-  commentstyle=\color{dkgreen},       % comment style
-  stringstyle=\color{mauve},         % string literal style
-  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
-  morekeywords={*,...},              % if you want to add more keywords to the set
-  deletekeywords={...}              % if you want to delete keywords from the given language
-}
+%%impostazioni generali per visualizzare codice
+%\definecolor{dkgreen}{rgb}{0,0.6,0}
+%\definecolor{gray}{rgb}{0.5,0.5,0.5}
+%\definecolor{mauve}{rgb}{0.58,0,0.82}
+% 
+%\lstset{ %
+%  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+%  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+%  numbers=left,                   % where to put the line-numbers
+%  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+%  numbersep=5pt,  
+%  showspaces=false,               % show spaces adding particular underscores
+%  showstringspaces=false,         % underline spaces within strings
+%  showtabs=false,                 % show tabs within strings adding particular underscores
+%  rulecolor=\color{black}, 
+%  tabsize=2,                      % sets default tabsize to 2 spaces
+%  breaklines=true,                % sets automatic line breaking
+%  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+%  frame=single,                   % adds a frame around the code
+%                                  % also try caption instead of title
+%  keywordstyle=\color{blue},          % keyword style
+%  commentstyle=\color{dkgreen},       % comment style
+%  stringstyle=\color{mauve},         % string literal style
+%  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+%  morekeywords={*,...},              % if you want to add more keywords to the set
+%  deletekeywords={...}              % if you want to delete keywords from the given language
+%}
 
-%per avere un bordo intorno alle figure
-\usepackage{float}
-\floatstyle{boxed} 
-\restylefloat{figure}
+%%per avere un bordo intorno alle figure
+%\usepackage{float}
+%\floatstyle{boxed} 
+%\restylefloat{figure}
 
-%per poter poi impedire che certe parole vadano a capo
-\usepackage{hyphenat}
+%%per poter poi impedire che certe parole vadano a capo
+%\usepackage{hyphenat}
 
-%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
-\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
-\fancyhf{}
-\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
-\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
-\fancyfoot[C]{\changefont \thepage}					%footer
+%%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
+%\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
+%\fancyhf{}
+%\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
+%\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
+%\fancyfoot[C]{\changefont \thepage}					%footer
 
-%titolo capitolo con "numero | titolo"
-\definecolor{gray75}{gray}{0.75}
-\newcommand{\hsp}{\hspace{20pt}}
-\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+%%titolo capitolo con "numero | titolo"
+%\definecolor{gray75}{gray}{0.75}
+%\newcommand{\hsp}{\hspace{20pt}}
+%\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
 
 
-\oddsidemargin=30pt \evensidemargin=20pt
+%\oddsidemargin=30pt \evensidemargin=20pt
 
-%sillabazioni non eseguite correttamente
-\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
+%%sillabazioni non eseguite correttamente
+%\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
 
-%interlinea
-\linespread{1.15}  
-\pagestyle{fancy}
+%%interlinea
+%\linespread{1.15}  
+%\pagestyle{fancy}
 
-%cartelle contenenti le immagini
-\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}{/media/sda4/tesi/immagini/epolicy/}{/media/sda4/tesi/immagini/ottimizzazione/}
-{/media/sda4/tesi/immagini/interazione/}}
+%%cartelle contenenti le immagini
+%\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}{/media/sda4/tesi/immagini/epolicy/}{/media/sda4/tesi/immagini/ottimizzazione/}
+%{/media/sda4/tesi/immagini/interazione/}}
 
-%in modo che dopo il titolo di un paragrafo il testo vada a capo
-\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+%%in modo che dopo il titolo di un paragrafo il testo vada a capo
+%\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
 
-%per scrivere bene CLP(R) e CLP(FD)
-\newcommand{\clpr}{CLP({\ensuremath{\cal R}})}
-\newcommand{\clpfd}{CLP({\ensuremath{\cal FD}})}
+%%per scrivere bene CLP(R) e CLP(FD)
+%\newcommand{\clpr}{CLP({\ensuremath{\cal R}})}
+%\newcommand{\clpfd}{CLP({\ensuremath{\cal FD}})}
 
-\begin{document}
-
-\chapter{\nohyphens{INTERAZIONE COMPONENTI}}
+%\begin{document}
+\clearpage{\pagestyle{empty}\cleardoublepage}
+\chapter{\nohyphens{Interazione componenti}}
 Nei capitoli precedenti abbiamo descritto gli elementi principali che concorrono a definire l'architettura del sistema ePolicy (certamente all'interno del progetto sono presente ulteriori componenti, come quello dedicato all'opinion mining, ma in questo caso ci riferiamo a quelli considerati in questo lavoro). Da un punto di vista generale essi sono il modello a vincoli che garantisce una ottimizzazione a livello globale e il simulatore che studia il comportamento delle modalità di incentivazione a livello locale/regionale. Un aspetto molto importante è quindi capire come gestire l'interazione tra ottimizzatore e simulatore in modo ottimale, in modo da integrare le prospettive globale e locale.
 
 Possiamo illustrare la necessità di comprendere a fondo questa interazione con un esempio. Supponiamo che la fase di ottimizzazione abbia prodotto due scenari alternativi, il primo concentrandosi sulla creazione di impianti a biomassa e il secondo sostenendo la costruzione di centrali idroelettriche; entrambi i piani avrebbero un impatto non indifferente sui cittadini. La produzione energetica con la biomassa comporta un impatto sostanziale sulle aree boschive, potenziale inquinamento del suolo e delle coltivazioni, inquinamento dell'aria nelle aree urbane vicine alla centrale; d'altra parte, le centrali idroelettriche prevedono l'allagamento vaste porzioni di territorio. In ogni caso le strategie per implementare il piano, studiate tramite il simulatore, dovrebbero tenere in considerazione questi effetti sugli individui; le attività di implementazione implicherebbero quindi costi aggiuntivi che dovrebbero essere inseriti come nuovi vincoli all'interno dell'ottimizzatore, il quale potrebbe poi effettuare nuovamente la fase di pianificazione, con la possibilità di ottenere risultati diversi. 
@@ -103,7 +103,7 @@ Un approccio molto basilare sarebbe il semplice scambio di risultati tra i due l
 
 Il tema dell'integrazione efficacie tra pianificazione regionale e simulazione è oggetto di intensa ricerca per ottenere una soluzione ottimale all'interno del progetto ePolicy (in modo particolare servendosi di metodologie appartenenti alla \emph{teoria dei giochi}); nel resto del capitolo verrà mostrato un possibile approccio, da noi implementato e messo alla prova con il problema dell'assegnazione dei fondi regionali per l'incentivazione della tecnologia fotovoltaica in Emilia-Romagna.
 
-\section{INTEGRARE DSS E SIMULAZIONI}
+\section{Integrare DSS e simulazioni}
 Un primo approccio a cui è possibile pensare, consiste nello sfruttare i metodi e le tecniche dell'\emph{Apprendimento Automatico} (noto in letteratura anche come \emph{Machine Learning}), il quale rappresenta un'area dell'Intelligenza Artificiale che si occupa della realizzazione di sistemi e algoritmi che si basano su serie di osservazioni e dati per la sintesi di nuova conoscenza. Senza voler entrare nel dettaglio, possiamo comunque citare una definizione comunemente accettata di Apprendimento Automatico: \emph{``Un programma apprende da una certa esperienza E se, con rispetto a una classe di compiti T e una misura delle prestazioni P, le prestazioni P nello svolgere un compito dell'insieme T sono migliorate dall'esperienza E''} \cite{Mitchell}.
  
 Nel nostro caso abbiamo sfruttato le tecniche di regressione viste nei capitoli precedenti per ricavare le relazioni che legano i fondi destinati agli incentivi regionali con la produzione elettrica di energia elettrica fotovoltaica, partendo dalle serie di dati forniti dal simulatore, affinché fosse poi possibile inserirle all'interno dell'ottimizzatore sotto forma di ulteriori vincoli, da tenere in considerazione per la fase di pianificazione. Il nostro fine è stato quello di estrarre dalla grande quantità di dati generata dal simulatore delle informazioni utili per migliorare il modello del problema da ottimizzare.
@@ -137,10 +137,11 @@ L'interazione inizia dall'ottimizzatore che fornisce una soluzione per il proble
 
 La sfida principale consiste nel determinare l'insieme dei vincoli che vengono trasferiti tra le due componenti: se venissero esclusi dall'insieme dei valori ammissibili solamente quelli ipotizzati - e trovati non adatti grazie alle simulazioni - si correrebbe il rischio di effettuare troppe iterazioni, arrivando al caso limite di effettuare una simulazione esaustiva per tutti i parametri (in pratica verrebbero nuovamente fatte delle simulazioni per ogni valore del budget per gli incentivi regionali); se invece dall'insieme dei valori  venissero esclusi (troppi) valori ulteriori il pericolo sarebbe quello di scartare delle soluzioni promettenti. Questo tema e l'implementazione effettiva di questo secondo approccio sono attualmente oggetto di ricerca.
 
-\section{REGRESSIONE LINEARE A TRATTI}
+\section{Regressione lineare a tratti}
 Passiamo ora a discutere del modo in cui l'approccio basato sull'Apprendimento Automatico sia stato implementato nel nostro modello a vincoli.
 \\*\\*
-Come è stato descritto nel terzo capitolo, tramite un grande numero di simulazioni è stato possibile ottenere una grande quantità di dati dalla quale abbiamo successivamente ricavato le relazioni che legano i fondi per gli incentivi regionale alla produzione energetica da fotovoltaico e quest'ultima alla forza dell'interazione sociale tra gli agenti. Tali relazioni sono state espresse sotto forma di funzioni e corrispondenti curve, ottenute attraverso l'applicazione di tecniche di regressione. A questo punto la nostra intenzione è stata quella di integrare queste funzioni all'interno modello a vincoli del problema di ottimizzazione, aggiungendo cioè i nuovi vincoli appresi grazie alle simulazioni svolte; è sorto quindi un problema, poiché, come descritto nel capitolo precedente, il risolutore dai noi utilizzato l'ottimizzazione gestisce esclusivamente equazioni lineari - per motivi di efficienza. Dal momento che modificare questa caratteristica, ovvero impiegare un risolutore in grado di trattare le funzioni quadratiche e di grado anche superiore ricavate dalla regressione, avrebbe richiesto cambiamenti radicali nella struttura generale e nel codice dell'ottimizzatore, abbiamo ritenuto che fosse meglio procedere in un altro modo, che ci consentisse di preservare la linearità del modello a vincoli sviluppato. Per questo motivo abbiamo deciso di tentare di rendere lineari le relazioni  ottenute con la regressione sfruttando una tecnica matematica definita \emph{approssimazione lineare a tratti} \cite{piecewiseApprox,cattafi} (dall'inglese, \emph{piece-wise linear approximation}), che consiste nell'approssimare un'arbitraria funzione con un insieme di equazioni lineari con la massima accuratezza possibile. Possiamo ad esempio osservare in Figura~\ref{piecewiseApprox_example} l'approssimazione di una semplice funzione quadratica (in blu) attraverso cinque funzioni lineari (in rosso). 
+Come è stato descritto nel terzo capitolo, tramite un grande numero di simulazioni è stato possibile ottenere una grande quantità di dati dalla quale abbiamo successivamente ricavato le relazioni che legano i fondi per gli incentivi regionale alla produzione energetica da fotovoltaico e quest'ultima alla forza dell'interazione sociale tra gli agenti. Tali relazioni sono state espresse sotto forma di funzioni e corrispondenti curve, ottenute attraverso l'applicazione di tecniche di regressione. A questo punto la nostra intenzione è stata quella di integrare queste funzioni all'interno modello a vincoli del problema di ottimizzazione, aggiungendo cioè i nuovi vincoli appresi grazie alle simulazioni svolte; è sorto quindi un problema, poiché, come descritto nel capitolo precedente, il risolutore dai noi utilizzato l'ottimizzazione gestisce esclusivamente equazioni lineari - per motivi di efficienza. Dal momento che modificare questa caratteristica, ovvero impiegare un risolutore in grado di trattare le funzioni quadratiche e di grado anche superiore ricavate dalla regressione, avrebbe richiesto cambiamenti radicali nella struttura generale e nel codice dell'ottimizzatore, abbiamo ritenuto che fosse meglio procedere in un altro modo, che ci consentisse di preservare la linearità del modello a vincoli sviluppato. Per questo motivo abbiamo deciso di tentare di rendere lineari le relazioni  ottenute con la regressione sfruttando una tecnica matematica definita \emph{approssimazione lineare a tratti} \cite{piecewiseApprox,Cattafi} (dall'inglese, \emph{piece-wise linear approximation}), che consiste nell'approssimare un'arbitraria funzione con un insieme di equazioni lineari con la massima accuratezza possibile. 
+Possiamo ad esempio osservare in Figura~\ref{piecewiseApprox_example} l'approssimazione di una semplice funzione quadratica (in blu) attraverso cinque funzioni lineari (in rosso). 
 
 \begin{figure}[htb]
 	\begin{center}
@@ -168,7 +169,7 @@ Al massimo due $\lambda_i$ possono essere diverse da zero e in tal caso queste d
 
 Chiaramente queste ultime due condizioni non sono lineari, ma potrebbero essere modellate in un problema di Programmazione Logica Intera introducendo nuove 0-1 variabili intere, ma esiste una opzione più efficiente. In molti risolutori - compreso quello da noi impiegato - è possibile dichiarare $(\lambda_1,...,\lambda_k)$ come Special Order Set del secondo tipo (SOS2) \cite{bealeTomlin}, cioè un insieme ordinato di variabili utilizzato per specificare  determinate condizioni in problemi di ottimizzazione, e il risolutore sfrutterà questa informazione per ricercare una soluzione ottimale in modo più efficiente (in pratica, sapere che una variabile appartiene ad un certo insieme ordinato consente di usare in modo più intelligente gli algoritmi di branch-and-bound del solver).
 
-\subsection{IMPLEMENTAZIONE IN R}
+\subsection{Implementazione in R}
 
 Le informazioni necessarie per poter inserire le equazioni (\ref{eq:aprroxEqX}), (\ref{eq:aprroxEqY}) e (\ref{eq:aprroxEqLambda}) all'interno del modello a vincoli sono le coordinate dei punti di campionamento. Per trovarle ci siamo serviti del precedentemente introdotto R e in particolare del pacchetto software \emph{Segmented} \cite{segmentedPackage}. Grazie ad esso è stato molto semplice trovare un'ottima approssimazione lineare per le funzioni che legavano il budget alla produzione energetica (una per ogni tipo di incentivo), come si può facilmente osservare nel codice qui presentato.
 
@@ -198,11 +199,11 @@ Una volta ricavate le approssimazioni lineari a tratti delle funzioni, è possib
 	\label{incentCompare_piecewise}
 \end{figure}
 
-\section{INTEGRAZIONE MODELLO}
+\section{Integrazione modello}
 
 Possiamo ora descrivere in che modo abbiamo inserito le relazioni approssimate all'interno del modello a vincoli dell'ottimizzatore. In particolare mostreremo quali estensioni siano state aggiunte al modello per permettere al risolutore di calcolare l'assegnazione ottima dei fondi disponibili ai vari tipi di incentivo, con lo scopo di massimizzare la produzione di energia.
 
-\subsection{VARIABILI}
+\subsection{Variabili}
 
 Innanzitutto per ogni tipologia di incentivo regionale sono state introdotte due variabili che rappresentano il costo associato e la relativa produzione energetica. Per i costi le variabili sono chiamate $costo_A$, $costo_{CI}$, $costo_R$, $costo_G$, con $costo_j \in[0..50]$ (dominio espresso in milioni di euro) - rispettivamente incentivo in conto capitale (denominato in precedenza anche Fondo Asta), Conto Interessi, Fondo Rotazione e Fondo Garanzia. In modo simile, alle produzioni energetiche garantite dagli incentivi abbiamo associato delle variabili chiamate $prod_A$, $prod_{CI}$, $prod_R$, $prod_G$, con $prod_j \in [0..10]$ (dominio espresso in MWatt); il codice relativo alla creazione di tali variabili è qui riportato.
 
@@ -224,7 +225,7 @@ Occorre fare subito un'importante precisazione, ovvero spiegare che per produzio
 
 Abbiamo poi introdotto le variabili ausiliarie necessarie all'approssimazione lineare chiamate $\lambda_i$ nell'equazione (\ref{eq:aprroxEqLambda}) e ugualmente nominate all'interno del problema e sempre con $\lambda_i \in [0..1]$; per ciascun tipo di incentivo e per ogni punto scelto per la campionatura sulle curve budget-produzione è stata introdotta una variabile ausiliaria $\lambda_{ji}$, con $j$ indice per il tipo di incentivo e $i$ per il punto campionato. Come scelta iniziale i punti utilizzati per la campionatura sono il minor numero possibile tramite cui rappresentare correttamente la funzione approssimata, cioè i punti in cui si osserva un cambiamento del gradiente della curva; in particolare abbiamo usato tre punti per gli incentivi Fondo Asta, Conto Interessi e Fondo Rotazione e quattro per il Fondo Garanzia. Per maggiore precisione, osserviamo che le coordinate dei punti per la campionatura sono quelle ricavate tramite le semplici righe di codice scritte in \emph{R} e descritte nella sezione precedente. 
 
-\subsection{VINCOLI}
+\subsection{Vincoli}
 
 Dopo le variabili occorre esprimere i vincoli che consentono di modellare il problema. Come prima cosa è necessario trasporre sotto forma di vincoli le equazioni descritte in precedenza (\ref{eq:aprroxEqX}), (\ref{eq:aprroxEqY}) e (\ref{eq:aprroxEqLambda}), utilizzate per approssimare le curve delle relazioni con delle funzioni lineari a tratti; nell'equazione \ref{eq:vincoloAuxY} il termine $y_{ji}-PR_{base}$ serve per calcolare la differenza di produzione energetica rispetto al caso di nessun incentivo.
 
@@ -285,7 +286,7 @@ Riportiamo quindi l'implementazione.
 	...
 \end{lstlisting}
 
-\section{ASSEGNAZIONE FONDI}
+\section{Assegnazione fondi}
 
 Per valutare ora l'interazione tra il DSS e il simulatore analizzeremo ora in che modo vengono finanziati le diverse tipologie di incentivazione sulla base del problema a vincoli presentato in precedenza.
 
@@ -300,7 +301,7 @@ Per come il sotto-problema dell'assegnazione dei fondi è stato definito, il ris
 
 Nelle tabelle seguenti sarà mostrato in che modo vengono assegnati i fondi ai vari incentivi a partire da un determinato budget, evidenziando anche l'aumento di produzione energetica ottenibile rispetto al caso in cui nessun incentivo venga finanziato; per avere un riferimento ricordiamo che nel nostro simulatore, quindi non adeguatamente scalato, il valore di produzione energetica ottenibile in assenza di meccanismi incentivanti è di circa 21.664MW. Ricordiamo inoltre che, per come è stato progettato il simulatore, il budget destinato agli incentivi è distribuito lungo un arco temporale quinquennale. 
 
-\myparagraph{FONDO INCENTIVI – \euro2.5M}
+\myparagraph{Fondo incentivi – \euro2.5M}
 
 Con questo fondo per gli incentivi viene finanziato totalmente il Conto Interessi consumando interamente il budget disponibile, impedendo quindi di stanziare fondi anche agli altri incentivi, e ottenendo un aumento di produzione energetica di 3.563MW.
 
@@ -320,7 +321,7 @@ Con questo fondo per gli incentivi viene finanziato totalmente il Conto Interess
 	\label{tab:assegnFondi2M}	
 \end{table}
 
-\myparagraph{FONDO INCENTIVI – \euro5M}
+\myparagraph{Fondo incentivi – \euro5M}
 
 In questo caso è possibile finanziare interamente il Conto Interessi (il quale, come atteso, richiede decisamente meno risorse degli altri, ovvero potendo essere completamente soddisfatto con 2.53 milioni di euro) e distribuire il budget restante agli incentivi Fondo Rotazione e Garanzia, ottenendo così un miglioramento della produzione energetica di 4.121MW.
 
@@ -340,7 +341,7 @@ In questo caso è possibile finanziare interamente il Conto Interessi (il quale,
 	\label{tab:assegnFondi5M}	
 \end{table}
 
-\myparagraph{FONDO INCENTIVI – \euro10M}
+\myparagraph{Fondo incentivi – \euro10M}
 
 Con un ulteriore aumento del budget l'assegnazione dei fondi ottimale prevede di distribuire prima al Conto Interessi seguito sempre dai Fondi Garanzia e Rotazione, ottenendo un incremento della produzione energetica pari a 4.708MW; in realtà il scendo miglior incentivo è il Fondo Garanzia e quindi esso riceve finanziamenti maggiori rispetto al Rotazione, a quest'ultimo viene comunque assegnato un budget di un milione di euro (anche nel caso precedente) in quanto, per come sono stati campionati i punti che definiscono l'approssimazione lineare a tratti, a tale budget è associata una produzione energetica migliore rispetto a quella del Fondo Garanzia.
 
@@ -360,7 +361,7 @@ Con un ulteriore aumento del budget l'assegnazione dei fondi ottimale prevede di
 	\label{tab:assegnFondi10M}	
 \end{table}
 
-\myparagraph{FONDO INCENTIVI – \euro15M}
+\myparagraph{Fondo incentivi – \euro15M}
 
 Aumentando i fondi stanziati dalla regione di altri cinque milioni, si ottiene come risultato la distribuzione dei finanziamenti aggiuntivi esclusivamente al Fondo Garanzia, mentre per le restanti tipologie di incentivo sono previste le stesse spese del caso di budget pari a dieci milioni; ad ogni modo, con un fondo per l'incentivazione di quindici milioni di euro l'incremento della produzione energetica è di 5.34MW.
 
@@ -380,7 +381,7 @@ Aumentando i fondi stanziati dalla regione di altri cinque milioni, si ottiene c
 	\label{tab:assegnFondi15M}	
 \end{table}
 
-\myparagraph{FONDO INCENTIVI – \euro20M}
+\myparagraph{Fondo incentivi – \euro20M}
 
 Con un budget di venti milioni di euro notiamo due differenze. 
 
@@ -404,7 +405,7 @@ La seconda differenza è che conviene anche destinare una minima parte (un milio
 	\label{tab:assegnFondi20M}	
 \end{table}
 
-\myparagraph{FONDO INCENTIVI – \euro40M}
+\myparagraph{Fondo incentivi – \euro40M}
 
 Con un budget di 40 milioni di euro i risultati sono molto simili al caso precedente, con la differenza che i maggiori finanziamenti disponibili vengono interamente indirizzati al Fondo Rotazione, poichè il Conto Interessi è in grado di rendere al massimo anche con una spesa minima e il Fondo Garanzia diventa meno efficace con budget maggiori di 13 milioni e mezzo di euro (come anche il Fondo Asta con qualsiasi budget); l'incremento di produzione energetica rispetto alla mancanza di metodologie incentivanti è di 7.913MW.
 
@@ -424,8 +425,8 @@ Con un budget di 40 milioni di euro i risultati sono molto simili al caso preced
 	\label{tab:assegnFondi40M}	
 \end{table}
 
-\nocite{*}
-\bibliographystyle{plain}
-\bibliography{bibliography}
+%\nocite{*}
+%\bibliographystyle{plain}
+%\bibliography{bibliography}
 
-\end{document}
+%\end{document}

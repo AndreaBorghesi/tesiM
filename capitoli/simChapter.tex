@@ -3,96 +3,97 @@
 
 %capitolo dedicato alla simulazione 
 
-\documentclass[12pt,a4paper,openright,twoside]{report}
-\usepackage[italian]{babel}
-\usepackage{indentfirst}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{fancyhdr}
-\usepackage{graphicx}
-\usepackage{titlesec,blindtext, color}
-\usepackage[font={small,it}]{caption}
-\usepackage{subfig}
-\usepackage{listings}
-\usepackage{color}
-\usepackage{url}
-\usepackage{textcomp}
+%\documentclass[12pt,a4paper,openright,twoside]{report}
+%\usepackage[italian]{babel}
+%\usepackage{indentfirst}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{fancyhdr}
+%\usepackage{graphicx}
+%\usepackage{titlesec,blindtext, color}
+%\usepackage[font={small,it}]{caption}
+%\usepackage{subfig}
+%\usepackage{listings}
+%\usepackage{color}
+%\usepackage{url}
+%\usepackage{textcomp}
 
-%impostazioni generali per visualizzare codice
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
- 
-\lstset{ %
-  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
-  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
-  showspaces=false,               % show spaces adding particular underscores
-  showstringspaces=false,         % underline spaces within strings
-  showtabs=false,                 % show tabs within strings adding particular underscores
-  tabsize=2,                      % sets default tabsize to 2 spaces
-  breaklines=true,                % sets automatic line breaking
-  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
-  title=\lstname,                   % show the filename of files included with \lstinputlisting;
-                                  % also try caption instead of title
-  keywordstyle=\color{blue},          % keyword style
-  commentstyle=\color{dkgreen},       % comment style
-  stringstyle=\color{mauve},         % string literal style
-  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
-  morekeywords={*,...},              % if you want to add more keywords to the set
-  deletekeywords={...}              % if you want to delete keywords from the given language
-}
+%%impostazioni generali per visualizzare codice
+%\definecolor{dkgreen}{rgb}{0,0.6,0}
+%\definecolor{gray}{rgb}{0.5,0.5,0.5}
+%\definecolor{mauve}{rgb}{0.58,0,0.82}
+% 
+%\lstset{ %
+%  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+%  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+%  showspaces=false,               % show spaces adding particular underscores
+%  showstringspaces=false,         % underline spaces within strings
+%  showtabs=false,                 % show tabs within strings adding particular underscores
+%  tabsize=2,                      % sets default tabsize to 2 spaces
+%  breaklines=true,                % sets automatic line breaking
+%  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+%                                  % also try caption instead of title
+%  keywordstyle=\color{blue},          % keyword style
+%  commentstyle=\color{dkgreen},       % comment style
+%  stringstyle=\color{mauve},         % string literal style
+%  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+%  morekeywords={*,...},              % if you want to add more keywords to the set
+%  deletekeywords={...}              % if you want to delete keywords from the given language
+%}
 
-%per avere un bordo intorno alle figure
-\usepackage{float}
-\floatstyle{boxed} 
-\restylefloat{figure}
+%%per avere un bordo intorno alle figure
+%\usepackage{float}
+%\floatstyle{boxed} 
+%\restylefloat{figure}
 
-%per poter poi impedire che certe parole vadano a capo
-\usepackage{hyphenat}
-\usepackage{listings}
+%%per poter poi impedire che certe parole vadano a capo
+%\usepackage{hyphenat}
+%\usepackage{listings}
 
-%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
-\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
-\fancyhf{}
-\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
-\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
-\fancyfoot[C]{\changefont \thepage}					%footer
+%%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
+%\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
+%\fancyhf{}
+%\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
+%\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
+%\fancyfoot[C]{\changefont \thepage}					%footer
 
-%titolo capitolo con "numero | titolo"
-\definecolor{gray75}{gray}{0.75}
-\newcommand{\hsp}{\hspace{20pt}}
-\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+%%titolo capitolo con "numero | titolo"
+%\definecolor{gray75}{gray}{0.75}
+%\newcommand{\hsp}{\hspace{20pt}}
+%\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
 
 
-\oddsidemargin=30pt \evensidemargin=20pt
+%\oddsidemargin=30pt \evensidemargin=20pt
 
-%sillabazioni non eseguite correttamente
-\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
+%%sillabazioni non eseguite correttamente
+%\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
 
-%interlinea
-\linespread{1.15}  
-\pagestyle{fancy}
+%%interlinea
+%\linespread{1.15}  
+%\pagestyle{fancy}
 
-%cartelle contenenti le immagini
-\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}}
+%%cartelle contenenti le immagini
+%\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}}
 
-%in modo che dopo il titolo di un paragrafo il testo vada a capo
-\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+%%in modo che dopo il titolo di un paragrafo il testo vada a capo
+%\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
 
-\begin{document}
-\chapter{SIMULAZIONE}
+%\begin{document}
+\clearpage{\pagestyle{empty}\cleardoublepage}
+\chapter{Simulazione}
 
 In questo capitolo verrà illustrato in che modo abbiamo studiato le relazioni che legano i diversi aspetti del piano energetico regionale, concentrandoci particolarmente su come la creazione di meccanismi di incentivazione da parte della regione Emilia-Romagna possa influenzare la produzione di energia elettrica proveniente da impianti fotovoltaici.
 Per capire queste relazioni abbiamo scelto un approccio basato sulle simulazioni. Abbiamo quindi creato un modello della realtà (o almeno l'aspetto da noi preso in esame) e attraverso esso esaminato le dinamiche del sistema di nostro interesse.
 
 Ora saranno presentati gli strumenti di cui ci siamo serviti implementare il modello sopra citato e in seguito il simulatore vero e proprio, spiegandone caratteristiche, funzionalità e limitazioni.
 
-\section{STRUMENTI}
+\section{Strumenti}
 
 Lo strumento che abbiamo utilizzato per realizzare il simulatore  è \emph{Netlogo}, un software che offre un ambiente di sviluppo ideale per la realizzazione di modelli di simulazioni ad agenti, di networks e di sistemi dinamici (sviluppato nel presso il Center for Connected Learning and Computer-Based Modeling della Northwestern University).
 
 
-\subsection{NETLOGO}
+\subsection{Netlogo}
 
 Netlogo è un linguaggio di programmazione e ambiente di sviluppo open source che permette la modellazione di sistemi complessi formati da molteplici agenti che interagiscono tra loro, studiandone l'evoluzione  e visualizzandola in tempo reale.
 
@@ -134,7 +135,7 @@ In Figura~\ref{netlogoUI_code} sono mostrati un esempio di una parte di iterfacc
 Un altro elemento fondamentale dell'ambiente di sviluppo è rappresentato dalla gestione delle variabili aggregate e le relative statistiche. Poiché lo scopo di un modello di simulazione ad agenti è spesso rappresentato dalla necessità di comprendere a livello globale il comportamento di un sistema descritto nelle sue singole componenti ne deriva la necessità di calcolare e rappresentare l'andamento nel tempo di variabili aggregate per valutare qualitativamente il modello. In NetLogo ad ognuna delle variabili del modello è possibile associare un oggetto monitor, che ne mostra dinamicamente le variazioni, oppure un grafico, che ne raffigura l'andamento nel tempo. Gli  oggetti che permettono la gestione dei grafici sono \emph{plot} e \emph{histogram}, entrambi da definire sia a livello d'interfaccia grafica come avviene anche per le procedure, sia nel codice della simulazione.
 
 
-\section{MODELLO AD AGENTI}
+\section{Modello ad agenti}
 
 Dopo aver mostrato di quali strumenti software ci siamo serviti per sviluppare un modello che permetta di esaminare la produzione di energia da fonti rinnovabili nella regione Emilia-Romagna, introdurremo ora la metodologia scelta per realizzare la nostra modellazione di realtà.
 
@@ -163,7 +164,7 @@ Una delle principali caratteristiche degli agenti è rappresentata dalla eteroge
 Per concludere possiamo affermare che i sistemi multi agente si adattano molto bene a modellare fenomeni macro (prospettiva globale) attraverso l'utilizzo di condizioni micro che definiscono il comportamento dei singoli agenti. Scegliendo di utilizzare le simulazioni ad agenti tentiamo quindi di riprodurre un contesto di interazione da cui i fenomeni sociali emergono secondo un approccio bottom-up.
 
 
-\section{SIMULATORE BASE}
+\section{Simulatore base}
 
 
 Dopo aver introdotto nei paragrafi precedenti gli strumenti software che abbiamo utilizzato e il tipo di metodologia scelta, è giunto ora il momento di illustrare come il modello da simulare sia stato realizzato. Ci concentreremo prima sulla versione iniziale della simulazione ad agenti che ha lo scopo di modellare, individuare ed analizzare le principali caratteristiche che influenzano la scelta di un investimento nel settore dell'energia da fonti rinnovabili sul territorio della regione Emilia-Romagna, ed in particolare nel fotovoltaico.
@@ -173,14 +174,14 @@ Dalla prospettiva degli agenti (privati, aziende,...) prima di realizzare un inv
 La simulazione è stata pensata con lo scopo di analizzare le esigenze connesse allo sviluppo di un nuovo progetto  fotovoltaico in fase di pianificazione e verificare la fattibilità dell'idea, fornendo quindi un utile strumento di valutazione per i singoli investitori, ma allo stesso tempo consente di ricavare informazioni di natura più globale, come la quantità totale di energia prodotta con tecnologie fotovoltaiche o le spese sostenute dalla regione, grazie alle quali è possibile integrare i risultati delle simulazioni all'interno del problema di ottimizzazione che ha come obiettivo la creazione di un piano energetico regionale.\\* \\*
 La descrizione che segue non entrerà troppo nel dettaglio poiché l'implementazione vera e propria del simulatore è stata oggetto di un lavoro precedente \cite{tesiCroce}, ma una panoramica generale è necessaria per comprendere le dinamiche dell'ambiente simulato e comprendere quindi i risultati ottenuti.
 
-\subsection{DESCRIZIONE SIMULATORE}
+\subsection{Descrizione simulatore}
 Come molte simulazioni ad agenti la gestione del tempo simulato rappresenta un elemento fondamentale nella costruzione di un buon modello e nell'applicazione sviluppata si è deciso di riprodurre lo scorrere del tempo e quindi, di conseguenza, degli eventi ad esso legati con cadenza semestrale (questa scelta è dovuta alla natura della normativa Italiana sugli incentivi nel settore fotovoltaico). Secondariamente si è dovuto determinare l'arco temporale in cui sviluppare le simulazioni: il modello simula la creazione di nuovi impianti fotovoltaici a partire dal primo semestre del 2012 sino al secondo semestre del 2016 e, poiché la tariffa incentivante applicata all'energia prodotta dagli impianti, a partire dalla data di entrata in esercizio, è garantita per un periodo di 20 anni, ne consegue che la durata delle simulazioni si estende dal primo semestre del 2012 fino al secondo semestre del 2036.
 \\* \\*
 Per modellare correttamente le dinamiche del sistema complesso studiato è stato necessario introdurre diversi parametri che regolano diversi aspetti della simulazione. Ad esempio, l'energia elettrica che ogni impianto è capace di generare è strettamente legata alla posizione geografica e all'orientamento dei pannelli fotovoltaici che lo compongono(per semplificare l'orientamento e l'angolo d'inclinazione dei pannelli sono state considerate ottimali, ovvero verso Sud e inclinazione 30\textdegree). Per poter realizzare un modello che simuli la nascita di nuovi impianti in qualsiasi zona del territorio italiano l'irradiazione media annuale è un parametro globale del modello il cui valore è possibile variare l'interfaccia grafica. Ancora, il parametro che controlla il costo medio al kWp in funzione di quelli che sono i relativi costi degli impianti è regolabile tramite l'interfaccia, anche dinamicamente durante la simulazione in modo tale che il costo degli impianti vari nel tempo (generalmente tenderà a diminuire nel corso degli anni). Altre variabili globali legate agli impianti sono la perdita di efficienza annuale dei pannelli fotovoltaici e il costo di manutenzione.
 \\* \\*
 Una volta stabiliti parametri fondamentali e costi di un impianto avviene, ogni anno, la valutazione economica legata al rendimento di quest'ultimo e quindi relativa all'investimento sostenuto per realizzarlo. Questa fase prende in considerazioni fattori strettamente legati all'andamento del costo dell'elettricità oltre che alla tariffa incentivante riconosciuta per l'energia prodotta dall'impianto. Infatti i ricavi derivanti da un impianto fotovoltaico sono sia diretti, ovvero derivanti da incentivi e dall'eventuale vendita dell'energia in eccesso, ma anche indiretti come l'autoconsumo; per semplificare il modello è stata prevista una sola modalità di valorizzazione dell'energia prodotta e non direttamente consumata, ovvero il ritiro dedicato da parte del Gestore della Servizi Energetici (GSE).
 
-\subsection{AGENTI DEL MODELLO}
+\subsection{Agenti del modello}
 Per ogni step esecutivo, compreso tra il 2012 e il 2016 il sistema genera un determinato numero di agenti, numero che può essere anche fatto variare dinamicamente tramite un opportuno selettore dell'interfaccia di Netlogo; questi agenti rappresentano gli attori del modello interessati a investire in un impianto fotovoltaico. Ognuno di essi è caratterizzato da diversi parametri, tra i quali è opportuno ricordare:
 \begin{itemize}
 \item \emph{Id}, identificativo univoco agente;
@@ -196,7 +197,7 @@ Questi parametri sono fondamentali per far si che l'agente posso valutare la fat
 Gli agenti che optano per abbandonare l'idea di un investimento vengono eliminati dal modello mentre quelli che, a margine dello studio di fattibilità, decidono di effettuare l'investimento daranno vita alla generazione di un nuovo impianto. Come per gli agenti, gli impianti possiedono attributi che li caratterizzano: data di entrata in funzione, tipologia, tecnologia di realizzazione, costo, fascia potenza, tariffa incentivante riconosciuta e dimensione.\\* \\*
 Oltre agli agenti che modellano i possibili investitori appena descritti, abbiamo aggiunto al simulatore anche un altro tipo di entità, cioè un unico agente che rappresenta la regione Emilia-Romagna e ci ha permesso di implementare alcune politiche centralizzate anche nel mondo totalmente distribuito di Netlogo (ad esempio è stato così possibile fare in modo che il budget che la regione mette a disposizione per gli incentivi non dovesse essere fissato all'inizio del periodo compreso tra 2012 e 2016, ma fosse frazionato in diversi budget annuali).
 
-\subsection{VALUTAZIONE FATTIBILITÀ}
+\subsection{Valutazione fattibilità}
 Sulla base dei parametri che definiscono il modello ogni agente è in grado di valutare la fattibilità economica dell'investimento calcolando il VAN (il Valore attuale netto dell'investimento) per l'impianto da realizzare; da questo valore è possibile individuare il PBT (Pay Back Time), il periodo necessario per il ``ritorno'' dell'investimento iniziale, e il ROE (Return On Equity), l'indice di redditività del capitale investito.
 \\*
 Alcune variabili globali usate per la valutazione di fattibilità sono:
@@ -239,7 +240,7 @@ In Figura~\ref{mondoVirtualeSim} possiamo osservare il mondo virtuale di Netlogo
 	\label{mondoVirtualeSim}
 \end{figure}
 
-\subsection{ESECUZIONE DEL MODELLO}
+\subsection{Esecuzione del modello}
 
 Una volta popolato il modello con un certo numero di agenti (nell'intervallo [0..100]) viene avviata l'esecuzione della simulazione, per tutta la durata della quale continueranno ad essere svolte azioni come l'aggiornamento degli impianti (anni di vita, rendimento, calcolo energia prodotta), aggiornamento dei consumi di elettricità degli agenti, calcolo dei ricavi connessi alla produzione energetica, aggiornamento dei parametri globali del modello che cambiano insieme allo scorrere del tempo simulato. 
 \\* \\*
@@ -258,13 +259,13 @@ Ricordiamo che in questa prima versione del simulatore lo strumento unico attrav
 La cosa principale da capire riguardante il comportamento degli agenti è il fatto che essi prendano le loro decisioni in maniera individuale sulla base delle proprie considerazioni di fattibilità economica, guadagno o ostinazione personale e alla fine le loro scelte singole concorrono a generare una certa produzione totale di energia da impianti fotovoltaici. Dal punto di vista della regione Emilia-Romagna il valore della produzione di energia fotovoltaica totale è fondamentale in quanto è il parametro osservabile in uscita dal simulatore che rivela se il piano energetico regionale, il quale prevede che certe quote di energia debbano essere prodotte da fonti rinnovabili, sia fattibile, o se invece sia necessario un investimento maggiore fornendo ad esempio incentivi di entità maggiore, grazie ai quali un maggior numero di agenti possa effettuare la scelta di installare un impianto fotovoltaico.
 
 
-\section{SIMULATORE ESTESO}
+\section{Simulatore esteso}
 
 Dopo aver realizzato il primo modello descritto nel paragrafo precedente \cite{tesiCroce}, ci è sembrato utile estenderlo con nuove funzionalità nella direzione di rendere le simulazioni maggiormente realistiche rispetto alle dinamiche del sistema complesso reale e fornire modalità di incentivazione più avanzate con le quali i decisori politici possano intervenire per ottenere la produzione energetica da energia fotovoltaica desiderata \cite{lavoroCerri}.
 
 Le estensioni introdotte e di cui andremo ora a discutere sono quindi due: quattro distinte modalità di incentivazione e l'inclusione all'interno del modello dell'aspetto legato all'iterazione sociale.
 
-\subsection{MODALITÀ INCENTIVANTI}
+\subsection{Modalità incentivanti}
 
 La regione deve destinare un budget per gli incentivi, esaurito il quale nessuno può usufruire di tali facilitazioni economiche. Le varie tipologie d’incentivi sono tra loro alternative e prima della partenza della simulazione è necessario scegliere quale applicare; non è quindi possibile studiare attraverso il simulatore quali possano essere le interazioni tra diverse metodologie incentivanti. Un agente non è tenuto ad usufruire degli incentivi, ad esempio può non essere a conoscenza di tali iniziative regionali, o può non avere intenzione di accendere un mutuo (per questo un parametro della simulazione è la probabilità che un agente voglia ricorrere all’incentivo).
 
@@ -290,7 +291,7 @@ Con quest'ultimo metodo, ancora a fondo perduto, abbiamo considerato il caso in 
 
 Lo studio della fattibilità di un investimento nel caso del simulatore esteso con i tipi di incentivi sopra citati possiede lo stesso schema di quello presente nel primo modello implementato (Fig.~\ref{flowChartValFatt}). Le differenze si possono riscontrare, ad esempio, nel diverso valore della variabile \emph{Costo impianti}, che ora deve tenere in considerazione il costo degli interessi di eventuali mutui e le riduzioni derivanti dalla presenza di tecniche incentivanti, o ancora nel fatto che il parametro che \emph{Ostinazione} (carateristico di ogni agente e che influisce sulla determinazione a realizzare un impianto nei casi dove sia necessaria la richiesta di un prestito o il ridimensionamento) sia ora costituito da tre diverse componenti, cioè il valore originario di ostinazione, il livello di influenza delle rate (o meglio la possibilità di rateizzare le spese) e il livello di influenza dell'iterazione sociale (descritto nel paragrafo successivo).
 
-\subsection{INTERAZIONE SOCIALE}
+\subsection{Interazione sociale}
 
 Poiché il simulatore iniziale aveva un comportamento esclusivamente deterministico col quale la produzione di energia fotovoltaica degli agenti era condizionata unicamente da fattori di tipo economico, abbiamo deciso di estenderlo verso una direzione più realistica, dove considerare le interazioni sociali tra i diversi agenti. Il tentativo è stato fatto col fine di approssimare una rete small word, un sistema cioè in cui se un agente prende una decisione, anche i suoi vicini ne sono influenzati.
 
@@ -305,7 +306,7 @@ In Figura~\ref{iterSocMondoVirt} possiamo osservare un esempio di come si formin
 	\label{iterSocMondoVirt}
 \end{figure}
 
-\section{LIMITI SIMULATORE}
+\section{Limiti simulatore}
 
 Il modello implementato presenta al suo interno diverse assunzioni e approssimazioni effettuate per semplificarne l'implementazione, ma al tempo stesso consente di effettuare uno studio accurato delle proprietà interessanti nell'ambito di questo lavoro, come ad esempio l'analisi delle risposte degli agenti di fronte alla presenza di diverse tipologie di incentivi e al variare del fondo destinato all'incentivazione delle tecnologie fotovoltaiche stanziato dalla regione Emilia-Romagna. Vogliamo quindi precisare che per il caso di studio considerato, ovvero le interazioni tra simulazione e ottimizzazione per la realizzazione di un piano energetico regionale, il modello utilizzato soddisfa i requisiti necessari ad una corretta trattazione.
 
@@ -321,11 +322,8 @@ Un altro punto importante è il meccanismo con cui viene effettuata la valutazio
 Per quanto riguarda l'interazione sociale qui implementata, essa considera semplicemente l’influenza dei vicini, cioè
 all’aumentare dei vicini che hanno realizzato l’investimento aumenta anche la probabilità dell’agente stesso di realizzarlo, mentre esistono ovviamente modelli sociologici molto più complessi, completi e realistici che possono essere presi in considerazione. Tra le altre cose potrebbe essere introdotto un altro fattore che agisca parallelamente all'ostinazione, all'influenza delle rate e quella sociale, in particolare uno che tenga in conto il fatto che all’aumentare di risorse che fornite dalla regione vi possa essere un maggior desiderio di intraprendere l’investimento; o ancora, nel nostro caso abbiamo solamente considerato l'effetto positivo dell'iterazione sociale, mentre un modello più accurato potrebbe anche tenere conto di chi non effettua l'investimento e scoraggia così i restanti investitori del vicinato.
 
+%\nocite{*}
+%\bibliographystyle{plain}
+%\bibliography{bibliography}
 
-
-
-\nocite{*}
-\bibliographystyle{plain}
-\bibliography{bibliography}
-
-\end{document}
+%\end{document}

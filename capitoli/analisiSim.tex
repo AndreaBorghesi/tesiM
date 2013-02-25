@@ -3,93 +3,94 @@
 
 %capitolo dedicato all'analisi dei risultati delle simulazioni 
 
-\documentclass[12pt,a4paper,openright,twoside]{report}
-\usepackage[italian]{babel}
-\usepackage{indentfirst}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{fancyhdr}
-\usepackage{graphicx}
-\usepackage{titlesec,blindtext, color}
-\usepackage[font={small,it}]{caption}
-\usepackage{subfig}
-\usepackage{listings}
-\usepackage{color}
-\usepackage{url}
-\usepackage{textcomp}
+%\documentclass[12pt,a4paper,openright,twoside]{report}
+%\usepackage[italian]{babel}
+%\usepackage{indentfirst}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{fancyhdr}
+%\usepackage{graphicx}
+%\usepackage{titlesec,blindtext, color}
+%\usepackage[font={small,it}]{caption}
+%\usepackage{subfig}
+%\usepackage{listings}
+%\usepackage{color}
+%\usepackage{url}
+%\usepackage{textcomp}
 
-%impostazioni generali per visualizzare codice
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
- 
-\lstset{ %
-  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
-  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
-  numbers=left,                   % where to put the line-numbers
-  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
-  numbersep=5pt,  
-  showspaces=false,               % show spaces adding particular underscores
-  showstringspaces=false,         % underline spaces within strings
-  showtabs=false,                 % show tabs within strings adding particular underscores
-  rulecolor=\color{black}, 
-  tabsize=2,                      % sets default tabsize to 2 spaces
-  breaklines=true,                % sets automatic line breaking
-  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
-  title=\lstname,                   % show the filename of files included with \lstinputlisting;
-  frame=single,                   % adds a frame around the code
-                                  % also try caption instead of title
-  keywordstyle=\color{blue},          % keyword style
-  commentstyle=\color{dkgreen},       % comment style
-  stringstyle=\color{mauve},         % string literal style
-  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
-  morekeywords={*,...},              % if you want to add more keywords to the set
-  deletekeywords={...}              % if you want to delete keywords from the given language
-}
+%%impostazioni generali per visualizzare codice
+%\definecolor{dkgreen}{rgb}{0,0.6,0}
+%\definecolor{gray}{rgb}{0.5,0.5,0.5}
+%\definecolor{mauve}{rgb}{0.58,0,0.82}
+% 
+%\lstset{ %
+%  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+%  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+%  numbers=left,                   % where to put the line-numbers
+%  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+%  numbersep=5pt,  
+%  showspaces=false,               % show spaces adding particular underscores
+%  showstringspaces=false,         % underline spaces within strings
+%  showtabs=false,                 % show tabs within strings adding particular underscores
+%  rulecolor=\color{black}, 
+%  tabsize=2,                      % sets default tabsize to 2 spaces
+%  breaklines=true,                % sets automatic line breaking
+%  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+%  frame=single,                   % adds a frame around the code
+%                                  % also try caption instead of title
+%  keywordstyle=\color{blue},          % keyword style
+%  commentstyle=\color{dkgreen},       % comment style
+%  stringstyle=\color{mauve},         % string literal style
+%  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+%  morekeywords={*,...},              % if you want to add more keywords to the set
+%  deletekeywords={...}              % if you want to delete keywords from the given language
+%}
 
-%per avere un bordo intorno alle figure
-\usepackage{float}
-\floatstyle{boxed} 
-\restylefloat{figure}
+%%per avere un bordo intorno alle figure
+%\usepackage{float}
+%\floatstyle{boxed} 
+%\restylefloat{figure}
 
-%per poter poi impedire che certe parole vadano a capo
-\usepackage{hyphenat}
-\usepackage{listings}
+%%per poter poi impedire che certe parole vadano a capo
+%\usepackage{hyphenat}
+%\usepackage{listings}
 
-%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
-\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
-\fancyhf{}
-\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
-\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
-\fancyfoot[C]{\changefont \thepage}					%footer
+%%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
+%\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
+%\fancyhf{}
+%\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
+%\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
+%\fancyfoot[C]{\changefont \thepage}					%footer
 
-%titolo capitolo con "numero | titolo"
-\definecolor{gray75}{gray}{0.75}
-\newcommand{\hsp}{\hspace{20pt}}
-\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+%%titolo capitolo con "numero | titolo"
+%\definecolor{gray75}{gray}{0.75}
+%\newcommand{\hsp}{\hspace{20pt}}
+%\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
 
 
-\oddsidemargin=30pt \evensidemargin=20pt
+%\oddsidemargin=30pt \evensidemargin=20pt
 
-%sillabazioni non eseguite correttamente
-\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
+%%sillabazioni non eseguite correttamente
+%\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
 
-%interlinea
-\linespread{1.15}  
-\pagestyle{fancy}
+%%interlinea
+%\linespread{1.15}  
+%\pagestyle{fancy}
 
-%cartelle contenenti le immagini
-\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}{/media/sda4/tesi/immagini/epolicy/}}
+%%cartelle contenenti le immagini
+%\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}{/media/sda4/tesi/immagini/epolicy/}}
 
-%in modo che dopo il titolo di un paragrafo il testo vada a capo
-\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+%%in modo che dopo il titolo di un paragrafo il testo vada a capo
+%\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
 
-%per scrivere bene CLP(R) e CLP(FD)
-\newcommand{\clpr}{CLP({\ensuremath{\cal R}})}
-\newcommand{\clpfd}{CLP({\ensuremath{\cal FD}})}
+%%per scrivere bene CLP(R) e CLP(FD)
+%\newcommand{\clpr}{CLP({\ensuremath{\cal R}})}
+%\newcommand{\clpfd}{CLP({\ensuremath{\cal FD}})}
 
-\begin{document}
-\chapter{RISULTATI SIMULAZIONI}
+%\begin{document}
+\clearpage{\pagestyle{empty}\cleardoublepage}
+\chapter{Risultati simulazioni}
 
 Nel capitolo precedente abbiamo descritto il modello ad agenti implementato, evidenziandone le finalità e le caratteristiche fondamentali, accennando brevemente alle informazioni ricavabili dal simulatore.
 
@@ -97,7 +98,7 @@ Lo scopo di questo capitolo sarà quindi la dettagliata analisi dei dati prodott
 
 Inizialmente presenteremo gli strumenti utilizzati per effettuare l'analisi sopra descritta, per poi passare alla discussione vera e propria nei paragrafi successivi.
 
-\section{STRUMENTI}
+\section{Strumenti}
 Per esaminare i dati prodotti dalle simulazioni effettuate e visualizzare i risultati ottenuti abbiamo utilizzato \emph{R} \cite{Rlanguage}, un ambiente di sviluppo specifico per l'analisi statistica dei dati, basato sull'omonimo linguaggio di programmazione.
 
 \subsection{R}
@@ -155,11 +156,11 @@ Residual standard error).
 \end{figure}
 
 
-\section{METODOLOGIA ANALITICA}
+\section{Metodologia analitica}
 
 Illustreremo ora con quali metodi sono stati analizzati i dati ricavati dalle simulazioni; questo comporta anche una rapida descrizione delle tecniche statistiche impiegate e della loro applicazione nel nostro contesto.
 
-\subsection{ANALISI DI REGRESSIONE}
+\subsection{Analisi di regressione}
 Una delle tecniche statistiche maggiormente utilizzate per stimare le relazioni tra variabili è l'\emph{analisi della regressione}; in questa categoria rientrano diversi metodi che hanno come obiettivo quello di trovare un modello che leghi una variabile dipendente ed una o più variabili indipendenti (in particolare l'analisi della regressione consente di capire come cambia il valore di una variabile dipendente al variare del valore di una variabile indipendente, mantenendo fisse le restanti); seguendo la terminologia di uso comune in seguito le variabili indipendenti saranno chiamate anche \emph{predittori}.  
 I modelli con i quali si tenta di approssimare le relazioni studiate possono essere di numerosi tipi, tra i quali è possibile ricordare quelli parametrici (come la regressione lineare e più in generale tutte le forme di regressione polinomiale), nei quali la funzione di regressione è definita attraverso un certo numero di parametri stimati a partire dai dati, e quelli non parametrici, poi ancora modelli locali (regressione LOESS), Bayesiani, segmentati, etc..
 
@@ -180,7 +181,7 @@ tra la risposta osservata (il valore della variabile dipendente) e la risposta p
 Un altro aspetto che è possibile valutare attraverso metodi grafici è se valga o meno \emph{l'assunzione di normalità}, ovvero stabilire se è lecito aspettarsi che gli errori casuali inerenti al processo statistico modellato con la regressione seguano una distribuzione normale; questa assunzione viene generalmente fatta perché spesso una distribuzione normale descrive in maniera ragionevolmente accurata la distribuzione effettiva degli errori casuali di serie di dati nel mondo reale. Per controllare quindi se l'assunzione di normalità della serie di dati sia valida (e potendo poi effettuare previsioni corrette tramite la regressione) vengono utilizzati i \emph{grafici di probabilità normale}, costruiti tracciando i valori ordinati dei residuali e confrontandoli con i valori di una distribuzione  normale standard; se i punti tracciati sul piano associati ai residuali giacciono vicini alla linea determinata dalla distribuzione normale, allora si può affermare che gli errori casuali seguono una distribuzione normale.
 
 
-\subsection{IMPLEMENTAZIONE IN R}
+\subsection{Implementazione in R}
 
 Per studiare le relazioni di nostro interesse la metodologia scelta consiste nell'aver effettuato un grande numero di simulazioni controllate (ovvero fissando tutti i parametri non rilevanti e variando quelli di cui osservare il comportamento, come il budget regionale o il tipo di incentivo), dopodiché abbiamo effettuato un'analisi statistica dei dati e tentato di risalire alle curve relative all'andamento delle relazioni attraverso l'uso di tecniche di regressione lineare e non.
 
@@ -263,14 +264,14 @@ Dopo aver scelto quale sia il modello di regressione che meglio si adatta ai dat
 > lines(aggdata$Budget,pred$fit, lty="solid", col="darkred", lwd=2)
 \end{lstlisting}
 
-\section[ANALISI RISULTATI]{ANALISI RISULTATI SIMULAZIONI}
+\section[Analisi risultati]{Analisi risultati simulazioni}
 
 Dopo aver implementato il simulatore descritto nel precedente capitolo, considerando in particolar modo la versione estesa, siamo passati ad analizzare le relazioni che legano la produzione di energia elettrica alle diverse metodologie di incentivi e relativi fondi stanziati dalla regione. Possiamo subito anticipare che, come era lecito attendersi, la presenza di un qualsiasi tipo di incentivo permette di ottenere una produzione energetica maggiore rispetto al caso di assenza di incentivi regionali e inoltre all'aumentare dei fondi stanziati per finanziare un tipo di incentivo la produzione di energia da impianti fotovoltaici tende ad aumentare.
 
 In un secondo momento siamo passati a studiare la relazione tra produzione energetica e interazione sociale (considerando sia variazioni del raggio che della sensibilità); in modo conforme alle nostre aspettative, anche in questo caso i risultati ottenuti indicano che una maggiore produzione energetica è associata ad un'interazione sociale più intensa.
 
 
-\subsection{COMPORTAMENTO DEGLI INCENTIVI}
+\subsection{Comportamento degli incentivi}
 
 Il comportamento degli incentivi è stato studiato effettuando numerose simulazioni per ogni tipo di incentivo, variando la dimensione del fondo dedicato agli incentivi per il fotovoltaico. Il fondo è stato aumentato con incrementi di un milione di euro a partire da zero  fino a un massimo di 40 milioni (considerando un arco temporale di cinque anni); per ogni valore sono state effettuate 300 simulazioni, per un totale di 48000 simulazioni considerando tutti i diversi incentivi.
 
@@ -391,7 +392,7 @@ Infine in Figura~\ref{incentCompare} sono confrontati i differenti comportamenti
 	\label{incentCompare}
 \end{figure}
 
-\subsection{EFFETTI DELL'INTERAZIONE SOCIALE}
+\subsection{Effetti dell'interazione sociale}
 
 Gli effetti dell'iterazione sociale sulla produzione energetica sono stati studiati agendo sui due parametri che possono influenzarla, il raggio dell'interazione (misurato in patches) e la sensibilità all'influenza (adimensionale) derivante dal comportamento dei vicini, ed effettuando numerose simulazioni controllate: per ricavare la relazione tra produzione energetica e raggio questo è stato fatto variare da 1 fino a 40 (valori espressi con un'unità di misura interna al simulatore, la patch del mondo virtuale), con incrementi di una un'unità e 200 prove per valore, per un totale di 32000 simulazioni; per la relazione tra produzione e sensibilità questa è stata fatta crescere da 0 fino a 20 a intervalli di 0.5, ancora con un totale di 32000 simulazioni.
 
@@ -464,8 +465,8 @@ Per tutti tipi di incentivo possiamo osservare che la produzione energetica è p
 \end{figure}
 
 
-\nocite{*}
-\bibliographystyle{plain}
-\bibliography{bibliography}
+%\nocite{*}
+%\bibliographystyle{plain}
+%\bibliography{bibliography}
 
-\end{document}
+%\end{document}

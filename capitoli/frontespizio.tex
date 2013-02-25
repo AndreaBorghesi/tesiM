@@ -3,54 +3,76 @@
 
 %frontespizio
 
-\documentclass[12pt,a4paper]{report}
+\documentclass[12pt,a4paper,openright,twoside]{book}
 \usepackage[italian]{babel}
-\usepackage{newlfont}
-\textwidth=450pt\oddsidemargin=0pt
-\begin{document}
-\begin{titlepage}
-\begin{center}
-{{\Large{\textsc{Alma Mater Studiorum $\cdot$ Universit\`a di
-Bologna}}}} \rule[0.1cm]{15.8cm}{0.1mm}
-\rule[0.5cm]{15.8cm}{0.6mm}
-{\small{\bf FACOLT\`A DI INGEGNERIA\\
-Corso di Laurea Magistrale in Ingegneria Informatica\\}}
-{{\em Dipartimento di Elettronica, Informatica e Sistemistica}}
-\end{center}
-\vspace{15mm}
-\begin{center}
-{\LARGE{\bf INTEGRAZIONE DI OTTIMIZZAZIONE}}\\
-\vspace{2mm}
-{\LARGE{\bf E SIMULAZIONI PER IL PIANO}}\\
-\vspace{2mm}
-{\LARGE{\bf ENERGETICO REGIONALE}}\\
-\vspace{2mm}
-{\LARGE{\bf DELL'EMILIA-ROMAGNA}}\\
-%{\LARGE{\bf INTEGRAZIONE DI OTTIMIZZAZIONE E SIMULAZIONI PER IL PIANO ENERGETICO REGIONALE DELL'EMILIA-ROMAGNA}}\\
-%\vspace{3mm}
-\vspace{10mm} {\large{\bf Tesi di Laurea in Sistemi Intelligenti}}
-\end{center}
-\vspace{35mm}
-\par
-\noindent
-\begin{minipage}[t]{0.47\textwidth}
-{\large{\bf Relatore:\\
-Chiar.ma Prof.\\
-Michela Milano\\ \\
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titlesec,blindtext, color}
+\usepackage[font={small,it}]{caption}
+\usepackage{subfig}
+\usepackage{color}
+\usepackage{url}
+\usepackage{textcomp}
+\usepackage{eurosym}
+\usepackage{amsmath}
+\usepackage{frontesp} 	% frontespizio unibo 
 
-Correlatore:\\
-Prof.\\
-Marco Gavanelli}}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.47\textwidth}\raggedleft
-{\large{\bf Presentata da:\\
-Andrea Borghesi}}
-\end{minipage}
-\vspace{20mm}
-\begin{center}
-{\large{ Sessione III\\%inserire il numero della sessione in cui ci si laurea
-Anno Accademico 2011-2012}}%inserire l'anno accademico a cui si è iscritti
-\end{center}
-\end{titlepage}
+%per poter poi impedire che certe parole vadano a capo
+\usepackage{hyphenat}
+
+%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
+\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
+\fancyhf{}
+\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
+\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
+\fancyfoot[C]{\changefont \thepage}					%footer
+
+%titolo capitolo con "numero | titolo"
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+
+
+%\oddsidemargin=30pt \evensidemargin=20pt
+
+%sillabazioni non eseguite correttamente
+\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
+
+%interlinea
+\linespread{1.15}  
+\pagestyle{fancy}
+
+%cartelle contenenti le immagini
+\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}{/media/sda4/tesi/immagini/epolicy/}{/media/sda4/tesi/immagini/ottimizzazione/}
+{/media/sda4/tesi/immagini/interazione/}}
+
+%in modo che dopo il titolo di un paragrafo il testo vada a capo
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+
+%per scrivere bene CLP(R) e CLP(FD)
+\newcommand{\clpr}{CLP({\ensuremath{\cal R}})}
+\newcommand{\clpfd}{CLP({\ensuremath{\cal FD}})}
+
+\begin{document}
+\frontmatter
+
+\title{Integrazione di ottimizzazione e simulazioni per il piano energetico regionale dell'Emilia-Romagna}
+\author{Andrea Borghesi}
+\date{}
+\titolocorso{Ingegneria Informatica}
+\nomemateria{Sistemi Intelligenti}
+\degreeyear{2011/2012}					% Anno Accademico di Laurea
+\session{III} 						% Sessione di Laurea
+\principaladviser{Chiar.ma Prof. Michela Milano}	% Relatore principale
+
+% non funziona modificare frontesp.sty al variare del numero di correlatori
+\firstreader{Chiar.mo Prof. Marco Gavanelli}
+\secondreader{}			% Correlatori
+\thirdreader{}			% Correlatori
+
+\maketitle % Frontespizio
+
 \end{document}

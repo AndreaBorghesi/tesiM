@@ -3,108 +3,109 @@
 
 %capitolo dedicato alla descrizione (breve) dell'ottimizzatore
 
-\documentclass[12pt,a4paper,openright,twoside]{report}
-\usepackage[italian]{babel}
-\usepackage{indentfirst}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{fancyhdr}
-\usepackage{graphicx}
-\usepackage{titlesec,blindtext, color}
-\usepackage[font={small,it}]{caption}
-\usepackage{subfig}
-\usepackage{listings}
-\usepackage{color}
-\usepackage{url}
-\usepackage{textcomp}
-\usepackage{eurosym}
-\usepackage{amsmath}
+%\documentclass[12pt,a4paper,openright,twoside]{report}
+%\usepackage[italian]{babel}
+%\usepackage{indentfirst}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{fancyhdr}
+%\usepackage{graphicx}
+%\usepackage{titlesec,blindtext, color}
+%\usepackage[font={small,it}]{caption}
+%\usepackage{subfig}
+%\usepackage{listings}
+%\usepackage{color}
+%\usepackage{url}
+%\usepackage{textcomp}
+%\usepackage{eurosym}
+%\usepackage{amsmath}
 
-%impostazioni generali per visualizzare codice
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
- 
-\lstset{ %
-  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
-  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
-  numbers=left,                   % where to put the line-numbers
-  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
-  numbersep=5pt,  
-  showspaces=false,               % show spaces adding particular underscores
-  showstringspaces=false,         % underline spaces within strings
-  showtabs=false,                 % show tabs within strings adding particular underscores
-  rulecolor=\color{black}, 
-  tabsize=2,                      % sets default tabsize to 2 spaces
-  breaklines=true,                % sets automatic line breaking
-  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
-  title=\lstname,                   % show the filename of files included with \lstinputlisting;
-  frame=single,                   % adds a frame around the code
-                                  % also try caption instead of title
-  keywordstyle=\color{blue},          % keyword style
-  commentstyle=\color{dkgreen},       % comment style
-  stringstyle=\color{mauve},         % string literal style
-  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
-  morekeywords={*,...},              % if you want to add more keywords to the set
-  deletekeywords={...}              % if you want to delete keywords from the given language
-}
+%%impostazioni generali per visualizzare codice
+%\definecolor{dkgreen}{rgb}{0,0.6,0}
+%\definecolor{gray}{rgb}{0.5,0.5,0.5}
+%\definecolor{mauve}{rgb}{0.58,0,0.82}
+% 
+%\lstset{ %
+%  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+%  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+%  numbers=left,                   % where to put the line-numbers
+%  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+%  numbersep=5pt,  
+%  showspaces=false,               % show spaces adding particular underscores
+%  showstringspaces=false,         % underline spaces within strings
+%  showtabs=false,                 % show tabs within strings adding particular underscores
+%  rulecolor=\color{black}, 
+%  tabsize=2,                      % sets default tabsize to 2 spaces
+%  breaklines=true,                % sets automatic line breaking
+%  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+%  frame=single,                   % adds a frame around the code
+%                                  % also try caption instead of title
+%  keywordstyle=\color{blue},          % keyword style
+%  commentstyle=\color{dkgreen},       % comment style
+%  stringstyle=\color{mauve},         % string literal style
+%  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+%  morekeywords={*,...},              % if you want to add more keywords to the set
+%  deletekeywords={...}              % if you want to delete keywords from the given language
+%}
 
-%per avere un bordo intorno alle figure
-\usepackage{float}
-\floatstyle{boxed} 
-\restylefloat{figure}
+%%per avere un bordo intorno alle figure
+%\usepackage{float}
+%\floatstyle{boxed} 
+%\restylefloat{figure}
 
-%per poter poi impedire che certe parole vadano a capo
-\usepackage{hyphenat}
-\usepackage{listings}
+%%per poter poi impedire che certe parole vadano a capo
+%\usepackage{hyphenat}
+%\usepackage{listings}
 
-%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
-\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
-\fancyhf{}
-\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
-\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
-\fancyfoot[C]{\changefont \thepage}					%footer
+%%ridefinisco font per fancyhdr, per ottenere un'intestazione pulita
+%\newcommand{\changefont}{ \fontsize{9}{11}\selectfont }
+%\fancyhf{}
+%\fancyhead[LE,RO]{\changefont \slshape \rightmark} 	%section
+%\fancyhead[RE,LO]{\changefont \slshape \leftmark}	%chapter
+%\fancyfoot[C]{\changefont \thepage}					%footer
 
-%titolo capitolo con "numero | titolo"
-\definecolor{gray75}{gray}{0.75}
-\newcommand{\hsp}{\hspace{20pt}}
-\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+%%titolo capitolo con "numero | titolo"
+%\definecolor{gray75}{gray}{0.75}
+%\newcommand{\hsp}{\hspace{20pt}}
+%\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
 
 
-\oddsidemargin=30pt \evensidemargin=20pt
+%\oddsidemargin=30pt \evensidemargin=20pt
 
-%sillabazioni non eseguite correttamente
-\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
+%%sillabazioni non eseguite correttamente
+%\hyphenation{sil-la-ba-zio-ne pa-ren-te-si si-mu-la-to-re ge-ne-ra-re pia-no}
 
-%interlinea
-\linespread{1.15}  
-\pagestyle{fancy}
+%%interlinea
+%\linespread{1.15}  
+%\pagestyle{fancy}
 
-%cartelle contenenti le immagini
-\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}{/media/sda4/tesi/immagini/epolicy/}{/media/sda4/tesi/immagini/ottimizzazione/}}
+%%cartelle contenenti le immagini
+%\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}{/media/sda4/tesi/immagini/epolicy/}{/media/sda4/tesi/immagini/ottimizzazione/}}
 
-%in modo che dopo il titolo di un paragrafo il testo vada a capo
-\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+%%in modo che dopo il titolo di un paragrafo il testo vada a capo
+%\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
 
-%per scrivere bene CLP(R) e CLP(FD)
-\newcommand{\clpr}{CLP({\ensuremath{\cal R}})}
-\newcommand{\clpfd}{CLP({\ensuremath{\cal FD}})}
+%%per scrivere bene CLP(R) e CLP(FD)
+%\newcommand{\clpr}{CLP({\ensuremath{\cal R}})}
+%\newcommand{\clpfd}{CLP({\ensuremath{\cal FD}})}
 
-\begin{document}
-\chapter{\nohyphens{OTTIMIZZAZIONE}}
+%\begin{document}
+\clearpage{\pagestyle{empty}\cleardoublepage}
+\chapter{\nohyphens{Ottimizzazione}}
 In aggiunta al modello di simulazione ad agenti, con la relativa prospettiva individuale, il progetto ePolicy ritiene necessario considerare anche una prospettiva globale (regionale nel caso della Regione), in grado di affrontare il problema della pianificazione e dalla valutazione degli impatti dei piani da un punto di vista più ampio, mantenendo al tempo stesso una stretta integrazione con il livello individuale.
 
 La pianificazione delle attività regionale può essere vista come un complesso problema di ottimizzazione combinatoria; i decisori politici devono prendere decisioni e soddisfare un insieme di vincoli, tentando al tempo stesso di realizzare un certo numero di obiettivi, come ad esempio ridurre gli effetti negativi e incrementare i positivi su ambiente, società ed economia. La fase di valutazione - valutare quali siano gli impatti delle politiche scelte sull'ambiente ed in misura minora in ambito economico e sociale - è ora in genere effettuata in sequenza dopo la creazione di un piano, con lo svantaggio che se questo contenesse impatti negativi sull'ambiente potrebbero venire applicate solo delle contromisure correttive; per evitare ciò, nell'approccio di ePolicy la valutazione e la pianificazione sono condotte allo stesso tempo.\\*\\*
 Per la valutazione ambientale sono stati proposti diversi metodi: un modello probabilistico \cite{logicDSSstrategicAss}, un modello fuzzy (la logica fuzzy prevede che si possa attribuire a una proposizione un grado di verità compreso tra 0 e 1) \cite{fuzzyLogicstrategicAss} e un modello lineare a vincoli (\emph{Constraint Logic Programming}, programmazione logica a vincoli, chiamata in seguito anche CLP) \cite{GavanelliEtAl}. Il motivo per sperimentare diversi tipi di modello è che le matrici usate dagli esperti ambientali si prestano a differenti interpretazioni, quindi era importante capire quale fosse la migliore scelta possibile. Il modello CLP è risultato essere il più veloce - a livello computazionale - in quanto per la programmazione lineare esistono tecniche di risoluzione molto efficienti. In secondo luogo, questo modello può essere facilmente esteso aggiungendo nuovi vincoli, per risolvere nuovi tipi di problemi; ad esempio se le attività da pianificare fossero variabili decisionali (invece che valori fissi) potremmo svolgere la pianificazione contemporaneamente alla valutazione ambientale. Dal momento che questo era uno degli scopi del progetto si è scelto di utilizzare l'approccio CLP.\\*\\*
 In questo capitolo introdurremo molto brevemente la programmazione logica a vincoli, con una breve panoramica e citando gli strumenti software di cui ci siamo serviti, passeremo poi a presentare il modello sviluppato che incorpora al suo interno le attività di pianificazione e valutazione e infine mostreremo i risultati ottenuti applicando il modello al caso di studio scelto, ovvero il piano energetico 2011-2013 per la regione Emilia-Romagna.
 
-\section[CLP]{\nohyphens{PROGRAMMAZIONE LOGICA A VINCOLI}}
+\section[CLP]{\nohyphens{Programmazione logica a vincoli}}
 Come abbiamo già ampiamente spiegato in precedenza il problema della creazione di un piano regionale può essere considerato come un problema caratterizzato da un insieme di vincoli e una funzione obiettivo. Nell'ambito dell'Intelligenza Artificiale i problemi per cui è richiesto soddisfare un insieme di vincoli sono definiti come \emph{Problemi di Soddisfacimento di Vincoli} (in inglese Constraint Satisfaction Problem, da cui l'acronimo \emph{CSP}). Un CSP è definito da una terna $<X,D,C>$, dove $X$ è un insieme di variabili $X=\{X_1,X_2...X_n\}$, $D$ è un dominio discreto per ogni variabile $D=\{D_1,D_2...D_n\}$ e $C$ è l'insieme di vincoli - un vincolo è una relazione tra variabili che definisce un sottoinsieme del prodotto cartesiano dei domini $D_1 \times D_2 \times ... \times D_n$; con queste premesse un la soluzione di un problema di soddisfacimento di vincoli è data da un assegnamento di valori alle variabili consistente con i vincoli \cite{cspFoundations}. Analogamente, un problema di ottimizzazione con vincoli (Constraint Optimization Problem, \emph{COP}) è definito da $<X,D,C,f>$, cioè un CSP più una \emph{funzione obiettivo} $f(X_1,X_2...X_n)$, la cui soluzione è un assegnamento di valori alle variabili compatibile con i vincoli del problema che ottimizza la funzione obiettivo. Le metodologie risolutive impiegate per risolvere problemi a vincoli attingono in buona parte alle tecniche di Ricerca Operativa e Intelligenza Artificiale, in particolare noi considereremo la \emph{Programmazione Logica a Vincoli}.\\*\\*
 La programmazione logica a vincoli \cite{clpSurvey} (in inglese \emph{Constraint Logic Programming} da cui CLP) è una classe di linguaggi di programmazione che estendono la classica Programmazione Logica - il paradigma di programmazione basato sulla logica del primo ordine implementato da linguaggi come ad esempio Prolog \cite{Colmerauer,Kowalski,clocksin2003programming}, sviluppato nei primi anni settanta e ampiamente diffuso ancora oggi. Alle variabili possono essere assegnati sia termini (i tipi di dato e le strutture riconosciute in Prolog) sia valori interpretati, appartenenti a una determinata \emph{classe}, un parametro caratteristico dello specifico linguaggio CLP; per esempio è possibile avere \clpr \cite{clpR}, in grado di operare sui valori reali, oppure \clpfd, in cui le variabili appartengono a domini finiti. All'interno di una classe sono definite le funzioni interpretate (che possono essere nei domini numerici i soliti operatori $+$, $-$, $\times$, etc.) e i predicati (ad esempio, $<$, $\neq$, $\geq$, etc.), che sono chiamati \emph{vincoli}. La semantica dichiarativa consente l'interpretazione intuitiva per i vincoli e i termini, relativamente al dominio considerato: ad esempio, $1.3+2<5$ è \emph{vero} in \clpr; ciò è un'estensione molto significativa rispetto alla programmazione logica standard in quanto i linguaggi logici operano in domini non interpretati (``Universo di Herbrand'') e quindi le relazioni tra variabili possono essere solamente verificate a posteriori e non trattate come vincoli veri propri. La semantica operativa somiglia a quella di Prolog per atomi costruiti sui predicati usuali - quelli definiti da un insieme di clausole - ma conserva quelli da interpretare, i vincoli, in una struttura dati speciale, chiamata \emph{constraint store}; essa è in seguito interpretato e modificato da un meccanismo esterno, il \emph{constraint solver}, il risolutore dei vincoli. Il risolutore è in grado di controllare se una combinazione di vincoli è soddisfacibile o meno, e può modificare lo store, sperabilmente per semplificarne lo stato. Generalmente il solver non effettua una propagazione \emph{completa}: se una valutazione ha come risultati \emph{falso}, allora sicuramente la soluzione è impossibile, anche se in certi casi può capitare che il risolutore non rilevi l'impossibilità di un problema anche se non esistono soluzioni.\\*\\*  
 \clpr è una classe di programmazione logica a vincoli in cui le variabili appartengo all'insieme dei numeri reali, i vincoli disponibili sono uguaglianze e disuguaglianze lineari e generalmente il risolutore è implementato tramite l'algoritmo del simplesso \cite{dantzig51}, molto veloce e completo per (dis)equazioni lineari (cioè è sempre in grado di restituire \emph{vero} o \emph{falso}). In alcuni sistemi, grazie alla disponibilità di risolutori efficienti per la programmazione lineare intera, certi vincoli non lineari sono accettati nel linguaggio, in particolare è possibile imporre che certe variabili assumano esclusivamente valori interi; in casi come questo la complessità del problema passa da P a NP-hard e il risolutore deve spesso ricorrere a tecniche di branch-and-bound. Ad ogni modo, l'utente può specificare anche una funzione obiettivo, un termine lineare che dovrebbe essere massimizzato o minimizzato garantendo al tempo stesso che tutti vincoli siano soddisfatti.
 
 
-\section{STRUMENTI}
+\section{Strumenti}
 Al giorno d'oggi esistono numerose implementazioni di \clpr \cite{inclpR} e diverse versioni di Prolog dispongono di una propria libreria per \clpr. Per il progetto ePolicy si è scelto di adottare il software open source  ECL$^i$PS$^e$ \cite{clpEclipse,fromLPtoCLPeclipse}.
 
 \subsection{ECL$^i$PS$^e$}
@@ -121,7 +122,7 @@ Tra le diverse librerie disponibili, ne esiste una denominata \emph{Eplex} \cite
 
 Illustreremo ora due esempi di modellazione di problemi a vincoli sfruttando il linguaggio ECL$^i$PS$^e$ (nel primo caso considerando domini finiti e nel secondo valori reali, avvalendoci anche della libreria Eplex), anche per mostrare come possono essere strutturati i problemi di programmazione logica a vincoli; in questa trattazione supporremo noti i concetti elementari della programmazione logica (procedimenti risolutivi, definizioni di un termine, etc.), la cui discussione esula da questo lavoro.
 
-\myparagraph{ESEMPIO \clpfd}
+\myparagraph{Esempio \clpfd}
 Il cosiddetto \emph{Send More Money} puzzle è un esempio classico di programmazione a vincoli; le variabili $[S,E,N,D,M,O,R,Y]$ rappresentano cifre da 0 a 9 e lo scopo è assegnare alle variabili valori diversi in modo che l'operazione aritmetica di Figura~\ref{SendMoreMoney} risulti corretta - inoltre i numeri devono essere ben formati, da cui $S>0$ e $M>0$. 
 
 \begin{figure}[h]
@@ -186,7 +187,7 @@ smm :-
 
 \end{lstlisting}
 
-\myparagraph{ESEMPIO \clpr - EPLEX}
+\myparagraph{Esempio \clpr - Eplex}
 
 Presentiamo ora un esempio di un problema (Fig.~\ref{clpR_example}) che rientra nell'ambito dei \clpr e che fa uso della libreria Eplex, tratto dal manuale di ECL$^i$PS$^e$ \cite{eclipseTut}. Ci sono tre impianti, o fabbriche, (1-3) in grado di produrre un certo prodotto con capacità diverse e i cui prodotti devono essere trasportati a quattro clienti (A-D) con quantità richieste diverse; anche il costo unitario di trasporto ai clienti è variabile. L'obiettivo del problema è minimizzare i costi di trasporto soddisfacendo le esigenze dei clienti. 
 
@@ -279,7 +280,7 @@ Cost = 710.0
 Vars = [A1{0.0 .. 1e+20 @ 0.0}, A2{0.0 .. 1e+20 @ 21.0}, ....]
 \end{lstlisting}
 
-\section{MODELLAZIONE PROBLEMA}
+\section{Modellazione problema}
 
 Passeremo ora ad occuparci dell'implementazione dell'ottimizzatore impiegato nell'ambito del progetto ePolicy per fornire supporto alle decisioni per lo sviluppo del piano energetico regionale.
 
@@ -292,7 +293,7 @@ In Figura~\ref{ioDSS} è presentata una visione generale e di alto livello dei f
 	\label{ioDSS}
 \end{figure}
 
-\subsection[APPROCCIO A VINCOLI]{\nohyphens{PERCHÉ UN APPROCCIO BASATO SUI VINCOLI}}
+\subsection[Approccio a vincoli]{\nohyphens{Perché un approccio basato sui vincoli}}
 L'attività di pianificazione regionale è al momento svolta da esperti umani che costruiscono un singolo piano, considerando gli obbiettivi strategici regionali che seguono le direttive nazionali ed europee. Dopo che il piano è stato ideato l'ente per la protezione ambientale è chiamata a valutarne la sostenibilità dal punto di vista ambientale. In genere non c'è nessuna retroazione, la valutazione può solamente stabilire se il piano sia ecocompatibile o meno ma senza poterlo per modificare; in rari casi può proporre alcune misure correttive, le quali possono però solamente mitigare gli effetti negativi di decisioni di pianificazione sbagliate.
 
 Oltre a ciò, sebbene le normative prevedano che una valutazione ambientale significativa debba confrontare due o più opzioni (piani differenti), questo è fatto raramente in Europa poiché la valutazione è tipicamente fatta a mano e richiede un lungo lavoro; anche nei pochi casi in cui due opzioni vengano considerate, solitamente una è il piano e l'altra è l'assenza di pianificazione.\\*\\*
@@ -302,7 +303,7 @@ Secondo, gli aspetti ambientali sono considerati durante la costruzione del pian
 
 Come terza ragione, il ragionamento con i vincoli è uno strumento potente nelle mani di un decisore politico in quanto la generazione di scenari alternativi è estremamente semplificata ed il confronto e valutazione seguono naturalmente. Nel caso in cui i risultati non soddisfino coloro che stabiliscono le politiche o gli esperti ambientali gli aggiustamenti possono essere introdotti molto facilmente all'interno del modello; ad esempio, nel settore della pianificazione energetica regionale, cambiando i limiti della quantità di energia che ogni fonte può fornire, possiamo correggere il piano considerando l'andamento del mercato e anche la potenziale ricettività della regione.
 
-\subsection{MODELLO CLP}
+\subsection{Modello CLP}
 Il Piano Regionale è il risultato della principale attività di definizione delle politiche in cui le regioni europee siano coinvolte. Ogni regione dispone di un budget distribuito sulla base del Programma Operativo, il quale specifica le priorità di ogni regione per l'assegnamento dei fondi (nel campo dell'energia una esempio di priorità è l'incremento della produzione da fonti rinnovabili).
 
 Partendo dalla struttura per il sistema di supporto alle decisioni descritta nel primo capitolo, ci accingiamo ora a illustrare il il modello per l'ottimizzazione globale ideato per prendere in considerazione la prospettiva regionale. 
@@ -341,10 +342,10 @@ Lo scopo finale di un piano energetico può essere definito, più o meno, come i
 	\end{enumerate}
 \end{enumerate}
 
-\subsection{IMPLEMENTAZIONE MODELLO}
+\subsection{Implementazione modello}
 Illustreremo ora come sono stati modellate le problematiche introdotte precedentemente all'interno del paradigma della Programmazione Logica a Vincoli, in particolare sul dominio dei numeri reali.
 
-\myparagraph{MATRICI COASSIALI IN \clpr}
+\myparagraph{Matrici coassiali in \clpr}
 Le matrici coassiali possono essere interpretate facilmente come modelli di programmazione lineare. Più in dettaglio, rappresentiamo le attività e i loro ordini di grandezza attraverso il vettore $A = (a_1,...,a_{N_a})$, dunque gli impatti ambientali causati dall'attività $i$ possono essere stimati col sistema di equazioni lineari:
 \begin{equation}
 \label{eq:impattiAtt}
@@ -391,7 +392,7 @@ Nel casi in cui più attività alternative possano contribuire a soddisfare gli 
 \end{equation}
 In questo modo è possibile trovare il massimo numero di MW che possono essere prodotti e anche l'energia elettrica generata da ogni impianto. Il risolutore del problema CLP può inoltre trovare una soluzione che imponga l'esecuzione di attività di compensazione, come suggerito in precedenza.
 
-\myparagraph{ANALISI DELLA SENSIBILITÀ}
+\myparagraph{Analisi della sensibilità}
 L'algoritmo del simplesso (applicabile grazie alla linearità dei vincoli del modello) fornisce in modo efficiente - nel nostro modello il tempo di computazione si è rivelato trascurabile - il valore ottimo della funzione obiettivo, l'assegnamento ottimo dei valori alle variabili decisionali, e altre informazioni utili per i decisori politici. In particolare consente di ricavare i cosiddetti \emph{costi ridotti} e la \emph{soluzione duale}. Questi indicatori danno informazioni preziose sulla sensibilità della soluzione trovata nei confronti dei parametri del modello e consentono di fare un tipo di analisi molto interessante per gli utenti del DSS.
 
 La soluzione duale è un insieme di valori che corrispondono ai vincoli e può essere immaginata come la derivata della funzione obiettivo rispetto al lato destro dei vincoli (dall'inglese Right Hand Side, RHS). Ciò implica che attraverso la soluzione duale è immediato rendersi conto di quali siano i vincoli \emph{stretti}, ovvero quali modificherebbero il valore della funzione obiettivo se i coefficienti del lato destro cambiassero. Se ad esempio si cercasse di ottimizzare il numero $f_{MW}$ di MW di potenza elettrica con il vincolo $r_{CO_2} \leq limite_{CO_2}$ e il corrispondente valore duale $d_{CO_2}$ nella soluzione ottima fosse diverso da zero, questo significherebbe che:
@@ -408,7 +409,7 @@ La stessa analisi potrebbe essere effettuata con il problema di ottimizzare alcu
 \end{equation}
 Dopo aver ottenuto la soluzione ottima, il responsabile del piano potrebbe chiedersi: \emph{``Supponendo ora di disporre di più fondi, se aggiungessi un euro quanto diminuirebbe l'emissione di $NO_x$?''}. La risposta sarebbe data dal valore duale $d_e$ del vincolo \ref{eq:costoAtt}.
 
-\myparagraph{PIANIFICAZIONE CON \clpr}
+\myparagraph{Pianificazione con \clpr}
 
 Dopo aver visto come effettuare la valutazione ambientale secondo il paradigma della \clpr, mostriamo ora come sia possibile integrare anche la fase di ideazione del piano regionale sfruttando le stesse metodologie di modellazione.
 \\*\\*
@@ -454,8 +455,7 @@ Infine, le priorità della regione dovrebbero essere conformi alle direttive e l
 	\sum_{i \in A^P_{rin}} G_i o_i \geq  Min_{rin}
 \end{equation}  
 
-\section{IL PIANO REGIONALE 2011-2013}
-%gavanelliEtAl 1.4
+\section{Il piano regionale 2011-2013}
 Il modello a vincoli descritto in precedenza in questo capitolo è stato impiegato per la pianificazione del piano energetico 2011-2013 della regione Emilia-Romagna. Questo piano aveva come scopo quello di aprire la strada per il raggiungimento dell'obiettivo del 20-20-20, in particolare ottenere il 20\% dell'energia prodotta da fonti rinnovabili entro il 2020. Questa valore non si riferisce esclusivamente all'energia elettrica, ma prende in considerazione l'intero bilancio energetico della regione, includendo l'energia termica e i trasporti. 
 
 Il settore dei trasporti può usare energia rinnovabile tramite l'uso di combustibili rinnovabili, come il biogas (metano prodotto dalla fermentazione di vegetali o scarti animali) o carburanti ottenuti da varie coltivazioni. L'energia termica può essere usata ad esempio per il riscaldamento delle abitazioni e in questo caso le fonti rinnovabili includono pannelli solari termici (i quali producono acqua calda per usi domestici), pompe geotermiche (impiegate per riscaldare o rinfrescare le case), impianti a biomassa (che producono acqua calda usata per riscaldare edifici vicini nei periodi invernali). 
@@ -582,9 +582,8 @@ Ad esempio le turbine eoliche hanno un buon effetto sulla qualità dell'aria ma 
 
 O ancora, poiché gli uccelli migratori seguono i percorsi dei venti per ridurre la fatica nei loro viaggi su lunghe distanze ma d'altro canto gli impianti eolici devono essere collocati in zone ventose per essere efficaci, si ha come conseguenza che durante la stagione delle migrazioni gli stormi rischierebbero di entrare in collisione con le grandi pale dei generatori; questo effetto non può essere ignorato, in particolare per specie a rischio (benessere della fauna selvatica).
 
+%\nocite{*}
+%\bibliographystyle{plain}
+%\bibliography{bibliography}
 
-\nocite{*}
-\bibliographystyle{plain}
-\bibliography{bibliography}
-
-\end{document}
+%\end{document}
