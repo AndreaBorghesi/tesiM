@@ -95,13 +95,13 @@
 \chapter{\nohyphens{Ottimizzazione}}
 In aggiunta al modello di simulazione ad agenti, con la relativa prospettiva individuale, il progetto ePolicy ritiene necessario considerare anche una prospettiva globale (regionale nel caso della Regione), in grado di affrontare il problema della pianificazione e dalla valutazione degli impatti dei piani da un punto di vista più ampio, mantenendo al tempo stesso una stretta integrazione con il livello individuale.
 
-La pianificazione delle attività regionale può essere vista come un complesso problema di ottimizzazione combinatoria; i decisori politici devono prendere decisioni e soddisfare un insieme di vincoli, tentando al tempo stesso di realizzare un certo numero di obiettivi, come ad esempio ridurre gli effetti negativi e incrementare i positivi su ambiente, società ed economia. La fase di valutazione - valutare quali siano gli impatti delle politiche scelte sull'ambiente ed in misura minora in ambito economico e sociale - è ora in genere effettuata in sequenza dopo la creazione di un piano, con lo svantaggio che se questo contenesse impatti negativi sull'ambiente potrebbero venire applicate solo delle contromisure correttive; per evitare ciò, nell'approccio di ePolicy la valutazione e la pianificazione sono condotte allo stesso tempo.\\*\\*
+La pianificazione delle attività regionali può essere vista come un complesso problema di ottimizzazione combinatoria; i decisori politici devono prendere decisioni e soddisfare un insieme di vincoli, tentando al tempo stesso di realizzare un certo numero di obiettivi, come ad esempio ridurre gli effetti negativi e incrementare i positivi su ambiente, società ed economia. La fase di valutazione, in cui su considerano quali siano gli impatti delle politiche scelte sull'ambiente ed in misura minora in ambito economico e sociale, è ora in genere effettuata in sequenza dopo la creazione di un piano, con lo svantaggio che se questo contenesse impatti negativi sull'ambiente potrebbero venire applicate solo delle contromisure correttive; per evitare ciò, nell'approccio di ePolicy la valutazione e la pianificazione sono condotte allo stesso tempo.\\*\\*
 Per la valutazione ambientale sono stati proposti diversi metodi: un modello probabilistico \cite{logicDSSstrategicAss}, un modello fuzzy (la logica fuzzy prevede che si possa attribuire a una proposizione un grado di verità compreso tra 0 e 1) \cite{fuzzyLogicstrategicAss} e un modello lineare a vincoli (\emph{Constraint Logic Programming}, programmazione logica a vincoli, chiamata in seguito anche CLP) \cite{GavanelliEtAl}. Il motivo per sperimentare diversi tipi di modello è che le matrici usate dagli esperti ambientali si prestano a differenti interpretazioni, quindi era importante capire quale fosse la migliore scelta possibile. Il modello CLP è risultato essere il più veloce - a livello computazionale - in quanto per la programmazione lineare esistono tecniche di risoluzione molto efficienti. In secondo luogo, questo modello può essere facilmente esteso aggiungendo nuovi vincoli, per risolvere nuovi tipi di problemi; ad esempio se le attività da pianificare fossero variabili decisionali (invece che valori fissi) potremmo svolgere la pianificazione contemporaneamente alla valutazione ambientale. Dal momento che questo era uno degli scopi del progetto si è scelto di utilizzare l'approccio CLP.\\*\\*
 In questo capitolo introdurremo molto brevemente la programmazione logica a vincoli, con una breve panoramica e citando gli strumenti software di cui ci siamo serviti, passeremo poi a presentare il modello sviluppato che incorpora al suo interno le attività di pianificazione e valutazione e infine mostreremo i risultati ottenuti applicando il modello al caso di studio scelto, ovvero il piano energetico 2011-2013 per la regione Emilia-Romagna.
 
 \section[CLP]{\nohyphens{Programmazione logica a vincoli}}
 Come abbiamo già ampiamente spiegato in precedenza il problema della creazione di un piano regionale può essere considerato come un problema caratterizzato da un insieme di vincoli e una funzione obiettivo. Nell'ambito dell'Intelligenza Artificiale i problemi per cui è richiesto soddisfare un insieme di vincoli sono definiti come \emph{Problemi di Soddisfacimento di Vincoli} (in inglese Constraint Satisfaction Problem, da cui l'acronimo \emph{CSP}). Un CSP è definito da una terna $<X,D,C>$, dove $X$ è un insieme di variabili $X=\{X_1,X_2...X_n\}$, $D$ è un dominio discreto per ogni variabile $D=\{D_1,D_2...D_n\}$ e $C$ è l'insieme di vincoli - un vincolo è una relazione tra variabili che definisce un sottoinsieme del prodotto cartesiano dei domini $D_1 \times D_2 \times ... \times D_n$; con queste premesse un la soluzione di un problema di soddisfacimento di vincoli è data da un assegnamento di valori alle variabili consistente con i vincoli \cite{cspFoundations}. Analogamente, un problema di ottimizzazione con vincoli (Constraint Optimization Problem, \emph{COP}) è definito da $<X,D,C,f>$, cioè un CSP più una \emph{funzione obiettivo} $f(X_1,X_2...X_n)$, la cui soluzione è un assegnamento di valori alle variabili compatibile con i vincoli del problema che ottimizza la funzione obiettivo. Le metodologie risolutive impiegate per risolvere problemi a vincoli attingono in buona parte alle tecniche di Ricerca Operativa e Intelligenza Artificiale, in particolare noi considereremo la \emph{Programmazione Logica a Vincoli}.\\*\\*
-La programmazione logica a vincoli \cite{clpSurvey} (in inglese \emph{Constraint Logic Programming} da cui CLP) è una classe di linguaggi di programmazione che estendono la classica Programmazione Logica - il paradigma di programmazione basato sulla logica del primo ordine implementato da linguaggi come ad esempio Prolog \cite{Colmerauer,Kowalski,clocksin2003programming}, sviluppato nei primi anni settanta e ampiamente diffuso ancora oggi. Alle variabili possono essere assegnati sia termini (i tipi di dato e le strutture riconosciute in Prolog) sia valori interpretati, appartenenti a una determinata \emph{classe}, un parametro caratteristico dello specifico linguaggio CLP; per esempio è possibile avere \clpr \cite{clpR}, in grado di operare sui valori reali, oppure \clpfd, in cui le variabili appartengono a domini finiti. All'interno di una classe sono definite le funzioni interpretate (che possono essere nei domini numerici i soliti operatori $+$, $-$, $\times$, etc.) e i predicati (ad esempio, $<$, $\neq$, $\geq$, etc.), che sono chiamati \emph{vincoli}. La semantica dichiarativa consente l'interpretazione intuitiva per i vincoli e i termini, relativamente al dominio considerato: ad esempio, $1.3+2<5$ è \emph{vero} in \clpr; ciò è un'estensione molto significativa rispetto alla programmazione logica standard in quanto i linguaggi logici operano in domini non interpretati (``Universo di Herbrand'') e quindi le relazioni tra variabili possono essere solamente verificate a posteriori e non trattate come vincoli veri propri. La semantica operativa somiglia a quella di Prolog per atomi costruiti sui predicati usuali - quelli definiti da un insieme di clausole - ma conserva quelli da interpretare, i vincoli, in una struttura dati speciale, chiamata \emph{constraint store}; essa è in seguito interpretato e modificato da un meccanismo esterno, il \emph{constraint solver}, il risolutore dei vincoli. Il risolutore è in grado di controllare se una combinazione di vincoli è soddisfacibile o meno, e può modificare lo store, sperabilmente per semplificarne lo stato. Generalmente il solver non effettua una propagazione \emph{completa}: se una valutazione ha come risultati \emph{falso}, allora sicuramente la soluzione è impossibile, anche se in certi casi può capitare che il risolutore non rilevi l'impossibilità di un problema anche se non esistono soluzioni.\\*\\*  
+La programmazione logica a vincoli \cite{clpSurvey} (in inglese \emph{Constraint Logic Programming} da cui CLP) è una classe di linguaggi di programmazione che estendono la classica Programmazione Logica - il paradigma di programmazione basato sulla logica del primo ordine implementato da linguaggi come ad esempio Prolog \cite{Colmerauer,Kowalski,clocksin2003programming}, sviluppato nei primi anni settanta e ampiamente diffuso ancora oggi. Alle variabili possono essere assegnati sia termini (i tipi di dato e le strutture riconosciute in Prolog) sia valori interpretati, appartenenti a una determinata \emph{classe}, un parametro caratteristico dello specifico linguaggio CLP; per esempio è possibile avere \clpr \cite{clpR}, in grado di operare sui valori reali, oppure \clpfd, in cui le variabili appartengono a domini finiti. All'interno di una classe sono definite le funzioni interpretate (che possono essere nei domini numerici i soliti operatori $+$, $-$, $\times$, etc.) e i predicati (ad esempio, $<$, $\neq$, $\geq$, etc.), che sono chiamati \emph{vincoli}. La semantica dichiarativa consente l'interpretazione intuitiva per i vincoli e i termini, relativamente al dominio considerato: ad esempio, $1.3+2<5$ è \emph{vero} in \clpr; ciò è un'estensione molto significativa rispetto alla programmazione logica standard in quanto i linguaggi logici operano in domini non interpretati (``Universo di Herbrand'') e quindi le relazioni tra variabili possono essere solamente verificate a posteriori e non trattate come vincoli veri propri. La semantica operativa estende quella di Prolog per atomi costruiti sui predicati usuali - quelli definiti da un insieme di clausole - ma conserva quelli da interpretare, i vincoli, in una struttura dati speciale, chiamata \emph{constraint store}; essa è in seguito interpretato e modificato da un meccanismo esterno, il \emph{constraint solver}, il risolutore dei vincoli. Il risolutore è in grado di controllare se una combinazione di vincoli è soddisfacibile o meno, e può modificare lo store, sperabilmente per semplificarne lo stato. Generalmente il solver non effettua una propagazione \emph{completa}: se una valutazione ha come risultati \emph{falso}, allora sicuramente la soluzione è impossibile, anche se in certi casi può capitare che il risolutore non rilevi l'impossibilità di un problema anche se non esistono soluzioni.\\*\\*  
 \clpr è una classe di programmazione logica a vincoli in cui le variabili appartengo all'insieme dei numeri reali, i vincoli disponibili sono uguaglianze e disuguaglianze lineari e generalmente il risolutore è implementato tramite l'algoritmo del simplesso \cite{dantzig51}, molto veloce e completo per (dis)equazioni lineari (cioè è sempre in grado di restituire \emph{vero} o \emph{falso}). In alcuni sistemi, grazie alla disponibilità di risolutori efficienti per la programmazione lineare intera, certi vincoli non lineari sono accettati nel linguaggio, in particolare è possibile imporre che certe variabili assumano esclusivamente valori interi; in casi come questo la complessità del problema passa da P a NP-hard e il risolutore deve spesso ricorrere a tecniche di branch-and-bound. Ad ogni modo, l'utente può specificare anche una funzione obiettivo, un termine lineare che dovrebbe essere massimizzato o minimizzato garantendo al tempo stesso che tutti vincoli siano soddisfatti.
 
 
@@ -119,166 +119,6 @@ ECL$^i$PS$^e$ è un sistema software per lo sviluppo di applicazioni di programm
 \end{figure}
 
 Tra le diverse librerie disponibili, ne esiste una denominata \emph{Eplex} \cite{eplex} che interfaccia ECL$^i$PS$^e$ a un risolutore lineare intero, il quale può essere sia uno strumento commerciale, come CPLEX o Xpress-MP, che open source. A default Eplex nasconde molti dei dettagli del risolutore, ma nondimeno, quando richiesto, l'utente può regolare diversi parametri per migliorare le prestazioni ed esaminare lo stato interno del solver. Nell'ambito del progetto ePolicy ci siamo serviti di questa libreria, insieme alle altre funzionalità offerte da ECL$^i$PS$^e$, per modellare e risolvere i problemi relativi alla pianificazione energetica regionale.
-
-Illustreremo ora due esempi di modellazione di problemi a vincoli sfruttando il linguaggio ECL$^i$PS$^e$ (nel primo caso considerando domini finiti e nel secondo valori reali, avvalendoci anche della libreria Eplex), anche per mostrare come possono essere strutturati i problemi di programmazione logica a vincoli; in questa trattazione supporremo noti i concetti elementari della programmazione logica (procedimenti risolutivi, definizioni di un termine, etc.), la cui discussione esula da questo lavoro.
-
-\myparagraph{Esempio \clpfd}
-Il cosiddetto \emph{Send More Money} puzzle è un esempio classico di programmazione a vincoli; le variabili $[S,E,N,D,M,O,R,Y]$ rappresentano cifre da 0 a 9 e lo scopo è assegnare alle variabili valori diversi in modo che l'operazione aritmetica di Figura~\ref{SendMoreMoney} risulti corretta - inoltre i numeri devono essere ben formati, da cui $S>0$ e $M>0$. 
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.215\textwidth]{sendMoreMoney}
-	\caption{Send More Money puzzle}
-	\label{SendMoreMoney}
-\end{figure}
-
-Con la programmazione convenzionale si avrebbe necessità di esprimere una strategia di ricerca in modo esplicito (senza contare possibili ottimizzazioni come cicli innestati), mentre con linguaggi logici come Prolog verrebbe sfruttata la ricerca fornita dal risolutore interno (il motore inferenziale), con il vantaggio di una programmazione estremamente facilitata ma col rischio di un'efficienza non elevata - a meno di programmi ottimizzati, i quali richiederebbero comunque maggiori tempo e abilità. 
-
-Questo è in effetti il campo di applicazione ideale della programmazione logica a vincoli, in particolare nell'ambito  dei domini finiti \clpfd: le variabili possono assumere valori appartenenti ad un insieme finito di numeri interi, i vincoli sono facilmente esprimibili formalmente e occorre effettuare una certa quantità di ricerca nello spazio delle soluzioni. In questo problema sarebbe naturale usare le variabili del programma per rappresentare le diverse cifre e la soluzione finale dovrà essere un assegnamento di un valore unico per ogni variabile. 
-
-Risolvere questo problema con Prolog comporta l'utilizzo della strategia di ricerca chiamata \emph{Generate and Test}, che prevede che prima la generazione di una soluzione e poi la verifica della consistenza dei vincoli e, nel caso che questa dia esito negativo, l'assegnamento di nuovi valori alle variabili seguita da nuova verifica e così via. In questo modo l'esplorazione dello spazio delle soluzioni è chiaramente inefficiente - per esempio la possibile implementazione in Prolog mostrata qui sotto, per quanto suscettibile a miglioramenti, deve gestire $\frac{10!}{2}$ possibili assegnamenti di valori alle variabili. 
-
-\lstset{language=Prolog}
-\begin{lstlisting}
-% Send More Money puzzle in Prolog
-smm :-
-        X = [S,E,N,D,M,O,R,Y],           % variabili
-        Digits = [0,1,2,3,4,5,6,7,8,9],	 % domini
-        
-        % predicato che assegna una soluzione
-        assign_digits(X, Digits),
-       	
-       	%  verifica dei vincoli vincoli
-        M > 0, 
-        S > 0,
-                  1000*S + 100*E + 10*N + D +
-                  1000*M + 100*O + 10*R + E =:=
-        10000*M + 1000*O + 100*N + 10*E + Y,
-        write(X).
-
-select(X, [X|R], R).
-select(X, [Y|Xs], [Y|Ys]):- select(X, Xs, Ys).
-
-assign_digits([], _List).
-assign_digits([D|Ds], List):-
-        select(D, List, NewList),
-        assign_digits(Ds, NewList).
-\end{lstlisting}
-
-L'implementazione realizzata con ECL$^i$PS$^e$ presenta i vantaggi di semplificare ulteriormente la modellazione del problema e di appoggiarsi all'efficiente risolutore interno per l'esplorazione dello spazio delle soluzioni, in modo particolare il fatto che ogni volta che una variabile viene istanziata i vincoli vengono propagati per eliminare a priori strade inconsistenti, riducendo gli spazi delle soluzioni e prevenendo fallimenti sicuri. 
-
-\begin{lstlisting}
-% Send More Money puzzle in ECLiPSe
-smm :-
-     X = [S,E,N,D,M,O,R,Y],		% variabili
-     X :: [0 .. 9],				% domini finiti
-     
-     % vincoli
-     M #> 0,
-     S #> 0,
-               1000*S + 100*E + 10*N + D +
-               1000*M + 100*O + 10*R + E #=
-     10000*M + 1000*O + 100*N + 10*E + Y,
-     alldistinct(X),
-     
-     % ricerca della soluzione
-     labeling(X),
-     write(X).
-
-\end{lstlisting}
-
-\myparagraph{Esempio \clpr - Eplex}
-
-Presentiamo ora un esempio di un problema (Fig.~\ref{clpR_example}) che rientra nell'ambito dei \clpr e che fa uso della libreria Eplex, tratto dal manuale di ECL$^i$PS$^e$ \cite{eclipseTut}. Ci sono tre impianti, o fabbriche, (1-3) in grado di produrre un certo prodotto con capacità diverse e i cui prodotti devono essere trasportati a quattro clienti (A-D) con quantità richieste diverse; anche il costo unitario di trasporto ai clienti è variabile. L'obiettivo del problema è minimizzare i costi di trasporto soddisfacendo le esigenze dei clienti. 
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.7]{clpR_example}
-	\caption{Esempio di un problema \clpr. Fonte \cite{eclipseTut}}
-	\label{clpR_example}
-\end{figure}
-
-Per formulare il problema definiamo la quantità di prodotto trasportata dall'impianto $N$ al cliente $p$ come variabile $N_p$ - ad esempio $A_1$ rappresenta il costo di trasporto dalla fabbrica $A$ al cliente $1$. I vincoli da considerare sono di due tipi (sempre facendo riferimento alla Figura~\ref{clpR_example}):
-\begin{itemize}
-\item La quantità di prodotto consegnata da tutti gli impianti a un cliente deve deve essere uguale alla domanda del cliente, ad esempio per il cliente $A$ che può essere rifornito dagli impianti 1-3, abbiamo che $A_1+A_2+A_3=21$
-\item La quantità di prodotto in uscita da una fabbrica non può essere superiore alla sua capacità produttiva, ad esempio per l'impianto $1$ che invia prodotti ai clienti A-D si ha che $A_1+B_1+C_1+D_1 \leq 50$
-\end{itemize}   
-Poiché lo scopo è minimizzare i costi di trasporto, la funzione obiettivo è di minimizzare i costi combinati del trasporto dei prodotti dai tre impianti a tutti e quattro i clienti.
-
-La formulazione del problema è quindi la seguente.\\*
-Funzione obiettivo: 
-\begin{equation}  \label{exampleClpRObiett}
-	\min(10A_1+7A_2+200A_3+8B_1+5B_2+10B_3+5C_2+5C_2+8C_3+9D_1+3D_2+7D_3)
-\end{equation}
-Vincoli:
-\begin{equation}  \label{exampleCons1}
-	A_1+A_2+A_3=21
-\end{equation}
-\begin{equation}  \label{exampleCons2}
-	B_1+B_2+B_3=40
-\end{equation}
-\begin{equation}  \label{exampleCons3}
-	C_1+C_2+C_3=34
-\end{equation}
-\begin{equation}  \label{exampleCons4}
-	D_1+D_2+D_3=10
-\end{equation}
-\begin{equation}  \label{exampleCons5}
-	A_1+B_1+C_1+D_1 \leq 50
-\end{equation}
-\begin{equation}  \label{exampleCons6}
-	A_2+B_2+C_2+D_2 \leq 30
-\end{equation}
-\begin{equation}  \label{exampleCons7}
-	A_3+B_3+C_3+D_3 \leq 40
-\end{equation}
-
-Mostriamo ora come questo problema venga modellato sfruttando la libreria Eplex. In primo luogo occorre caricare la libreria Eplex di cui si dispone (in questo caso abbiamo sfruttato un risolutore esterno open source) e ottenerne un'\emph{istanza}, la quale rappresenta un singolo problema sotto forma di modulo, a cui possono essere riferiti vincoli e funzione obiettivo consentendo quindi al solver esterno di risolvere il problema. Il codice che segue mostra come il problema di Figura~\ref{clpR_example} sia stato trasposto all'interno di ECL$^i$PS$^e$.
-
-\begin{lstlisting}
-:- lib(eplex).		% caricamento della libreria Eplex
-:- eplex_instance(prob).		% definizione dell'istanza - chiamata 'prob'
-
-main(Cost, Vars) :-
-		% dichiarazione delle variabili e definizione del loro dominio		
-		Vars = [A1,A2,A3,B1,B2,B3,C1,C2,C3,D1,D2,D3],
-		prob: (Vars $:: 0.0..1.0Inf),  % valori maggiori o uguali a 0
-		
-		% definizione dei vincoli applicati all'istanza eplex
-		prob: (A1 + A2 + A3 $= 21), 
-		prob: (B1 + B2 + B3 $= 40),
-		prob: (C1 + C2 + C3 $= 34),
-		prob: (D1 + D2 + D3 $= 10),
-
-		prob: (A1 + B1 + C1 + D1 $=< 50),
-		prob: (A2 + B2 + C2 + D2 $=< 30),
-		prob: (A3 + B3 + C3 + D3 $=< 40),
-
-		% inizializza il solver esterno con la funzione obiettivo
-		prob: eplex_solver_setup(min(10*A1 + 7*A2 + 200*A3 + 
-			8*B1 + 5*B2 + 10*B3 +
-		 	5*C1 + 5*C2 + 8*C3 +
-		 	9*D1 + 3*D2 + 7*D3)),
-
-		% ---------- Fine Modellazione ----------
-
-		% risoluzione del problema
-		prob: eplex_solve(Cost).
-\end{lstlisting}
-
-Per usare un'istanza Eplex occorre prima dichiararla con \emph{eplex\_instance/1}; una volta dichiarata, l'istanza viene riferita tramite il nome specificato. 
-
-Come primo passo creiamo le variabili del problema e imponiamo che possano assumere solamente valori non negativi e rendiamo noti all'istanza il loro dominio (\emph{\$::/2}). Successivamente imponiamo i vincoli che modellano il problema sotto forma di uguaglianze e disuguaglianze aritmetiche; per via del solver esterno scelto, gli unici tipi di vincoli accettati sono quelli lineari - che ovviamente consentono una maggiore efficienza nella risoluzione.
-
-Occorre poi inizializzare il risolutore esterno con l'istanza eplex creata, in modo che questa possa essere risolta. Questo è fatto dal \emph{eplex\_solver\_setup/1}, che prende come argomento la funzione obiettivo, la quale può essere di minimizzazione o massimizzazione. Infine è possibile risolvere il problema modellato attraverso \emph{eplex\_solve/1}.
-
-Quando un'istanza viene risolta, il solver prende in considerazione tutti i vincoli ad essa relativi, i valori che le variabili del problema possono assumere e la funzione obiettivo specificata. In questo caso è possibile ottenere una soluzione ottimale pari a 710.0: 
-\begin{lstlisting}
-?-	main(Cost, Vars).
-
-Cost = 710.0
-Vars = [A1{0.0 .. 1e+20 @ 0.0}, A2{0.0 .. 1e+20 @ 21.0}, ....]
-\end{lstlisting}
 
 \section{Modellazione problema}
 
@@ -393,6 +233,7 @@ Nel casi in cui più attività alternative possano contribuire a soddisfare gli 
 In questo modo è possibile trovare il massimo numero di MW che possono essere prodotti e anche l'energia elettrica generata da ogni impianto. Il risolutore del problema CLP può inoltre trovare una soluzione che imponga l'esecuzione di attività di compensazione, come suggerito in precedenza.
 
 \myparagraph{Analisi della sensibilità}
+
 L'algoritmo del simplesso (applicabile grazie alla linearità dei vincoli del modello) fornisce in modo efficiente - nel nostro modello il tempo di computazione si è rivelato trascurabile - il valore ottimo della funzione obiettivo, l'assegnamento ottimo dei valori alle variabili decisionali, e altre informazioni utili per i decisori politici. In particolare consente di ricavare i cosiddetti \emph{costi ridotti} e la \emph{soluzione duale}. Questi indicatori danno informazioni preziose sulla sensibilità della soluzione trovata nei confronti dei parametri del modello e consentono di fare un tipo di analisi molto interessante per gli utenti del DSS.
 
 La soluzione duale è un insieme di valori che corrispondono ai vincoli e può essere immaginata come la derivata della funzione obiettivo rispetto al lato destro dei vincoli (dall'inglese Right Hand Side, RHS). Ciò implica che attraverso la soluzione duale è immediato rendersi conto di quali siano i vincoli \emph{stretti}, ovvero quali modificherebbero il valore della funzione obiettivo se i coefficienti del lato destro cambiassero. Se ad esempio si cercasse di ottimizzare il numero $f_{MW}$ di MW di potenza elettrica con il vincolo $r_{CO_2} \leq limite_{CO_2}$ e il corrispondente valore duale $d_{CO_2}$ nella soluzione ottima fosse diverso da zero, questo significherebbe che:
