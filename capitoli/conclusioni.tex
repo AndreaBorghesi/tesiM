@@ -1,0 +1,44 @@
+%Andrea Borghesi
+%Università degli studi di Bologna
+
+%conclusioni
+
+%\documentclass[12pt,a4paper,openright,twoside]{book}
+%\usepackage[italian]{babel}
+%\usepackage{indentfirst}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{fancyhdr}
+%\usepackage{graphicx}
+%\usepackage{titlesec,blindtext, color}
+%\usepackage[font={small,it}]{caption}
+
+%\begin{document}
+
+\clearpage{\pagestyle{empty}\cleardoublepage}
+\chapter*{Conclusioni}
+
+\markboth{Conclusioni}{Conclusioni}
+\addcontentsline{toc}{chapter}{Conclusioni}
+
+In questo lavoro abbiamo considerato le problematiche relative alla realizzazione di un sistema per il supporto alle decisioni in grado di fornire ausilio ai decisori politici nel loro compito di effettuare scelte e prendere decisioni per conseguire determinati obiettivi, nel rispetto dei vincoli economici, ambientali e sociali. Il nostro scopo principale è stato quindi quello di ideare tecniche e metodologie (provenienti anche da diversi ambiti di ricerca) con le quali fosse possibile affrontare in modo efficacie le sfide poste durante la pianificazione e implementazione delle politiche, fornendo al tempo stesso uno strumento informatico che potesse essere utilizzato dai decisori politici stessi. 
+
+Muovendoci all'interno dell'ambito del progetto europeo e-Policy, ci siamo occupati in particolare di studiare il comportamento di cittadini e imprenditori ai quali fossero offerti diversi strumenti incentivanti per la produzione di energia elettrica attraverso l'impiego di impianti fotovoltaici; questo studio è stato effettuato implementando un simulatore ad agenti in grado di ricreare la prospettiva economica e sociale dei singoli investitori e osservandone poi l'evoluzione nell'arco di un periodo temporale significativo. Accanto a questo primo elemento, un altro obiettivo raggiunto è stata la realizzazione di un modello matematico, sulla base del paradigma della programmazione a vicoli, tramite il quale fosse possibile ideare un piano energetico per la regione Emilia-Romagna. Il terzo aspetto su cui ci siamo concentrati è costituito dall'interazione tra le due componenti appena citate, ovvero abbiamo fatto in modo che dai risultati ottenuti tramite il simulatore potessero essere ricavate delle informazioni con le quali fosse possibile estendere e arricchire il modello a vincoli iniziale, garantendo quindi un'integrazione tra il livello globale considerato dalla fase di ottimizzazione e quello locale (cioè basato sul comportamento dei singoli individui/agenti) delle simulazioni.
+
+I risultati principali che abbiamo ottenuto con questo lavoro sono stati: 
+\begin{itemize}
+\item l'analisi dettagliata e rigorosa delle relazioni tra le variabili in gioco all'interno del simulatore, che ci ha permesso di comprendere in che modo i cambiamenti di parametri come la disponibilità di fondi per i meccanismi incentivanti abbiano ripercussioni sul comportamento degli agenti;
+\item l'apprendimento di vincoli in grado di esprimere tali tali relazioni e l'inserimento di tali vincoli all'interno del modello matematico che si occupa della pianificazione regionale, consentendo così alle varie componenti del sistema di supporto alle decisioni di interagire in modo efficacie.
+\end{itemize}
+
+Nonostante il fatto che gli scopi che ci fossimo prefissati siano stati raggiunti, il sistema sviluppato presenta certamente ancora qualche limite ed è suscettibile a diversi tipi di miglioramento prima di diventare uno strumento completo e pienamente sfruttabile dai decisori politici per la loro attività, infatti la ricerca prosegue in tutti gli ambiti coinvolti nel progetto e-Policy. Passiamo ora a illustrare possibili limiti e sviluppi futuri per le parti pertinenti a questo lavoro.
+\\*
+
+In primo luogo è utile sottolineare nuovamente che il simulatore implementato presenta al suo interno diverse assunzioni e approssimazioni effettuate per semplificarne l'implementazione e, pur consentendo al tempo stesso di effettuare uno studio accurato delle proprietà interessanti nell'ambito di questo lavoro, sarà quindi necessario migliorarlo. La direzione da seguire è quella di renderlo più realistico (potenziare la fase di valutazione di fattibilità degli investimenti compiuta dagli agenti), estenderlo affinché rifletta in maniera più accurata le dinamiche della società modellata (interazione sociale più realistica) e consenta di valutare il comportamento di ulteriori metodologie di incentivazione (implementare un meccanismo ad asta), modificarne i parametri in modo che produca in uscita valori ``reali'' (ad esempio la produzione energetica totale ottenuta da energia fotovoltaica è ora nell'ordine di grandezza di poche decine di MW, mentre nella realtà per la regione dell'Emilia-Romagna le grandezze in gioco siano più verso le centinaia di MW). Sempre per quanto riguarda il simulatore, una modifica molto importante sarà quella di consentire di simulare la presenza contemporanea di diversi meccanismi incentivanti, per osservare come le reciproche interazioni possano influenzare il risultato finale.
+
+Un altro aspetto molto importante su cui sarà utile intervenire è quello riguardante le interazioni tra le componenti del sistema e-Policy, con un riferimento particolare al rapporto tra la fase di ottimizzazione e il simulatore. Come già accennato nel quinto capitolo, l'integrazione di queste componenti può essere ottenuta attraverso diverse tecniche, delle quali solamente una è stata concretamente implementata in questo lavoro. Da ciò segue che possibili sviluppi futuri dovrebbero andare nella direzione di sperimentare metodologie diverse per conseguire un'interazione efficiente e suggeriamo che l'impiego di metodi provenienti da molteplici aeree di ricerca potrebbe portare quasi sicuramente vantaggi per affrontare questa sfida.
+\\*
+
+Questo approccio multidisciplinare appena citato è forse una delle aspetti più importanti a caratterizzare il progetto e-Policy (sicuramente un elemento che, parlando a titolo personale, ha reso più interessante e affascinante affrontare le sfide presentatecisi), poiché, come abbiamo visto, realizzare un sistema in grado di fornire supporto alle decisioni in un settore altamente complesso come l'ideazione e l'implementazione delle politiche, è un compito che richiede l'utilizzo di molteplici competenze, tecniche e strumenti proprio a causa della natura intrinsecamente complessa della materia trattata. 
+
+%\end{document}
