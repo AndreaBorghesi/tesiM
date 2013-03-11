@@ -2,29 +2,120 @@
 %Università degli studi di Bologna
 
 % presentazione tesi laurea magistrale
+\documentclass{beamer}
+\usetheme{Warsaw}
+%\setbeamercolor*{palette primary}{use=structure,fg=white,bg=green!50!gray}
+%\setbeamercolor*{palette quaternary}{fg=white,bg=green!30!black}
+\usecolortheme{whale}
+\usecolortheme{orchid}
 
-\documentclass[12pt,a4paper,openright,twoside]{book}
+
 \usepackage[italian]{babel}
 \usepackage{indentfirst}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
-\usepackage{titlesec,blindtext, color}
 \usepackage[font={small,it}]{caption}
 
-\documentclass{beamer}
-\usetheme{Warsaw}
+%cartelle contenenti le immagini
+\graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}{/media/sda4/tesi/immagini/epolicy/}{/media/sda4/tesi/immagini/ottimizzazione/}
+{/media/sda4/tesi/immagini/interazione/}}
+
+\title[titolo breve]{Integrazione di ottimizzazione e simulazioni per il piano energetico regionale dell'Emilia-Romagna}
+\author{Andrea Borghesi}
 
 \begin{document}
-  \begin{frame}
-    \frametitle{This is the first slide}
-    Le politiche pubbliche sono estremamente complessi, avvengono in ambienti che cambiano rapidamente caratterizzati da incertezza e coinvolgono conflitti tra diversi interessi. La nostra società è sempre più complessa a causa della globalizzazione, dell'ampliamento e del cambiamento delle situazioni geopolitiche. Questo implica che l'attività politica e la sua area di intervento si siano estese, rendendo più difficili da determinare gli effetti di tali interventi, mentre al tempo stesso diventa sempre più importante assicurarsi che le azioni intraprese affrontino in maniera efficace le sfide reali che la crescente complessità comporta.
-  \end{frame}
-  \begin{frame}
-    \frametitle{This is the second slide}
-    \framesubtitle{A bit more information about this}
-    Questo implica che l'attività politica e la sua area di intervento si siano estese, rendendo più difficili da determinare gli effetti di tali interventi, mentre al tempo stesso diventa sempre più importante assicurarsi che le azioni intraprese affrontino in maniera efficace le sfide reali che la crescente complessità comporta.
-  \end{frame}
-% etc
+	\begin{frame}
+		\titlepage
+	\end{frame}
+
+\section*{Outline}
+\begin{frame}
+	\tableofcontents
+\end{frame}
+
+\section{Introduzione}
+	\begin{frame}
+		\frametitle{I Processi Politici}
+		descrizione problematiche decisioni politiche
+ 	\end{frame}
+\subsection{Il Progetto e-Policy}
+	\begin{frame}
+		\frametitle{Il Progetto e-Policy}
+		progetto e-policy a grandissime linee (immagine?)
+ 	\end{frame}
+\subsection{Schema Generale}
+	\begin{frame}
+		\frametitle{Schema Generale}
+		rapida descrizione componenti
+		\begin{figure}[hbt]
+			\centering
+			\includegraphics[scale=0.3]{epolicyScheme}
+			\label{epolicyScheme}
+		\end{figure}
+	\end{frame}
+\subsection{Obiettivi Tesi}
+	\begin{frame}
+		\frametitle{Obiettivi}
+		obiettivi del MIO lavoro e come siano inseriti dentro il progetto più ampio	
+	\end{frame}
+  
+\section{Architettura}
+	\begin{frame}
+		\frametitle{Architettura e-Policy}
+		testo sezione
+  	\end{frame}
+\subsection{Ottimizzazione}
+	\begin{frame}
+		\frametitle{Ottimizzazione}
+		descrizione ottimizzatore in generale - problematiche e scopi
+  	\end{frame}
+  	\begin{frame}
+		\frametitle{Programmazione Logica a Vincoli}
+		descrizione CLP - eclipse
+  	\end{frame}
+\subsection{Simulazione}
+	\begin{frame}
+		\frametitle{Simulazione}
+		descrizione simulatore - prospettiva individuale economica e sociale
+  	\end{frame}
+  	\begin{frame}
+		\frametitle{Simulazione ad Agenti}
+		descrizione simulatori ad agenti - netlogo
+  	\end{frame}
+\subsection{Interazione Componenti}
+	\begin{frame}
+		\frametitle{Interazione Componenti}
+		Interazione tra ottimizzatore e simulatore
+  	\end{frame}
+  	\begin{frame}
+		\frametitle{Modello di Apprendimento Automatico}
+		modello basato sull apprendimento automatico
+		\begin{figure}[htb]
+			\centering
+			\includegraphics[scale=0.4]{schemaIterLearn}
+		  	\label{schemaIterLearn}
+		\end{figure}
+	\end{frame}
+	\begin{frame}
+		\frametitle{Apprendimento Modelli}
+		descrizione regressione e simulazioni (R)
+  	\end{frame}
+  	\begin{frame}
+		\frametitle{Apprendimento Modelli}
+		\framesubtitle{Esempio - Comportamento Incentivi}
+		\begin{figure}[hbt]
+			\centering
+			\includegraphics[scale=0.4]{incentCompare}
+			\label{incentCompare}
+		\end{figure}
+  	\end{frame}
+  
+\section{Conclusioni}
+	\begin{frame}
+		\frametitle{Conclusioni}
+		Conclusioni e sviluppi futuri
+	\end{frame}
+  
 \end{document}
