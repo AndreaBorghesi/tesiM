@@ -5,10 +5,9 @@
 \documentclass{beamer}
 \usetheme{Warsaw}
 %\setbeamercolor*{palette primary}{use=structure,fg=white,bg=green!50!gray}
-%\setbeamercolor*{palette quaternary}{fg=white,bg=green!30!black}
+%\setbeamercolor*{palette quaternary}{fg=white,bg=green!20!black}
 \usecolortheme{whale}
 \usecolortheme{orchid}
-
 
 \usepackage[italian]{babel}
 \usepackage{indentfirst}
@@ -17,13 +16,18 @@
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 \usepackage[font={small,it}]{caption}
+\usepackage{eurosym}
+\usepackage{hyphenat}
 
 %cartelle contenenti le immagini
 \graphicspath{{/media/sda4/tesi/immagini/grafici/}{/media/sda4/tesi/immagini/grafici/incCompare/}{/media/sda4/tesi/immagini/grafici/rawData/}{/media/sda4/tesi/immagini/grafici/regressionAnalysis/}{/media/sda4/tesi/immagini/schemi/}{/media/sda4/tesi/immagini/simulazione/}{/media/sda4/tesi/immagini/epolicy/}{/media/sda4/tesi/immagini/ottimizzazione/}
 {/media/sda4/tesi/immagini/interazione/}}
 
-\title[titolo breve]{Integrazione di ottimizzazione e simulazioni per il piano energetico regionale dell'Emilia-Romagna}
+\newcommand{\clpr}{CLP({\ensuremath{\cal R}})}
+
 \author{Andrea Borghesi}
+\title[Tesi LM-Ing.Inf. \hspace{25mm} \insertframenumber/\inserttotalframenumber]{Integrazione di ottimizzazione e simulazioni per il piano energetico regionale dell'Emilia-Romagna}
+\date{DISI}
 
 \begin{document}
 	\begin{frame}
@@ -35,55 +39,144 @@
 	\tableofcontents
 \end{frame}
 
+
 \section{Introduzione}
+
 	\begin{frame}
 		\frametitle{I Processi Politici}
-		descrizione problematiche decisioni politiche
+		\begin{itemize}
+		\item Le politiche pubbliche sono estremamente complesse, avvengono in ambienti che cambiano rapidamente caratterizzati da incertezza e coinvolgono conflitti tra diversi interessi.
+		\item L'ICT può svolgere un importante ruolo di supporto in tutte le fasi della pianificazione (ideazione, implementazione, etc.) delle politiche.
+		\item Ci concentreremo sulle politiche energetiche a livello regionale.
+		\end{itemize}
  	\end{frame}
+ 	
 \subsection{Il Progetto e-Policy}
 	\begin{frame}
 		\frametitle{Il Progetto e-Policy}
-		progetto e-policy a grandissime linee (immagine?)
+		\begin{itemize}
+		\item Progetto EU 7 Programma Quadro - sotto l'obiettivo: ICT solutions for Governance and Policy Modeling.
+		\item Consorzio: Università di Bologna (Coordinatore), Regione Emilia-Romagna, Università di Ferrara, ASTER e altri 5 partner da 4 paesi europei.
+		\end{itemize}
+		\begin{block}{Finalità}
+			\begin{enumerate}
+			\item Supportare i decisori politici nel loro lavoro, ingegnerizzare il ciclo di vita del processo di creazione delle politiche.
+			\item Valutare gli impatti sociali, economici e ambientali durante lo sviluppo delle politiche (sia a livello globale che individuale).
+			\item Stabilire i probabili effetti sociali attraverso opinion mining.
+			\item Fornire strumenti di visualizzazione efficaci.
+			\end{enumerate}
+		\end{block}
  	\end{frame}
+ 	
 \subsection{Schema Generale}
 	\begin{frame}
 		\frametitle{Schema Generale}
-		rapida descrizione componenti
-		\begin{figure}[hbt]
-			\centering
-			\includegraphics[scale=0.3]{epolicyScheme}
-			\label{epolicyScheme}
-		\end{figure}
+		\begin{columns}
+		\column{.57\textwidth}
+			\begin{figure}[hbt]
+				\centering
+				\includegraphics[scale=0.3]{epolicyLifeCycle}
+				\label{epolicyLifeCycle}
+			\end{figure}
+		\column{.43\textwidth}
+		\begin{itemize}
+			\item Ottimizzazione e supporto alle decisioni per la pianificazione con una prospettiva globale.
+			\item Simulazione ad agenti per la prospettiva individuale.
+			\item Tecniche per l'integrazione dei due livelli.
+			\item Opinion mining per valutare gli impatti sociali delle politiche.
+		\end{itemize}
+		\end{columns}
 	\end{frame}
+	
 \subsection{Obiettivi Tesi}
 	\begin{frame}
 		\frametitle{Obiettivi}
-		obiettivi del MIO lavoro e come siano inseriti dentro il progetto più ampio	
+		Il lavoro svolto e qui presentato si è inserito nell'ambito del progetto e-Policy con questi obiettivi:
+		\begin{itemize}
+			\item[\checkmark] studiare metodi per gestire l'interazione tra la fase di ottimizzazione e le simulazioni;
+			\item[\checkmark] estendere il simulatore ad agenti per analizzare l'efficacia di diversi meccanismi incentivanti per la produzione elettrica da energia fotovoltaica in Emilia-Romagna;
+			\item[\checkmark] estendere l'ottimizzatore affinché consideri i risultati ottenuti per mezzo del simulatore e assegni i fondi regionali per gli incentivi in maniera ottimale.
+		\end{itemize}	
 	\end{frame}
+  
   
 \section{Architettura}
 	\begin{frame}
 		\frametitle{Architettura e-Policy}
-		testo sezione
+		\begin{columns}
+		\column{.5\textwidth}
+		\begin{block}{}
+			\begin{itemize}
+				\item Approccio multidisciplinare per affrontare la complessità delle problematiche.
+				\item Occorre considerare aspetti economici, sociali ed ambientali, accanto alle esigenze di natura informatica e ingegneristica.
+				\item Per l'ottimizzazione e la simulazione abbiamo impiegato tecniche del campo dell'Intelligenza Artificiale.
+			\end{itemize}
+		\end{block}
+
+		\column{.5\textwidth}
+			\begin{figure}[hbt]
+				\centering
+				\includegraphics[scale=0.3]{epolicyScheme}
+			\label{epolicyScheme}
+		\end{figure}
+		\end{columns}
   	\end{frame}
+  	
 \subsection{Ottimizzazione}
 	\begin{frame}
 		\frametitle{Ottimizzazione}
-		descrizione ottimizzatore in generale - problematiche e scopi
+		\begin{block}{}
+			La pianificazione delle attività regionali è un complesso problema di ottimizzazione combinatoria:
+			\begin{itemize}
+				\item devono essere prese decisioni che soddisfino un insieme di vincoli (costo, impatti ambientali e sociali, etc.), 
+				\item si cerca di raggiungere determinati obiettivi (minimizzare le spese, massimizzare la produzione energetica, etc.).
+			\end{itemize}
+		\end{block}
+		\begin{alertblock}{\clpr}
+			La natura del problema ha suggerito un approccio basato sulla Programmazione Logica a Vincoli, in particolare sul dominio degli interi (\clpr)
+		\end{alertblock}
   	\end{frame}
   	\begin{frame}
-		\frametitle{Programmazione Logica a Vincoli}
-		descrizione CLP - eclipse
+		\frametitle{Modellazione Problema}
+		\framesubtitle{Pianificazione Energetica Regionale}
+		\begin{block}{}
+			\begin{enumerate}
+				\item La regione può finanziare attività in grado di garantire una certa produzione energetica (o anche attività di supporto).
+				\item Ogni attività ha degli impatti su diversi recettori ambientali.
+				\item I legami tra le diverse attività e con i relativi impatti sono rappresentati tramite matrici coassiali.
+				\item La regione cerca di soddisfare determinati obiettivi rispettando diversi vincoli.
+			\end{enumerate}
+		\end{block}
+		\begin{alertblock}{\clpr}
+			Le attività sono rappresentate da variabili legate da vincoli lineari.
+		\end{alertblock}
   	\end{frame}
+  	
 \subsection{Simulazione}
 	\begin{frame}
 		\frametitle{Simulazione}
-		descrizione simulatore - prospettiva individuale economica e sociale
+		\begin{block}{}
+			\begin{itemize}
+				\item La simulazione fornisce la prospettiva ``locale''.
+				\item Consente di studiare le reazioni delle persone alle decisioni politiche prese.
+				\item Permette di definire le migliori strategie implementative.
+				\item Il modello implementato contiene semplificazioni e si concentra sulla produzione di energia elettrica con impianti fotovoltaici.
+			\end{itemize}
+		\end{block}
+		\begin{alertblock}{Realizzare il Simulatore}
+			L'approccio scelto è basato su un modello ad agenti - i fenomeni macro emergono a partire dalle interazioni tra singole entità.
+		\end{alertblock}
   	\end{frame}
   	\begin{frame}
 		\frametitle{Simulazione ad Agenti}
-		descrizione simulatori ad agenti - netlogo
+			\begin{enumerate}
+				\item Il mondo reale viene simulato attraverso agenti interagenti.
+				\item Ogni agente (privati cittadini, aziende,..) decide se effettuare l'investimento sulla base di considerazioni economiche e sociali.
+				\item Si interviene sul modello impostando parametri generali - numero agenti, budget regionale, presenza di incentivi, etc.
+				\item A fine simulazione sono forniti numerosi valori - produzione energetica totale, percentuale di agenti che ha effettuato l'investimento, spesa effettiva sostenuta dalla regione e così via.
+			\end{enumerate}
   	\end{frame}
+  	
 \subsection{Interazione Componenti}
 	\begin{frame}
 		\frametitle{Interazione Componenti}
@@ -91,25 +184,75 @@
   	\end{frame}
   	\begin{frame}
 		\frametitle{Modello di Apprendimento Automatico}
-		modello basato sull apprendimento automatico
-		\begin{figure}[htb]
-			\centering
-			\includegraphics[scale=0.4]{schemaIterLearn}
-		  	\label{schemaIterLearn}
-		\end{figure}
+		\begin{columns}
+		\column{.5\textwidth}
+		\begin{block}{Schema Interazione}
+			\begin{figure}[htb]
+				\centering
+				\includegraphics[scale=0.35]{schemaIterLearn}
+			  	\label{schemaIterLearn}
+			\end{figure}
+		\end{block}
+		\column{.5\textwidth}
+		\begin{block}{}
+			\begin{enumerate}
+				\item Dai dati delle simulazioni è possibile ricavare le relazioni d'interesse - ad esempio i finanziamenti agli incentivi e la produzione energetica totale.
+				\item Le relazioni sono inserite all'interno del modello dell'ottimizzatore sotto forma di vincoli, sfruttati poi per generare un nuovo piano.
+			\end{enumerate}
+		\end{block}
+		\end{columns}
+		
 	\end{frame}
 	\begin{frame}
 		\frametitle{Apprendimento Modelli}
-		descrizione regressione e simulazioni (R)
+		\begin{columns}
+		\column{.5\textwidth}
+		\begin{block}{}
+			\begin{itemize}
+				\item Sono state eseguite numerose simulazioni (circa 80k) per disporre di dati sufficienti.
+				\item Le relazioni tra le grandezze considerate sono state ricavate con tecniche di regressione.
+				\item Le curve di regressione ottenute sono state approssimate con funzioni lineari (maggiore efficienza).
+			\end{itemize}
+		\end{block}
+		\column{.5\textwidth}
+		\begin{block}{Comportamento Incentivi}
+			\begin{figure}[hbt]
+				\centering
+				\includegraphics[scale=0.3]{incentComparePiecewise}
+				\label{incentComparePiecewise}
+			\end{figure}
+		\end{block}
+		\end{columns}
   	\end{frame}
   	\begin{frame}
-		\frametitle{Apprendimento Modelli}
-		\framesubtitle{Esempio - Comportamento Incentivi}
-		\begin{figure}[hbt]
-			\centering
-			\includegraphics[scale=0.4]{incentCompare}
-			\label{incentCompare}
-		\end{figure}
+		\frametitle{Integrazione Modello}
+		\begin{columns}
+		\column{.45\textwidth}
+		\begin{block}{}
+			\begin{enumerate}
+				\item Sono considerati 4 tipi di incentivo regionale.
+				\item Le relazioni apprese tra incentivi e produzione energetica sono inserite nel modello a vincoli.
+				\item \`E quindi possibile ottimizzare l'assegnazione dei fondi ai vari incentivi (fissato un budget limite).
+			\end{enumerate}
+		\end{block}
+		\column{.55\textwidth}
+		\begin{block}{Assegnazione Fondi}
+			\begin{table}[h]
+				\centering
+				\begin{tabular}{ p{0.25\textwidth}  | p{0.15\textwidth} | p{0.15\textwidth}  }
+					\hline \hline 
+					\nohyphens{\emph{Tipo Incentivo}} & \nohyphens{\emph{Costo (M\euro)}} & \nohyphens{\emph{Energia Prodotta (MW)}} \\ \hline
+					Asta &  0.00 & 0.000 \\ 
+					\nohyphens{Conto Interessi} & 2.53 & 3.606 \\ 
+					Rotazione & 1.00 & 0.286 \\ 
+					Garanzia & 6.47 & 0.816 \\ \hline 
+					Totale & 10.00 & 4.708 \\
+					\hline \hline 
+				\end{tabular}
+				\label{tab:assegnFondi10M}	
+			\end{table}
+		\end{block}
+		\end{columns}
   	\end{frame}
   
 \section{Conclusioni}
