@@ -4,8 +4,6 @@
 % presentazione tesi laurea magistrale
 \documentclass{beamer}
 \usetheme{Warsaw}
-%\setbeamercolor*{palette primary}{use=structure,fg=white,bg=green!50!gray}
-%\setbeamercolor*{palette quaternary}{fg=white,bg=green!20!black}
 \usecolortheme{whale}
 \usecolortheme{orchid}
 
@@ -25,13 +23,26 @@
 
 \newcommand{\clpr}{CLP({\ensuremath{\cal R}})}
 
-\author{Andrea Borghesi}
+\author[Andrea Borghesi]{Candidato:\qquad\qquad Andrea Borghesi}
 \title[Tesi LM-Ing.Inf. \hspace{25mm} \insertframenumber/\inserttotalframenumber]{Integrazione di ottimizzazione e simulazioni per il piano energetico regionale dell'Emilia-Romagna}
-\date{DISI}
+\date{}
 
 \begin{document}
-	\begin{frame}
+
+	\begin{frame}[plain]
+		\frametitle{\centerline{Alma Mater Studiorum - Universit\`a degli Studi di Bologna}}
+		\framesubtitle{\centerline{Facolt\`a di Ingegneria}}
+		\begin{center}
+		   	{\small Corso di Laurea in Ingegneria Informatica M} \medskip\\
+		  	{\small \em Tesi di Laurea in Sistemi Intelligenti\\} 
+		\end{center}
 		\titlepage
+		\begin{center}
+			\begin{tabular}{lcr}
+				{Relatore:}&\qquad\qquad\qquad&{Chiar.ma Prof. Michela Milano}\\
+				{Correlatore:}& & {Prof. Marco Gavanelli}\\
+			\end{tabular}
+		\end{center}		
 	\end{frame}
 
 \section*{Outline}
@@ -88,19 +99,6 @@
 		\end{columns}
 	\end{frame}
 	
-\subsection{Obiettivi Tesi}
-	\begin{frame}
-		\frametitle{Obiettivi}
-		Il lavoro svolto e qui presentato si è inserito nell'ambito del progetto e-Policy con questi obiettivi:
-		\begin{itemize}
-			\item[\checkmark] studiare metodi per gestire l'interazione tra la fase di ottimizzazione e le simulazioni;
-			\item[\checkmark] estendere il simulatore ad agenti per analizzare l'efficacia di diversi meccanismi incentivanti per la produzione elettrica da energia fotovoltaica in Emilia-Romagna;
-			\item[\checkmark] estendere l'ottimizzatore affinché consideri i risultati ottenuti per mezzo del simulatore e assegni i fondi regionali per gli incentivi in maniera ottimale.
-		\end{itemize}	
-	\end{frame}
-  
-  
-\section{Architettura}
 	\begin{frame}
 		\frametitle{Architettura e-Policy}
 		\begin{columns}
@@ -121,6 +119,20 @@
 		\end{figure}
 		\end{columns}
   	\end{frame}
+	
+\subsection{Obiettivi Tesi}
+	\begin{frame}
+		\frametitle{Obiettivi}
+		Il lavoro svolto e qui presentato si è inserito nell'ambito del progetto e-Policy con questi obiettivi:
+		\begin{itemize}
+			\item[\checkmark] studiare metodi per gestire l'interazione tra la fase di ottimizzazione e le simulazioni;
+			\item[\checkmark] estendere il simulatore ad agenti per analizzare l'efficacia di diversi meccanismi incentivanti per la produzione elettrica da energia fotovoltaica in Emilia-Romagna;
+			\item[\checkmark] estendere l'ottimizzatore affinché consideri i risultati ottenuti per mezzo del simulatore e assegni i fondi regionali per gli incentivi in maniera ottimale.
+		\end{itemize}	
+	\end{frame}
+  
+  
+\section{Descrizione Progetto}
   	
 \subsection{Ottimizzazione}
 	\begin{frame}
@@ -133,7 +145,7 @@
 			\end{itemize}
 		\end{block}
 		\begin{alertblock}{\clpr}
-			La natura del problema ha suggerito un approccio basato sulla Programmazione Logica a Vincoli, in particolare sul dominio degli interi (\clpr)
+			La natura del problema ha suggerito un approccio basato sulla Programmazione Logica a Vincoli, in particolare sul dominio dei reali (\clpr)
 		\end{alertblock}
   	\end{frame}
   	\begin{frame}
@@ -180,7 +192,12 @@
 \subsection{Interazione Componenti}
 	\begin{frame}
 		\frametitle{Interazione Componenti}
-		Interazione tra ottimizzatore e simulatore
+		\begin{itemize}
+			\item \`E fondamentale gestire l'interazione tra l'ottimizzazione (prospettiva globale) e simulazioni (prospettiva individuale).
+			\item Una stretta integrazione tra i componenti permette di considerare la migliore implementazione delle politiche (simulatore) già in fase di pianificazione (ottimizzatore).
+			\item Sono possibili diversi approcci e metodologie, da svariati aree come l'IA, Ricerca Operativa, Teoria dei Giochi.
+			\item Problema ancora nuovo e aperto, oggetto di intensa ricerca.
+		\end{itemize}
   	\end{frame}
   	\begin{frame}
 		\frametitle{Modello di Apprendimento Automatico}
@@ -258,7 +275,19 @@
 \section{Conclusioni}
 	\begin{frame}
 		\frametitle{Conclusioni}
-		Conclusioni e sviluppi futuri
+		\begin{alertblock}{}
+			\begin{itemize}
+				\item[\checkmark] Analisi accurata dell'efficacia di quattro tipi di meccanismi incentivanti regionali e dell'effetto della componente sociale sul comportamento degli agenti simulati.
+				\item[\checkmark] Implementazione di una tecnica di integrazione tra ottimizzazione e simulatore.
+				\item[\checkmark] Prototipo funzionante che consente di assegnare in modo ottimale i fondi regionali disponibili per l'incentivazione.
+			\end{itemize}
+		\end{alertblock}
+		\begin{block}{Sviluppi Futuri}
+			\begin{itemize}
+				\item Arricchire il simulatore e cercare di renderlo più realistico (in stretta collaborazione con la regione).
+				\item Studiare e implementare ulteriori metodi di interazione (decomposizione di Benders,..).
+			\end{itemize}
+		\end{block}
 	\end{frame}
   
 \end{document}

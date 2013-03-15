@@ -3,7 +3,8 @@
 
 %tesi laurea magistrale
 
-\documentclass[12pt,a4paper,openright,twoside]{book}
+\documentclass[12pt,a4paper,twoside,openright,titlepage,fleqn,italian]{book}
+%\documentclass[12pt,a4paper,openright,twoside]{book}
 \usepackage[italian]{babel}
 \usepackage{indentfirst}
 \usepackage[utf8]{inputenc}
@@ -105,7 +106,7 @@
 \principaladviser{Chiar.ma Prof. Michela Milano}	% Relatore principale
 
 % non funziona modificare frontesp.sty al variare del numero di correlatori
-\firstreader{Chiar.mo Prof. Marco Gavanelli}
+\firstreader{Prof. Marco Gavanelli}
 \secondreader{}			% Correlatori
 \thirdreader{}			% Correlatori
 
@@ -114,6 +115,11 @@
 \thispagestyle{empty}
 \textcolor{white}{.}\\
 \pagebreak 
+
+\addtolength{\oddsidemargin}{+1,3cm} %inversione destra/sinistra tradizionale
+\addtolength{\evensidemargin}{-1,3cm} %inversione destra/sinistra tradizionale
+
+\clearpage{\pagestyle{empty}\cleardoublepage}
 
 %Se si vuole mettere l'indice nell'indice (comodo per la navigazione con pdf)
 %\markboth{Indice}{Indice}
