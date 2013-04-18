@@ -48,17 +48,29 @@
 	segG <- segmented(glmG,seg.Z=~ Budget,psi=c(12,30))
 	
 #	pdf(file="/media/sda4/tesi/immagini/grafici/incCompare/incentComparePiecewise.pdf")
-#	par(mar=c(4.2, 4.0, 0.2, 0.2))
+	pdf(file="/media/sda4/publications/conf/CP2013-Application/incComparePiecewise.pdf")
+	par(mar=c(4.2, 4.0, 0.2, 0.2))
 
 #graph
-plot(aggdataA$Out ~ aggdataA$Budget,type="n",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",ylim=c(21000,27500),xlim=c(0,40),cex.lab=1.3) 
-	grid()
-	legend("topright", inset=.05, title="Tipo Incentivo", c("Asta","Conto Interessi","Rotazione","Garanzia"), fill=c("blue","red","green","yellow"),cex=1)
-	
-	points(aggdata$Budget, predict(segA), type="l", col="blue", lwd=2)
-	points(aggdata$Budget, predict(segCI), type="l", col="red", lwd=2)
-	points(aggdata$Budget, predict(segR), type="l", col="green", lwd=2)
-	points(aggdata$Budget, predict(segG), type="l", col="yellow", lwd=2)
+#versione tesi
+#plot(aggdataA$Out ~ aggdataA$Budget,type="n",lwd=3,ylab="Produzione Energetica ( kW )", xlab="Budget Fotovoltaico ( milioni di Euro )",ylim=c(21000,27500),xlim=c(0,40),cex.lab=1.3) 
+#	grid()
+#	legend("topright", inset=.05, title="Tipo Incentivo", c("Asta","Conto Interessi","Rotazione","Garanzia"), fill=c("blue","red","green","yellow"),cex=1)
+#	
+#	points(aggdata$Budget, predict(segA), type="l", col="blue", lwd=2)
+#	points(aggdata$Budget, predict(segCI), type="l", col="red", lwd=2)
+#	points(aggdata$Budget, predict(segR), type="l", col="green", lwd=2)
+#	points(aggdata$Budget, predict(segG), type="l", col="yellow", lwd=2)
 
-#	dev.off()
-#	par(mar=c(5, 4, 4, 2) + 0.1)
+	
+#versione cp13
+	plot(aggdataA$Out ~ aggdataA$Budget,type="n",lwd=3,ylab="Installed Power (kW)", xlab="Budget PV (Milions of Euros )",ylim=c(21000,27500),xlim=c(0,40),cex.lab=1.3) 
+	grid()
+	points(aggdata$Budget, predict(segA), type="l", col="black", lwd=3,lty=3)
+	lines(aggdata$Budget, predict(segCI), lty="solid", col="black", lwd=3)
+	points(aggdata$Budget, predict(segR), type="l", col="black", lwd=3,lty=5)
+	points(aggdata$Budget, predict(segG), type="l", col="black", lwd=3,lty=4	)
+	legend("topright", inset=.05, title="Incentive type", c("Investment Grant","Interest Funds","Fiscal Incentives","Guarantee Funds"), lty=c(3,1,5,4),lwd=c(1.5,1.5,1.5,1.5), cex=1)
+
+	dev.off()
+	par(mar=c(5, 4, 4, 2) + 0.1)
